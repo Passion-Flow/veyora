@@ -1,0 +1,18 @@
+ARG ENVOY_IMAGE=envoyproxy/envoy:v1.31.10
+FROM ${ENVOY_IMAGE}
+COPY deployment/envoy.yaml /etc/envoy/envoy.yaml
+EXPOSE 8080
+# Configuration is rendered from environment variables at container start and
+# every variable is REQUIRED (fail fast with a clear message, no defaults).
+# The full documented set lives in .env.example.
+ENTRYPOINT ["/bin/bash", "-c", "\
+  : \"${VEYORA_GATEWAY_LISTEN_PORT:?VEYORA_GATEWAY_LISTEN_PORT is required}\"; \
+  : \"${VEYORA_API_UPSTREAM_HOST:?VEYORA_API_UPSTREAM_HOST is required}\"; \
+  : \"${VEYORA_API_UPSTREAM_PORT:?VEYORA_API_UPSTREAM_PORT is required}\"; \
+  : \"${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS:?VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS is required}\"; \
+  sed -i -e \"s/__VEYORA_GATEWAY_LISTEN_PORT__/${VEYORA_GATEWAY_LISTEN_PORT}/g\" \
+         -e \"s/__VEYORA_API_UPSTREAM_HOST__/${VEYORA_API_UPSTREAM_HOST}/g\" \
+         -e \"s/__VEYORA_API_UPSTREAM_PORT__/${VEYORA_API_UPSTREAM_PORT}/g\" \
+         -e \"s/__VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__/${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}/g\" \
+         /etc/envoy/envoy.yaml && \
+  exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]

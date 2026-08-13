@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veyora — Your private digital space</title>
+  <style>
+    :root { --bg: #1a1b26; --surface: #24283b; --border: #3b4261; --text: #c0caf5;
+            --accent: #7aa2f7; --danger: #f7768e; --success: #9ece6a; --muted: #565f89; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text);
+           display: flex; justify-content: center; min-height: 100vh; padding: 2rem 1rem; }
+    .container { max-width: 600px; width: 100%; }
+    h1 { color: var(--accent); font-size: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    h1 .spacer { flex: 1; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+            padding: 1rem; margin-bottom: 1rem; }
+    input, button { font-size: 0.9rem; padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--border);
+                    background: var(--bg); color: var(--text); }
+    button { cursor: pointer; background: var(--accent); color: var(--bg); border: none; font-weight: 600; }
+    button:hover { opacity: 0.85; }
+    button.danger { background: var(--danger); }
+    input { width: 100%; margin-bottom: 0.5rem; }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.25rem; }
+    .row { display: flex; gap: 0.5rem; align-items: end; flex-wrap: wrap; }
+    .row > div { flex: 1; min-width: 120px; }
+    .entry { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;
+             border-bottom: 1px solid var(--border); }
+    .entry:last-child { border: none; }
+    .entry-name { font-weight: 500; }
+    .entry-secret { color: var(--muted); font-family: monospace; font-size: 0.8rem; cursor: pointer; }
+    .entry-secret:hover { color: var(--accent); }
+    .entry-deleted { opacity: 0.4; text-decoration: line-through; }
+    .status { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+    .hidden { display: none; }
+    .badge { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.7rem; }
+    .badge-ok { background: var(--success); color: var(--bg); }
+    .badge-locked { background: var(--muted); color: var(--text); }
+    .badge-conn-ok { background: var(--success); color: var(--bg); }
+    .badge-conn-down { background: var(--danger); color: var(--bg); }
+    .clipboard-countdown { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px;
+                           font-size: 0.7rem; background: var(--success); color: var(--bg); }
+    @media (max-width: 480px) {
+      body { padding: 1rem 0.5rem; }
+      .container { max-width: 100%; }
+      .row { flex-direction: column; }
+      .row > div { width: 100%; }
+      h1 { font-size: 1.2rem; }
+    }
+  </style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+</head>
+<body>
+<div class="container">
+  <h1>🔐 Veyora <span class="badge badge-locked" id="lock-badge">Locked</span>
+    <span class="spacer"></span>
+    <button id="theme-btn" style="font-size:0.7rem; padding:0.2rem 0.5rem; background:var(--surface); border:1px solid var(--border); color:var(--text)">🌙</button>
+    <span class="badge badge-conn-ok" id="conn-badge" style="font-size:0.65rem">● API</span>
+  </h1>
+
+  <!-- Lock screen -->
+  <div class="card" id="lock-screen">
+    <p style="margin-bottom:0.75rem; color:var(--muted)">Enter your master password to unlock the vault.</p>
+    <input type="password" id="master-password" placeholder="Master password" autocomplete="current-password">
+    <div class="row">
+      <div><label>Salt (16 random bytes, hex)</label><input type="text" id="salt-input" placeholder="auto-generated"></div>
+    </div>
+    <button id="unlock-btn">Unlock</button>
+    <div class="status" id="lock-status"></div>
+  </div>
+
+  <!-- Vault -->
+  <div class="hidden" id="vault">
+    <div class="card">
+      <div class="row" style="margin-bottom:0.5rem">
+        <input type="text" id="search" placeholder="🔍 Search entries... (Ctrl+F)" style="flex:1">
+        <select id="sort-select" style="width:auto; padding:0.5rem; border-radius:4px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-size:0.8rem">
+          <option value="name">Name A-Z</option>
+          <option value="name-desc">Name Z-A</option>
+          <option value="type">By Type</option>
+          <option value="revision">Recently Modified</option>
+        </select>
+      </div>
+      <div class="row">
+        <div><label>Entry name (Ctrl+N)</label><input type="text" id="new-name" placeholder="e.g. GitHub"></div>
+        <div>
+          <label>Template</label>
+          <select id="new-template" style="width:100%; padding:0.5rem 0.75rem; border-radius:4px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-size:0.9rem; margin-bottom:0.5rem">
+            <option value="login">🔐 Login</option>
+            <option value="note">📝 Secure Note</option>
+            <option value="api-token">🔑 API Token</option>
+            <option value="ssh">🖥️ SSH Credential</option>
+            <option value="identity">👤 Digital Identity</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div id="field-username" class="hidden"><label>Username / Email</label><input type="text" id="new-username" placeholder="user@example.com"></div>
+        <div><label id="secret-label">Secret</label><input type="text" id="new-secret" placeholder="password or secret"></div>
+      </div>
+      <div id="field-website" class="hidden" style="margin-top:0.5rem"><label>Website</label><input type="text" id="new-website" placeholder="https://github.com"></div>
+      <div id="field-notes" class="hidden" style="margin-top:0.5rem"><label>Notes</label><input type="text" id="new-notes" placeholder="optional notes"></div>
+      <div id="strength-bar" style="height:4px; border-radius:2px; margin-bottom:0.5rem; background:var(--border); transition:background 0.3s"></div>
+      <div id="strength-label" style="font-size:0.7rem; color:var(--muted); margin-bottom:0.5rem; min-height:0.7rem"></div>
+      <div class="row">
+        <button id="generate-btn">🎲 Generate <span style="opacity:0.5; font-size:0.7rem">Ctrl+G</span></button>
+        <button id="add-btn">Add Entry</button>
+        <button id="recovery-btn">🔑 Recovery Kit</button>
+        <button id="lock-btn" style="background:var(--danger)">🔒 Lock <span style="opacity:0.5; font-size:0.7rem">Ctrl+L</span></button>
+      </div>
+      <div class="row" style="margin-top:0.5rem">
+        <button id="export-btn" style="font-size:0.8rem; background:var(--surface); border:1px solid var(--border); color:var(--text)">📥 Export CSV</button>
+        <button id="import-btn" style="font-size:0.8rem; background:var(--surface); border:1px solid var(--border); color:var(--text)">📤 Import CSV</button>
+        <input type="file" id="import-file" accept=".csv" style="display:none">
+      </div>
+    </div>
+    <div class="card">
+      <div id="entries"></div>
+      <div id="entry-count" style="font-size:0.75rem; color:var(--muted); margin-top:0.5rem; text-align:right"></div>
+      <div class="status" id="vault-status"></div>
+    </div>
+  </div>
+</div>
+
+<script src="./veyora-config.js"></script>
+<script type="module">
+import init, * as vk from './wasm/veyora_kernel.js';
+
+let wasm = null;
+let rootKey = null;
+// API base URL resolution, explicit before implicit:
+//   1. localStorage 'veyora-api-url'  — operator/user runtime override
+//   2. window.VEYORA_API_BASE_URL     — injected by the deployment (the web
+//                                      container renders /veyora-config.js
+//                                      from the VEYORA_API_BASE_URL env var;
+//                                      .env.example documents it)
+//   3. location-based heuristic        — bare local file serving only
+//                                      (e.g. `make run-web`), documented dev
+//                                      fallback, never used in deployment
+const API = (() => {
+  const saved = localStorage.getItem('veyora-api-url');
+  if (saved) return saved;
+  if (typeof window.VEYORA_API_BASE_URL === 'string' && window.VEYORA_API_BASE_URL) {
+    return window.VEYORA_API_BASE_URL;
+  }
+  if (window.location.port === '3000' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://127.0.0.1:8080'; // bare dev-server fallback (see make run-web)
+  }
+  return window.location.origin + '/api';
+})();
+
+async function ensureWasm() {
+  if (!wasm) { wasm = await init(); }
+  return wasm;
+}
+
+function hex(bytes) {
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function fromHex(s) {
+  const a = new Uint8Array(s.length / 2);
+  for (let i = 0; i < a.length; i++) a[i] = parseInt(s.substr(i*2, 2), 16);
+  return a;
+}
+function randomHex(n) {
+  const a = new Uint8Array(n);
+  crypto.getRandomValues(a);
+  return hex(a);
+}
+
+// UI helper. Must precede every caller below — restoreSalt and
+// updateTemplateFields both run at module-init, before this file's
+// original declaration site, and `const` is in the temporal dead zone
+// until initialized (a ReferenceError here halts the whole module and
+// silently disables every handler: unlock, theme, generate, search...).
+const $ = id => document.getElementById(id);
+
+// On page load, restore saved salt
+(function restoreSalt() {
+  const saved = localStorage.getItem('veyora-salt');
+  if (saved && saved.length === 32) {
+    $('salt-input').value = saved;
+    $('lock-status').textContent = 'Salt restored from previous session.';
+  }
+})();
+
+// Template field visibility
+function updateTemplateFields() {
+  const tmpl = $('new-template').value;
+  const isLogin = tmpl === 'login' || tmpl === 'identity';
+  const hasWebsite = tmpl === 'login';
+  const hasNotes = tmpl !== 'api-token' && tmpl !== 'ssh';
+  $('field-username').classList.toggle('hidden', !isLogin);
+  $('field-website').classList.toggle('hidden', !hasWebsite);
+  $('field-notes').classList.toggle('hidden', !hasNotes);
+  const labels = {login: 'Password', note: 'Private text', 'api-token': 'Token', ssh: 'Private key', identity: 'Secret'};
+  $('secret-label').textContent = labels[tmpl] || 'Secret';
+}
+$('new-template').addEventListener('change', updateTemplateFields);
+updateTemplateFields();
+
+// UI helpers ($ is declared above, before its first module-init caller)
+function setStatus(msg) { $('lock-status').textContent = msg; $('vault-status').textContent = msg; }
+
+// Password strength estimation (entropy-based, client-only)
+function estimateStrength(pw) {
+  if (!pw) return { bits: 0, label: '', color: 'var(--border)' };
+  let charset = 0;
+  if (/[a-z]/.test(pw)) charset += 26;
+  if (/[A-Z]/.test(pw)) charset += 26;
+  if (/[0-9]/.test(pw)) charset += 10;
+  if (/[^a-zA-Z0-9]/.test(pw)) charset += 32;
+  const bits = Math.round(pw.length * Math.log2(charset));
+  let label, color;
+  if (bits < 40) { label = 'weak'; color = 'var(--danger)'; }
+  else if (bits < 70) { label = 'fair'; color = '#e0af68'; }
+  else if (bits < 100) { label = 'strong'; color = 'var(--success)'; }
+  else { label = 'very strong'; color = 'var(--accent)'; }
+  return { bits, label, color };
+}
+function updateStrengthBar() {
+  const pw = $('new-secret').value;
+  const s = estimateStrength(pw);
+  const bar = $('strength-bar');
+  bar.style.background = s.color;
+  bar.title = s.bits ? `${s.bits} bits — ${s.label}` : '';
+  $('strength-label').textContent = s.bits ? `${s.bits} bits of entropy — ${s.label}` : '';
+}
+$('new-secret').addEventListener('input', updateStrengthBar);
+
+// Theme toggle (dark default, light alternative)
+const LIGHT_THEME = {
+  '--bg': '#f6f6f8', '--surface': '#ffffff', '--border': '#d4d4dc',
+  '--text': '#333348', '--accent': '#3b6fd6', '--danger': '#d64545',
+  '--success': '#2a8c4a', '--muted': '#8888a0'
+};
+const DARK_THEME = {
+  '--bg': '#1a1b26', '--surface': '#24283b', '--border': '#3b4261',
+  '--text': '#c0caf5', '--accent': '#7aa2f7', '--danger': '#f7768e',
+  '--success': '#9ece6a', '--muted': '#565f89'
+};
+function applyTheme(theme) {
+  const root = document.documentElement.style;
+  for (const [k, v] of Object.entries(theme)) root.setProperty(k, v);
+}
+applyTheme(DARK_THEME);
+$('theme-btn').addEventListener('click', () => {
+  const isLight = document.documentElement.style.getPropertyValue('--bg') === LIGHT_THEME['--bg'];
+  applyTheme(isLight ? DARK_THEME : LIGHT_THEME);
+  $('theme-btn').textContent = isLight ? '🌙' : '☀️';
+  localStorage.setItem('veyora-theme', isLight ? 'dark' : 'light');
+});
+// Restore saved theme
+const savedTheme = localStorage.getItem('veyora-theme');
+if (savedTheme === 'light') $('theme-btn').click();
+async function checkConnection() {
+  try {
+    const resp = await fetch(`${API}/healthz`, { signal: AbortSignal.timeout(3000) });
+    const badge = $('conn-badge');
+    if (resp.ok) {
+      badge.className = 'badge badge-conn-ok';
+      badge.textContent = '● API';
+    } else {
+      badge.className = 'badge badge-conn-down';
+      badge.textContent = '● Error';
+    }
+  } catch {
+    const badge = $('conn-badge');
+    badge.className = 'badge badge-conn-down';
+    badge.textContent = '● Offline';
+  }
+}
+checkConnection();
+setInterval(checkConnection, 10000);
+
+// Clipboard countdown visual
+let countdownInterval = null;
+function startClipboardCountdown() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  let remaining = 30;
+  const status = $('vault-status');
+  const update = () => {
+    if (remaining <= 0) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+      return;
+    }
+    status.innerHTML = `Clipboard clears in <span class="clipboard-countdown">${remaining}s</span>`;
+    remaining--;
+  };
+  update();
+  countdownInterval = setInterval(update, 1000);
+}
+
+// Auto-lock: zero rootKey after 5 minutes of inactivity
+const LOCK_TIMEOUT_MS = 5 * 60 * 1000;
+let lockTimer = null;
+let lockDeadline = 0;
+let lockCountdownInterval = null;
+
+function resetLockTimer() {
+  if (lockTimer) clearTimeout(lockTimer);
+  lockDeadline = Date.now() + LOCK_TIMEOUT_MS;
+  lockTimer = setTimeout(lockVault, LOCK_TIMEOUT_MS);
+  startLockCountdown();
+}
+
+function startLockCountdown() {
+  if (lockCountdownInterval) clearInterval(lockCountdownInterval);
+  lockCountdownInterval = setInterval(() => {
+    if (!rootKey) { clearInterval(lockCountdownInterval); return; }
+    const remaining = Math.round((lockDeadline - Date.now()) / 1000);
+    const badge = $('lock-badge');
+    if (remaining <= 60) {
+      badge.textContent = `🔒 ${remaining}s`;
+      badge.style.background = 'var(--danger)';
+      badge.style.color = 'var(--bg)';
+    } else {
+      badge.textContent = `Unlocked · ${Math.floor(remaining / 60)}m`;
+    }
+  }, 1000);
+}
+
+function lockVault() {
+  if (lockCountdownInterval) clearInterval(lockCountdownInterval);
+  if (rootKey) { rootKey.fill(0); rootKey = null; }
+  $('lock-screen').classList.remove('hidden');
+  $('vault').classList.add('hidden');
+  $('lock-badge').textContent = 'Locked';
+  $('lock-badge').className = 'badge badge-locked';
+  $('lock-badge').style.background = '';
+  $('lock-badge').style.color = '';
+  $('master-password').value = '';
+  setStatus('Vault locked (auto-lock after inactivity).');
+}
+
+// Clipboard helper with 30s auto-clear
+let clipboardTimer = null;
+async function copyWithClear(text) {
+  try { await navigator.clipboard.writeText(text); } catch {}
+  if (clipboardTimer) clearTimeout(clipboardTimer);
+  clipboardTimer = setTimeout(() => {
+    navigator.clipboard.writeText('').catch(() => {});
+    setStatus('Clipboard cleared.');
+  }, 30000);
+  setStatus('Copied to clipboard.');
+  if ($('vault').classList.contains('hidden')) return;
+  startClipboardCountdown();
+}
+
+// Search filter
+let allEntries = [];
+// Sort selector
+function getSorted(entries) {
+  const sort = $('sort-select').value;
+  const sorted = [...entries];
+  switch (sort) {
+    case 'name-desc': sorted.sort((a, b) => b.name.localeCompare(a.name)); break;
+    case 'type': sorted.sort((a, b) => (a._type || 'flat').localeCompare(b._type || 'flat') || a.name.localeCompare(b.name)); break;
+    case 'revision': sorted.sort((a, b) => (b.revision || 0) - (a.revision || 0)); break;
+    default: sorted.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  return sorted;
+}
+$('sort-select').addEventListener('change', () => renderEntries(getSorted(filterEntries())));
+
+function filterEntries() {
+  const q = $('search').value.toLowerCase();
+  if (!q) return [...allEntries];
+  return allEntries.filter(e => {
+    const haystack = [e.name, e.secret || '', e.username || '', e.website || '', e.notes || '']
+      .join(' ').toLowerCase();
+    return haystack.includes(q);
+  });
+}
+
+$('search').addEventListener('input', () => {
+  renderEntries(getSorted(filterEntries()));
+});
+
+// Unlock — persists salt to localStorage so the user doesn't lose their vault key
+$('unlock-btn').addEventListener('click', async () => {
+  await ensureWasm();
+  const pw = $('master-password').value;
+  if (!pw) { setStatus('Enter a password.'); return; }
+  let saltHex = $('salt-input').value.trim();
+  if (!saltHex) {
+    // Try to load saved salt from localStorage
+    saltHex = localStorage.getItem('veyora-salt') || '';
+    if (!saltHex) { saltHex = randomHex(16); }
+    $('salt-input').value = saltHex;
+  }
+  if (saltHex.length !== 32) { setStatus('Salt must be 32 hex chars.'); return; }
+  // Save salt so the user can unlock again after refresh with the same vault
+  localStorage.setItem('veyora-salt', saltHex);
+  try {
+    const salt = fromHex(saltHex);
+    const root = vk.derivePasswordKey(new TextEncoder().encode(pw), salt);
+    rootKey = new Uint8Array(root);
+    $('lock-screen').classList.add('hidden');
+    $('vault').classList.remove('hidden');
+    $('lock-badge').textContent = 'Unlocked';
+    $('lock-badge').className = 'badge badge-ok';
+    setStatus('Vault unlocked.');
+    resetLockTimer();
+    await refreshEntries();
+  } catch (e) { setStatus('Unlock failed: ' + e); }
+});
+
+// Generate password
+$('generate-btn').addEventListener('click', async () => {
+  await ensureWasm();
+  const pw = vk.generatePassword();  // returns Vec<u8>
+  $('new-secret').value = new TextDecoder().decode(pw);
+});
+
+// Add entry
+$('add-btn').addEventListener('click', async () => {
+  resetLockTimer();
+  const name = $('new-name').value.trim();
+  const secret = $('new-secret').value;
+  if (!name || !secret) { setStatus('Name and secret required.'); return; }
+  await ensureWasm();
+
+  // Build a structured entry from template fields
+  const tmpl = $('new-template').value;
+  const entry = { _type: tmpl, name, secret };
+  if (tmpl === 'login' || tmpl === 'identity') {
+    entry.username = $('new-username').value;
+  }
+  if (tmpl === 'login') {
+    entry.website = $('new-website').value;
+  }
+  if (tmpl !== 'api-token' && tmpl !== 'ssh') {
+    entry.notes = $('new-notes').value;
+  }
+  const entryJson = JSON.stringify(entry);
+
+  const deployment = fromHex($('salt-input').value).slice(0, 16);
+  const context = new Uint8Array([0x82, 0x40, 0x40]);
+  const recordKey = vk.deriveRecordKey(rootKey, context);
+  const nonce = vk.generateNonce();
+  const aad = new TextEncoder().encode('pm-v1/record-aad');
+  const plaintext = new TextEncoder().encode(entryJson);
+  const sealed = vk.sealRecord(recordKey, nonce, aad, plaintext);
+  const sealedWithNonce = new Uint8Array(nonce.length + sealed.length);
+  sealedWithNonce.set(new Uint8Array(nonce), 0);
+  sealedWithNonce.set(sealed, nonce.length);
+  const ciphertextHex = hex(sealedWithNonce);
+  const ctHash = await crypto.subtle.digest('SHA-256', sealedWithNonce);
+
+  const recordId = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  if (!recordId) {
+    setStatus('Name must contain at least one ASCII letter or number.');
+    return;
+  }
+  const body = {
+    protocol_version: 1, suite_id: 1,
+    deployment_id: hex(deployment), vault_id: hex(deployment),
+    record_id: recordId, revision: 1,
+    ciphertext: ciphertextHex,
+    ciphertext_hash: hex(new Uint8Array(ctHash)),
+    ciphertext_length: sealed.length,
+    tombstone: false,
+    template_envelope_hash: '0'.repeat(64),
+    manifest_binding: '0'.repeat(64),
+  };
+
+  try {
+    const resp = await fetch(`${API}/records/${recordId}`, {
+      method: 'PUT', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) { setStatus(`PUT failed: ${resp.status}`); return; }
+    $('new-name').value = ''; $('new-secret').value = '';
+    setStatus(`Entry "${name}" encrypted and stored.`);
+    await refreshEntries();
+  } catch (e) { setStatus('Network error: ' + e); }
+});
+
+// Update entry (CAS: sends expected_prior_revision for compare-and-set)
+async function updateEntry(entry, newSecret) {
+  await ensureWasm();
+  const recordId = entry.recordId;
+  const expectedRevision = entry.revision;
+  const updatedEntry = { ...entry, secret: newSecret };
+  delete updatedEntry.recordId;
+  delete updatedEntry.revision;
+  const context = new Uint8Array([0x82, 0x40, 0x40]);
+  const recordKey = vk.deriveRecordKey(rootKey, context);
+  const nonce = vk.generateNonce();
+  const aad = new TextEncoder().encode('pm-v1/record-aad');
+  const plaintext = new TextEncoder().encode(JSON.stringify(updatedEntry));
+  const sealed = vk.sealRecord(recordKey, nonce, aad, plaintext);
+  const sealedWithNonce = new Uint8Array(nonce.length + sealed.length);
+  sealedWithNonce.set(new Uint8Array(nonce), 0);
+  sealedWithNonce.set(sealed, nonce.length);
+  const ctHash = await crypto.subtle.digest('SHA-256', sealedWithNonce);
+  const body = {
+    protocol_version: 1, suite_id: 1,
+    deployment_id: hex(fromHex($('salt-input').value).slice(0, 16)),
+    vault_id: hex(fromHex($('salt-input').value).slice(0, 16)),
+    record_id: recordId, revision: expectedRevision + 1,
+    ciphertext: hex(sealedWithNonce),
+    ciphertext_hash: hex(new Uint8Array(ctHash)),
+    ciphertext_length: sealed.length,
+    tombstone: false,
+    expected_prior_revision: expectedRevision,
+    template_envelope_hash: '0'.repeat(64),
+    manifest_binding: '0'.repeat(64),
+  };
+  try {
+    const resp = await fetch(`${API}/records/${recordId}`, {
+      method: 'PUT', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    if (resp.status === 409) { setStatus(`Conflict: "${recordId}" was modified elsewhere.`); return; }
+    if (!resp.ok) { setStatus(`Update failed: ${resp.status}`); return; }
+    setStatus(`Updated "${recordId}".`);
+    await refreshEntries();
+  } catch (e) { setStatus('Network error: ' + e); }
+}
+
+// Export entries as CSV (name,secret — decrypted, client-only)
+$('export-btn').addEventListener('click', () => {
+  resetLockTimer();
+  if (allEntries.length === 0) { setStatus('No entries to export.'); return; }
+  const csv = 'name,secret\n' + allEntries
+    .map(e => `"${e.name.replace(/"/g, '""')}","${e.secret.replace(/"/g, '""')}"`)
+    .join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'veyora-export.csv'; a.click();
+  URL.revokeObjectURL(url);
+  setStatus(`Exported ${allEntries.length} entries to CSV.`);
+});
+
+// Import entries from CSV (encrypts each row client-side and stores)
+$('import-btn').addEventListener('click', () => $('import-file').click());
+$('import-file').addEventListener('change', async (e) => {
+  resetLockTimer();
+  const file = e.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length < 2) { setStatus('CSV needs a header + at least 1 row.'); return; }
+  const records = [];
+  for (let i = 1; i < lines.length; i++) {
+    // Simple CSV parse: "name","secret"
+    const match = lines[i].match(/^"([^"]*(?:""[^"]*)*)","([^"]*(?:""[^"]*)*)"$/);
+    if (!match) continue;
+    const name = match[1].replace(/""/g, '"');
+    const secret = match[2].replace(/""/g, '"');
+    if (!name || !secret) continue;
+    records.push({ name, secret });
+  }
+  if (records.length === 0) { setStatus('No valid rows found in CSV.'); return; }
+  await ensureWasm();
+  const dtos = [];
+  for (const r of records) {
+    const context = new Uint8Array([0x82, 0x40, 0x40]);
+    const recordKey = vk.deriveRecordKey(rootKey, context);
+    const nonce = vk.generateNonce();
+    const aad = new TextEncoder().encode('pm-v1/record-aad');
+    const plaintext = new TextEncoder().encode(JSON.stringify({
+      _type: 'note', name: r.name, secret: r.secret,
+    }));
+    const sealed = vk.sealRecord(recordKey, nonce, aad, plaintext);
+    const sealedWithNonce = new Uint8Array(nonce.length + sealed.length);
+    sealedWithNonce.set(new Uint8Array(nonce), 0);
+    sealedWithNonce.set(sealed, nonce.length);
+    const ctHash = await crypto.subtle.digest('SHA-256', sealedWithNonce);
+    dtos.push({
+      protocol_version: 1, suite_id: 1,
+      deployment_id: hex(fromHex($('salt-input').value).slice(0, 16)),
+      vault_id: hex(fromHex($('salt-input').value).slice(0, 16)),
+      record_id: r.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+      revision: 1, ciphertext: hex(sealedWithNonce),
+      ciphertext_hash: hex(new Uint8Array(ctHash)),
+      ciphertext_length: sealed.length, tombstone: false,
+      template_envelope_hash: '0'.repeat(64), manifest_binding: '0'.repeat(64),
+    });
+  }
+  try {
+    const resp = await fetch(`${API}/records/batch`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dtos),
+    });
+    const results = await resp.json();
+    const ok = results.filter(r => r.ok).length;
+    setStatus(`Imported ${ok}/${results.length} entries from CSV.`);
+    await refreshEntries();
+  } catch (e) { setStatus('Import failed: ' + e); }
+  $('import-file').value = '';
+});
+// Recovery kit generation
+$('recovery-btn').addEventListener('click', async () => {
+  await ensureWasm();
+  resetLockTimer();
+  try {
+    const kit = vk.generateRecoveryKit();
+    const ok = confirm(
+      'RECOVERY KIT — store this safely!\n\n' +
+      'If you forget your master password, this kit is the ONLY way to recover your vault.\n' +
+      'Anyone with this kit can access your vault.\n\n' +
+      kit + '\n\n' +
+      'Click OK to copy to clipboard (auto-clears in 30s).\n' +
+      'Click Cancel to dismiss without copying.'
+    );
+    if (ok) { copyWithClear(kit); }
+  } catch (e) { setStatus('Recovery kit generation failed: ' + e); }
+});
+
+// Lock button
+$('lock-btn').addEventListener('click', lockVault);
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if ($('vault').classList.contains('hidden')) return;
+  if (e.ctrlKey || e.metaKey) {
+    switch (e.key.toLowerCase()) {
+      case 'g': e.preventDefault(); $('generate-btn').click(); break;
+      case 'f': e.preventDefault(); $('search').focus(); break;
+      case 'l': e.preventDefault(); lockVault(); break;
+      case 'n': e.preventDefault(); $('new-name').focus(); break;
+      case 's': e.preventDefault(); $('export-btn').click(); break;
+    }
+  }
+  if (e.key === 'Escape') {
+    // Clear search on Escape
+    if (document.activeElement === $('search')) {
+      $('search').value = '';
+      renderEntries(getSorted(allEntries));
+      $('search').blur();
+    }
+  }
+});
+
+// List + decrypt entries
+async function refreshEntries() {
+  try {
+    const resp = await fetch(`${API}/records`);
+    const records = await resp.json();
+    allEntries = [];
+    for (const r of records) {
+      if (r.tombstone) continue;
+      const detail = await fetch(`${API}/records/${r.record_id}`);
+      if (!detail.ok) continue;
+      const rec = await detail.json();
+      let decrypted = '(encrypted)';
+      try {
+        const fullCt = fromHex(rec.ciphertext);
+        const actualNonce = fullCt.slice(0, 24);
+        const actualCt = fullCt.slice(24);
+        const context = new Uint8Array([0x82, 0x40, 0x40]);
+        const recordKey = vk.deriveRecordKey(rootKey, context);
+        const aad = new TextEncoder().encode('pm-v1/record-aad');
+        const opened = vk.openRecord(recordKey, actualNonce, aad, actualCt);
+        decrypted = new TextDecoder().decode(opened);
+      } catch (e) { decrypted = '(decrypt failed)'; }
+      // Try to parse structured entry; fall back to flat secret
+      let entry;
+      try {
+        entry = JSON.parse(decrypted);
+        entry.name = entry.name || r.record_id;
+      } catch {
+        entry = { _type: 'flat', name: r.record_id, secret: decrypted };
+      }
+      entry.revision = r.revision;
+      entry.recordId = r.record_id;
+      allEntries.push(entry);
+    }
+    renderEntries(allEntries);
+  } catch (e) { setStatus('Failed to load entries: ' + e); }
+}
+
+function renderEntries(entries) {
+  const container = $('entries');
+  container.innerHTML = '';
+  $('entry-count').textContent = `${entries.length} of ${allEntries.length} entries`;
+  if (entries.length === 0) {
+    container.innerHTML = '<div class="status">No entries found.</div>';
+    return;
+  }
+  for (const e of entries) {
+    const row = document.createElement('div');
+    row.className = 'entry';
+
+    const leftDiv = document.createElement('div');
+    leftDiv.style.flex = '1';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'entry-name';
+    const icons = {login:'🔐', note:'📝', 'api-token':'🔑', ssh:'🖥️', identity:'👤', flat:'📄'};
+    nameSpan.textContent = `${icons[e._type] || '📄'} ${e.name}`;
+    nameSpan.style.cursor = 'pointer';
+    let detailExpanded = false;
+    nameSpan.addEventListener('click', () => {
+      resetLockTimer();
+      detailExpanded = !detailExpanded;
+      let detail = leftDiv.querySelector('.entry-detail');
+      if (detailExpanded) {
+        if (!detail) {
+          detail = document.createElement('div');
+          detail.className = 'entry-detail';
+          detail.style.cssText = 'font-size:0.8rem; color:var(--muted); margin-top:0.25rem; padding-left:1.2rem';
+          const fields = [];
+          if (e.username) fields.push(['Username', e.username]);
+          if (e.website) fields.push(['Website', e.website]);
+          if (e.notes) fields.push(['Notes', e.notes]);
+          fields.push(['Type', e._type || 'flat']);
+          fields.push(['Revision', e.revision]);
+          for (const [k, v] of fields) {
+            const line = document.createElement('div');
+            line.textContent = `${k}: ${v}`;
+            detail.appendChild(line);
+          }
+          leftDiv.appendChild(detail);
+        }
+        detail.style.display = 'block';
+      } else if (detail) {
+        detail.style.display = 'none';
+      }
+    });
+    if (e.username) {
+      const userSpan = document.createElement('div');
+      userSpan.style.fontSize = '0.75rem';
+      userSpan.style.color = 'var(--muted)';
+      userSpan.textContent = e.username;
+      leftDiv.appendChild(nameSpan);
+      leftDiv.appendChild(userSpan);
+    } else {
+      leftDiv.appendChild(nameSpan);
+    }
+
+    const rightDiv = document.createElement('div');
+    rightDiv.style.display = 'flex';
+    rightDiv.style.gap = '0.5rem';
+    rightDiv.style.alignItems = 'center';
+
+    const secretSpan = document.createElement('span');
+    secretSpan.className = 'entry-secret';
+    secretSpan.textContent = '••••••••';
+    let revealed = false;
+    let revealTimer = null;
+    secretSpan.addEventListener('click', () => {
+      resetLockTimer();
+      revealed = !revealed;
+      if (revealed) {
+        secretSpan.textContent = e.secret;
+        secretSpan.style.color = 'var(--accent)';
+        copyWithClear(e.secret);
+        // Auto-hide after 30 seconds
+        if (revealTimer) clearTimeout(revealTimer);
+        revealTimer = setTimeout(() => {
+          revealed = false;
+          secretSpan.textContent = '••••••••';
+          secretSpan.style.color = '';
+        }, 30000);
+      } else {
+        if (revealTimer) clearTimeout(revealTimer);
+        secretSpan.textContent = '••••••••';
+        secretSpan.style.color = '';
+      }
+    });
+    rightDiv.appendChild(secretSpan);
+
+    // Copy username button for login-type entries
+    if (e.username) {
+      const userBtn = document.createElement('button');
+      userBtn.textContent = '👤';
+      userBtn.style.padding = '0.2rem 0.5rem';
+      userBtn.style.fontSize = '0.8rem';
+      userBtn.title = 'Copy username';
+      userBtn.addEventListener('click', () => {
+        resetLockTimer();
+        copyWithClear(e.username);
+      });
+      rightDiv.appendChild(userBtn);
+    }
+
+    const copyBtn = document.createElement('button');
+    copyBtn.textContent = '📋';
+    copyBtn.style.padding = '0.2rem 0.5rem';
+    copyBtn.style.fontSize = '0.8rem';
+    copyBtn.title = 'Copy secret (clears in 30s)';
+    copyBtn.addEventListener('click', () => {
+      resetLockTimer();
+      copyWithClear(e.secret);
+    });
+    rightDiv.appendChild(copyBtn);
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = '✎';
+    editBtn.style.padding = '0.2rem 0.5rem';
+    editBtn.style.fontSize = '0.8rem';
+    editBtn.title = 'Edit secret';
+    editBtn.addEventListener('click', () => {
+      resetLockTimer();
+      const newSecret = prompt(`Edit secret for "${e.name}":`, e.secret);
+      if (newSecret === null || newSecret === e.secret) return;
+      updateEntry(e, newSecret);
+    });
+    rightDiv.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '✕';
+    delBtn.className = 'danger';
+    delBtn.style.padding = '0.2rem 0.5rem';
+    delBtn.style.fontSize = '0.8rem';
+    delBtn.addEventListener('click', async () => {
+      resetLockTimer();
+      if (!confirm(`Delete "${e.name}"? This cannot be undone.`)) return;
+      await fetch(`${API}/records/${encodeURIComponent(e.recordId)}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ expected_prior_revision: e.revision }),
+      });
+      setStatus(`Deleted "${e.name}".`);
+      await refreshEntries();
+    });
+    rightDiv.appendChild(delBtn);
+
+    row.appendChild(leftDiv);
+    row.appendChild(rightDiv);
+    container.appendChild(row);
+  }
+}
+</script>
+</body>
+</html>

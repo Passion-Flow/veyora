@@ -1,0 +1,38 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Build output
+target/
+wasm-out/
+dist/
+build/
+coverage/
+node_modules/
+
+# Runtime data and local artifacts
+*.db
+*.sqlite
+*.sqlite3
+*.log
+snapshot*.json
+veyora-config.js
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local tooling
+.cache/
+.pytest_cache/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,5 @@
+# Generated contract validation and projection output owned by contracts.
+/generated/
+/tmp/
+__pycache__/
+*.py[cod]

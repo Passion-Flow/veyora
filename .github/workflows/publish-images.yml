@@ -1,0 +1,207 @@
+name: Publish container images
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version tag applied to every image (for example, v1.0.0)
+        required: true
+        default: v1.0.0
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publish-images-${{ inputs.version }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: passion-flow
+  SOURCE_URL: https://github.com/Passion-Flow/veyora
+
+jobs:
+  validate:
+    name: Validate release input
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Validate the version tag
+        id: version
+        env:
+          VERSION_INPUT: ${{ inputs.version }}
+        run: |
+          if [[ ! "$VERSION_INPUT" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Version must use the vMAJOR.MINOR.PATCH format." >&2
+            exit 1
+          fi
+          echo "version=$VERSION_INPUT" >> "$GITHUB_OUTPUT"
+
+  foundations:
+    name: Foundation / ${{ matrix.image }}
+    needs: validate
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: veyora-postgres
+            base_image: postgres:16-bookworm@sha256:64154d0babcb1741988719e703419af0382b19953706149f9872fbd0f438efa8
+          - image: veyora-nginx
+            base_image: nginx:1.29.5-alpine@sha256:1eff5a5f3fcf8431a0abb7eddf5471fec24e5e1905a2581aeacdb07a4479b92b
+          - image: veyora-envoy
+            base_image: envoyproxy/envoy:v1.31.10@sha256:caa5b411be1633b90023592a34a7e010c933d6e60206c758f631485e53006865
+          - image: veyora-rust
+            base_image: rust:1.93.1-slim@sha256:c0a38f5662afdb298898da1d70b909af4bda4e0acff2dc52aea6360a9b9c6956
+          - image: veyora-debian
+            base_image: debian:bookworm-slim@sha256:abd67ffcfa541b485a3dff59865ab629aa048a6c613e639d36e7456b0b229241
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@v4
+      - name: Authenticate to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish the multi-platform foundation
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile.mirror
+          platforms: linux/amd64,linux/arm64
+          push: true
+          provenance: false
+          build-args: BASE_IMAGE=${{ matrix.base_image }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/${{ matrix.image }}:${{ needs.validate.outputs.version }}
+          labels: |
+            org.opencontainers.image.source=${{ env.SOURCE_URL }}
+            org.opencontainers.image.title=${{ matrix.image }}
+            org.opencontainers.image.version=${{ needs.validate.outputs.version }}
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+
+  applications:
+    name: Application / ${{ matrix.image }}
+    needs:
+      - validate
+      - foundations
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: veyora-api
+            context: .
+            file: backend/Dockerfile.api
+            build_args: |
+              RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
+              DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
+          - image: veyora-worker
+            context: .
+            file: backend/Dockerfile.worker
+            build_args: |
+              RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
+              DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
+          - image: veyora-migrator
+            context: .
+            file: backend/Dockerfile.migrator
+            build_args: |
+              RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
+              DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
+          - image: veyora-backup
+            context: .
+            file: backend/Dockerfile.backup
+            build_args: |
+              RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
+              DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
+          - image: veyora-restore
+            context: .
+            file: backend/Dockerfile.restore
+            build_args: |
+              RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
+              DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
+          - image: veyora-sandbox
+            context: .
+            file: backend/Dockerfile.sandbox
+            build_args: |
+              RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
+              DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
+          - image: veyora-web
+            context: deployment/web
+            file: deployment/web/Dockerfile
+            build_args: NGINX_IMAGE=ghcr.io/passion-flow/veyora-nginx:__VERSION__
+          - image: veyora-gateway
+            context: .
+            file: deployment/Dockerfile.gateway.build
+            build_args: ENVOY_IMAGE=ghcr.io/passion-flow/veyora-envoy:__VERSION__
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@v4
+      - name: Authenticate to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Resolve versioned foundation references
+        id: build_args
+        env:
+          BUILD_ARGS_TEMPLATE: ${{ matrix.build_args }}
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          resolved="${BUILD_ARGS_TEMPLATE//__VERSION__/$VERSION}"
+          {
+            echo 'value<<VEYORA_BUILD_ARGS'
+            echo "$resolved"
+            echo 'VEYORA_BUILD_ARGS'
+          } >> "$GITHUB_OUTPUT"
+      - name: Publish the multi-platform application
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          provenance: false
+          build-args: ${{ steps.build_args.outputs.value }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/${{ matrix.image }}:${{ needs.validate.outputs.version }}
+          labels: |
+            org.opencontainers.image.source=${{ env.SOURCE_URL }}
+            org.opencontainers.image.title=${{ matrix.image }}
+            org.opencontainers.image.version=${{ needs.validate.outputs.version }}
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+
+  verify:
+    name: Verify anonymous multi-platform access
+    needs:
+      - validate
+      - foundations
+      - applications
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: docker/setup-buildx-action@v4
+      - name: Inspect every public release image without registry credentials
+        env:
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          images=(postgres nginx envoy rust debian api worker migrator backup restore sandbox web gateway)
+          for image in "${images[@]}"; do
+            ref="$REGISTRY/$IMAGE_NAMESPACE/veyora-$image:$VERSION"
+            manifest="$(docker buildx imagetools inspect "$ref")"
+            for platform in linux/amd64 linux/arm64; do
+              if ! grep -Fq "Platform:  $platform" <<<"$manifest"; then
+                echo "$ref is missing $platform" >&2
+                exit 1
+              fi
+            done
+            echo "Verified $ref (linux/amd64, linux/arm64)"
+          done

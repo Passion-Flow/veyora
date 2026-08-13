@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/vector-provenance-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "claim_policy", "canonical_hash_rules", "native_secretstream_source", "corpora"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "claim_policy": {"const": "requirements-not-evidence"},
+    "canonical_hash_rules": {"$ref": "#/$defs/canonicalHashRules"},
+    "native_secretstream_source": {"$ref": "#/$defs/nativeSource"},
+    "corpora": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project-crypto-v1", "native-backup-v1", "manifest-v1"],
+      "properties": {
+        "project-crypto-v1": {"$ref": "#/$defs/projectCryptoCorpus"},
+        "native-backup-v1": {"$ref": "#/$defs/nativeBackupCorpus"},
+        "manifest-v1": {"$ref": "#/$defs/manifestCorpus"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^(?!0{64}$)[0-9a-f]{64}$"},
+    "canonicalHashRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "fixture_sha256", "source_sha256", "review_artifact_sha256"],
+      "properties": {
+        "id": {"const": "veyora-vector-json-v1"},
+        "fixture_sha256": {"const": "SHA-256 of UTF-8 JSON for one fixture/vector after removing only fixture_sha256, sorting object keys lexicographically at every depth, emitting no insignificant whitespace, preserving array order, and rejecting floats, NaN, Infinity, and duplicate object names"},
+        "source_sha256": {"const": "SHA-256 of the exact raw generator source file bytes; committed-file references resolve within the repository and must match before corpus acceptance"},
+        "review_artifact_sha256": {"const": "SHA-256 of the exact raw structured review-record bytes under docs/security/reviews/<corpus-id>/<fixture-id>.review-v1.json; the record names an active scoped key in the owner-authenticated out-of-band attestation registry at contracts/protocol/approved-evidence-reviewers-v1.json and signs the canonical approval preimage binding reviewer identity and qualification, disposition, corpus/fixture, generator source, review subject, canonical review output, and output hash; identity and key labels are metadata, not evidence of humanity"}
+      }
+    },
+    "nativeSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "archive_url", "archive_filename", "archive_sha256", "sidecar_url", "sidecar_filename", "sidecar_sha256", "selection", "required_dist_names", "forbidden_environment", "forbidden_features", "cargo_mode", "supported_targets", "excluded_targets", "license", "human_disposition"],
+      "properties": {
+        "version": {"const": "1.0.22"},
+        "archive_url": {"const": "https://download.libsodium.org/libsodium/releases/libsodium-1.0.22-stable.tar.gz"},
+        "archive_filename": {"const": "libsodium-1.0.22-stable.tar.gz"},
+        "archive_sha256": {"const": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534"},
+        "sidecar_url": {"const": "https://download.libsodium.org/libsodium/releases/libsodium-1.0.22-stable.tar.gz.minisig"},
+        "sidecar_filename": {"const": "libsodium-1.0.22-stable.tar.gz.minisig"},
+        "sidecar_sha256": {"const": "9ed6444f7bb2a0b052d872062d398417262d544f65ee42be1df2a956469c07fe"},
+        "selection": {"const": "pinned-offline-sodium-dist-dir"},
+        "required_dist_names": {"const": ["LATEST.tar.gz", "LATEST.tar.gz.minisig"]},
+        "forbidden_environment": {"const": ["SODIUM_LIB_DIR", "SODIUM_USE_PKG_CONFIG", "SODIUM_SHARED", "VCPKGRS_DYNAMIC", "SODIUM_DISABLE_PIE"]},
+        "forbidden_features": {"const": ["fetch-latest", "minimal", "optimized", "use-pkg-config"]},
+        "cargo_mode": {"const": "locked-offline-network-denied"},
+        "supported_targets": {"const": ["linux", "macos", "windows"]},
+        "excluded_targets": {"const": ["wasm32-unknown-unknown", "android"]},
+        "license": {"const": "ISC-human-review-required"},
+        "human_disposition": {"const": "required-not-recorded"}
+      }
+    },
+    "corpusBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "planned_path", "schema_path", "status", "generator_owner_policy", "committed_oracle_path", "source_section_required", "independent_inputs_required", "expected_bytes_required", "intermediates_required", "oracle_source", "fixed_decrypt_oracle", "live_encrypt_oracle", "existing_goldens_scope", "required_shapes", "canonical_hash_rule", "generator_source_sha256_status", "fixture_output_sha256_status", "review_disposition"],
+      "properties": {
+        "id": {"enum": ["project-crypto-v1", "native-backup-v1", "manifest-v1"]},
+        "planned_path": {"type": "string", "minLength": 1},
+        "schema_path": {"type": "string", "minLength": 1},
+        "status": {"enum": ["required-not-present", "present-validated"]},
+        "generator_owner_policy": {"const": "closed-independent-only"},
+        "committed_oracle_path": {"type": "string", "minLength": 1},
+        "source_section_required": {"const": true},
+        "independent_inputs_required": {"const": true},
+        "expected_bytes_required": {"const": true},
+        "intermediates_required": {"const": true},
+        "oracle_source": {"type": "string", "minLength": 1},
+        "fixed_decrypt_oracle": {"enum": ["not-applicable", "blocked-pending-reviewed-captured-vector"]},
+        "live_encrypt_oracle": {"enum": ["not-applicable", "separate-c-checker-process"]},
+        "existing_goldens_scope": {"enum": ["not-applicable", "wire-components-only-no-secretstream-ciphertext"]},
+        "required_shapes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "canonical_hash_rule": {"const": "veyora-vector-json-v1"},
+        "generator_source_sha256_status": {"enum": ["required-not-recorded", "recorded-and-bound"]},
+        "fixture_output_sha256_status": {"enum": ["required-not-recorded", "recorded-and-bound"]},
+        "review_disposition": {"enum": ["required-not-recorded", "ai-non-human-reviewed", "qualified-human-reviewed"]},
+        "upstream_fixed_reference_status": {"const": "blocked-no-libsodium-published-fixed-secretstream-data"},
+        "libsodium_test_source_url": {"const": "https://raw.githubusercontent.com/jedisct1/libsodium/1.0.22-RELEASE/test/default/secretstream_xchacha20poly1305.c"},
+        "libsodium_test_source_sha256": {"const": "5f13b9d1cdd46a5fcff41f25472fca94b7d2d779fb95df7f008b52696ec30742"},
+        "libsodium_test_semantics": {"const": "randomized-roundtrip-test-not-fixed-reference-data"},
+        "capture_generator_url": {"const": "https://raw.githubusercontent.com/pyca/pynacl/ecf41f55a3d8f1e10ce89c61c4b4d67f3f4467cf/docs/vectors/c-source/secretstream_test_vector.c"},
+        "capture_generator_sha256": {"const": "911a361c92996c35f73e85e2258d848b4b43a3aba7030e4f070a0f148617e1b3"},
+        "capture_generator_semantics": {"const": "random-output-capture-not-deterministic-kat"}
+      }
+    },
+    "projectCryptoCorpus": {
+      "$ref": "#/$defs/corpusBase",
+      "properties": {
+        "id": {"const": "project-crypto-v1"},
+        "planned_path": {"const": "security-kernel/vectors/v1.json"},
+        "schema_path": {"const": "contracts/protocol/crypto-vector-corpus-v1.schema.json"},
+        "committed_oracle_path": {"const": "security-kernel/oracles/project-crypto-v1.py"},
+        "oracle_source": {"const": "dependency-free-independent-reference-oracle-outside-product-code"},
+        "fixed_decrypt_oracle": {"const": "not-applicable"},
+        "live_encrypt_oracle": {"const": "not-applicable"},
+        "existing_goldens_scope": {"const": "not-applicable"},
+        "required_shapes": {"const": ["argon2id", "hkdf-sha256", "xchacha20poly1305", "hpke-base-x25519", "ed25519-strict", "p256-es256", "protocol-cbor", "webauthn-cbor", "webauthn-client-json", "recovery-human-form", "session-policy", "webauthn-composite-enrollment", "unlock-wrap-buckets", "native-web-bootstrap", "authentication-contexts", "root-rotation", "signed-checkpoint", "signed-account-state-false-true", "signed-manifest-false-true"]},
+        "upstream_fixed_reference_status": false,
+        "libsodium_test_source_url": false,
+        "libsodium_test_source_sha256": false,
+        "libsodium_test_semantics": false,
+        "capture_generator_url": false,
+        "capture_generator_sha256": false,
+        "capture_generator_semantics": false
+      }
+    },
+    "nativeBackupCorpus": {
+      "$ref": "#/$defs/corpusBase",
+      "required": ["upstream_fixed_reference_status", "libsodium_test_source_url", "libsodium_test_source_sha256", "libsodium_test_semantics", "capture_generator_url", "capture_generator_sha256", "capture_generator_semantics"],
+      "properties": {
+        "id": {"const": "native-backup-v1"},
+        "planned_path": {"const": "security-kernel/vectors/backup-v1.json"},
+        "schema_path": {"const": "contracts/backup/backup-vector-corpus-v1.schema.json"},
+        "committed_oracle_path": {"const": "security-kernel/oracles/secretstream-v1.c"},
+        "oracle_source": {"const": "blocked-no-libsodium-fixed-corpus-plus-exact-pynacl-capture-route"},
+        "fixed_decrypt_oracle": {"const": "blocked-pending-reviewed-captured-vector"},
+        "live_encrypt_oracle": {"const": "separate-c-checker-process"},
+        "existing_goldens_scope": {"const": "wire-components-only-no-secretstream-ciphertext"},
+        "required_shapes": {"const": ["upstream-fixed-decrypt", "empty", "one-byte", "exact-chunk", "multi-chunk"]},
+        "status": {"const": "required-not-present"},
+        "generator_source_sha256_status": {"const": "required-not-recorded"},
+        "fixture_output_sha256_status": {"const": "required-not-recorded"},
+        "review_disposition": {"const": "required-not-recorded"},
+        "upstream_fixed_reference_status": {"const": "blocked-no-libsodium-published-fixed-secretstream-data"},
+        "libsodium_test_source_url": {"const": "https://raw.githubusercontent.com/jedisct1/libsodium/1.0.22-RELEASE/test/default/secretstream_xchacha20poly1305.c"},
+        "libsodium_test_source_sha256": {"const": "5f13b9d1cdd46a5fcff41f25472fca94b7d2d779fb95df7f008b52696ec30742"},
+        "libsodium_test_semantics": {"const": "randomized-roundtrip-test-not-fixed-reference-data"},
+        "capture_generator_url": {"const": "https://raw.githubusercontent.com/pyca/pynacl/ecf41f55a3d8f1e10ce89c61c4b4d67f3f4467cf/docs/vectors/c-source/secretstream_test_vector.c"},
+        "capture_generator_sha256": {"const": "911a361c92996c35f73e85e2258d848b4b43a3aba7030e4f070a0f148617e1b3"},
+        "capture_generator_semantics": {"const": "random-output-capture-not-deterministic-kat"}
+      }
+    },
+    "manifestCorpus": {
+      "$ref": "#/$defs/corpusBase",
+      "properties": {
+        "id": {"const": "manifest-v1"},
+        "planned_path": {"const": "security-kernel/vectors/manifest-v1.json"},
+        "schema_path": {"const": "contracts/protocol/manifest-vector-corpus-v1.schema.json"},
+        "committed_oracle_path": {"const": "security-kernel/oracles/manifest-v1.py"},
+        "oracle_source": {"const": "dependency-free-manifest-reference-oracle-outside-product-code"},
+        "fixed_decrypt_oracle": {"const": "not-applicable"},
+        "live_encrypt_oracle": {"const": "not-applicable"},
+        "existing_goldens_scope": {"const": "not-applicable"},
+        "required_shapes": {"const": ["empty", "one-leaf", "two-leaf", "odd-promotion", "chunk-boundary", "tombstone-live-order", "10000-live", "50000-relations"]},
+        "upstream_fixed_reference_status": false,
+        "libsodium_test_source_url": false,
+        "libsodium_test_source_sha256": false,
+        "libsodium_test_semantics": false,
+        "capture_generator_url": false,
+        "capture_generator_sha256": false,
+        "capture_generator_semantics": false
+      }
+    }
+  }
+}

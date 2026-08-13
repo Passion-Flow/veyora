@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/interchange/veyora-text-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "media_type", "encoding", "line_endings", "header_line", "record_lines", "duplicate_keys", "transaction", "publish"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "media_type": {"const": "application/x-veyora-vault+jsonl;version=1"},
+    "encoding": {"const": "UTF-8"},
+    "line_endings": {"enum": ["LF-output;LF-or-CRLF-input"]},
+    "header_line": {"const": 1},
+    "record_lines": {"const": "generic-encrypted-template-record"},
+    "duplicate_keys": {"const": "reject"},
+    "transaction": {"const": "all-or-nothing"},
+    "publish": {"const": "atomic-after-authentication-and-fsync"}
+  }
+}

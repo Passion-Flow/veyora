@@ -1,0 +1,20 @@
+{
+  "$schema": "standards-baseline-v1.schema.json",
+  "schema_version": 1,
+  "accessed_on": "2026-08-08",
+  "standards": [
+    {"id":"RFC-5869","scope":"HKDF-SHA-256 extract/expand known-answer vectors","source_url":"https://www.rfc-editor.org/rfc/rfc5869.html","source_locator":"appendix-A","evidence_role":"known-answer"},
+    {"id":"RFC-8032","scope":"Ed25519 known-answer and verification inputs","source_url":"https://www.rfc-editor.org/rfc/rfc8032.html","source_locator":"section-7.1","evidence_role":"known-answer"},
+    {"id":"RFC-8259","scope":"duplicate-aware original-byte WebAuthn JSON parsing","source_url":"https://www.rfc-editor.org/rfc/rfc8259.html","source_locator":"section-4","evidence_role":"parser-policy"},
+    {"id":"RFC-8949","scope":"deterministic CBOR and closed protocol encoding","source_url":"https://www.rfc-editor.org/rfc/rfc8949.html","source_locator":"section-4.2","evidence_role":"encoding-policy"},
+    {"id":"RFC-9052-9053","scope":"COSE ES256 key and signature policy","source_url":"https://www.rfc-editor.org/rfc/rfc9052.html","source_locator":"RFC-9052-and-RFC-9053","evidence_role":"encoding-policy"},
+    {"id":"RFC-9106","scope":"Argon2id primitive vectors distinct from the project profile","source_url":"https://www.rfc-editor.org/rfc/rfc9106.html","source_locator":"section-5","evidence_role":"known-answer"},
+    {"id":"RFC-9180","scope":"HPKE Base mode suite 0020-0001-0003","source_url":"https://www.rfc-editor.org/rfc/rfc9180.html","source_locator":"appendix-A.3","evidence_role":"known-answer"},
+    {"id":"WebAuthn-Level-3-CR-2026-05-26","scope":"Web ceremony and original-byte assertion verification","source_url":"https://www.w3.org/TR/2026/CR-webauthn-3-20260526/","source_locator":"verifying-an-authentication-assertion","evidence_role":"ceremony-policy"},
+    {"id":"WCAG-2.2","scope":"named tested Web processes","source_url":"https://www.w3.org/TR/WCAG22/","source_locator":"recommendation","evidence_role":"ux-standard"},
+    {"id":"draft-irtf-cfrg-xchacha-03","scope":"XChaCha20-Poly1305 independent primitive vector","source_url":"https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-xchacha-03","source_locator":"appendix-A.3.2","evidence_role":"known-answer"},
+    {"id":"CTAP2-2.2-PS-2025-07-14","scope":"CTAP2 canonical CBOR map ordering","source_url":"https://fidoalliance.org/specs/fido-v2.2-ps-20250714/fido-client-to-authenticator-protocol-v2.2-ps-20250714.html","source_locator":"ctap2-canonical-cbor-encoding-form","evidence_role":"encoding-policy"},
+    {"id":"libsodium-1.0.22","scope":"native secretstream construction and fixed offline source","source_url":"https://download.libsodium.org/libsodium/releases/libsodium-1.0.22-stable.tar.gz","source_locator":"crypto_secretstream_xchacha20poly1305","evidence_role":"construction-source"}
+  ],
+  "claim_policy": "evidence-framework-not-certification"
+}

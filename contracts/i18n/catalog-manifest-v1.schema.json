@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/i18n/catalog-manifest-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "initial_locale", "fallback_locale", "candidate_locales", "production_locales", "test_locales", "inert_sample_locales", "review_policy", "brand_message_id"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "initial_locale": {"const": "system-preference-order"},
+    "fallback_locale": {"const": "en-US"},
+    "candidate_locales": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "uniqueItems": true,
+      "items": {"enum": ["en-US", "ar", "he", "pl", "sl", "ga", "cy", "sw", "hi", "ja", "zh-Hans"]}
+    },
+    "production_locales": {"type": "array", "maxItems": 0},
+    "test_locales": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"enum": ["en-XA", "ar-XB"]}
+    },
+    "inert_sample_locales": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {"enum": ["en-US", "cy"]}
+    },
+    "review_policy": {"const": "complete-catalog-plus-named-human-review"},
+    "brand_message_id": {"const": "app.displayName"}
+  }
+}

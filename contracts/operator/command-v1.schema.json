@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/operator/command-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program", "flags", "commands"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "program": {"const": "veyoractl"},
+    "flags": {"type": "object", "additionalProperties": {"$ref": "#/$defs/flag"}},
+    "commands": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/command"}}
+  },
+  "$defs": {
+    "flag": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false, "required": ["values"],
+          "properties": {"values": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}, "default": true}
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["kind"],
+          "properties": {"kind": {"enum": ["boolean", "operation-token", "run-id", "idempotency-key"]}, "default": true}
+        }
+      ]
+    },
+    "command": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "flags", "idempotency", "cancellation", "side_effect"],
+      "properties": {
+        "path": {"type": "array", "minItems": 1, "maxItems": 2, "items": {"type": "string", "pattern": "^[a-z][a-z-]*$"}},
+        "flags": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^--[a-z][a-z-]*$"}},
+        "idempotency": {"enum": ["read-only", "resume-token", "exact-run", "project-state", "operation-token", "artifact-digest"]},
+        "cancellation": {"enum": ["safe", "retry-safe", "interrupt-resumable"]},
+        "side_effect": {"enum": ["none", "scoped-ephemeral", "scoped-delete", "ceremony-state", "service-state", "image-store", "candidate-state"]}
+      }
+    }
+  }
+}

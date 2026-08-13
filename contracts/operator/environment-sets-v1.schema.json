@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/operator/environment-sets-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "demo", "trusted", "build_pin_source"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "demo": {"type": "object"},
+    "trusted": {"type": "object"},
+    "build_pin_source": {"const": "contracts/release/toolchain-lock-v1.json"}
+  }
+}

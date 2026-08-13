@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/backup/logical-snapshot-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "format", "ordering", "transaction", "contains_plaintext", "maximum_bytes_setting"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "format": {"const": "length-prefixed-database-export-v1"},
+    "ordering": {"const": "canonical-table-key-order"},
+    "transaction": {"const": "one-consistent-snapshot"},
+    "contains_plaintext": {"const": false},
+    "maximum_bytes_setting": {"const": "deployment.backup.maximum-bytes"}
+  }
+}

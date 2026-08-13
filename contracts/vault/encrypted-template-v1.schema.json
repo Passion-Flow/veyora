@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://veyora.invalid/contracts/vault/encrypted-template-v1.schema.json",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","template_id","revision","ciphertext","ciphertext_hash","ciphertext_length"],
+  "properties":{
+    "schema_version":{"const":1},
+    "template_id":{"type":"string","pattern":"^[0-9a-f]{32}$"},
+    "revision":{"type":"integer","minimum":1},
+    "ciphertext":{"type":"string","minLength":1},
+    "ciphertext_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "ciphertext_length":{"type":"integer","minimum":17}
+  }
+}

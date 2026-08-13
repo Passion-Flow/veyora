@@ -1,0 +1,7 @@
+{
+  "$schema": "message-parameters-v1.schema.json",
+  "schema_version": 1,
+  "allowed_types": ["public-string", "integer", "duration", "date-time", "status-code"],
+  "forbidden_classes": ["secret", "master-password", "recovery-key", "vault-key", "plaintext-value", "ciphertext", "credential"],
+  "raw_html": false
+}

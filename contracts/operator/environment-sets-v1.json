@@ -1,0 +1,7 @@
+{
+  "$schema": "environment-sets-v1.schema.json",
+  "schema_version": 1,
+  "demo": {"requires_ephemeral_project_marker":true,"loopback_only":true,"test_overlay_required":true,"real_credentials":false,"trusted_state":false},
+  "trusted": {"reject_demo_values":true,"reject_blank_required":true,"reject_test_secrets":true,"reject_loopback_public_origin":true,"reject_test_images":true},
+  "build_pin_source": "contracts/release/toolchain-lock-v1.json"
+}

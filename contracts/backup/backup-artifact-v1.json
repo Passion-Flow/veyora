@@ -1,0 +1,19 @@
+{
+  "$schema": "backup-artifact-v1.schema.json",
+  "schema_version": 1,
+  "media_type": "application/vnd.veyora.encrypted-backup-v1+cbor",
+  "protocol_chunk_bytes": 4194304,
+  "storage_buffer_bytes": 1048576,
+  "data_frame_overhead": 17,
+  "message_tag": "MESSAGE",
+  "message_tag_value": 0,
+  "final_tag": "FINAL",
+  "final_tag_value": 3,
+  "frame_order": "one-or-more-MESSAGE-then-exactly-one-FINAL",
+  "aad_domain": "pm-v1/backup-frame",
+  "final_plaintext_fields": ["header_sha256", "data_chunk_count", "logical_size", "padded_plaintext_bytes", "logical_snapshot_sha256"],
+  "artifact_length_equation": "cbor_outer_overhead+canonical_header_bytes+(data_chunk_count*4194321)+final_frame_bytes",
+  "trailing_bytes": "reject",
+  "goldens": ["empty", "one-byte", "exact-chunk", "multi-chunk"],
+  "golden_evidence_status": "wire-components-only-task5-encrypted-vectors-required"
+}

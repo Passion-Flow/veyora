@@ -1,0 +1,17 @@
+{
+  "schema_version":1,
+  "storage":"client-encrypted-data",
+  "server_discriminator":false,
+  "templates":[
+    {"id":"human-login","label_message_id":"template.humanLogin","fields":["name","website","username","password","category","tags","notes","history"]},
+    {"id":"digital-identity","label_message_id":"template.digitalIdentity","fields":["account-information","email-addresses","recovery-information","phone-numbers","two-factor-information","notes"]},
+    {"id":"secure-note","label_message_id":"template.secureNote","fields":["title","private-text","tags"]},
+    {"id":"recovery-information","label_message_id":"template.recovery","fields":["service","recovery-codes","instructions","notes"]},
+    {"id":"api-token","label_message_id":"template.apiToken","fields":["service","token","scope","expiry","notes"]},
+    {"id":"ssh-credential","label_message_id":"template.sshCredential","fields":["host","port","username","private-key","public-key","passphrase","notes"]},
+    {"id":"server-access","label_message_id":"template.serverAccess","fields":["host","port","username","credential","environment","notes"]},
+    {"id":"database-access","label_message_id":"template.databaseAccess","fields":["engine","host","port","database","username","password","tls-notes"]},
+    {"id":"product-environment","label_message_id":"template.productEnvironment","fields":["product","environment","endpoint","credential","notes"]},
+    {"id":"sensitive-text","label_message_id":"template.sensitiveText","fields":["name","secret-text","notes"]}
+  ]
+}

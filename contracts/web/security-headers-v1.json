@@ -1,0 +1,14 @@
+{
+  "$schema": "security-headers-v1.schema.json",
+  "schema_version": 1,
+  "headers": {
+    "Content-Security-Policy":"default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'",
+    "Cross-Origin-Opener-Policy":"same-origin",
+    "Cross-Origin-Resource-Policy":"same-origin",
+    "Referrer-Policy":"no-referrer",
+    "Permissions-Policy":"camera=(), geolocation=(), microphone=(), payment=(), usb=()",
+    "X-Content-Type-Options":"nosniff",
+    "X-Frame-Options":"DENY"
+  },
+  "forbidden": ["unsafe-inline","unsafe-eval","wildcard-origin","third-party-script","service-worker-secret-cache"]
+}

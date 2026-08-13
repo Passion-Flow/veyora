@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/authentication-profile-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "native", "web", "reserved_disabled", "master_password_transport"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "native": {"type": "object"},
+    "web": {"type": "object"},
+    "reserved_disabled": {"type": "array", "items": {"type": "string"}},
+    "master_password_transport": {"const": "forbidden"}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "catalog-v1.schema.json",
+  "schema_version": 1,
+  "locale": "en-US",
+  "direction": "ltr",
+  "messages": {
+    "app.displayName": {"text": "Veyora", "parameters": {}},
+    "error.contract.invalid": {"text": "The request could not be accepted ({status}).", "parameters": {"status": "status-code"}},
+    "vault.itemCount": {"plural": {"one": "{count} item", "other": "{count} items"}, "parameters": {"count": "integer"}}
+  }
+}

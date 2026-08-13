@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "target": "x86_64-pc-windows-msvc",
+  "disposition": "ExcludedUnverified",
+  "missing_prerequisites": [
+    "native-windows-runner",
+    "msvc-toolchain",
+    "rust-target-stdlib",
+    "webview2-runner",
+    "credential-manager-runner",
+    "installer-environment"
+  ],
+  "native_workflows": [],
+  "claim_limit": "Source work and target-independent tests only; no Windows build, package, WebView2, Credential Manager, workflow, accessibility, locale, or support claim."
+}

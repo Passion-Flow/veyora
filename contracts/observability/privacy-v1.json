@@ -1,0 +1,29 @@
+{
+  "$schema": "privacy-v1.schema.json",
+  "schema_version": 1,
+  "default": "deny",
+  "metrics": [
+    {"name":"veyora_gateway_requests_total","kind":"counter","labels":["route_template","method","status_class"]},
+    {"name":"veyora_gateway_request_seconds","kind":"histogram","labels":["route_template","method"]},
+    {"name":"veyora_worker_queue_depth","kind":"gauge","labels":["job_class"]},
+    {"name":"veyora_database_pool_wait_seconds","kind":"histogram","labels":["service_role"]},
+    {"name":"veyora_backup_age_seconds","kind":"gauge","labels":["target_kind"]}
+  ],
+  "traces": [
+    {"name":"request.outcome","fields":["route_template","method","status_class","duration_bucket"]},
+    {"name":"job.outcome","fields":["job_class","outcome","attempt_bucket"]}
+  ],
+  "alerts": [
+    {"id":"auth-anomaly-rate","threshold_source":"required-no-default","window_source":"required-no-default","severity":"high","owner":"operator","runbook_id":"RB-AUTH-ANOMALY"},
+    {"id":"queue-backlog","threshold_source":"backend.queue.backlog-alert-count","window_source":"required-no-default","severity":"high","owner":"operator","runbook_id":"RB-QUEUE-BACKLOG"},
+    {"id":"queue-dead-letters","threshold_source":"required-no-default","window_source":"required-no-default","severity":"high","owner":"operator","runbook_id":"RB-DEAD-LETTER"},
+    {"id":"snapshot-commit-failure-rate","threshold_source":"required-no-default","window_source":"required-no-default","severity":"high","owner":"operator","runbook_id":"RB-COMMIT-FAILURE"},
+    {"id":"database-tls-or-pool","threshold_source":"required-no-default","window_source":"required-no-default","severity":"critical","owner":"operator","runbook_id":"RB-DATABASE"},
+    {"id":"backup-age-or-failure","threshold_source":"deployment.backup.rpo-seconds","window_source":"deployment.backup.rpo-seconds","severity":"critical","owner":"operator","runbook_id":"RB-BACKUP"},
+    {"id":"restore-drill-failure","threshold_source":"required-no-default","window_source":"required-no-default","severity":"critical","owner":"operator","runbook_id":"RB-RESTORE"},
+    {"id":"disk-or-capacity-pressure","threshold_source":"required-no-default","window_source":"required-no-default","severity":"high","owner":"operator","runbook_id":"RB-CAPACITY"},
+    {"id":"gateway-5xx-rate","threshold_source":"required-no-default","window_source":"required-no-default","severity":"high","owner":"operator","runbook_id":"RB-GATEWAY-5XX"}
+  ],
+  "forbidden": ["master-password","secret-bytes","ciphertext","stable-hash","email","username","vault-id","record-id","device-id","session-id","url","query-string","header","file-path","import-export-content","free-form-label"],
+  "export": {"metrics_network":"private-observability","trace_default":"off","alert_destination":"deployment.alert.destinations"}
+}

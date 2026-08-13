@@ -1,0 +1,38 @@
+{
+  "$schema": "command-v1.schema.json",
+  "schema_version": 1,
+  "program": "veyoractl",
+  "flags": {
+    "--output": {"values":["plain","json"],"default":"plain"},
+    "--idempotency-key": {"kind":"idempotency-key"},
+    "--no-color": {"kind":"boolean","default":false},
+    "--verbose": {"kind":"boolean","default":false},
+    "--resume": {"kind":"operation-token"},
+    "--run": {"kind":"run-id"},
+    "--purge-demo": {"kind":"boolean","default":false},
+    "--mode": {"values":["demo","trusted"]},
+    "--redacted": {"kind":"boolean","default":true},
+    "--status": {"kind":"boolean","default":false},
+    "--preview": {"kind":"boolean","default":true},
+    "--ephemeral": {"kind":"boolean","default":false},
+    "--no-pull": {"kind":"boolean","default":true}
+  },
+  "commands": [
+    {"path":["demo"],"flags":["--output","--no-color","--verbose","--resume","--ephemeral","--no-pull"],"idempotency":"resume-token","cancellation":"interrupt-resumable","side_effect":"scoped-ephemeral"},
+    {"path":["inspect"],"flags":["--output","--no-color","--verbose","--run"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["down"],"flags":["--output","--run","--purge-demo"],"idempotency":"exact-run","cancellation":"retry-safe","side_effect":"scoped-delete"},
+    {"path":["doctor"],"flags":["--output","--no-color","--verbose","--mode"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["config","render"],"flags":["--output","--redacted","--mode"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["init"],"flags":["--output","--status","--resume"],"idempotency":"resume-token","cancellation":"interrupt-resumable","side_effect":"ceremony-state"},
+    {"path":["start"],"flags":["--output","--mode","--no-pull"],"idempotency":"project-state","cancellation":"interrupt-resumable","side_effect":"service-state"},
+    {"path":["status"],"flags":["--output","--verbose"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["logs"],"flags":["--output","--verbose"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["restart"],"flags":["--output"],"idempotency":"project-state","cancellation":"interrupt-resumable","side_effect":"service-state"},
+    {"path":["support-bundle","preview"],"flags":["--output","--preview"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["images","verify"],"flags":["--output","--verbose"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["images","load"],"flags":["--output","--no-pull","--resume"],"idempotency":"artifact-digest","cancellation":"interrupt-resumable","side_effect":"image-store"},
+    {"path":["upgrade","plan"],"flags":["--output","--verbose"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"},
+    {"path":["upgrade","apply"],"flags":["--output","--idempotency-key","--resume"],"idempotency":"operation-token","cancellation":"interrupt-resumable","side_effect":"candidate-state"},
+    {"path":["rollback","check"],"flags":["--output","--verbose"],"idempotency":"read-only","cancellation":"safe","side_effect":"none"}
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "backup-ciphertext-digests-v1.schema.json",
+  "schema_version": 1,
+  "catalog_id": "native-backup-v1-independent-ciphertext-digests",
+  "source_document": "docs/adr/0001-cryptographic-protocol.md",
+  "source_section": "encrypted-backup-v1, checkpoint, and artifact receipt",
+  "library_archive_sha256": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534",
+  "linked_library_sha256": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859",
+  "oracle_source_sha256": "eb660bce20e5dba5fb097bfd666c0c93aeafb6d92d8214440ff2942472497899",
+  "checker_source_sha256": "db72f5f86d5795f2ee1feb7247ef90aea0aea76fb02be74419127f27c7a9e706",
+  "build_fingerprints": {
+    "compiler_command": "cc",
+    "compiler_version": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "compiler_version_sha256": "f6ab9d76ae8dcab3e133254944fbc77f41e0ba766287e289345c1ab77df09c45",
+    "archiver_command": "ar",
+    "archiver_version": "GNU ar (GNU Binutils for Ubuntu) 2.46",
+    "archiver_version_sha256": "43f5d0d9d22ba26ea2f3bf7843526d9397252213091aed88da1d21894008536e",
+    "minisign_verifier_binary_sha256": "5fadb663bc4f5766b543654725b39996f694e7a13bff95b131643cd3cc91f293",
+    "generator_binary_sha256": "0b633ee5ed9484d9bd6d4f6ed6a5fa2406eef4af154c68c19cb55bf999ad5c96",
+    "checker_binary_sha256": "c8196044e582d59d4aadd6eefcef29ad5c28cc69d8e1dcf54f27ff1deda05297"
+  },
+  "project_fixtures": {
+    "empty": {
+      "message_ciphertext_sha256": ["907e020389273018ee3c5e159d8790fc32961dc7a5a0f23efa908c15de07178b"],
+      "final_ciphertext_sha256": "d385b3f846779840c21da49989456235dc28344522386c701fcb6097007bf9de"
+    },
+    "one-byte": {
+      "message_ciphertext_sha256": ["0638a1464a6f46889770acb15a44970f7d0d07cc08c2409a84348b43af531354"],
+      "final_ciphertext_sha256": "f0048139f9d70571f7b1a2f821b7f2ec79b5b162e1442b45b425aa8cb1c1f6ed"
+    },
+    "exact-chunk": {
+      "message_ciphertext_sha256": ["b689d939e5559fac63c5e8cc3c9320d73c9dae19b8accd95ad4591917ebc8332"],
+      "final_ciphertext_sha256": "c02cb8e246be3c8d6b5a847b6cd04625ef04d0c1ff52adeb998cfced5463a088"
+    },
+    "multi-chunk": {
+      "message_ciphertext_sha256": [
+        "bbc2cecb0ab6271022842f4bf0d55c8848073b4db11242a54bd1c2ea3a0ae742",
+        "ae4e0e955ae731ad577002c3269861c85f8d9334d2e6cc4a92e413cdc1af8545"
+      ],
+      "final_ciphertext_sha256": "992387dd8b269ba0b4de57eb8b4196209fca290e9be2446730a5b9894b85dc3c"
+    }
+  },
+  "upstream_captured_transcript": {
+    "status": "blocked-pending-independent-pull-verified-capture",
+    "generator_source_sha256": "911a361c92996c35f73e85e2258d848b4b43a3aba7030e4f070a0f148617e1b3",
+    "linked_library_sha256": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859"
+  },
+  "canonical_catalog_sha256": "6748c1340570b8470b6c0a7b5be623fd70a5916df517fa98e8a61cb1cb45e1cc"
+}

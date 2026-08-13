@@ -1,0 +1,25 @@
+ARG NGINX_IMAGE=nginx:1.29.5-alpine
+FROM ${NGINX_IMAGE}
+COPY index.html /usr/share/nginx/html/
+COPY wasm/ /usr/share/nginx/html/wasm/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+# Configuration is rendered from environment variables at container start and
+# every variable is REQUIRED (fail fast, no defaults). VEYORA_API_BASE_URL is
+# written into /veyora-config.js so the web client targets an explicit,
+# operator-chosen API origin instead of guessing by port. The full documented
+# set lives in .env.example.
+CMD ["/bin/sh", "-c", "\
+  : \"${VEYORA_WEB_LISTEN_PORT:?VEYORA_WEB_LISTEN_PORT is required}\"; \
+  : \"${VEYORA_API_UPSTREAM_HOST:?VEYORA_API_UPSTREAM_HOST is required}\"; \
+  : \"${VEYORA_API_UPSTREAM_PORT:?VEYORA_API_UPSTREAM_PORT is required}\"; \
+  : \"${VEYORA_WEB_PROXY_TIMEOUT_SECONDS:?VEYORA_WEB_PROXY_TIMEOUT_SECONDS is required}\"; \
+  : \"${VEYORA_API_BASE_URL:?VEYORA_API_BASE_URL is required (e.g. http://localhost:8080)}\"; \
+  sed -i -e \"s/__VEYORA_WEB_LISTEN_PORT__/${VEYORA_WEB_LISTEN_PORT}/g\" \
+         -e \"s/__VEYORA_API_UPSTREAM_HOST__/${VEYORA_API_UPSTREAM_HOST}/g\" \
+         -e \"s/__VEYORA_API_UPSTREAM_PORT__/${VEYORA_API_UPSTREAM_PORT}/g\" \
+         -e \"s/__VEYORA_WEB_PROXY_TIMEOUT_SECONDS__/${VEYORA_WEB_PROXY_TIMEOUT_SECONDS}/g\" \
+         /etc/nginx/conf.d/default.conf && \
+  printf 'window.VEYORA_API_BASE_URL = \"%s\";\n' \"${VEYORA_API_BASE_URL}\" \
+      > /usr/share/nginx/html/veyora-config.js && \
+  exec nginx -g 'daemon off;'"]

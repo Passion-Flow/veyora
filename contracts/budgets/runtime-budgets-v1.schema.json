@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/budgets/runtime-budgets-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "budgets"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "budgets": {"type": "object", "additionalProperties": {"$ref": "#/$defs/budget"}}
+  },
+  "$defs": {
+    "budget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "source", "registry_id"],
+          "properties": {
+            "value": {"type": "integer"},
+            "source": {"const": "registry"},
+            "registry_id": {"type": "string", "minLength": 1}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "source", "invariant_id"],
+          "properties": {
+            "value": {"type": "integer"},
+            "source": {"const": "protocol-invariant"},
+            "invariant_id": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    }
+  }
+}

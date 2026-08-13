@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "release": "v1.0.0",
+  "protocol": {"reader": 1, "writer": 1, "suite": 1, "account_state": 1, "backup": 1},
+  "migration_classes": ["none", "expand-compatible", "restore-forward-required"],
+  "platform_artifacts": [
+    {"platform":"linux","target":"x86_64-unknown-linux-gnu","package":"deb"},
+    {"platform":"linux","target":"x86_64-unknown-linux-gnu","package":"appimage"},
+    {"platform":"macos","target":"aarch64-apple-darwin","package":"app-tar-gz"},
+    {"platform":"macos","target":"x86_64-apple-darwin","package":"app-tar-gz"},
+    {"platform":"windows","target":"x86_64-pc-windows-msvc","package":"msi"},
+    {"platform":"windows","target":"x86_64-pc-windows-msvc","package":"nsis"},
+    {"platform":"android","target":"aarch64-linux-android","package":"apk","abi":"arm64-v8a"}
+  ],
+  "unavailable_artifact_disposition": "ExcludedUnverified",
+  "candidate_ordering": "candidate-id",
+  "floating_tags": false,
+  "unknown_version": "fail-closed"
+}

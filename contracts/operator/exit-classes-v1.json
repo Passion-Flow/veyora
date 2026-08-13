@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "classes": {
+    "0": "success",
+    "2": "usage-or-configuration",
+    "3": "host-or-prerequisite-incompatibility",
+    "4": "integrity-or-policy-failure",
+    "5": "dependency-or-runtime-unavailable",
+    "6": "operation-rejected-or-conflict",
+    "7": "interrupted-resumable",
+    "8": "external-evidence-unavailable",
+    "130": "user-cancellation"
+  }
+}

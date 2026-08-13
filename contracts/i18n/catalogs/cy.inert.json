@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "locale": "cy",
+  "direction": "ltr",
+  "messages": {
+    "app.displayName": {"text": "Veyora", "parameters": {}},
+    "error.contract.invalid": {"text": "INERT UNREVIEWED SAMPLE ({status}).", "parameters": {"status": "status-code"}},
+    "vault.itemCount": {"plural": {"zero": "{count} INERT", "one": "{count} INERT", "two": "{count} INERT", "few": "{count} INERT", "many": "{count} INERT", "other": "{count} INERT"}, "parameters": {"count": "integer"}}
+  }
+}

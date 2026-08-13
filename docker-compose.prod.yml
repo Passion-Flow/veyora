@@ -1,0 +1,94 @@
+# Production-shaped pull-and-run topology using the official versioned images.
+
+name: veyora
+
+services:
+  postgres:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-postgres:${VERSION:-v1.0.0}
+    environment:
+      POSTGRES_DB: ${VEYORA_DB_NAME:-veyora}
+      POSTGRES_USER: ${VEYORA_DB_USER:-veyora}
+      POSTGRES_PASSWORD: ${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in .env}
+    volumes:
+      - veyora-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${VEYORA_DB_USER:-veyora} -d ${VEYORA_DB_NAME:-veyora}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  migrator:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-migrator:${VERSION:-v1.0.0}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${VEYORA_DB_USER:-veyora}:${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in .env}@postgres:5432/${VEYORA_DB_NAME:-veyora}
+      VEYORA_MIGRATIONS_DIR: /app/migrations
+    restart: "no"
+
+  api:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-api:${VERSION:-v1.0.0}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgres://${VEYORA_DB_USER:-veyora}:${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in .env}@postgres:5432/${VEYORA_DB_NAME:-veyora}
+      VEYORA_STORE: postgres
+      VEYORA_API_BIND: 0.0.0.0:8080
+      VEYORA_API_AUTH: ${VEYORA_API_AUTH:?Set VEYORA_API_AUTH to token for a reviewed deployment}
+      VEYORA_API_TOKEN: ${VEYORA_API_TOKEN:-}
+      VEYORA_API_MAX_BODY_BYTES: ${VEYORA_API_MAX_BODY_BYTES:-262144}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+    restart: unless-stopped
+
+  worker:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-worker:${VERSION:-v1.0.0}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgres://${VEYORA_DB_USER:-veyora}:${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in .env}@postgres:5432/${VEYORA_DB_NAME:-veyora}
+      VEYORA_WORKER_POLL_SECONDS: ${VEYORA_WORKER_POLL_SECONDS:-60}
+    restart: unless-stopped
+
+  gateway:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-gateway:${VERSION:-v1.0.0}
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      VEYORA_GATEWAY_LISTEN_PORT: 8080
+      VEYORA_API_UPSTREAM_HOST: api
+      VEYORA_API_UPSTREAM_PORT: 8080
+      VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS: ${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS:-30}
+    ports:
+      - "127.0.0.1:${VEYORA_GATEWAY_PORT:-8080}:8080"
+    restart: unless-stopped
+
+  web:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-web:${VERSION:-v1.0.0}
+    depends_on:
+      gateway:
+        condition: service_started
+    environment:
+      VEYORA_WEB_LISTEN_PORT: 80
+      VEYORA_API_UPSTREAM_HOST: gateway
+      VEYORA_API_UPSTREAM_PORT: 8080
+      VEYORA_WEB_PROXY_TIMEOUT_SECONDS: ${VEYORA_WEB_PROXY_TIMEOUT_SECONDS:-30}
+      VEYORA_API_BASE_URL: /api
+    ports:
+      - "127.0.0.1:${VEYORA_WEB_PORT:-3000}:80"
+    restart: unless-stopped
+
+volumes:
+  veyora-pg:

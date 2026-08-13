@@ -1,0 +1,29 @@
+backup-payload-v1 = [
+  header: backup-header-v1,
+  data-frames: [+ data-frame],
+  final-frame: bytes .size (18..4096)
+]
+data-frame = bytes .size 4194321
+
+; This exact five-element plaintext is encrypted as the one final
+; secretstream item. It is not itself an encrypted-vector fixture.
+backup-final-plaintext-v1 = [
+  header-sha256: bytes .size 32,
+  data-chunk-count: uint,
+  logical-size: uint,
+  padded-plaintext-bytes: uint,
+  logical-snapshot-sha256: bytes .size 32
+]
+
+; Compatibility name for the exact five-element final plaintext above.
+backup-footer-v1 = backup-final-plaintext-v1
+
+; Associated data is preimage("pm-v1/backup-frame",
+; [header-sha256, frame-index, 1, data-chunk-count]). Data frames carry
+; secretstream TAG_MESSAGE=0 and the footer carries exactly TAG_FINAL=3.
+backup-frame-associated-data-v1 = [
+  header-sha256: bytes .size 32,
+  frame-index: uint,
+  frame-kind: 1 / 2,
+  data-chunk-count: uint
+]

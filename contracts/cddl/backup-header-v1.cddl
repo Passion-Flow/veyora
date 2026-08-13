@@ -1,0 +1,36 @@
+backup-header-core-v1 = [
+  1, 1, 1,
+  deployment-id: bytes .size 16,
+  vault-id: bytes .size 16,
+  backup-id: bytes .size 16,
+  backup-key-id: bytes .size 16,
+  database-schema-version: uint,
+  release-schema-hash: bytes .size 32,
+  manifest-revision: uint,
+  manifest-envelope-hash: bytes .size 32,
+  account-state-revision: uint,
+  account-state-root: bytes .size 32,
+  checkpoint-reference: [0] / [1, bytes .size (1..4096)],
+  4194304,
+  logical-size: uint,
+  data-chunk-count: uint
+]
+
+backup-header-v1 = [
+  1, 1, 1,
+  deployment-id: bytes .size 16,
+  vault-id: bytes .size 16,
+  backup-id: bytes .size 16,
+  backup-key-id: bytes .size 16,
+  database-schema-version: uint,
+  release-schema-hash: bytes .size 32,
+  manifest-revision: uint,
+  manifest-envelope-hash: bytes .size 32,
+  account-state-revision: uint,
+  account-state-root: bytes .size 32,
+  checkpoint-reference: [0] / [1, bytes .size (1..4096)],
+  4194304,
+  logical-size: uint,
+  data-chunk-count: uint,
+  stream-header: bytes .size 24
+]

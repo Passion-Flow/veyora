@@ -1,0 +1,3 @@
+# Generated bindings and local kernel build output owned by security-kernel.
+/target/
+/generated/

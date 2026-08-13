@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/operator/result-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "command", "status", "code", "message_id", "summary", "resume_available", "next_actions", "docs_ref"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "command": {"type": "string", "minLength": 1},
+    "status": {"enum": ["success", "blocked", "failed", "interrupted"]},
+    "code": {"type": "string", "pattern": "^PM-[A-Z0-9-]+$"},
+    "message_id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]+$"},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 240},
+    "operation_id": {"type": "string", "pattern": "^[a-z0-9_-]{8,128}$"},
+    "resume_available": {"type": "boolean"},
+    "next_actions": {"type": "array", "maxItems": 4, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "docs_ref": {"type": "string", "pattern": "^docs/"}
+  }
+}

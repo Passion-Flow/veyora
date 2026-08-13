@@ -1,0 +1,21 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://veyora.invalid/contracts/vault/generic-record-v1.schema.json",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["protocol_version","suite_id","deployment_id","vault_id","record_id","revision","ciphertext","ciphertext_hash","ciphertext_length","tombstone","template_envelope_hash","manifest_binding"],
+  "properties":{
+    "protocol_version":{"const":1},
+    "suite_id":{"const":1},
+    "deployment_id":{"type":"string","pattern":"^[0-9a-f]{32}$"},
+    "vault_id":{"type":"string","pattern":"^[0-9a-f]{32}$"},
+    "record_id":{"type":"string","pattern":"^[0-9a-f]{32}$"},
+    "revision":{"type":"integer","minimum":1},
+    "ciphertext":{"type":"string","minLength":1},
+    "ciphertext_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "ciphertext_length":{"type":"integer","minimum":17},
+    "tombstone":{"type":"boolean"},
+    "template_envelope_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "manifest_binding":{"type":"string","pattern":"^[0-9a-f]{64}$"}
+  }
+}

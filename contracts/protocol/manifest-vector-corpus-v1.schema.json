@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/manifest-vector-corpus-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "corpus_id", "provenance_contract", "canonical_hash_rule", "fixtures"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "corpus_id": {"const": "manifest-v1"},
+    "provenance_contract": {"const": "contracts/protocol/vector-provenance-v1.json"},
+    "canonical_hash_rule": {"const": "veyora-vector-json-v1"},
+    "fixtures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["empty", "one-leaf", "two-leaf", "odd-promotion", "chunk-boundary", "tombstone-live-order", "10000-live", "50000-relations"],
+      "properties": {
+        "empty": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "empty"}}},
+        "one-leaf": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "one-leaf"}}},
+        "two-leaf": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "two-leaf"}}},
+        "odd-promotion": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "odd-promotion"}}},
+        "chunk-boundary": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "chunk-boundary"}}},
+        "tombstone-live-order": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "tombstone-live-order"}}},
+        "10000-live": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "10000-live"}}},
+        "50000-relations": {"$ref": "#/$defs/fixture", "properties": {"shape": {"const": "50000-relations"}}}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^(?!0{64}$)[0-9a-f]{64}$"},
+    "hex": {"type": "string", "pattern": "^(?:[0-9a-f]{2})+$"},
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "source_kind", "source_ref", "source_sha256"],
+      "properties": {
+        "owner": {"const": "independent-reference-oracle"},
+        "source_kind": {"const": "committed-file"},
+        "source_ref": {"const": "security-kernel/oracles/manifest-v1.py"},
+        "source_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "review": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["disposition"],
+          "properties": {"disposition": {"const": "ai-non-human-reviewed"}}
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["disposition", "review_record_path", "review_record_sha256"],
+          "properties": {
+            "disposition": {"const": "qualified-human-reviewed"},
+            "review_record_path": {"type": "string", "pattern": "^docs/security/reviews/manifest-v1/[a-z0-9][a-z0-9-]*\\.review-v1\\.json$"},
+            "review_record_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shape", "source_document", "source_section", "provenance_id", "generator", "inputs", "expected_cbor_hex", "intermediate_hashes", "expected_root_hex", "fixture_sha256", "review"],
+      "properties": {
+        "shape": {"enum": ["empty", "one-leaf", "two-leaf", "odd-promotion", "chunk-boundary", "tombstone-live-order", "10000-live", "50000-relations"]},
+        "source_document": {"const": "docs/adr/0002-synchronization-manifest.md"},
+        "source_section": {"const": "Manifest and tree layout"},
+        "provenance_id": {"const": "manifest-v1"},
+        "generator": {"$ref": "#/$defs/generator"},
+        "inputs": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hex"}},
+        "expected_cbor_hex": {"$ref": "#/$defs/hex"},
+        "intermediate_hashes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "expected_root_hex": {"$ref": "#/$defs/sha256"},
+        "fixture_sha256": {"$ref": "#/$defs/sha256"},
+        "review": {"$ref": "#/$defs/review"}
+      }
+    }
+  }
+}
