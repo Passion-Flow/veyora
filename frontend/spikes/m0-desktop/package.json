@@ -1,0 +1,9 @@
+{
+  "name": "@veyora/m0-desktop-capability-spike",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --experimental-strip-types --check src/i18n-capabilities.ts && node --experimental-strip-types --check src/platform-capabilities.ts"
+  }
+}

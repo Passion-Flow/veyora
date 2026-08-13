@@ -1,0 +1,10 @@
+title = "Veyora public-source secret scanning"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Published deterministic cryptographic known-answer vectors"
+paths = [
+  '''^security-kernel/vectors/.*\.json$''',
+]

@@ -1,0 +1,7 @@
+{
+  "schema_version":1,
+  "client_only":["search","password-health","dashboard-counts","recent-activity","categories","tags","favorites","relationships","template-semantics","import","export"],
+  "required_state":"unlocked-verified-snapshot",
+  "server_fields":"opaque-identifiers-revisions-ciphertext-hashes-lengths-tombstones-manifest-bindings-only",
+  "server_semantic_discriminators":false
+}

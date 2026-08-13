@@ -1,0 +1,12 @@
+{
+  "$schema": "output-v1.schema.json",
+  "schema_version": 1,
+  "result_stream": "stdout",
+  "diagnostics_stream": "stderr",
+  "progress_stream": "stderr",
+  "progress_event_fields": ["schema_version","command","operation_id","phase","completed_units","total_units","message_id"],
+  "json_documents_per_command": 1,
+  "canonical_json": true,
+  "non_tty_color": false,
+  "forbidden_fields": ["secret", "master_password", "credential", "ciphertext", "authorization_header", "cookie", "dsn", "stable_vault_id", "raw_log"]
+}

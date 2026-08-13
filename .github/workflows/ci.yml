@@ -1,0 +1,181 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository:
+    name: Repository integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate repository structure and documentation
+        run: python3 scripts/check-repository.py
+      - name: Validate the static web client
+        run: node scripts/check-web.mjs
+      - name: Lint shell scripts
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" -w /repo koalaman/shellcheck:v0.11.0 \
+            scripts/build-and-push.sh \
+            scripts/smoke-test.sh \
+            security-kernel/scripts/build-ffi.sh \
+            security-kernel/scripts/build-wasm.sh
+      - name: Lint container definitions
+        run: |
+          for dockerfile in \
+            backend/Dockerfile.api \
+            backend/Dockerfile.backup \
+            backend/Dockerfile.migrator \
+            backend/Dockerfile.restore \
+            backend/Dockerfile.sandbox \
+            backend/Dockerfile.worker \
+            deployment/Dockerfile.gateway.build \
+            deployment/web/Dockerfile; do
+            docker run --rm -i hadolint/hadolint:v2.15.1-alpine < "$dockerfile"
+          done
+      - name: Scan the public tree for secrets
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" -w /repo zricethezav/gitleaks:v8.28.0 \
+            dir --config .gitleaks.toml --no-banner --redact .
+      - name: Lint the GitHub Actions workflow
+        run: docker run --rm -v "$PWD:/repo:ro" -w /repo rhysd/actionlint:1.7.12 .github/workflows/ci.yml
+
+  kernel:
+    name: Security kernel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+        working-directory: security-kernel
+      - run: cargo clippy --locked --workspace --all-targets -- -D warnings
+        working-directory: security-kernel
+      - run: cargo test --locked --workspace --all-targets
+        env:
+          RUSTFLAGS: -D warnings
+        working-directory: security-kernel
+
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+          components: rustfmt, clippy
+      - run: cargo fmt --all -- --check
+        working-directory: backend
+      - run: cargo clippy --locked --workspace --all-targets -- -D warnings
+        working-directory: backend
+      - run: cargo test --locked --workspace --all-targets
+        env:
+          RUSTFLAGS: -D warnings
+        working-directory: backend
+
+  wasm:
+    name: WebAssembly build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+          targets: wasm32-unknown-unknown
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build the WASM module without warnings
+        env:
+          RUSTFLAGS: -D warnings
+        run: cargo build --locked --target wasm32-unknown-unknown --lib -p kernel-wasm --release
+        working-directory: security-kernel
+      - name: Install the matching binding generator
+        run: cargo install wasm-bindgen-cli --version 0.2.127 --locked
+      - name: Generate and execute Node.js bindings
+        run: |
+          wasm-bindgen --target nodejs --out-dir /tmp/veyora-wasm --out-name veyora_kernel \
+            security-kernel/target/wasm32-unknown-unknown/release/kernel_wasm.wasm
+          VEYORA_WASM_OUT=/tmp/veyora-wasm node security-kernel/tests/wasm_runtime_test.js
+      - name: Validate the checked-in web client
+        run: node scripts/check-web.mjs
+
+  compose:
+    name: Compose integration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate local topology
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+        run: docker compose config --quiet
+      - name: Validate production-shaped topology
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_API_AUTH: token
+          VEYORA_API_TOKEN: inert-ci-token
+          REGISTRY: ghcr.io
+          NAMESPACE: passion-flow
+        run: docker compose -f docker-compose.prod.yml config --quiet
+      - name: Build and start the local stack
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_WORKER_POLL_SECONDS: "1"
+        run: docker compose up --build --wait --wait-timeout 180
+      - name: Exercise the API and web gateway
+        run: |
+          ./scripts/smoke-test.sh http://127.0.0.1:8080
+          curl --fail --silent http://127.0.0.1:3000/ >/dev/null
+          test "$(curl --silent --output /dev/null --write-out '%{content_type}' http://127.0.0.1:3000/wasm/veyora_kernel_bg.wasm)" = "application/wasm"
+          curl --fail --silent http://127.0.0.1:3000/api/healthz >/dev/null
+      - name: Exercise the browser, API, and WebAssembly together
+        env:
+          VEYORA_WEB_URL: http://127.0.0.1:3000
+        run: |
+          mkdir -p /tmp/veyora-browser-test
+          cp scripts/test-browser.mjs /tmp/veyora-browser-test/test-browser.mjs
+          cd /tmp/veyora-browser-test
+          npm init --yes >/dev/null
+          npm install --no-audit --no-fund --silent playwright@1.62.0
+          npx playwright install --with-deps chromium
+          node test-browser.mjs
+      - name: Reject warnings, errors, and secret exposure in service logs
+        run: |
+          docker compose logs --no-color > /tmp/veyora-compose.log
+          if grep -Eiq '(^|[^[:alnum:]_])(warn(ing)?|error|panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log; then
+            echo 'Unexpected warning or error found in service logs.' >&2
+            grep -Ein '(^|[^[:alnum:]_])(warn(ing)?|error|panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log >&2
+            exit 1
+          fi
+          if grep -Fq 'inert-ci-password' /tmp/veyora-compose.log; then
+            echo 'The database password appeared in service logs.' >&2
+            exit 1
+          fi
+      - name: Show service logs after a failure
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Stop the test stack
+        if: always()
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+        run: docker compose down --volumes --remove-orphans

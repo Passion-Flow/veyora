@@ -1,0 +1,1339 @@
+{
+  "_generated": {
+    "banner": "GENERATED: read-only owner projection; edit contracts/registry/settings.json",
+    "catalog_version": 1,
+    "owner": "backend",
+    "projection_integrity": "sha256:9bd99844f0cb5ef04b8f6d3b550b7d96c487c8fa83db6878f18aebc75d4de7d9",
+    "read_only": true,
+    "source": "contracts/registry/settings.json",
+    "source_integrity": "sha256:9de9f3507d3b2dff770ef3889124d51731bc436fbb1b2a05e70a364423c1612f"
+  },
+  "settings": [
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 16,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 32,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum active server sessions for the single owner before a new session is rejected or an old session is explicitly revoked.",
+      "id": "backend.auth.max-concurrent-sessions",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded count contains no client-controlled meaning.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "new-session",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 5,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Reference to a mounted file containing exactly one raw 32-byte Ed25519 application-server seed, with no text encoding or trailing bytes; clients pin its public-key hash during bootstrap.",
+      "id": "backend.auth.server-identity-key",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Neither private key bytes nor the full reference path are observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "backend",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Reference to the mounted PostgreSQL API-role password file; the catalog never contains the credential value.",
+      "id": "backend.database.api-password",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Neither the credential nor its full reference path is observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "backend",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted PostgreSQL Backup-role password file reference.",
+      "id": "backend.database.backup-password",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Credential bytes and the full reference path are never observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "backend",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 256,
+          "pattern": "^/run/config/"
+        },
+        "safety": {
+          "maximum_length": 512,
+          "pattern": "^/run/config/"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted CA bundle path used to verify the managed PostgreSQL server certificate and hostname.",
+      "id": "backend.database.ca-file",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "The basename may be reported, but absolute host layout is not emitted.",
+        "support_bundles": "redacted"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "path"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 15,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 30,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Per-host PostgreSQL connection timeout; total failover time also depends on the validated host count.",
+      "id": "backend.database.connect-timeout-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded duration is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 5,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 8,
+          "minimum_items": 1
+        },
+        "safety": {
+          "maximum_items": 16,
+          "minimum_items": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Ordered managed-PostgreSQL DNS hostnames used for provider-neutral failover.",
+      "id": "backend.database.hosts",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "Host counts may be reported; hostnames are operator infrastructure metadata.",
+        "support_bundles": "redacted"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted PostgreSQL Migrator-role password file reference.",
+      "id": "backend.database.migrator-password",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Credential bytes and the full reference path are never observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "backend",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 63,
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "safety": {
+          "maximum_length": 63,
+          "pattern": "^[a-z][a-z0-9_]*$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "PostgreSQL database name selected by the operator.",
+      "id": "backend.database.name",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "The name is infrastructure metadata and is emitted only in redacted connection diagnostics.",
+        "support_bundles": "redacted"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 50,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 100,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum API-role PostgreSQL connections.",
+      "id": "backend.database.pool-api",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded pool size is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 10,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 25,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 50,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum Worker-role PostgreSQL connections.",
+      "id": "backend.database.pool-worker",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded pool size is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 5,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 65535,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 65535,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Managed PostgreSQL TCP port.",
+      "id": "backend.database.port",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A TCP port is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 5432,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 120,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 300,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Default database statement timeout for bounded application work.",
+      "id": "backend.database.query-timeout-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded duration is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 30,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted PostgreSQL Restore-role password file reference for a fresh provisional destination only.",
+      "id": "backend.database.restore-password",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Credential bytes and the full reference path are never observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "backend",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 63,
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "safety": {
+          "maximum_length": 63,
+          "pattern": "^[a-z][a-z0-9_]*$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Initialized Veyora PostgreSQL schema identifier; changes require an explicit migration.",
+      "id": "backend.database.schema",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A validated schema identifier is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "veyora_v1",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "verify-full"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "verify-full"
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "PostgreSQL certificate and hostname verification mode; v1 permits only verify-full.",
+      "id": "backend.database.tls-mode",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The verification mode is security posture, not a secret.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "verify-full",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted PostgreSQL Worker-role password file reference.",
+      "id": "backend.database.worker-password",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Credential bytes and the full reference path are never observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "backend",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 604800,
+          "minimum": 3600
+        },
+        "safety": {
+          "maximum": 2592000,
+          "minimum": 3600
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Retention window for exact mutation results before a durable replay barrier remains.",
+      "id": "backend.idempotency.retention-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A retention duration contains no client meaning.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 86400,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "json"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "json"
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Backend structured log encoding.",
+      "id": "backend.log.format",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The log encoding name is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "json",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "error",
+            "warn",
+            "info",
+            "debug"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "error",
+            "warn",
+            "info",
+            "debug"
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Backend log level; changing level never enables secret or body logging.",
+      "id": "backend.log.level",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The selected level is nonsensitive; payload policy remains fixed.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "info",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 100000,
+          "minimum": 100
+        },
+        "safety": {
+          "maximum": 100000,
+          "minimum": 100
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Queue depth that activates the configured operator alert.",
+      "id": "backend.queue.backlog-alert-count",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A queue threshold is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "immediate",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 10000,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 64,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 64,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Default number of jobs claimed per Worker lease.",
+      "id": "backend.queue.claim-default-count",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded job count is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 4,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 64,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 64,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Hard maximum number of jobs claimed per Worker lease.",
+      "id": "backend.queue.claim-max-count",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded job count is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 64,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 300,
+          "minimum": 5
+        },
+        "safety": {
+          "maximum": 300,
+          "minimum": 5
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Worker job lease duration before safe reclamation.",
+      "id": "backend.queue.lease-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded duration is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 60,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 10,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 10,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum Worker job attempts before dead-letter disposition.",
+      "id": "backend.queue.max-attempts",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded retry count is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 5,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 100000,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 100000,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Operational live-record quota below the protocol safety ceiling.",
+      "id": "backend.quota.live-records",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured quota contains no record identifiers or meaning.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 10000,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1000000,
+          "minimum": 0
+        },
+        "safety": {
+          "maximum": 1000000,
+          "minimum": 0
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Operational relationship-count quota below the encrypted-domain safety ceiling.",
+      "id": "backend.quota.relationships",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured quota does not reveal relationship edges.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 50000,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 604800,
+          "minimum": 3600
+        },
+        "safety": {
+          "maximum": 604800,
+          "minimum": 3600
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Absolute server session lifetime.",
+      "id": "backend.session.absolute-ttl-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured duration is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "new-session",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 86400,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 3600,
+          "minimum": 60
+        },
+        "safety": {
+          "maximum": 3600,
+          "minimum": 60
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Idle server session lifetime.",
+      "id": "backend.session.idle-ttl-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured duration is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "new-session",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 900,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 900,
+          "minimum": 30
+        },
+        "safety": {
+          "maximum": 1800,
+          "minimum": 30
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Database-clock lifetime of an immutable synchronization snapshot lease.",
+      "id": "backend.snapshot.lease-ttl-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured duration is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 300,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 4194304,
+          "minimum": 65536
+        },
+        "safety": {
+          "maximum": 4194304,
+          "minimum": 65536
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum authenticated encrypted snapshot page size.",
+      "id": "backend.snapshot.page-max-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A page-size bound is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 4194304,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 2000,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 2000,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum records in a synchronization page.",
+      "id": "backend.sync.page-size",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured page size is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 500,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 16777216,
+          "minimum": 1024
+        },
+        "safety": {
+          "maximum": 16777216,
+          "minimum": 1024
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Operational encrypted-record request limit below the protocol ceiling.",
+      "id": "backend.sync.record-size-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured byte ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 1048576,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 90,
+          "minimum": 7
+        },
+        "safety": {
+          "maximum": 365,
+          "minimum": 7
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Minimum time tombstones remain available, also constrained by verified backup policy.",
+      "id": "backend.tombstone.retention-days",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A retention period contains no record meaning.",
+        "support_bundles": "allowed"
+      },
+      "owner": "backend",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 30,
+        "mode": "default"
+      }
+    }
+  ]
+}

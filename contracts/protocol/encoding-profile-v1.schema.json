@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/encoding-profile-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "binary", "json", "secret_text", "identifiers"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "binary": {"type": "object"},
+    "json": {"type": "object"},
+    "secret_text": {"type": "object"},
+    "identifiers": {"type": "object"}
+  }
+}

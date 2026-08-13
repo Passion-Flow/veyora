@@ -1,0 +1,18 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://veyora.invalid/contracts/branding/release-identity-v1.schema.json",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","brand_name","pronunciation","statement_en_us","release_version","component_version","wordmark","logo_status","trademark_registration_status"],
+  "properties":{
+    "schema_version":{"const":1},
+    "brand_name":{"const":"Veyora"},
+    "pronunciation":{"const":"vee-OR-uh"},
+    "statement_en_us":{"const":"Veyora — Your private digital space."},
+    "release_version":{"const":"v1.0.0"},
+    "component_version":{"const":"1.0.0"},
+    "wordmark":{"const":"text-only"},
+    "logo_status":{"const":"none-approved"},
+    "trademark_registration_status":{"const":"not-claimed"}
+  }
+}

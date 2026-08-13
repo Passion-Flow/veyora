@@ -1,0 +1,33 @@
+[package]
+name = "veyora-backend"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[workspace]
+resolver = "3"
+members = [
+    "crates/config",
+    "crates/contracts-generated",
+    "crates/persistence",
+    "crates/postgres",
+    "services/api",
+    "services/worker",
+    "services/sandbox",
+    "services/migrator",
+    "services/backup",
+    "services/restore",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.93.1"
+license = "PolyForm-Noncommercial-1.0.0"
+publish = false
+
+[dependencies]
+backend-config = { path = "crates/config" }
+veyora-contracts-generated = { path = "crates/contracts-generated" }

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/backup/backup-ciphertext-digests-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "catalog_id", "source_document", "source_section",
+    "library_archive_sha256", "linked_library_sha256", "oracle_source_sha256",
+    "checker_source_sha256", "build_fingerprints", "project_fixtures",
+    "upstream_captured_transcript", "canonical_catalog_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "catalog_id": {"const": "native-backup-v1-independent-ciphertext-digests"},
+    "source_document": {"const": "docs/adr/0001-cryptographic-protocol.md"},
+    "source_section": {"const": "encrypted-backup-v1, checkpoint, and artifact receipt"},
+    "library_archive_sha256": {"const": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534"},
+    "linked_library_sha256": {"const": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859"},
+    "oracle_source_sha256": {"$ref": "#/$defs/sha256"},
+    "checker_source_sha256": {"$ref": "#/$defs/sha256"},
+    "build_fingerprints": {"$ref": "#/$defs/buildFingerprints"},
+    "project_fixtures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["empty", "one-byte", "exact-chunk", "multi-chunk"],
+      "properties": {
+        "empty": {"$ref": "#/$defs/oneMessageFixture"},
+        "one-byte": {"$ref": "#/$defs/oneMessageFixture"},
+        "exact-chunk": {"$ref": "#/$defs/oneMessageFixture"},
+        "multi-chunk": {"$ref": "#/$defs/twoMessageFixture"}
+      }
+    },
+    "upstream_captured_transcript": {
+      "oneOf": [
+        {"$ref": "#/$defs/blockedUpstreamTranscript"},
+        {"$ref": "#/$defs/capturedUpstreamTranscript"}
+      ]
+    },
+    "canonical_catalog_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^(?!0{64}$)[0-9a-f]{64}$"},
+    "oneMessageFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["message_ciphertext_sha256", "final_ciphertext_sha256"],
+      "properties": {
+        "message_ciphertext_sha256": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/sha256"}},
+        "final_ciphertext_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "twoMessageFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["message_ciphertext_sha256", "final_ciphertext_sha256"],
+      "properties": {
+        "message_ciphertext_sha256": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/sha256"}},
+        "final_ciphertext_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "buildFingerprints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compiler_command", "compiler_version", "compiler_version_sha256",
+        "archiver_command", "archiver_version", "archiver_version_sha256",
+        "minisign_verifier_binary_sha256", "generator_binary_sha256",
+        "checker_binary_sha256"
+      ],
+      "properties": {
+        "compiler_command": {"type": "string", "minLength": 1},
+        "compiler_version": {"type": "string", "minLength": 1},
+        "compiler_version_sha256": {"$ref": "#/$defs/sha256"},
+        "archiver_command": {"type": "string", "minLength": 1},
+        "archiver_version": {"type": "string", "minLength": 1},
+        "archiver_version_sha256": {"$ref": "#/$defs/sha256"},
+        "minisign_verifier_binary_sha256": {"$ref": "#/$defs/sha256"},
+        "generator_binary_sha256": {"$ref": "#/$defs/sha256"},
+        "checker_binary_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "blockedUpstreamTranscript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "generator_source_sha256", "linked_library_sha256"],
+      "properties": {
+        "status": {"const": "blocked-pending-independent-pull-verified-capture"},
+        "generator_source_sha256": {"const": "911a361c92996c35f73e85e2258d848b4b43a3aba7030e4f070a0f148617e1b3"},
+        "linked_library_sha256": {"const": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859"}
+      }
+    },
+    "capturedUpstreamTranscript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "generator_source_sha256", "linked_library_sha256",
+        "transcript_sha256", "pull_checker_source_sha256",
+        "pull_verification"
+      ],
+      "properties": {
+        "status": {"const": "captured-independent-pull-verified"},
+        "generator_source_sha256": {"const": "911a361c92996c35f73e85e2258d848b4b43a3aba7030e4f070a0f148617e1b3"},
+        "linked_library_sha256": {"const": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859"},
+        "transcript_sha256": {"$ref": "#/$defs/sha256"},
+        "pull_checker_source_sha256": {"$ref": "#/$defs/sha256"},
+        "pull_verification": {"const": "independent-secretstream-pull-pass"}
+      }
+    }
+  }
+}

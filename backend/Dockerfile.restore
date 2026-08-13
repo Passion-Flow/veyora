@@ -1,0 +1,14 @@
+FROM rust:1.93.1-slim AS builder
+ENV RUSTFLAGS="-D warnings"
+WORKDIR /veyora
+COPY security-kernel/ ./security-kernel/
+COPY backend/ ./backend/
+COPY contracts/ ./contracts/
+RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,target=/veyora/backend/target,sharing=locked \
+    cargo build --release --manifest-path backend/Cargo.toml -p restore && \
+    cp backend/target/release/restore /veyora-restore
+
+FROM debian:bookworm-slim
+COPY --from=builder /veyora-restore /usr/local/bin/veyora-restore
+ENTRYPOINT ["veyora-restore"]

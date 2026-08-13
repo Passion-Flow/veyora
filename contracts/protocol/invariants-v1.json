@@ -1,0 +1,228 @@
+{
+  "$schema": "invariants-v1.schema.json",
+  "schema_version": 1,
+  "protocol_version": 1,
+  "suite_id": 1,
+  "account_state_version": 1,
+  "backup_format_version": 1,
+  "release_version": "v1.0.0",
+  "normative_documents": [
+    {
+      "path": "docs/adr/0001-cryptographic-protocol.md",
+      "sha256": "11fa01c47c31774ce6c7940238e6d8975b9913a7c03e3c2040442b954671e096",
+      "assignments": {
+        "protocol_version": 1,
+        "suite_id": 1,
+        "account_state_version": 1,
+        "backup_format_version": 1
+      },
+      "required_domains": {
+        "pm-v1/account-state": 2,
+        "pm-v1/account-state-core": 3,
+        "pm-v1/auth-credential-id": 1,
+        "pm-v1/auth/enrollment": 1,
+        "pm-v1/auth/enrollment/native-proof": 1,
+        "pm-v1/auth/login": 1,
+        "pm-v1/auth/login/native-proof": 1,
+        "pm-v1/auth/recovery": 1,
+        "pm-v1/auth/recovery/native-proof": 1,
+        "pm-v1/auth/rp-migration": 1,
+        "pm-v1/auth/rp-migration/native-proof": 1,
+        "pm-v1/auth/step-up": 1,
+        "pm-v1/auth/step-up/native-proof": 1,
+        "pm-v1/auth/webauthn-create": 1,
+        "pm-v1/authorization-payload": 1,
+        "pm-v1/authorization-request": 1,
+        "pm-v1/backup-artifact-receipt": 1,
+        "pm-v1/backup-dependencies": 1,
+        "pm-v1/backup-frame": 1,
+        "pm-v1/bootstrap-authorization": 1,
+        "pm-v1/bootstrap-key": 1,
+        "pm-v1/bootstrap-receipt": 1,
+        "pm-v1/device-creation-result": 1,
+        "pm-v1/device-enrollment": 1,
+        "pm-v1/device-entry-core": 1,
+        "pm-v1/device-key-possession": 1,
+        "pm-v1/device-wrap-set": 2,
+        "pm-v1/dual-authorization": 1,
+        "pm-v1/epoch-key": 1,
+        "pm-v1/export": 1,
+        "pm-v1/export-chunk": 1,
+        "pm-v1/export-chunk/aad": 1,
+        "pm-v1/hpke-key-envelope": 1,
+        "pm-v1/hpke-key-envelope/aad": 1,
+        "pm-v1/hpke-recipient": 1,
+        "pm-v1/manifest-signing-seed": 1,
+        "pm-v1/operation-authorization": 1,
+        "pm-v1/password-change": 1,
+        "pm-v1/record-aead": 1,
+        "pm-v1/record-body": 1,
+        "pm-v1/record-envelope": 1,
+        "pm-v1/record-key": 1,
+        "pm-v1/recovery-auth-seed": 1,
+        "pm-v1/recovery-checksum": 1,
+        "pm-v1/recovery-confirmation": 1,
+        "pm-v1/recovery-kit": 3,
+        "pm-v1/recovery-kit-core": 3,
+        "pm-v1/recovery-wrap": 3,
+        "pm-v1/recovery-wrap-key": 1,
+        "pm-v1/root-commitment": 2,
+        "pm-v1/root-rotation/clean-anchor-generated-root": 1,
+        "pm-v1/root-rotation/commit": 1,
+        "pm-v1/root-rotation/commit-core": 1,
+        "pm-v1/root-rotation/device-possession": 1,
+        "pm-v1/root-rotation/finalize": 1,
+        "pm-v1/root-rotation/new-commit": 1,
+        "pm-v1/root-rotation/possession-set": 1,
+        "pm-v1/root-rotation/prepare": 1,
+        "pm-v1/security-migration/commit": 1,
+        "pm-v1/security-migration/new-key-proof": 1,
+        "pm-v1/security-migration/prepare": 1,
+        "pm-v1/session-policy": 1,
+        "pm-v1/session-policy-result": 1,
+        "pm-v1/test-operation-authorization": 1,
+        "pm-v1/trusted-checkpoint": 2,
+        "pm-v1/unlock-wrap": 3,
+        "pm-v1/unlock-wrap-key": 1,
+        "pm-v1/web-composite-authorization": 1,
+        "pm-v1/web-operation-fixed": 1,
+        "pm-v1/web-state-template": 1,
+        "pm-v1/webauthn-creation-intent": 1
+      },
+      "required_domain_patterns": {},
+      "required_algorithms": {
+        "Argon2id v=0x13": 1,
+        "HKDF-SHA-256": 1,
+        "XChaCha20-Poly1305": 6,
+        "Ed25519": 26,
+        "RFC 9180 HPKE Base mode": 2,
+        "DHKEM(X25519, HKDF-SHA256)": 1,
+        "crypto_secretstream_xchacha20poly1305": 1,
+        "HMAC-SHA-256": 2,
+        "deterministic_cbor": 8,
+        "RFC 4648 Base32": 1,
+        "WebAuthn ES256": 2,
+        "P-256": 6,
+        "RFC 9807 OPAQUE": 1,
+        "SHA-256": 85
+      },
+      "fenced_structures": [
+        {"section":"Canonical CBOR and signed-envelope grammar","ordinal":1,"language":"text","sha256":"ee8fcea03fc082b806175834748e95da2d99d879ec8be7076b8440ac278c1149"},
+        {"section":"Canonical CBOR and signed-envelope grammar","ordinal":2,"language":"text","sha256":"22b42f6f098d5e98cdf9de9c9221d5f27fbb472777b265c88439e3421c8e2715"},
+        {"section":"Closed registries and authorization masks","ordinal":1,"language":"text","sha256":"ca1ea0caac6dd029183f49fff6beba99a8dd8ba46aa6fb3a8cd162ba12b70058"},
+        {"section":"Closed registries and authorization masks","ordinal":2,"language":"text","sha256":"254a3c6f0d2e1eb6f87ba137fc420d4367121b9a854dbc76f52ac7251a91c7d3"},
+        {"section":"WebAuthn result-template and composite operations","ordinal":1,"language":"text","sha256":"d2c03c0d43c8131eec008fa525881d4f129dc4f0c7ac5b71679b8995fea07d9b"},
+        {"section":"WebAuthn result-template and composite operations","ordinal":2,"language":"text","sha256":"d158c339ede883933a36b1b3f2f8bef7cbe3391a63ed1a37110dce57af0cf5aa"},
+        {"section":"WebAuthn result-template and composite operations","ordinal":3,"language":"text","sha256":"7075b33398f1caed836a14ac3c41f9cd213b5c28b6c53d2878d2277bceeb5bbb"},
+        {"section":"WebAuthn result-template and composite operations","ordinal":4,"language":"text","sha256":"0f7d9356c44514a333c892a2272a9ceed7038973f7daf4730cf4ce7f46c50d0f"},
+        {"section":"WebAuthn result-template and composite operations","ordinal":5,"language":"text","sha256":"3d96098155fc290ee768144be413573c7835671baf43af8e3abd5a0628730fd7"},
+        {"section":"Recipient descriptor and HPKE key envelope","ordinal":1,"language":"text","sha256":"0c796cd34ec3841ff983235615e720314f0fd842cb2cc4e4e8246649fa77f843"},
+        {"section":"Signed account-authorization state","ordinal":1,"language":"text","sha256":"0e6db5a23d550fe2837695973a59e6fe153116e73b1635d22c4733362dac0e1b"},
+        {"section":"Signed account-authorization state","ordinal":2,"language":"text","sha256":"1aa450b11cde3cf2faa41a917954dfa1f82e7028d95c5eb83e103cf361f630cd"},
+        {"section":"Byte-exact core objects and mutations","ordinal":1,"language":"text","sha256":"00420af7f60dff02978cdd6e86ce708edbdacdcc3ad327c41176d6930addf778"},
+        {"section":"Byte-exact core objects and mutations","ordinal":2,"language":"text","sha256":"86c56459d770a859b4146a6d129d9fd9e67b4502c192afb1dc13237b887438dc"},
+        {"section":"Complete later-WebAuthn-enrollment known-answer vector","ordinal":1,"language":"json","sha256":"60ab891d2f30254305c03722de70fa70f1a36b86591f04e1837d497ac5e5c381"},
+        {"section":"Typed authentication context and initial bootstrap","ordinal":1,"language":"text","sha256":"74a38a155c7cdb2a0b05c21b461200632e692978c2eebef4d588518db9acaf04"},
+        {"section":"Typed authentication context and initial bootstrap","ordinal":2,"language":"text","sha256":"29611d6efc1c5b83f5ea574218da01d19c62625b868009de893785fcc56f2cf7"},
+        {"section":"Complete acyclic bootstrap known-answer vectors","ordinal":1,"language":"text","sha256":"e9af881a823c9f2e47b0665fb29ed89bb7b894c4d4c51a8e773f8eeb54953191"},
+        {"section":"Complete acyclic bootstrap known-answer vectors","ordinal":2,"language":"text","sha256":"a56a0db9a8f8e13c261096d5835d40449ccc53780045500e6bce25d679ca3ac6"},
+        {"section":"Complete acyclic bootstrap known-answer vectors","ordinal":3,"language":"text","sha256":"98dc9ba03ef42e9cf5ac091e6ab40029bd18532d0a7ab92320b9ea7f37284745"},
+        {"section":"Fresh-root rotation and compromise transcript","ordinal":1,"language":"text","sha256":"ddb9ee73317cb7d378ad42ca8e39e00922cd3beabbe013bd467c37aff3d648d9"},
+        {"section":"Fresh-root rotation and compromise transcript","ordinal":2,"language":"text","sha256":"444e2912f0dea304a52335e9cac372a0fd2025e474a3bfdd25501bd70f94ccff"},
+        {"section":"Fresh-root rotation and compromise transcript","ordinal":3,"language":"text","sha256":"d884055ae8728a7fd064eb8a807b77b98426ff72923e0131f5f520765571d726"},
+        {"section":"Fresh-root rotation and compromise transcript","ordinal":4,"language":"text","sha256":"f7f8a84fa7ec14eb6f9d27188f5056382746bcf9a1feac24ada05fb562013b0f"},
+        {"section":"Topological root-rotation known-answer vector","ordinal":1,"language":"text","sha256":"f2bf0526f1988d3245a2befaf2c1a1438b26bd1d971d093bd3813e2bdf1f0c4e"},
+        {"section":"`encrypted-backup-v1`, checkpoint, and artifact receipt","ordinal":1,"language":"text","sha256":"eb28f4d87283e1f5507fc26bf1b08c39ccf2ae1b8b125c7854b6069445c39b99"},
+        {"section":"`encrypted-backup-v1`, checkpoint, and artifact receipt","ordinal":2,"language":"text","sha256":"ccd88da95c48603994208fecb4fadd4ee9774aa07c64480e8910eafd3d1cc4ee"},
+        {"section":"Signed-envelope known-answer vector","ordinal":1,"language":"text","sha256":"1dbea36db737b2671d864665d0cd5001bcf61e34140fb6039549031b976f425f"}
+      ]
+    },
+    {
+      "path": "docs/adr/0002-synchronization-manifest.md",
+      "sha256": "89406b4557b7405ea820ea74e341b62c8f53f6e7b8e127d8da8e34ea069b48ef",
+      "assignments": {},
+      "required_domains": {
+        "pm-v1/manifest": 1,
+        "pm-v1/manifest-chunk": 1,
+        "pm-v1/manifest-empty": 1,
+        "pm-v1/manifest-leaf": 1,
+        "pm-v1/manifest-node": 1
+      },
+      "required_domain_patterns": {},
+      "required_algorithms": {"SHA-256": 7, "CBOR": 4},
+      "fenced_structures": [
+        {"section":"Manifest and tree layout","ordinal":1,"language":"text","sha256":"eafae7454f5fc2abc2d77ca59fcc1409990c9570bfa837787a5ceae8fdb41b9f"}
+      ]
+    },
+    {
+      "path": "docs/adr/0003-authentication-and-rp-id.md",
+      "sha256": "2bbb65bdd81f16e7337b9e92dcea4040205bd3ecf2a18bdbb8beea738463d585",
+      "assignments": {},
+      "required_domains": {
+        "pm-v1/auth/webauthn-create": 1,
+        "pm-v1/server-identity-new-key-proof": 1,
+        "pm-v1/server-identity-rotation": 1,
+        "pm-v1/session-policy": 2
+      },
+      "required_domain_patterns": {"pm-v1/auth/{purpose}/native-proof": 1},
+      "required_algorithms": {"WebAuthn": 19, "ES256": 3, "P-256": 3, "SHA-256": 7, "Ed25519": 4},
+      "fenced_structures": []
+    }
+  ],
+  "cddl_structures": [
+    {
+      "path": "contracts/cddl/backup-header-v1.cddl",
+      "rule": "backup-header-core-v1",
+      "elements": ["1","1","1","deployment-id:bytes.size16","vault-id:bytes.size16","backup-id:bytes.size16","backup-key-id:bytes.size16","database-schema-version:uint","release-schema-hash:bytes.size32","manifest-revision:uint","manifest-envelope-hash:bytes.size32","account-state-revision:uint","account-state-root:bytes.size32","checkpoint-reference:[0]/[1,bytes.size(1..4096)]","4194304","logical-size:uint","data-chunk-count:uint"]
+    },
+    {
+      "path": "contracts/cddl/manifest-v1.cddl",
+      "rule": "manifest-v1",
+      "elements": ["protocol-version:1","suite-id:1","deployment-id:bytes.size16","vault-id:bytes.size16","authority-kind:4","manifest-key-id:bytes.size16","signature-key-state-revision:uint","manifest-revision:uint","prior-manifest-root:bytes.size32","current-record-root:bytes.size32","committed-account-state-revision:uint","committed-account-state-root:bytes.size32","key-epoch:uint","live-count:uint","tombstone-count:uint","active-writer-version:uint","active-suite:uint","minimum-reader-version:uint","minimum-suite:uint","operation-authorization-hash:bytes.size32","operation-id:bytes.size16"]
+    },
+    {
+      "path": "contracts/cddl/backup-header-v1.cddl",
+      "rule": "backup-header-v1",
+      "elements": ["1","1","1","deployment-id:bytes.size16","vault-id:bytes.size16","backup-id:bytes.size16","backup-key-id:bytes.size16","database-schema-version:uint","release-schema-hash:bytes.size32","manifest-revision:uint","manifest-envelope-hash:bytes.size32","account-state-revision:uint","account-state-root:bytes.size32","checkpoint-reference:[0]/[1,bytes.size(1..4096)]","4194304","logical-size:uint","data-chunk-count:uint","stream-header:bytes.size24"]
+    },
+    {
+      "path": "contracts/cddl/backup-payload-v1.cddl",
+      "rule": "backup-payload-v1",
+      "elements": ["header:backup-header-v1","data-frames:[+data-frame]","final-frame:bytes.size(18..4096)"]
+    },
+    {
+      "path": "contracts/cddl/backup-payload-v1.cddl",
+      "rule": "backup-final-plaintext-v1",
+      "elements": ["header-sha256:bytes.size32","data-chunk-count:uint","logical-size:uint","padded-plaintext-bytes:uint","logical-snapshot-sha256:bytes.size32"]
+    },
+    {
+      "path": "contracts/cddl/backup-payload-v1.cddl",
+      "rule": "backup-frame-associated-data-v1",
+      "elements": ["header-sha256:bytes.size32","frame-index:uint","frame-kind:1/2","data-chunk-count:uint"]
+    },
+    {
+      "path": "contracts/cddl/envelope-v1.cddl",
+      "rule": "signed-envelope-v1",
+      "elements": ["body:any","signature:bytes.size64"]
+    },
+    {
+      "path": "contracts/cddl/envelope-v1.cddl",
+      "rule": "mac-envelope-v1",
+      "elements": ["body:any","tag:bytes.size32"]
+    },
+    {
+      "path": "contracts/cddl/envelope-v1.cddl",
+      "rule": "authorized-record-envelope-v1",
+      "elements": ["record-body:any","operation-authorization:bytes"]
+    }
+  ],
+  "invariants": [
+    {"id": "protocol.domain.record-envelope", "value": "pm-v1/record-envelope", "configurable": false, "source": "docs/adr/0001-cryptographic-protocol.md", "consumers": ["security-kernel", "backend", "frontend"], "migration": "new-protocol-version"},
+    {"id": "protocol.domain.manifest", "value": "pm-v1/manifest", "configurable": false, "source": "docs/adr/0002-synchronization-manifest.md", "consumers": ["security-kernel", "backend", "frontend"], "migration": "new-protocol-version"},
+    {"id": "protocol.backup.chunk-bytes", "value": 4194304, "configurable": false, "source": "docs/adr/0001-cryptographic-protocol.md", "consumers": ["security-kernel", "backend"], "migration": "new-format-version"},
+    {"id": "protocol.record.plaintext-bucket-max-bytes", "value": 16777216, "configurable": false, "source": "docs/adr/0001-cryptographic-protocol.md", "consumers": ["security-kernel", "backend", "frontend"], "migration": "new-protocol-version"},
+    {"id": "protocol.record.ciphertext-max-bytes", "value": 16777232, "configurable": false, "source": "docs/adr/0001-cryptographic-protocol.md", "consumers": ["security-kernel", "backend", "frontend"], "migration": "new-protocol-version"},
+    {"id": "protocol.secret.exact-unicode", "value": "preserve-scalar-and-byte-sequence", "configurable": false, "source": "docs/adr/0001-cryptographic-protocol.md", "consumers": ["security-kernel", "frontend"], "migration": "new-protocol-version"},
+    {"id": "protocol.backup.ciphertext-digest-catalog-sha256", "value": "3513ebfe63e3634155377f50a67ea6bd83d58ea024a5b2b8a7ab4973a6c6169c", "configurable": false, "source": "docs/adr/0001-cryptographic-protocol.md", "consumers": ["security-kernel"], "migration": "new-format-version"}
+  ]
+}

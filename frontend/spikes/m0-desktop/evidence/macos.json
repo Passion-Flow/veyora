@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "target": "aarch64-apple-darwin,x86_64-apple-darwin",
+  "disposition": "ExcludedUnverified",
+  "missing_prerequisites": [
+    "native-macos-runner",
+    "xcode-toolchain",
+    "rust-target-stdlibs",
+    "keychain-runner",
+    "package-and-signing-environment"
+  ],
+  "native_workflows": [],
+  "claim_limit": "Source work and target-independent tests only; no macOS build, package, Keychain, signing, workflow, accessibility, locale, or support claim."
+}

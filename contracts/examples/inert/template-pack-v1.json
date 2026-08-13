@@ -1,0 +1,7 @@
+{
+  "schema_version":1,
+  "fixture_class":"inert-public-example",
+  "source":"contracts/vault/starter-templates-v1.json",
+  "storage":"client-encrypted-data",
+  "server_semantics":false
+}

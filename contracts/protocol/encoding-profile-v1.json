@@ -1,0 +1,8 @@
+{
+  "$schema": "encoding-profile-v1.schema.json",
+  "schema_version": 1,
+  "binary": {"encoding": "RFC8949-deterministic-CBOR", "definite_lengths": true, "trailing_bytes": "reject", "noncanonical": "reject"},
+  "json": {"encoding": "UTF-8", "duplicate_keys": "reject", "nonfinite_numbers": "reject", "unknown_fields": "reject"},
+  "secret_text": {"normalize": false, "trim": false, "case_fold": false, "rewrite_line_endings": false},
+  "identifiers": {"bytes": 16, "source": "OS-CSPRNG", "derived": false}
+}

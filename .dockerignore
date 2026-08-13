@@ -1,0 +1,14 @@
+.git/
+.github/
+.env
+.env.*
+!.env.example
+**/target/
+**/__pycache__/
+**/*.pyc
+**/node_modules/
+.cache/
+.pytest_cache/
+docs/
+**/*.md
+snapshot*.json

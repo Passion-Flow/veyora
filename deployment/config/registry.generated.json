@@ -1,0 +1,2957 @@
+{
+  "_generated": {
+    "banner": "GENERATED: read-only owner projection; edit contracts/registry/settings.json",
+    "catalog_version": 1,
+    "owner": "deployment",
+    "projection_integrity": "sha256:4aecb3e70d447ec6973c5734bd1f4b62cb0f3dbd2ab85f8ed7eb86a42b6fb351",
+    "read_only": true,
+    "source": "contracts/registry/settings.json",
+    "source_integrity": "sha256:9de9f3507d3b2dff770ef3889124d51731bc436fbb1b2a05e70a364423c1612f"
+  },
+  "settings": [
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 8,
+          "minimum_items": 1
+        },
+        "safety": {
+          "maximum_items": 8,
+          "minimum_items": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Operator-selected alert destinations; production readiness requires an explicit nonempty choice.",
+      "id": "deployment.alert.destinations",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "Alert destinations can disclose operator topology.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Reference to a mounted file containing exactly one raw 32-byte secretstream key with no text encoding or trailing bytes, stored separately from database credentials and backup target.",
+      "id": "deployment.backup.key",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Neither key material nor its full reference path is observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "trusted deployment or restore"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 100,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 100,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum backup objects returned by one bounded listing operation.",
+      "id": "deployment.backup.list-max-items",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A list bound is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 100,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1099511627776,
+          "minimum": 1048576
+        },
+        "safety": {
+          "maximum": 1099511627776,
+          "minimum": 1048576
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Operator-declared maximum logical backup size used for capacity preflight.",
+      "id": "deployment.backup.maximum-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A capacity ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1073741824,
+          "minimum": 4194304
+        },
+        "safety": {
+          "maximum": 1073741824,
+          "minimum": 4194304
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum single backup object admitted by the v1 adapter.",
+      "id": "deployment.backup.object-max-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An object-size bound is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 1073741824,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Reference to a mounted file containing exactly one raw 32-byte Ed25519 receipt-signing seed with no text encoding or trailing bytes; its public key is committed by account state and recovery material.",
+      "id": "deployment.backup.receipt-signing-key",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Neither receipt private-key bytes nor the full reference path are observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "trusted deployment backup or restore"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 365,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 3650,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Operator-declared verified-backup retention period.",
+      "id": "deployment.backup.retention-days",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A retention period is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 604800,
+          "minimum": 300
+        },
+        "safety": {
+          "maximum": 2592000,
+          "minimum": 300
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Required maximum acceptable age of the newest verified off-host backup.",
+      "id": "deployment.backup.rpo-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The declared recovery-point objective is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 86400,
+          "minimum": 900
+        },
+        "safety": {
+          "maximum": 604800,
+          "minimum": 900
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Required full isolated restore objective measured through client verification.",
+      "id": "deployment.backup.rto-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The declared recovery-time objective is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted optional S3-compatible access-key file reference.",
+      "id": "deployment.backup.s3-access-key",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Access credentials and their full paths are never observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 63,
+          "pattern": "^[a-z0-9][a-z0-9.-]*[a-z0-9]$"
+        },
+        "safety": {
+          "maximum_length": 63,
+          "pattern": "^[a-z0-9][a-z0-9.-]*[a-z0-9]$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Validated S3-compatible backup bucket name.",
+      "id": "deployment.backup.s3-bucket",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "The bucket name can disclose deployment identity.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 256,
+          "pattern": "^/run/secrets/[a-z0-9._-]+$"
+        },
+        "safety": {
+          "maximum_length": 256,
+          "pattern": "^/run/secrets/[a-z0-9._-]+$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted CA bundle used to verify the optional S3-compatible endpoint.",
+      "id": "deployment.backup.s3-ca-file",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "denied",
+        "reason": "The full trust-store path is not observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "path"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 16,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 16,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum concurrent S3 requests for one bounded backup operation.",
+      "id": "deployment.backup.s3-concurrency",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A concurrency bound is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 4,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            false,
+            true
+          ]
+        },
+        "safety": {
+          "allowed": [
+            false,
+            true
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Enable the optional S3-compatible backup adapter only when its complete trusted settings are present.",
+      "id": "deployment.backup.s3-enabled",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An adapter activation flag is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "boolean"
+      },
+      "value_policy": {
+        "default": false,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 256,
+          "pattern": "^https://"
+        },
+        "safety": {
+          "maximum_length": 256,
+          "pattern": "^https://"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "HTTPS S3-compatible endpoint accepted only when the optional adapter is enabled.",
+      "id": "deployment.backup.s3-endpoint",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "The endpoint can disclose infrastructure topology.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "uri"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "safety": {
+          "maximum_length": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Expected bucket owner account identifier required for confused-deputy protection.",
+      "id": "deployment.backup.s3-expected-owner",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "denied",
+        "reason": "The owner identifier can reveal account topology.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 256
+        },
+        "safety": {
+          "maximum_length": 256
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Expected KMS key identity when S3 SSE-KMS is selected.",
+      "id": "deployment.backup.s3-kms-key-id",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "denied",
+        "reason": "A KMS key identity can disclose account topology.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-sse-mode is sse-kms"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 5,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 5,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum S3 request attempts before fail-closed disposition.",
+      "id": "deployment.backup.s3-max-attempts",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A retry count is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 3,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 67108864,
+          "minimum": 8388608
+        },
+        "safety": {
+          "maximum": 67108864,
+          "minimum": 8388608
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Object size at which the S3 adapter begins bounded multipart upload.",
+      "id": "deployment.backup.s3-multipart-threshold-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A multipart threshold is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 16777216,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "disabled",
+            "governance",
+            "compliance"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "disabled",
+            "governance",
+            "compliance"
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Expected Object Lock behavior; the adapter never changes bucket policy.",
+      "id": "deployment.backup.s3-object-lock-mode",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An Object Lock mode is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "disabled",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 67108864,
+          "minimum": 5242880
+        },
+        "safety": {
+          "maximum": 67108864,
+          "minimum": 5242880
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Fixed bounded S3 multipart part size.",
+      "id": "deployment.backup.s3-part-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A multipart part size is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 8388608,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            false,
+            true
+          ]
+        },
+        "safety": {
+          "allowed": [
+            false,
+            true
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Use path-style addressing only for an explicitly compatible endpoint.",
+      "id": "deployment.backup.s3-path-style-enabled",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An addressing mode is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "boolean"
+      },
+      "value_policy": {
+        "default": false,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 128,
+          "pattern": "^[a-z0-9][a-z0-9/_-]*$"
+        },
+        "safety": {
+          "maximum_length": 128,
+          "pattern": "^[a-z0-9][a-z0-9/_-]*$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Validated object prefix owned by this deployment.",
+      "id": "deployment.backup.s3-prefix",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "The prefix can disclose deployment topology.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "veyora-v1",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 63,
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "safety": {
+          "maximum_length": 63,
+          "pattern": "^[a-z0-9-]+$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Explicit S3 signing region required when the optional adapter is enabled.",
+      "id": "deployment.backup.s3-region",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "A region can disclose infrastructure topology.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 300,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 300,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Bounded timeout for one S3 request.",
+      "id": "deployment.backup.s3-request-timeout-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A timeout is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 30,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "provider-verified",
+            "none-declared"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "provider-verified",
+            "none-declared"
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Expected provider retention behavior verified before S3 writes.",
+      "id": "deployment.backup.s3-retention-mode",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A retention expectation is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted optional S3-compatible secret-key file reference.",
+      "id": "deployment.backup.s3-secret-key",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Access credentials and their full paths are never observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment.backup.s3-enabled is true"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mounted optional S3 session-token file reference for complete temporary credentials.",
+      "id": "deployment.backup.s3-session-token",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Session credentials and their full paths are never observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "temporary S3 credentials are configured"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "disabled",
+            "sse-s3",
+            "sse-kms"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "disabled",
+            "sse-s3",
+            "sse-kms"
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Required server-side encryption response profile for S3 writes.",
+      "id": "deployment.backup.s3-sse-mode",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An SSE mode is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "disabled",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1048576,
+          "minimum": 65536
+        },
+        "safety": {
+          "maximum": 1048576,
+          "minimum": 65536
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Backup storage I/O buffer; this never changes the fixed protocol frame size.",
+      "id": "deployment.backup.storage-buffer-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An I/O buffer bound is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 1048576,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 512,
+          "pattern": "^/mnt/"
+        },
+        "safety": {
+          "maximum_length": 1024,
+          "pattern": "^/mnt/"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Distinct-failure-domain filesystem adapter path; trusted setup must prove it is not primary storage.",
+      "id": "deployment.backup.target-path",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "Only mount identity and a redacted basename may be reported.",
+        "support_bundles": "redacted"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "path"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "mounted-file"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "mounted-file"
+          ]
+        }
+      },
+      "classification": "runtime-secret-file-reference",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Reference to the one-time bootstrap authorization file; it is removed after successful initialization.",
+      "id": "deployment.bootstrap.secret",
+      "log_policy": {
+        "diagnostics": "denied",
+        "logs": "denied",
+        "reason": "Neither bootstrap material nor its full reference path is observable.",
+        "support_bundles": "denied"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "secret-reference-file"
+      ],
+      "reload": "removed-after-bootstrap",
+      "value": {
+        "kind": "secret-reference",
+        "reference_type": "mounted-file"
+      },
+      "value_policy": {
+        "mode": "required",
+        "required_when": "deployment is uninitialized"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "pattern": "^5\\."
+        },
+        "safety": {
+          "pattern": "^5\\."
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "First-year Docker Compose compatibility target; support is claimed only after the matrix test passes.",
+      "id": "deployment.compatibility.compose-version",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A tool version is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "semver"
+      },
+      "value_policy": {
+        "default": "5.1.4",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "pattern": "^29\\."
+        },
+        "safety": {
+          "pattern": "^29\\."
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "First-year Docker Engine compatibility target; support is claimed only after the matrix test passes.",
+      "id": "deployment.compatibility.engine-version",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A tool version is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "semver"
+      },
+      "value_policy": {
+        "default": "29.6.2",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "amd64",
+            "arm64"
+          ],
+          "maximum_items": 2,
+          "minimum_items": 2
+        },
+        "safety": {
+          "allowed": [
+            "amd64",
+            "arm64"
+          ],
+          "maximum_items": 2,
+          "minimum_items": 2
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Mandatory first-year OCI image architectures.",
+      "id": "deployment.compatibility.oci-architectures",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Architecture names are nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "default": [
+          "amd64",
+          "arm64"
+        ],
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 90,
+          "minimum": 90
+        },
+        "safety": {
+          "maximum": 90,
+          "minimum": 90
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Minimum Python line coverage for release evidence.",
+      "id": "deployment.coverage.python-lines-min-percent",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A coverage threshold is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 90
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 85,
+          "minimum": 85
+        },
+        "safety": {
+          "maximum": 85,
+          "minimum": 85
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Minimum Rust branch coverage for release evidence.",
+      "id": "deployment.coverage.rust-branches-min-percent",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A coverage threshold is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 85
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 90,
+          "minimum": 90
+        },
+        "safety": {
+          "maximum": 90,
+          "minimum": 90
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Minimum Rust line coverage for release evidence.",
+      "id": "deployment.coverage.rust-lines-min-percent",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A coverage threshold is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 90
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 85,
+          "minimum": 85
+        },
+        "safety": {
+          "maximum": 85,
+          "minimum": 85
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Minimum TypeScript branch coverage for release evidence.",
+      "id": "deployment.coverage.typescript-branches-min-percent",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A coverage threshold is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 85
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 90,
+          "minimum": 90
+        },
+        "safety": {
+          "maximum": 90,
+          "minimum": 90
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Minimum TypeScript line coverage for release evidence.",
+      "id": "deployment.coverage.typescript-lines-min-percent",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A coverage threshold is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 90
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 256,
+          "pattern": "^http://"
+        },
+        "safety": {
+          "maximum_length": 512,
+          "pattern": "^http://"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Private API upstream URI; validation forbids a public hostname.",
+      "id": "deployment.gateway.api-upstream",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "Only reachability state is reported; internal topology is redacted.",
+        "support_bundles": "redacted"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "uri"
+      },
+      "value_policy": {
+        "default": "http://api:8080",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            false,
+            true
+          ]
+        },
+        "safety": {
+          "allowed": [
+            false,
+            true
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Bundled automatic TLS switch; false is the production baseline and true requires a later explicit deployment review.",
+      "id": "deployment.gateway.automatic-tls-enabled",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "TLS ownership mode is security posture and must be observable.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "boolean"
+      },
+      "value_policy": {
+        "default": false,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 32768,
+          "minimum": 4096
+        },
+        "safety": {
+          "maximum": 65536,
+          "minimum": 4096
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Total accepted request-header bytes before routing.",
+      "id": "deployment.gateway.header-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A byte ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 16384,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 128
+        },
+        "safety": {
+          "maximum_length": 128
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Gateway container listen address behind owner-managed external ingress.",
+      "id": "deployment.gateway.listen-address",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A listen address is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "socket-address"
+      },
+      "value_policy": {
+        "default": "0.0.0.0:8443",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 256,
+          "pattern": "^https://"
+        },
+        "safety": {
+          "maximum_length": 512,
+          "pattern": "^https://"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Exact externally visible HTTPS origin used for origin, cookie, redirect, and WebAuthn validation; protocol v1 requires lowercase ASCII-LDH DNS labels and rejects Unicode and every xn-- label.",
+      "id": "deployment.gateway.public-origin",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The public origin is security-critical posture and must be diagnosable.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "uri"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "safety": {
+          "maximum_length": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Required digest of the release-pinned normalized ASCII Public Suffix List snapshot used by every origin/RP-ID validator; runtime validation does not claim UTS #46 conversion.",
+      "id": "deployment.gateway.public-suffix-list-sha256",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A public dataset integrity digest is nonsensitive and must be diagnosable.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 600,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1200,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Default per-bucket request rate; authentication routes apply stricter owner-local route policy.",
+      "id": "deployment.gateway.rate-limit-per-minute",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A configured rate contains no client identity.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 120,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 17825792,
+          "minimum": 65536
+        },
+        "safety": {
+          "maximum": 20971520,
+          "minimum": 65536
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Gateway body ceiling, including bounded protocol overhead above the encrypted-record operational limit.",
+      "id": "deployment.gateway.request-body-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A byte ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 2097152,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 120,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 300,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "End-to-end Gateway request timeout before a bounded unavailable response.",
+      "id": "deployment.gateway.request-timeout-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bounded duration is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 30,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 64,
+          "minimum_items": 1
+        },
+        "safety": {
+          "maximum_items": 256,
+          "minimum_items": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Exact external ingress CIDRs allowed to supply forwarding metadata; an empty implicit trust set is forbidden for production.",
+      "id": "deployment.gateway.trusted-proxy-cidrs",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "Counts may be reported; network ranges are operator infrastructure metadata.",
+        "support_bundles": "redacted"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 256,
+          "pattern": "^http://"
+        },
+        "safety": {
+          "maximum_length": 512,
+          "pattern": "^http://"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Private immutable Web-bundle upstream URI; validation forbids a public hostname.",
+      "id": "deployment.gateway.web-upstream",
+      "log_policy": {
+        "diagnostics": "redacted",
+        "logs": "redacted",
+        "reason": "Only reachability state is reported; internal topology is redacted.",
+        "support_bundles": "redacted"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "uri"
+      },
+      "value_policy": {
+        "default": "http://web:8080",
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_length": 253,
+          "pattern": "^[a-z0-9.-]+$"
+        },
+        "safety": {
+          "maximum_length": 253,
+          "pattern": "^[a-z0-9.-]+$"
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Stable lowercase ASCII-LDH WebAuthn relying-party domain validated against the configured public origin; it contains no scheme, port, Unicode, or xn-- label.",
+      "id": "deployment.gateway.webauthn-rp-id",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The RP ID is security-critical posture and must be diagnosable.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "hostname"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 7200,
+          "minimum": 7200
+        },
+        "safety": {
+          "maximum": 7200,
+          "minimum": 7200
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum cold image build duration for release evidence.",
+      "id": "deployment.images.cold-build-max-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A build budget is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 7200
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 8,
+          "minimum_items": 8
+        },
+        "safety": {
+          "maximum_items": 8,
+          "minimum_items": 8
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Ordered immutable loadable-root digests for the eight Veyora service images.",
+      "id": "deployment.images.digests",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Image digests are public release metadata.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 8,
+          "minimum_items": 8
+        },
+        "safety": {
+          "maximum_items": 8,
+          "minimum_items": 8
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Ordered immutable repositories for the eight Veyora service images.",
+      "id": "deployment.images.repositories",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Repository identities are release metadata.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "default": [
+          "veyora/gateway",
+          "veyora/api",
+          "veyora/worker",
+          "veyora/web",
+          "veyora/sandbox",
+          "veyora/migrator",
+          "veyora/backup",
+          "veyora/restore"
+        ],
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 32,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 32,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum distinct values allowed for one approved metric label in one process.",
+      "id": "deployment.metrics.label-max-distinct-per-process",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A cardinality ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 32,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 30,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 90,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Required bounded retention for nonsensitive operations logs, metrics, and traces; this never permits forbidden labels or bodies.",
+      "id": "deployment.observability.operations-data-retention-days",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The retention duration is nonsensitive; the data schema remains independently allowlisted.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 30,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 90,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Required bounded retention for security-event logs; a deployment cannot claim production readiness until the operator supplies it.",
+      "id": "deployment.observability.security-log-retention-days",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The retention duration is nonsensitive; retained events remain access-controlled.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "required"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 300,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 300,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Inert demo command-start to private round-trip p90 budget.",
+      "id": "deployment.operator.demo-cold-run-p90-max-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A local timing budget is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 300,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 10,
+          "minimum": 10
+        },
+        "safety": {
+          "maximum": 10,
+          "minimum": 10
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Required number of supported-host inert demo evidence runs.",
+      "id": "deployment.operator.demo-cold-run-sample-count",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A local evidence count is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 10,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 16777216,
+          "minimum": 1024
+        },
+        "safety": {
+          "maximum": 16777216,
+          "minimum": 1024
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum deterministic redacted support-bundle bytes.",
+      "id": "deployment.operator.support-bundle-max-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bundle-size ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 16777216,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 128,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 128,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum files admitted to a deterministic redacted support bundle.",
+      "id": "deployment.operator.support-bundle-max-files",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A bundle-file ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 128,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 8589934592,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 8589934592,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum compressed release archive bytes admitted before extraction.",
+      "id": "deployment.package.archive-compressed-max-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An archive ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 8589934592,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 20,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 20,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum archive expansion ratio admitted before extraction.",
+      "id": "deployment.package.archive-max-expansion-ratio",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An expansion ratio is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 20,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 50000,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 50000,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum files admitted in the release archive.",
+      "id": "deployment.package.archive-max-files",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An archive file ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 50000,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 17179869184,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 17179869184,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum uncompressed release archive bytes admitted before extraction.",
+      "id": "deployment.package.archive-uncompressed-max-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An archive ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 17179869184,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1800,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1800,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum bounded package extraction duration.",
+      "id": "deployment.package.extract-max-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A duration ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 1800,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 2147483648,
+          "minimum": 2147483648
+        },
+        "safety": {
+          "maximum": 2147483648,
+          "minimum": 2147483648
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Free-space reserve retained beyond the verified extraction requirement.",
+      "id": "deployment.package.extract-reserve-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A free-space reserve is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 2147483648,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1800,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1800,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum bounded package verification duration.",
+      "id": "deployment.package.verify-max-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A duration ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 1800,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "v1.0.0"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "v1.0.0"
+          ]
+        }
+      },
+      "classification": "build-time",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Exact Veyora release identity used by generated artifacts.",
+      "id": "deployment.release.version",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A release identifier is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "semver"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": "v1.0.0"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 5,
+          "minimum_items": 5
+        },
+        "safety": {
+          "maximum_items": 5,
+          "minimum_items": 5
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Ordered unique private network names for frontend, service, database, restore, and observability planes.",
+      "id": "deployment.resources.network-names",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Validated resource names are nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "default": [
+          "veyora-edge",
+          "veyora-service",
+          "veyora-database",
+          "veyora-restore",
+          "veyora-observability"
+        ],
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 8,
+          "minimum_items": 8
+        },
+        "safety": {
+          "maximum_items": 8,
+          "minimum_items": 8
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Ordered unique service names for Gateway, API, Worker, Web, Sandbox, Migrator, Backup, and Restore.",
+      "id": "deployment.resources.service-names",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Validated resource names are nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "default": [
+          "veyora-gateway",
+          "veyora-api",
+          "veyora-worker",
+          "veyora-web",
+          "veyora-sandbox",
+          "veyora-migrator",
+          "veyora-backup",
+          "veyora-restore"
+        ],
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum_items": 2,
+          "minimum_items": 2
+        },
+        "safety": {
+          "maximum_items": 2,
+          "minimum_items": 2
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Ordered unique volume names for backup and restore staging.",
+      "id": "deployment.resources.volume-names",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Validated resource names are nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string-list"
+      },
+      "value_policy": {
+        "default": [
+          "veyora-backup-staging",
+          "veyora-restore-staging"
+        ],
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 4194304,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 4194304,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum one-shot Sandbox stdin ciphertext bytes.",
+      "id": "deployment.sandbox.stdin-max-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A byte ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "default": 4194304,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 10,
+          "minimum": 0
+        },
+        "safety": {
+          "maximum": 10,
+          "minimum": 0
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Default trace sample percentage; zero disables export.",
+      "id": "deployment.trace.sampling-default-percent",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A sampling percentage is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "immediate",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "default": 0,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "http"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "http"
+          ]
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Private Compose service-network transport scheme behind the owner-managed TLS ingress.",
+      "id": "deployment.transport.east-west-scheme",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "The private transport profile is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "deployment",
+      "precedence": [
+        "owner-file",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "default": "http",
+        "mode": "default"
+      }
+    }
+  ]
+}

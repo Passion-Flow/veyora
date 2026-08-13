@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/operator/error-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "code", "problem", "cause_class", "retry", "safe_next_command", "docs_ref", "changed_resources"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "code": {"type": "string", "pattern": "^PM-[A-Z0-9-]+$"},
+    "problem": {"type": "string", "minLength": 1, "maxLength": 240},
+    "cause_class": {"type": "string", "minLength": 1},
+    "retry": {"enum": ["never", "safe", "after-action", "resume-only"]},
+    "safe_next_command": {"type": "string", "minLength": 1},
+    "docs_ref": {"type": "string", "pattern": "^docs/"},
+    "changed_resources": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+  }
+}

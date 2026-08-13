@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/authorization/service-capabilities-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "default", "services"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "default": {"const": "deny"},
+    "services": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gateway", "api", "worker", "web", "sandbox", "migrator", "backup", "restore"],
+      "properties": {
+        "gateway": {"$ref": "#/$defs/capability"}, "api": {"$ref": "#/$defs/capability"},
+        "worker": {"$ref": "#/$defs/capability"}, "web": {"$ref": "#/$defs/capability"},
+        "sandbox": {"$ref": "#/$defs/capability"}, "migrator": {"$ref": "#/$defs/capability"},
+        "backup": {"$ref": "#/$defs/capability"}, "restore": {"$ref": "#/$defs/capability"}
+      }
+    }
+  },
+  "$defs": {
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routes", "database_operations", "secret_files", "network_targets", "volumes", "jobs", "observability"],
+      "properties": {
+        "routes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "database_operations": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "secret_files": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "network_targets": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "volumes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "stdin": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "jobs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "observability": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}

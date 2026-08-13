@@ -1,0 +1,7 @@
+{
+  "schema_version":1,
+  "fixture_class":"inert-public-example",
+  "deployment_label":"Veyora inert demo",
+  "bootstrap_secret_reference":{"setting_id":"deployment.bootstrap.secret","file":"/run/secrets/veyora_bootstrap_secret"},
+  "real_credentials":false
+}

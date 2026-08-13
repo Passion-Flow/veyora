@@ -1,0 +1,8 @@
+{
+  "$schema": "approved-evidence-reviewers-v1.schema.json",
+  "schema_version": 1,
+  "registry_type": "veyora-approved-evidence-reviewers-v1",
+  "attestation_policy": "owner-authenticated-out-of-band-human-attestation-only",
+  "governance": "owner-authorized-manual-registration-only",
+  "reviewers": []
+}

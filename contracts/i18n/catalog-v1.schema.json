@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/i18n/catalog-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "locale", "direction", "messages"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "locale": {"type": "string", "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3})?(-[A-Z]{2}|-[0-9]{3})?$"},
+    "direction": {"enum": ["ltr", "rtl"]},
+    "messages": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/message"}
+    }
+  },
+  "$defs": {
+    "parameters": {
+      "type": "object",
+      "additionalProperties": {"enum": ["public-string", "integer", "duration", "date-time", "status-code"]}
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameters"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "plural": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "minLength": 1}
+        },
+        "parameters": {"$ref": "#/$defs/parameters"}
+      },
+      "oneOf": [
+        {"required": ["text"]},
+        {"required": ["plural"]}
+      ]
+    }
+  }
+}

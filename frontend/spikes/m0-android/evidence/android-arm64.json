@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "target": "aarch64-linux-android/arm64-v8a",
+  "disposition": "ExcludedUnverified",
+  "required_tuple": {
+    "agp": "9.3.1",
+    "gradle": "9.5.0",
+    "jdk": "17",
+    "sdk": "36",
+    "ndk": "28.2.13676358",
+    "cargo_ndk": "4.1.2"
+  },
+  "observed": {
+    "jdk": "25.0.3",
+    "gradle": "Unavailable",
+    "android_sdk": "Unavailable",
+    "android_build_tools": "Unavailable",
+    "android_ndk": "Unavailable",
+    "cargo_ndk": "Unavailable",
+    "rust_target_std": "Unavailable",
+    "adb_device": "Unavailable"
+  },
+  "commands": [
+    "java -version",
+    "gradle --version",
+    "cargo-ndk --version",
+    "rustc --print target-libdir --target aarch64-linux-android",
+    "adb devices"
+  ],
+  "unattempted_required_command": "security-kernel/scripts/build-ffi.sh --android (cross-compile plus pinned connectedDebugAndroidTest)",
+  "outcome": "PreflightFailedNoBuildOrLoadAttempted",
+  "claim_limit": "No JNI cross-compile/load, Android Keystore, device lifecycle, cancellation, timeout, process teardown, clipboard, accessibility, locale, package, recovery, or support claim."
+}

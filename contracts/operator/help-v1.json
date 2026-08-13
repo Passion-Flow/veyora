@@ -1,0 +1,6 @@
+{
+  "$schema": "help-v1.schema.json",
+  "schema_version": 1,
+  "required_sections": ["purpose","usage","prerequisites","options-and-default-sources","side-effects","cancellation-and-resume","exit-codes","examples","next-command"],
+  "forbidden_content": ["secret-value","credential","demo-as-trusted","unsupported-claim"]
+}

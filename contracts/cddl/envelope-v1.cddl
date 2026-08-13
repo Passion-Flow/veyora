@@ -1,0 +1,4 @@
+; Veyora protocol identity remains pm-v1 and is not brand-configurable.
+signed-envelope-v1 = [body: any, signature: bytes .size 64]
+mac-envelope-v1 = [body: any, tag: bytes .size 32]
+authorized-record-envelope-v1 = [record-body: any, operation-authorization: bytes]

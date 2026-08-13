@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/operator/output-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "result_stream", "diagnostics_stream", "progress_stream", "progress_event_fields", "json_documents_per_command", "canonical_json", "non_tty_color", "forbidden_fields"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "result_stream": {"const": "stdout"},
+    "diagnostics_stream": {"const": "stderr"},
+    "progress_stream": {"const": "stderr"},
+    "progress_event_fields": {"type": "array", "minItems": 7, "maxItems": 7, "uniqueItems": true, "items": {"enum": ["schema_version","command","operation_id","phase","completed_units","total_units","message_id"]}},
+    "json_documents_per_command": {"const": 1},
+    "canonical_json": {"const": true},
+    "non_tty_color": {"const": false},
+    "forbidden_fields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+  }
+}

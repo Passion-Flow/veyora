@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/standards-baseline-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "accessed_on", "standards", "claim_policy"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "accessed_on": {"const": "2026-08-08"},
+    "standards": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "claim_policy": {"const": "evidence-framework-not-certification"}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "scope", "source_url", "source_locator", "evidence_role"],
+      "properties": {
+        "id": {
+          "enum": [
+            "RFC-5869", "RFC-8032", "RFC-8259", "RFC-8949",
+            "RFC-9052-9053", "RFC-9106", "RFC-9180",
+            "WebAuthn-Level-3-CR-2026-05-26", "WCAG-2.2",
+            "draft-irtf-cfrg-xchacha-03", "CTAP2-2.2-PS-2025-07-14",
+            "libsodium-1.0.22"
+          ]
+        },
+        "scope": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "pattern": "^https://"},
+        "source_locator": {"type": "string", "minLength": 1},
+        "evidence_role": {
+          "enum": ["known-answer", "encoding-policy", "parser-policy", "construction-source", "ceremony-policy", "ux-standard"]
+        }
+      }
+    }
+  }
+}

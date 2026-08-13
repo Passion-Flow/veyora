@@ -1,0 +1,18 @@
+{
+  "schema_version":1,
+  "states":["v1-client-zero-knowledge","v1-operational","roadmap-gated-absent","prohibited"],
+  "capabilities":{
+    "password-login":"roadmap-gated-absent",
+    "password-login-2fa":"roadmap-gated-absent",
+    "browser-extension":"roadmap-gated-absent",
+    "autofill":"roadmap-gated-absent",
+    "breach-intelligence":"roadmap-gated-absent",
+    "binary-documents":"roadmap-gated-absent",
+    "sharing":"roadmap-gated-absent",
+    "machine-to-machine":"prohibited",
+    "automatic-rotation":"roadmap-gated-absent",
+    "hosted-saas":"roadmap-gated-absent",
+    "ios":"roadmap-gated-absent",
+    "android-extra-abis":"roadmap-gated-absent"
+  }
+}

@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "corpus_id": "native-backup-v1",
+  "provenance_contract": "contracts/protocol/vector-provenance-v1.json",
+  "canonical_hash_rule": "veyora-vector-json-v1",
+  "libsodium_version": "1.0.22",
+  "oracle_evidence": {
+    "archive_sha256": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534",
+    "sidecar_sha256": "9ed6444f7bb2a0b052d872062d398417262d544f65ee42be1df2a956469c07fe",
+    "minisign_public_key": "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3",
+    "minisign_verifier_source_ref": "security-kernel/oracles/minisign-verifier/src/main.rs",
+    "minisign_verifier_source_sha256": "92d9c0a0df00bcd68683ab478b6077b12fd09d6f0944803f705f16bc35018fe1",
+    "minisign_verifier_manifest_sha256": "bfd3e86dcd8f35fcc692f4a2477edd96ecaa5d0a1f3964c0d91b8ec9065fc407",
+    "minisign_verifier_lock_sha256": "cbce6a061c18030bb237221730fb8bfedd56750f4871d00c1d99d270424c039f",
+    "minisign_verifier_binary_sha256": "5fadb663bc4f5766b543654725b39996f694e7a13bff95b131643cd3cc91f293",
+    "minisign_verifier_build_command": "unshare -n cargo build --release --offline --locked --manifest-path $WORK_DIR/minisign-verifier/Cargo.toml --target-dir $WORK_DIR/minisign-target",
+    "minisign_verification_command": "$WORK_DIR/veyora-minisign-verifier $SODIUM_DIST_DIR/LATEST.tar.gz $SODIUM_DIST_DIR/LATEST.tar.gz.minisig",
+    "generator_source_ref": "security-kernel/oracles/secretstream-v1.c",
+    "generator_source_sha256": "eb660bce20e5dba5fb097bfd666c0c93aeafb6d92d8214440ff2942472497899",
+    "generator_binary_sha256": "0b633ee5ed9484d9bd6d4f6ed6a5fa2406eef4af154c68c19cb55bf999ad5c96",
+    "checker_source_ref": "security-kernel/oracles/check-secretstream-v1.c",
+    "checker_source_sha256": "db72f5f86d5795f2ee1feb7247ef90aea0aea76fb02be74419127f27c7a9e706",
+    "checker_binary_sha256": "c8196044e582d59d4aadd6eefcef29ad5c28cc69d8e1dcf54f27ff1deda05297",
+    "transcriber_source_ref": "security-kernel/oracles/generate-backup-v1.py",
+    "transcriber_source_sha256": "e053920126ccb6ee4796d97750d4b25b7e5e0a24c11cf36159adedc5b7869a8a",
+    "compiler_command": "cc",
+    "compiler_version": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "compiler_version_sha256": "f6ab9d76ae8dcab3e133254944fbc77f41e0ba766287e289345c1ab77df09c45",
+    "archiver_command": "ar",
+    "archiver_version": "GNU ar (GNU Binutils for Ubuntu) 2.46",
+    "archiver_version_sha256": "43f5d0d9d22ba26ea2f3bf7843526d9397252213091aed88da1d21894008536e",
+    "source_build_command": "unshare -n sh -c 'cd \"$SOURCE_DIR\" && ./configure --prefix=\"$INSTALL_DIR\" --disable-shared --enable-static --with-pic >configure.log 2>&1 && make -j2 >make.log 2>&1 && make install >install.log 2>&1'",
+    "generator_link_command": "\"$CC\" -std=c11 -O2 -Wall -Wextra -Werror -I\"$INSTALL_DIR/include\" security-kernel/oracles/secretstream-v1.c \"$INSTALL_DIR/lib/libsodium.a\" -pthread -o \"$WORK_DIR/secretstream-v1\"",
+    "checker_link_command": "\"$CC\" -std=c11 -O2 -Wall -Wextra -Werror -I\"$INSTALL_DIR/include\" security-kernel/oracles/check-secretstream-v1.c \"$INSTALL_DIR/lib/libsodium.a\" -pthread -o \"$WORK_DIR/check-secretstream-v1\"",
+    "network_isolation": "linux-unshare-network-namespace",
+    "source_build_mode": "fresh-controlled-directory",
+    "linked_library_sha256": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859",
+    "ciphertext_digest_catalog_sha256": "3513ebfe63e3634155377f50a67ea6bd83d58ea024a5b2b8a7ab4973a6c6169c",
+    "oracle_evidence_sha256": "a10eec1fb66413750f4b5462cfd6518d0160abe490c7a20f661fd74e981a68b3"
+  },
+  "fixtures": {
+    "upstream-fixed-decrypt": {
+      "case": "upstream-fixed-decrypt",
+      "evidence_status": "blocked-pending-captured-output-and-qualified-review",
+      "source_document": "PyNaCl 1.6.2 secretstream reference vectors",
+      "source_section": "Vector generation",
+      "provenance_id": "native-backup-v1",
+      "oracle_kind": "upstream-captured-random-decrypt",
+      "generator": {
+        "owner": "upstream-secretstream-captured-vector-generator",
+        "source_kind": "upstream-url",
+        "source_ref": "https://raw.githubusercontent.com/pyca/pynacl/ecf41f55a3d8f1e10ce89c61c4b4d67f3f4467cf/docs/vectors/c-source/secretstream_test_vector.c",
+        "source_sha256": "911a361c92996c35f73e85e2258d848b4b43a3aba7030e4f070a0f148617e1b3",
+        "capture_semantics": "random-output-capture-not-deterministic-kat"
+      },
+      "blocker": "libsodium-1.0.22-publishes-no-fixed-secretstream-reference-data"
+    },
+    "empty": {
+      "case": "empty",
+      "source_document": "docs/adr/0001-cryptographic-protocol.md",
+      "source_section": "encrypted-backup-v1, checkpoint, and artifact receipt",
+      "provenance_id": "native-backup-v1",
+      "oracle_kind": "project-independent-c",
+      "generator": {
+        "owner": "standalone-c-libsodium-oracle",
+        "source_kind": "committed-file",
+        "source_ref": "security-kernel/oracles/secretstream-v1.c",
+        "source_sha256": "eb660bce20e5dba5fb097bfd666c0c93aeafb6d92d8214440ff2942472497899"
+      },
+      "generation_command": "SODIUM_DIST_DIR=\"$SODIUM_DIST_DIR\" python3 security-kernel/oracles/generate-backup-v1.py --output security-kernel/vectors/backup-v1.json",
+      "library_archive_sha256": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534",
+      "linked_library_sha256": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859",
+      "oracle_evidence_sha256": "a10eec1fb66413750f4b5462cfd6518d0160abe490c7a20f661fd74e981a68b3",
+      "golden_source_path": "contracts/backup/goldens/empty.json",
+      "golden_source_sha256": "15c43f6d60aaa71e2f52ca89e18c1e0d9b1b3ab3987c61b22b3998478a88f3cf",
+      "logical_size": 0,
+      "data_chunk_count": 1,
+      "chunk_plaintext_bytes": 4194304,
+      "logical_snapshot_recipe": "zero-bytes-of-logical-size",
+      "logical_snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "key_hex": "1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d",
+      "stream_header_hex": "0cd526d7e2b7951fdbe791c6f4c430ef2a9d6977130ea712",
+      "backup_header_cbor_hex": "9201010150000102030405060708090a0b0c0d0e0f50101112131415161718191a1b1c1d1e1f502020202020202020202020202020202050303132333435363738393a3b3c3d3e3f015820404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f015820606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f015820808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f81001a00400000000158180cd526d7e2b7951fdbe791c6f4c430ef2a9d6977130ea712",
+      "backup_header_sha256": "66f932eb87d8e7a8439d110cd4966f1db8295903594c1a3e36351553788c819a",
+      "frames": [
+        {
+          "index": 0,
+          "tag": "MESSAGE",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d650084582066f932eb87d8e7a8439d110cd4966f1db8295903594c1a3e36351553788c819a000101",
+          "plaintext_recipe": {
+            "id": "zero-logical-then-libsodium-deterministic-padding-v1",
+            "logical_offset": 0,
+            "logical_bytes": 0,
+            "padding_bytes": 4194304,
+            "padding_generator": "libsodium-randombytes-buf-deterministic-1.0.22",
+            "padding_seed_hex": "6465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f80818283"
+          },
+          "plaintext_length": 4194304,
+          "plaintext_sha256": "75695c6160c92b83340342ee6566e1b605ab2328fe56401f1cd67bc021558779",
+          "ciphertext_sidecar": {
+            "representation": "contained-regular-file",
+            "path": "security-kernel/vectors/backup-v1/empty/frame-000.ciphertext.bin",
+            "length": 4194321,
+            "sha256": "907e020389273018ee3c5e159d8790fc32961dc7a5a0f23efa908c15de07178b"
+          }
+        },
+        {
+          "index": 1,
+          "tag": "FINAL",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d650084582066f932eb87d8e7a8439d110cd4966f1db8295903594c1a3e36351553788c819a010201",
+          "plaintext_hex": "85582066f932eb87d8e7a8439d110cd4966f1db8295903594c1a3e36351553788c819a01001a004000005820e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "ciphertext_hex": "33255859fb1ab14808757f1b682d4083124e259f12d77b5511a587113e5e3e7d12648b2e8c67ca8b2df38cd009003778aa597359e47aa3af75cc11d2c46e046c13f34d6b709c0ac5e94e71612a137e58e741aaf94cdec7a724bdbab175"
+        }
+      ],
+      "review": {
+        "disposition": "ai-non-human-reviewed"
+      },
+      "fixture_sha256": "8fa0b59cea46691e62f2f78b5152d7225f2b8b081bc6af6bc11c60fb17f5bc9e"
+    },
+    "one-byte": {
+      "case": "one-byte",
+      "source_document": "docs/adr/0001-cryptographic-protocol.md",
+      "source_section": "encrypted-backup-v1, checkpoint, and artifact receipt",
+      "provenance_id": "native-backup-v1",
+      "oracle_kind": "project-independent-c",
+      "generator": {
+        "owner": "standalone-c-libsodium-oracle",
+        "source_kind": "committed-file",
+        "source_ref": "security-kernel/oracles/secretstream-v1.c",
+        "source_sha256": "eb660bce20e5dba5fb097bfd666c0c93aeafb6d92d8214440ff2942472497899"
+      },
+      "generation_command": "SODIUM_DIST_DIR=\"$SODIUM_DIST_DIR\" python3 security-kernel/oracles/generate-backup-v1.py --output security-kernel/vectors/backup-v1.json",
+      "library_archive_sha256": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534",
+      "linked_library_sha256": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859",
+      "oracle_evidence_sha256": "a10eec1fb66413750f4b5462cfd6518d0160abe490c7a20f661fd74e981a68b3",
+      "golden_source_path": "contracts/backup/goldens/one-byte.json",
+      "golden_source_sha256": "c95f042c8cbcbde0e3190bac93ae82568ccbae9ed133a3e3a6cca6649e266195",
+      "logical_size": 1,
+      "data_chunk_count": 1,
+      "chunk_plaintext_bytes": 4194304,
+      "logical_snapshot_recipe": "zero-bytes-of-logical-size",
+      "logical_snapshot_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "key_hex": "3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a",
+      "stream_header_hex": "89c4c3615f4bea69d45eb30810ea301246f5f1a09d4184f9",
+      "backup_header_cbor_hex": "9201010150000102030405060708090a0b0c0d0e0f50101112131415161718191a1b1c1d1e1f502121212121212121212121212121212150303132333435363738393a3b3c3d3e3f015820404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f015820606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f015820808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f81001a004000000101581889c4c3615f4bea69d45eb30810ea301246f5f1a09d4184f9",
+      "backup_header_sha256": "20f89bd8df2d9e8c4dcb7ea9e7ccfeb9707cbc9792ccaa09ed5710c3b06a49ec",
+      "frames": [
+        {
+          "index": 0,
+          "tag": "MESSAGE",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d650084582020f89bd8df2d9e8c4dcb7ea9e7ccfeb9707cbc9792ccaa09ed5710c3b06a49ec000101",
+          "plaintext_recipe": {
+            "id": "zero-logical-then-libsodium-deterministic-padding-v1",
+            "logical_offset": 0,
+            "logical_bytes": 1,
+            "padding_bytes": 4194303,
+            "padding_generator": "libsodium-randombytes-buf-deterministic-1.0.22",
+            "padding_seed_hex": "7778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f90919293949596"
+          },
+          "plaintext_length": 4194304,
+          "plaintext_sha256": "762b86769a003152ef02acac0f4d6dd13afc46797d3a44e2802f432bfbfbddc7",
+          "ciphertext_sidecar": {
+            "representation": "contained-regular-file",
+            "path": "security-kernel/vectors/backup-v1/one-byte/frame-000.ciphertext.bin",
+            "length": 4194321,
+            "sha256": "0638a1464a6f46889770acb15a44970f7d0d07cc08c2409a84348b43af531354"
+          }
+        },
+        {
+          "index": 1,
+          "tag": "FINAL",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d650084582020f89bd8df2d9e8c4dcb7ea9e7ccfeb9707cbc9792ccaa09ed5710c3b06a49ec010201",
+          "plaintext_hex": "85582020f89bd8df2d9e8c4dcb7ea9e7ccfeb9707cbc9792ccaa09ed5710c3b06a49ec01011a0040000058206e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+          "ciphertext_hex": "41587d407676d889100d4a1def47bd037b93adc121931209e6d8d86498715e10776035161cd607a54a3777764187e1c920e9c2ac9e5ecd7895d22a05af370597df599f79bea16569b01ae5ba2aea5af3a086ed121f7a2ab8a42d7cbda3"
+        }
+      ],
+      "review": {
+        "disposition": "ai-non-human-reviewed"
+      },
+      "fixture_sha256": "12b6a6776f7d2a258fe60ab7edff3d0d3ff210f70b2c89625eb6039ca90aacaa"
+    },
+    "exact-chunk": {
+      "case": "exact-chunk",
+      "source_document": "docs/adr/0001-cryptographic-protocol.md",
+      "source_section": "encrypted-backup-v1, checkpoint, and artifact receipt",
+      "provenance_id": "native-backup-v1",
+      "oracle_kind": "project-independent-c",
+      "generator": {
+        "owner": "standalone-c-libsodium-oracle",
+        "source_kind": "committed-file",
+        "source_ref": "security-kernel/oracles/secretstream-v1.c",
+        "source_sha256": "eb660bce20e5dba5fb097bfd666c0c93aeafb6d92d8214440ff2942472497899"
+      },
+      "generation_command": "SODIUM_DIST_DIR=\"$SODIUM_DIST_DIR\" python3 security-kernel/oracles/generate-backup-v1.py --output security-kernel/vectors/backup-v1.json",
+      "library_archive_sha256": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534",
+      "linked_library_sha256": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859",
+      "oracle_evidence_sha256": "a10eec1fb66413750f4b5462cfd6518d0160abe490c7a20f661fd74e981a68b3",
+      "golden_source_path": "contracts/backup/goldens/exact-chunk.json",
+      "golden_source_sha256": "532af1332183bfedec6d7458ef892da63ecde892a29b1bba91d2d7f4f2cb6e59",
+      "logical_size": 4194304,
+      "data_chunk_count": 1,
+      "chunk_plaintext_bytes": 4194304,
+      "logical_snapshot_recipe": "zero-bytes-of-logical-size",
+      "logical_snapshot_sha256": "bb9f8df61474d25e71fa00722318cd387396ca1736605e1248821cc0de3d3af8",
+      "key_hex": "58595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f7071727374757677",
+      "stream_header_hex": "aa8f64002c1d0c872d506d2543b06e19632c6cad29cacff7",
+      "backup_header_cbor_hex": "9201010150000102030405060708090a0b0c0d0e0f50101112131415161718191a1b1c1d1e1f502222222222222222222222222222222250303132333435363738393a3b3c3d3e3f015820404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f015820606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f015820808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f81001a004000001a00400000015818aa8f64002c1d0c872d506d2543b06e19632c6cad29cacff7",
+      "backup_header_sha256": "149876f7a278649cdccde35d1b987afda0234f33ea9cc73f516a681168673315",
+      "frames": [
+        {
+          "index": 0,
+          "tag": "MESSAGE",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d6500845820149876f7a278649cdccde35d1b987afda0234f33ea9cc73f516a681168673315000101",
+          "plaintext_recipe": {
+            "id": "zero-logical-then-libsodium-deterministic-padding-v1",
+            "logical_offset": 0,
+            "logical_bytes": 4194304,
+            "padding_bytes": 0,
+            "padding_generator": "libsodium-randombytes-buf-deterministic-1.0.22",
+            "padding_seed_hex": "8a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9"
+          },
+          "plaintext_length": 4194304,
+          "plaintext_sha256": "bb9f8df61474d25e71fa00722318cd387396ca1736605e1248821cc0de3d3af8",
+          "ciphertext_sidecar": {
+            "representation": "contained-regular-file",
+            "path": "security-kernel/vectors/backup-v1/exact-chunk/frame-000.ciphertext.bin",
+            "length": 4194321,
+            "sha256": "b689d939e5559fac63c5e8cc3c9320d73c9dae19b8accd95ad4591917ebc8332"
+          }
+        },
+        {
+          "index": 1,
+          "tag": "FINAL",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d6500845820149876f7a278649cdccde35d1b987afda0234f33ea9cc73f516a681168673315010201",
+          "plaintext_hex": "855820149876f7a278649cdccde35d1b987afda0234f33ea9cc73f516a681168673315011a004000001a004000005820bb9f8df61474d25e71fa00722318cd387396ca1736605e1248821cc0de3d3af8",
+          "ciphertext_hex": "78a52013442f68d6f54c35948ba9c185045a0eb21c7f53fc3c3a49815729fa936b8f27d9092b65ea7753c147b5473e184b0531ed0a1831cabdb0694134d772d729000614d08909c840034d8d8326fba14f0c0705d0d1480b175242b072efc201d1"
+        }
+      ],
+      "review": {
+        "disposition": "ai-non-human-reviewed"
+      },
+      "fixture_sha256": "83250b8d490b8ebe1be853362a068eb5fffc271fb49a6c8b9b860a80497f05eb"
+    },
+    "multi-chunk": {
+      "case": "multi-chunk",
+      "source_document": "docs/adr/0001-cryptographic-protocol.md",
+      "source_section": "encrypted-backup-v1, checkpoint, and artifact receipt",
+      "provenance_id": "native-backup-v1",
+      "oracle_kind": "project-independent-c",
+      "generator": {
+        "owner": "standalone-c-libsodium-oracle",
+        "source_kind": "committed-file",
+        "source_ref": "security-kernel/oracles/secretstream-v1.c",
+        "source_sha256": "eb660bce20e5dba5fb097bfd666c0c93aeafb6d92d8214440ff2942472497899"
+      },
+      "generation_command": "SODIUM_DIST_DIR=\"$SODIUM_DIST_DIR\" python3 security-kernel/oracles/generate-backup-v1.py --output security-kernel/vectors/backup-v1.json",
+      "library_archive_sha256": "0dead67e534e4e14302d9f285fb68688f18ee93fb35350ac05214dd7772ab534",
+      "linked_library_sha256": "2b082ef330e43ccbb7db83fe0bbf8d3ee5b038bbc088b7dd8d09609dcf67c859",
+      "oracle_evidence_sha256": "a10eec1fb66413750f4b5462cfd6518d0160abe490c7a20f661fd74e981a68b3",
+      "golden_source_path": "contracts/backup/goldens/multi-chunk.json",
+      "golden_source_sha256": "245c668261fe6628ca4c151a1827f4c6199e37e6f83f11374edd540752eb63d9",
+      "logical_size": 4194305,
+      "data_chunk_count": 2,
+      "chunk_plaintext_bytes": 4194304,
+      "logical_snapshot_recipe": "zero-bytes-of-logical-size",
+      "logical_snapshot_sha256": "95e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+      "key_hex": "75767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f9091929394",
+      "stream_header_hex": "259c4485e431e316d01441149a6a046b09d084ab4bd8c57f",
+      "backup_header_cbor_hex": "9201010150000102030405060708090a0b0c0d0e0f50101112131415161718191a1b1c1d1e1f502323232323232323232323232323232350303132333435363738393a3b3c3d3e3f015820404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f015820606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f015820808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f81001a004000001a00400001025818259c4485e431e316d01441149a6a046b09d084ab4bd8c57f",
+      "backup_header_sha256": "103c53a222decd4249ceb495ae942016f3c9b3e5b45fb5459f58a02053e75fba",
+      "frames": [
+        {
+          "index": 0,
+          "tag": "MESSAGE",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d6500845820103c53a222decd4249ceb495ae942016f3c9b3e5b45fb5459f58a02053e75fba000102",
+          "plaintext_recipe": {
+            "id": "zero-logical-then-libsodium-deterministic-padding-v1",
+            "logical_offset": 0,
+            "logical_bytes": 4194304,
+            "padding_bytes": 0,
+            "padding_generator": "libsodium-randombytes-buf-deterministic-1.0.22",
+            "padding_seed_hex": "9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbc"
+          },
+          "plaintext_length": 4194304,
+          "plaintext_sha256": "bb9f8df61474d25e71fa00722318cd387396ca1736605e1248821cc0de3d3af8",
+          "ciphertext_sidecar": {
+            "representation": "contained-regular-file",
+            "path": "security-kernel/vectors/backup-v1/multi-chunk/frame-000.ciphertext.bin",
+            "length": 4194321,
+            "sha256": "bbc2cecb0ab6271022842f4bf0d55c8848073b4db11242a54bd1c2ea3a0ae742"
+          }
+        },
+        {
+          "index": 1,
+          "tag": "MESSAGE",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d6500845820103c53a222decd4249ceb495ae942016f3c9b3e5b45fb5459f58a02053e75fba010102",
+          "plaintext_recipe": {
+            "id": "zero-logical-then-libsodium-deterministic-padding-v1",
+            "logical_offset": 4194304,
+            "logical_bytes": 1,
+            "padding_bytes": 4194303,
+            "padding_generator": "libsodium-randombytes-buf-deterministic-1.0.22",
+            "padding_seed_hex": "bcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadb"
+          },
+          "plaintext_length": 4194304,
+          "plaintext_sha256": "82b4b00694dcef841c6d8935725255161368cb911ee3628fe8c4de88be37fe18",
+          "ciphertext_sidecar": {
+            "representation": "contained-regular-file",
+            "path": "security-kernel/vectors/backup-v1/multi-chunk/frame-001.ciphertext.bin",
+            "length": 4194321,
+            "sha256": "ae4e0e955ae731ad577002c3269861c85f8d9334d2e6cc4a92e413cdc1af8545"
+          }
+        },
+        {
+          "index": 2,
+          "tag": "FINAL",
+          "aad_hex": "706d2d76312f6261636b75702d6672616d6500845820103c53a222decd4249ceb495ae942016f3c9b3e5b45fb5459f58a02053e75fba020202",
+          "plaintext_hex": "855820103c53a222decd4249ceb495ae942016f3c9b3e5b45fb5459f58a02053e75fba021a004000011a00800000582095e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+          "ciphertext_hex": "3b971a14f62e416a4352f26e5be4b01d3d748052dcdad7a2bfffa0159ded8a25b0ce1e9c916e866878f920b2cbfcb3e83e7cf00b1e80dde37e999e7a0194ccf2b166d102cd2fe70e86f583598c31b7d811b8e052fce2a9c34898f2c214966f3af2"
+        }
+      ],
+      "review": {
+        "disposition": "ai-non-human-reviewed"
+      },
+      "fixture_sha256": "d32ce5d16400d9c66e7bad8aa7deead8280ac91e839e9f71a51319597aacbff6"
+    }
+  }
+}

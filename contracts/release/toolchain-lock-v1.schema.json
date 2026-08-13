@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/release/toolchain-lock-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release", "policy", "dependency_authority", "tools", "reviewed_dependencies"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "release": {"const": "v1.0.0"},
+    "policy": {"const": "exact-version-and-feature-preflight"},
+    "dependency_authority": {"const": "cargo-manifest-and-lock-authoritative"},
+    "tools": {
+      "type": "array", "minItems": 26, "maxItems": 26, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/tool"}
+    },
+    "reviewed_dependencies": {
+      "type": "array", "minItems": 18, "maxItems": 18, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/dependencyReview"}
+    }
+  },
+  "$defs": {
+    "toolId": {
+      "enum": [
+        "rust", "cargo", "node", "corepack-pnpm", "docker-engine", "docker-buildx",
+        "docker-buildkit", "docker-compose", "postgresql", "chromium", "firefox",
+        "webkit-webview", "android-webview", "java", "gradle", "android-sdk",
+        "android-ndk", "tauri", "syft", "grype", "trivy", "cosign", "jq",
+        "zstd", "tar", "gzip"
+      ]
+    },
+    "tool": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["id", "version", "digest_status", "license_review", "provenance"],
+          "properties": {
+            "id": {"$ref": "#/$defs/toolId"},
+            "version": {"type": "string", "minLength": 1, "maxLength": 80},
+            "features": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 120}},
+            "digest_status": {"enum": ["required-at-release-build", "host-tool-not-redistributed", "dependency-lock", "device-evidence-required"]},
+            "license_review": {"const": "required-before-release"},
+            "provenance": {"const": "record-at-release-build"}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["id", "version_status", "digest_status", "license_review", "provenance"],
+          "properties": {
+            "id": {"$ref": "#/$defs/toolId"},
+            "version_status": {"const": "required-no-default"},
+            "features": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 120}},
+            "digest_status": {"enum": ["required-at-release-build", "host-tool-not-redistributed", "device-evidence-required"]},
+            "license_review": {"const": "required-before-release"},
+            "provenance": {"const": "record-at-release-build"}
+          }
+        }
+      ]
+    },
+    "dependencyReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "features", "targets", "license_review", "msrv_review", "provenance"],
+      "properties": {
+        "id": {"enum": ["zeroize", "subtle", "minicbor", "argon2", "hkdf", "sha2", "chacha20poly1305", "ed25519-dalek", "p256", "hpke", "serde_json", "base64ct", "libsodium-rs", "getrandom", "wasm-bindgen", "cbindgen", "jni", "cargo-ndk"]},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+(?:\\.[0-9]+)?$"},
+        "features": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 120}},
+        "targets": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["all", "native", "wasm32-unknown-unknown", "android"]}},
+        "license_review": {"const": "required-before-manifest-acceptance"},
+        "msrv_review": {"const": "must-not-exceed-rust-1.93.1"},
+        "provenance": {"const": "cargo-lock-plus-upstream-metadata"}
+      }
+    }
+  }
+}

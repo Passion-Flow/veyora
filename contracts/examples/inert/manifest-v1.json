@@ -1,0 +1,8 @@
+{
+  "schema_version":1,
+  "fixture_class":"inert-public-example",
+  "manifest_revision":1,
+  "live_count":1,
+  "tombstone_count":0,
+  "contains_client_semantics":false
+}

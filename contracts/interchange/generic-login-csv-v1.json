@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "media_type": "text/csv;charset=utf-8;profile=veyora-generic-login-v1",
+  "encoding": "UTF-8",
+  "dialect": "RFC-4180",
+  "header": ["name", "website", "username", "password", "notes", "tags_json"],
+  "tags_encoding": "json-string-array",
+  "line_endings": "LF-or-CRLF",
+  "bom": "reject",
+  "duplicate_headers": "reject",
+  "duplicate_derived_ids": "reject",
+  "secret_bytes": "preserve-parsed-field-bytes",
+  "transaction": "all-or-nothing",
+  "export": false
+}

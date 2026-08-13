@@ -1,0 +1,12 @@
+{
+  "$schema": "catalog-manifest-v1.schema.json",
+  "schema_version": 1,
+  "initial_locale": "system-preference-order",
+  "fallback_locale": "en-US",
+  "candidate_locales": ["en-US", "ar", "he", "pl", "sl", "ga", "cy", "sw", "hi", "ja", "zh-Hans"],
+  "production_locales": [],
+  "test_locales": ["en-XA", "ar-XB"],
+  "inert_sample_locales": ["en-US", "cy"],
+  "review_policy": "complete-catalog-plus-named-human-review",
+  "brand_message_id": "app.displayName"
+}

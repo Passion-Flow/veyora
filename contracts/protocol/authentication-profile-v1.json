@@ -1,0 +1,8 @@
+{
+  "$schema": "authentication-profile-v1.schema.json",
+  "schema_version": 1,
+  "native": {"method": "Ed25519-device-proof", "operation_authorization": "per-mutation", "domain_prefix": "pm-v1/auth/"},
+  "web": {"method": "WebAuthn-ES256", "discoverable": true, "user_verification": "required", "operation_authorization": "per-mutation", "extensions": []},
+  "reserved_disabled": ["OPAQUE", "password-over-TLS", "password-hash-login", "magic-link"],
+  "master_password_transport": "forbidden"
+}

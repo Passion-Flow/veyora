@@ -1,0 +1,15 @@
+{
+  "$schema": "service-capabilities-v1.schema.json",
+  "schema_version": 1,
+  "default": "deny",
+  "services": {
+    "gateway": {"routes":["public-gateway"],"database_operations":[],"secret_files":[],"network_targets":["api","web"],"volumes":[],"jobs":[],"observability":["gateway-metrics"]},
+    "api": {"routes":["private-api"],"database_operations":["api-transaction"],"secret_files":["server-identity-key","database-api-password"],"network_targets":["postgresql"],"volumes":[],"jobs":["enqueue-outbox"],"observability":["api-metrics"]},
+    "worker": {"routes":[],"database_operations":["worker-lease","outbox"],"secret_files":["database-worker-password"],"network_targets":["postgresql"],"volumes":[],"jobs":["worker-jobs"],"observability":["worker-metrics"]},
+    "web": {"routes":["static-assets"],"database_operations":[],"secret_files":[],"network_targets":[],"volumes":[],"jobs":[],"observability":[]},
+    "sandbox": {"routes":[],"database_operations":[],"secret_files":[],"network_targets":[],"volumes":[],"jobs":[],"observability":[],"stdin":["bounded-ciphertext"]},
+    "migrator": {"routes":[],"database_operations":["schema-migration"],"secret_files":["database-migrator-password"],"network_targets":["postgresql"],"volumes":[],"jobs":[],"observability":["migration-status"]},
+    "backup": {"routes":[],"database_operations":["logical-snapshot"],"secret_files":["database-backup-password","backup-key","receipt-signing-key"],"network_targets":["postgresql","backup-target"],"volumes":["backup-staging"],"jobs":["backup-once"],"observability":["backup-status"]},
+    "restore": {"routes":[],"database_operations":["provisional-restore"],"secret_files":["database-restore-password","backup-key"],"network_targets":["provisional-postgresql","operator-egress-proxy"],"volumes":["restore-staging"],"jobs":["restore-once"],"observability":["restore-status"]}
+  }
+}

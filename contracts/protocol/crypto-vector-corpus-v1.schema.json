@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/crypto-vector-corpus-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "corpus_id", "provenance_contract", "canonical_hash_rule", "vectors"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "corpus_id": {"const": "project-crypto-v1"},
+    "provenance_contract": {"const": "contracts/protocol/vector-provenance-v1.json"},
+    "canonical_hash_rule": {"const": "veyora-vector-json-v1"},
+    "vectors": {"type": "array", "minItems": 19, "maxItems": 19, "uniqueItems": true, "items": {"$ref": "#/$defs/vector"}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^(?!0{64}$)[0-9a-f]{64}$"},
+    "hex": {"type": "string", "pattern": "^(?:[0-9a-f]{2})+$"},
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "source_kind", "source_ref", "source_sha256"],
+      "properties": {
+        "owner": {"const": "independent-reference-oracle"},
+        "source_kind": {"const": "committed-file"},
+        "source_ref": {"const": "security-kernel/oracles/project-crypto-v1.py"},
+        "source_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "review": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["disposition"],
+          "properties": {"disposition": {"const": "ai-non-human-reviewed"}}
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["disposition", "review_record_path", "review_record_sha256"],
+          "properties": {
+            "disposition": {"const": "qualified-human-reviewed"},
+            "review_record_path": {"type": "string", "pattern": "^docs/security/reviews/project-crypto-v1/[a-z0-9][a-z0-9-]*\\.review-v1\\.json$"},
+            "review_record_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "signedBooleanCommon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boolean_value", "boolean_location", "domain", "verification_key_hex", "body_cbor_hex", "preimage_hex", "signature_hex", "signed_envelope_hex", "envelope_sha256"],
+      "properties": {
+        "boolean_value": {"type": "boolean"},
+        "boolean_location": {"type": "string", "minLength": 1},
+        "domain": {"type": "string", "minLength": 1},
+        "verification_key_hex": {"type": "string", "pattern": "^(?!0{64}$)[0-9a-f]{64}$"},
+        "body_cbor_hex": {"$ref": "#/$defs/hex"},
+        "preimage_hex": {"$ref": "#/$defs/hex"},
+        "signature_hex": {"type": "string", "pattern": "^(?!0{128}$)[0-9a-f]{128}$"},
+        "signed_envelope_hex": {"$ref": "#/$defs/hex"},
+        "envelope_sha256": {"$ref": "#/$defs/sha256"},
+        "manifest_leaf_cbor_hex": {"$ref": "#/$defs/hex"},
+        "manifest_leaf_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "accountBooleanSubfixture": {
+      "$ref": "#/$defs/signedBooleanCommon",
+      "properties": {
+        "boolean_location": {"const": "account-state.devices[0].credential.backup-state"},
+        "domain": {"const": "pm-v1/account-state"},
+        "manifest_leaf_cbor_hex": false,
+        "manifest_leaf_sha256": false
+      }
+    },
+    "manifestBooleanSubfixture": {
+      "$ref": "#/$defs/signedBooleanCommon",
+      "required": ["manifest_leaf_cbor_hex", "manifest_leaf_sha256"],
+      "properties": {
+        "boolean_location": {"const": "manifest-leaf.tombstone"},
+        "domain": {"const": "pm-v1/manifest"},
+        "manifest_leaf_cbor_hex": {"$ref": "#/$defs/hex"},
+        "manifest_leaf_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "accountBooleanPair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["false", "true"],
+      "properties": {
+        "false": {"$ref": "#/$defs/accountBooleanSubfixture", "properties": {"boolean_value": {"const": false}}},
+        "true": {"$ref": "#/$defs/accountBooleanSubfixture", "properties": {"boolean_value": {"const": true}}}
+      }
+    },
+    "manifestBooleanPair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["false", "true"],
+      "properties": {
+        "false": {"$ref": "#/$defs/manifestBooleanSubfixture", "properties": {"boolean_value": {"const": false}}},
+        "true": {"$ref": "#/$defs/manifestBooleanSubfixture", "properties": {"boolean_value": {"const": true}}}
+      }
+    },
+    "vectorBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "source_document", "source_section", "provenance_id", "generator", "inputs", "expected_bytes", "intermediates", "protocol_boolean_coverage", "fixture_sha256", "review"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "family": {"enum": ["argon2id", "hkdf-sha256", "xchacha20poly1305", "hpke-base-x25519", "ed25519-strict", "p256-es256", "protocol-cbor", "webauthn-cbor", "webauthn-client-json", "recovery-human-form", "session-policy", "webauthn-composite-enrollment", "unlock-wrap-buckets", "native-web-bootstrap", "authentication-contexts", "root-rotation", "signed-checkpoint", "signed-account-state-false-true", "signed-manifest-false-true"]},
+        "source_document": {"type": "string", "minLength": 1},
+        "source_section": {"type": "string", "minLength": 1},
+        "provenance_id": {"const": "project-crypto-v1"},
+        "generator": {"$ref": "#/$defs/generator"},
+        "inputs": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hex"}},
+        "expected_bytes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hex"}},
+        "intermediates": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hex"}},
+        "protocol_boolean_coverage": {"oneOf": [{"const": []}, {"const": [false, true]}]},
+        "boolean_subfixtures": {"type": "object"},
+        "fixture_sha256": {"$ref": "#/$defs/sha256"},
+        "review": {"$ref": "#/$defs/review"}
+      }
+    },
+    "vector": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/vectorBase",
+          "properties": {
+            "family": {"enum": ["argon2id", "hkdf-sha256", "xchacha20poly1305", "hpke-base-x25519", "ed25519-strict", "p256-es256", "protocol-cbor", "webauthn-cbor", "webauthn-client-json", "recovery-human-form", "session-policy", "webauthn-composite-enrollment", "unlock-wrap-buckets", "native-web-bootstrap", "authentication-contexts", "root-rotation", "signed-checkpoint"]},
+            "protocol_boolean_coverage": {"const": []},
+            "boolean_subfixtures": false
+          }
+        },
+        {
+          "$ref": "#/$defs/vectorBase",
+          "required": ["boolean_subfixtures"],
+          "properties": {
+            "family": {"const": "signed-account-state-false-true"},
+            "protocol_boolean_coverage": {"const": [false, true]},
+            "boolean_subfixtures": {"$ref": "#/$defs/accountBooleanPair"}
+          }
+        },
+        {
+          "$ref": "#/$defs/vectorBase",
+          "required": ["boolean_subfixtures"],
+          "properties": {
+            "family": {"const": "signed-manifest-false-true"},
+            "protocol_boolean_coverage": {"const": [false, true]},
+            "boolean_subfixtures": {"$ref": "#/$defs/manifestBooleanPair"}
+          }
+        }
+      ]
+    }
+  }
+}

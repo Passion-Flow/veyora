@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/backup/backup-artifact-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "media_type", "protocol_chunk_bytes", "storage_buffer_bytes", "data_frame_overhead", "message_tag", "message_tag_value", "final_tag", "final_tag_value", "frame_order", "aad_domain", "final_plaintext_fields", "artifact_length_equation", "trailing_bytes", "goldens", "golden_evidence_status"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "media_type": {"const": "application/vnd.veyora.encrypted-backup-v1+cbor"},
+    "protocol_chunk_bytes": {"const": 4194304},
+    "storage_buffer_bytes": {"const": 1048576},
+    "data_frame_overhead": {"const": 17},
+    "message_tag": {"const": "MESSAGE"},
+    "message_tag_value": {"const": 0},
+    "final_tag": {"const": "FINAL"},
+    "final_tag_value": {"const": 3},
+    "frame_order": {"const": "one-or-more-MESSAGE-then-exactly-one-FINAL"},
+    "aad_domain": {"const": "pm-v1/backup-frame"},
+    "final_plaintext_fields": {"const": ["header_sha256", "data_chunk_count", "logical_size", "padded_plaintext_bytes", "logical_snapshot_sha256"]},
+    "artifact_length_equation": {"const": "cbor_outer_overhead+canonical_header_bytes+(data_chunk_count*4194321)+final_frame_bytes"},
+    "trailing_bytes": {"const": "reject"},
+    "goldens": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+    "golden_evidence_status": {"enum": ["wire-components-only-task5-encrypted-vectors-required", "encrypted-vectors-evidenced"]}
+  }
+}

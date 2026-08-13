@@ -1,0 +1,43 @@
+{
+  "$schema": "claim-policy-v1.schema.json",
+  "schema_version": 1,
+  "categories": ["PROMOTE", "PROMOTE_WITH_EVIDENCE_QUALIFIER", "AVAILABLE_BUT_DO_NOT_LEAD", "ROADMAP_DO_NOT_PROMISE", "PROHIBITED_CLAIM"],
+  "availability_states": ["DESIGNED", "IMPLEMENTED", "EVIDENCED-CANDIDATE", "PUBLISHED", "WITHDRAWN"],
+  "prohibited_phrases": [
+    "military-grade security", "bank-grade", "financial-grade security",
+    "impossible to hack", "unhackable", "zero knowledge proven", "fully zero knowledge",
+    "securely deleted", "clipboard cleared", "remote device erased", "latest backup",
+    "end-to-end TLS", "open source", "open-source", "OSI approved", "free for any use",
+    "Veyora®", "registered worldwide", "commercial license available", "commercial contact",
+    "AI verified", "AI audited", "deploy anywhere", "all platforms", "every language",
+    "fully accessible", "production ready", "PCI DSS compliant", "SOC 2 certified",
+    "ISO 27001 certified", "FIPS certified", "FedRAMP certified", "NIST AAL certified",
+    "OWASP verified", "SAMM maturity", "SLSA level", "OCI certified", "Docker certified"
+  ],
+  "claims": [
+    {"id":"CLAIM-PRIVATE-SPACE","category":"PROMOTE","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-USER-OWNERSHIP","category":"PROMOTE","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-CONTEXTUAL-ACCESS","category":"PROMOTE","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-ENCRYPTED-TEMPLATES","category":"PROMOTE","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-CALM-USABILITY","category":"PROMOTE","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-TRANSPARENT-DEVELOPMENT","category":"PROMOTE","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-CLIENT-ENCRYPTION","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Requires exact build and ciphertext-only server evidence."},
+    {"id":"CLAIM-ZERO-KNOWLEDGE-BEHAVIOR","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to the exact evidenced client, server, metadata, recovery, and Web-delivery scope."},
+    {"id":"CLAIM-SYNC","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to verified protocol interoperability and rollback tests."},
+    {"id":"CLAIM-CLIENT-SUPPORT","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to exact evidenced Web, Linux, macOS, Windows, and Android artifact tuples."},
+    {"id":"CLAIM-IMPORT-EXPORT","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to the exact v1 formats and all-or-nothing tests."},
+    {"id":"CLAIM-BACKUP-RESTORE","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to exact adapter, encrypted-vector, and isolated restore evidence."},
+    {"id":"CLAIM-ACCESSIBILITY","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to named tested complete processes and the released matrix."},
+    {"id":"CLAIM-LANGUAGES","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to complete catalogs and named human review per locale."},
+    {"id":"CLAIM-MANAGED-DATABASE","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to an exact tested PostgreSQL provider/version profile."},
+    {"id":"CLAIM-HARDWARE-PROTECTION","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to exact device and credential-store evidence."},
+    {"id":"CLAIM-PERFORMANCE","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to named budgets, sample counts, and evidenced hosts."},
+    {"id":"CLAIM-SUPPLY-CHAIN","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Describes exact SBOM, signature, scan, and provenance artifacts without a certification claim."},
+    {"id":"CLAIM-REPRODUCIBILITY","category":"PROMOTE_WITH_EVIDENCE_QUALIFIER","state":"DESIGNED","qualifier":"Bound to exact toolchain and supported-host rebuild evidence."},
+    {"id":"CLAIM-MICROSERVICES","category":"AVAILABLE_BUT_DO_NOT_LEAD","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-OPERATIONS-TOPOLOGY","category":"AVAILABLE_BUT_DO_NOT_LEAD","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-STANDARDS-MAPS","category":"AVAILABLE_BUT_DO_NOT_LEAD","state":"DESIGNED","qualifier":"Evidence framework only; not verification or certification."},
+    {"id":"CLAIM-WIDER-IDENTITY-PLATFORM","category":"ROADMAP_DO_NOT_PROMISE","state":"DESIGNED","qualifier":null},
+    {"id":"CLAIM-GUARANTEES-OR-CERTIFICATIONS","category":"PROHIBITED_CLAIM","state":"DESIGNED","qualifier":"Never publish guarantees, unsupported certification, false licensing, or universal support wording."}
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/invariants-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_version", "suite_id", "account_state_version", "backup_format_version", "release_version", "normative_documents", "cddl_structures", "invariants"],
+  "properties": {
+    "$schema": {"const": "invariants-v1.schema.json"},
+    "schema_version": {"const": 1},
+    "protocol_version": {"const": 1},
+    "suite_id": {"const": 1},
+    "account_state_version": {"const": 1},
+    "backup_format_version": {"const": 1},
+    "release_version": {"const": "v1.0.0"},
+    "normative_documents": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/normativeDocument"}
+    },
+    "cddl_structures": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/cddlStructure"}
+    },
+    "invariants": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/invariant"}}
+  },
+  "$defs": {
+    "tokenCounts": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 1}
+    },
+    "normativeDocument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "assignments", "required_domains", "required_domain_patterns", "required_algorithms", "fenced_structures"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^docs/adr/[0-9]{4}-[a-z0-9-]+\\.md$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "assignments": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1}},
+        "required_domains": {"$ref": "#/$defs/tokenCounts"},
+        "required_domain_patterns": {"$ref": "#/$defs/tokenCounts"},
+        "required_algorithms": {"$ref": "#/$defs/tokenCounts"},
+        "fenced_structures": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/fencedStructure"}
+        }
+      }
+    },
+    "fencedStructure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section", "ordinal", "language", "sha256"],
+      "properties": {
+        "section": {"type": "string", "minLength": 1},
+        "ordinal": {"type": "integer", "minimum": 1},
+        "language": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "cddlStructure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "rule", "elements"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^contracts/cddl/[a-z0-9-]+\\.cddl$"},
+        "rule": {"type": "string", "pattern": "^[a-z][a-z0-9-]+$"},
+        "elements": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "invariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "value", "configurable", "source", "consumers", "migration"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9.-]+$"},
+        "value": true,
+        "configurable": {"const": false},
+        "source": {"type": "string", "minLength": 1},
+        "consumers": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["security-kernel", "backend", "frontend"]}},
+        "migration": {"enum": ["new-protocol-version", "new-format-version"]}
+      }
+    }
+  }
+}

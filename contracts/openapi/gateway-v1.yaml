@@ -1,0 +1,862 @@
+{
+  "components": {
+    "parameters": {
+      "PageLimit": {
+        "in": "query",
+        "name": "limit",
+        "required": true,
+        "schema": {
+          "maximum": 500,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "SnapshotCursor": {
+        "in": "query",
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "maxLength": 4096,
+          "minLength": 16,
+          "type": "string"
+        }
+      }
+    },
+    "requestBodies": {
+      "AuthenticationPrepareRequest": {
+        "$ref": "#/components/requestBodies/BoundAuthenticationPrepareRequest"
+      },
+      "AuthorizedCommitRequest": {
+        "$ref": "#/components/requestBodies/BoundAuthorizedCommitRequest"
+      },
+      "BackupRequest": {
+        "$ref": "#/components/requestBodies/BoundBackupRequest"
+      },
+      "BootstrapRequest": {
+        "$ref": "#/components/requestBodies/BoundBootstrapRequest"
+      },
+      "BoundAuthenticationPrepareRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/AuthenticationPrepareRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "BoundAuthorizedCommitRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/AuthorizedCommitRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "BoundBackupRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/BackupRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "BoundBootstrapRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/BootstrapRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "BoundCommitAuthorizationPrepareRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/CommitAuthorizationPrepareRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "BoundCommitReconciliationRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/CommitReconciliationRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "BoundRecoveryPrepareRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/RecoveryPrepareRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "BoundRestoreRequest": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/RestoreRequestV1"
+            }
+          }
+        },
+        "required": true
+      },
+      "CommitAuthorizationPrepareRequest": {
+        "$ref": "#/components/requestBodies/BoundCommitAuthorizationPrepareRequest"
+      },
+      "CommitReconciliationRequest": {
+        "$ref": "#/components/requestBodies/BoundCommitReconciliationRequest"
+      },
+      "RecoveryPrepareRequest": {
+        "$ref": "#/components/requestBodies/BoundRecoveryPrepareRequest"
+      },
+      "RestoreRequest": {
+        "$ref": "#/components/requestBodies/BoundRestoreRequest"
+      }
+    },
+    "responses": {
+      "AuthenticationPrepareResponse": {
+        "$ref": "#/components/responses/BoundAuthenticationPrepareResponse"
+      },
+      "AuthorizedCommitResponse": {
+        "$ref": "#/components/responses/BoundAuthorizedCommitResponse"
+      },
+      "BackupResponse": {
+        "$ref": "#/components/responses/BoundBackupResponse"
+      },
+      "BootstrapResponse": {
+        "$ref": "#/components/responses/BoundBootstrapResponse"
+      },
+      "BoundAuthenticationPrepareResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/AuthenticationPrepareResponseV1"
+            }
+          }
+        },
+        "description": "Bounded authentication preparation response."
+      },
+      "BoundAuthorizedCommitResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/AuthorizedCommitResponseV1"
+            }
+          }
+        },
+        "description": "Bounded atomic commit result."
+      },
+      "BoundBackupResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/BackupResponseV1"
+            }
+          }
+        },
+        "description": "Bounded backup operation response."
+      },
+      "BoundBootstrapResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/BootstrapResponseV1"
+            }
+          }
+        },
+        "description": "Bounded bootstrap response."
+      },
+      "BoundCommitAuthorizationPrepareResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/CommitAuthorizationPrepareResponseV1"
+            }
+          }
+        },
+        "description": "Bounded commit authorization challenge."
+      },
+      "BoundCommitReconciliationResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/CommitReconciliationResponseV1"
+            }
+          }
+        },
+        "description": "Bounded ambiguous-commit reconciliation result."
+      },
+      "BoundCompatibilityResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/CompatibilityResponseV1"
+            }
+          }
+        },
+        "description": "Bounded compatibility response."
+      },
+      "BoundDeviceListResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/DeviceListResponseV1"
+            }
+          }
+        },
+        "description": "Bounded device-list response."
+      },
+      "BoundRecoveryPrepareResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/RecoveryPrepareResponseV1"
+            }
+          }
+        },
+        "description": "Bounded recovery preparation response."
+      },
+      "BoundRestoreResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/RestoreResponseV1"
+            }
+          }
+        },
+        "description": "Bounded restore operation response."
+      },
+      "BoundSnapshotPageResponse": {
+        "content": {
+          "application/cbor": {
+            "schema": {
+              "$ref": "#/components/schemas/SnapshotPageResponseV1"
+            }
+          }
+        },
+        "description": "Authenticated bounded snapshot page."
+      },
+      "CommitAuthorizationPrepareResponse": {
+        "$ref": "#/components/responses/BoundCommitAuthorizationPrepareResponse"
+      },
+      "CommitReconciliationResponse": {
+        "$ref": "#/components/responses/BoundCommitReconciliationResponse"
+      },
+      "CompatibilityResponse": {
+        "$ref": "#/components/responses/BoundCompatibilityResponse"
+      },
+      "DeviceListResponse": {
+        "$ref": "#/components/responses/BoundDeviceListResponse"
+      },
+      "ErrorResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorV1"
+            }
+          }
+        },
+        "description": "Stable redacted error."
+      },
+      "HealthResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HealthV1"
+            }
+          }
+        },
+        "description": "Non-sensitive process health."
+      },
+      "RecoveryPrepareResponse": {
+        "$ref": "#/components/responses/BoundRecoveryPrepareResponse"
+      },
+      "RestoreResponse": {
+        "$ref": "#/components/responses/BoundRestoreResponse"
+      },
+      "SnapshotPageResponse": {
+        "$ref": "#/components/responses/BoundSnapshotPageResponse"
+      }
+    },
+    "schemas": {
+      "AuthenticationPrepareRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/authentication-prepare-request",
+          "cryptographic_authorization": "account-envelope-proof",
+          "operation_class": "challenge-nonce",
+          "state_binding": "current-account-to-single-use-challenge"
+        }
+      },
+      "AuthenticationPrepareResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/authentication-prepare-response",
+          "cryptographic_authorization": "account-envelope-proof",
+          "operation_class": "challenge-nonce",
+          "state_binding": "current-account-to-single-use-challenge"
+        }
+      },
+      "AuthorizedCommitRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/authorized-commit-request",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-exact-replay",
+          "state_binding": "prior-and-proposed-state-roots"
+        }
+      },
+      "AuthorizedCommitResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/authorized-commit-response",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-exact-replay",
+          "state_binding": "prior-and-proposed-state-roots"
+        }
+      },
+      "BackupRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/backup-request",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-resumable",
+          "state_binding": "current-checkpoint-and-manifest-root"
+        }
+      },
+      "BackupResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/backup-response",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-resumable",
+          "state_binding": "current-checkpoint-and-manifest-root"
+        }
+      },
+      "BootstrapRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/bootstrap-request",
+          "cryptographic_authorization": "bootstrap-mac",
+          "operation_class": "bootstrap-cas",
+          "state_binding": "fresh-account-to-bootstrap-state"
+        }
+      },
+      "BootstrapResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/bootstrap-response",
+          "cryptographic_authorization": "bootstrap-mac",
+          "operation_class": "bootstrap-cas",
+          "state_binding": "fresh-account-to-bootstrap-state"
+        }
+      },
+      "CommitAuthorizationPrepareRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/commit-authorization-prepare-request",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "authorization-challenge",
+          "state_binding": "prior-account-record-manifest-roots"
+        }
+      },
+      "CommitAuthorizationPrepareResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/commit-authorization-prepare-response",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "authorization-challenge",
+          "state_binding": "prior-account-record-manifest-roots"
+        }
+      },
+      "CommitReconciliationRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/commit-reconciliation-request",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-reconciliation",
+          "state_binding": "operation-id-and-current-state-root"
+        }
+      },
+      "CommitReconciliationResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/commit-reconciliation-response",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-reconciliation",
+          "state_binding": "operation-id-and-current-state-root"
+        }
+      },
+      "CompatibilityResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/compatibility-response",
+          "cryptographic_authorization": "public-version-negotiation",
+          "operation_class": "read-only",
+          "state_binding": "protocol-version-state"
+        }
+      },
+      "DeviceListResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/device-list-response",
+          "cryptographic_authorization": "read-session-or-device",
+          "operation_class": "read-only",
+          "state_binding": "current-account-state"
+        }
+      },
+      "ErrorV1": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "pattern": "^PM-[A-Z0-9-]+$",
+            "type": "string"
+          },
+          "message_id": {
+            "pattern": "^[a-z][A-Za-z0-9_.]+$",
+            "type": "string"
+          },
+          "retry": {
+            "enum": [
+              "never",
+              "safe",
+              "after-action",
+              "resume-only"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message_id",
+          "retry"
+        ],
+        "type": "object"
+      },
+      "HealthV1": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "enum": [
+              "ok",
+              "unavailable"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "RecoveryPrepareRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/recovery-prepare-request",
+          "cryptographic_authorization": "recovery-kit-proof",
+          "operation_class": "challenge-nonce",
+          "state_binding": "current-account-to-single-use-recovery-challenge"
+        }
+      },
+      "RecoveryPrepareResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/recovery-prepare-response",
+          "cryptographic_authorization": "recovery-kit-proof",
+          "operation_class": "challenge-nonce",
+          "state_binding": "current-account-to-single-use-recovery-challenge"
+        }
+      },
+      "RestoreRequestV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/restore-request",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-resumable",
+          "state_binding": "fresh-destination-and-client-confirmed-checkpoint"
+        }
+      },
+      "RestoreResponseV1": {
+        "format": "binary",
+        "maxLength": 2097152,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/restore-response",
+          "cryptographic_authorization": "native-ed25519-or-webauthn-composite",
+          "operation_class": "operation-id-resumable",
+          "state_binding": "fresh-destination-and-client-confirmed-checkpoint"
+        }
+      },
+      "SnapshotPageResponseV1": {
+        "format": "binary",
+        "maxLength": 4194304,
+        "minLength": 1,
+        "type": "string",
+        "x-veyora-wire": {
+          "contract_id": "pm-v1/snapshot-page-response",
+          "cryptographic_authorization": "read-session-or-device",
+          "operation_class": "authenticated-snapshot-cursor",
+          "state_binding": "signed-checkpoint-and-manifest-root"
+        }
+      }
+    },
+    "securitySchemes": {
+      "csrfHeader": {
+        "in": "header",
+        "name": "X-Veyora-CSRF",
+        "type": "apiKey"
+      },
+      "deviceAuthorization": {
+        "bearerFormat": "Veyora-Device-Proof",
+        "scheme": "bearer",
+        "type": "http"
+      },
+      "sessionCookie": {
+        "in": "cookie",
+        "name": "__Host-veyora_session",
+        "type": "apiKey"
+      }
+    }
+  },
+  "info": {
+    "description": "Ciphertext-only protocol surface; audited wire identities remain in the pm-v1 namespace.",
+    "title": "Veyora private client gateway",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "liveness",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/HealthResponse"
+          }
+        },
+        "security": []
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "readiness",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/HealthResponse"
+          },
+          "503": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": []
+      }
+    },
+    "/v1/auth/prepare": {
+      "post": {
+        "operationId": "prepareAuthentication",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AuthenticationPrepareRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/AuthenticationPrepareResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": []
+      }
+    },
+    "/v1/backups": {
+      "post": {
+        "operationId": "requestBackup",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/BackupRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/BackupResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "csrfHeader": [],
+            "sessionCookie": []
+          },
+          {
+            "deviceAuthorization": []
+          }
+        ]
+      }
+    },
+    "/v1/bootstrap": {
+      "post": {
+        "operationId": "bootstrap",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/BootstrapRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/BootstrapResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": []
+      }
+    },
+    "/v1/commits/authorized": {
+      "post": {
+        "operationId": "commitAuthorized",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AuthorizedCommitRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/AuthorizedCommitResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "csrfHeader": [],
+            "sessionCookie": []
+          },
+          {
+            "deviceAuthorization": []
+          }
+        ]
+      }
+    },
+    "/v1/commits/prepare-authorization": {
+      "post": {
+        "operationId": "prepareCommitAuthorization",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CommitAuthorizationPrepareRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/CommitAuthorizationPrepareResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "csrfHeader": [],
+            "sessionCookie": []
+          },
+          {
+            "deviceAuthorization": []
+          }
+        ]
+      }
+    },
+    "/v1/commits/reconcile": {
+      "post": {
+        "operationId": "reconcileCommit",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CommitReconciliationRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/CommitReconciliationResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "csrfHeader": [],
+            "sessionCookie": []
+          },
+          {
+            "deviceAuthorization": []
+          }
+        ]
+      }
+    },
+    "/v1/compatibility": {
+      "get": {
+        "operationId": "negotiateCompatibility",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/CompatibilityResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": []
+      }
+    },
+    "/v1/devices": {
+      "get": {
+        "operationId": "listDevices",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/DeviceListResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "sessionCookie": []
+          },
+          {
+            "deviceAuthorization": []
+          }
+        ]
+      }
+    },
+    "/v1/recovery/prepare": {
+      "post": {
+        "operationId": "prepareRecovery",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RecoveryPrepareRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/RecoveryPrepareResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": []
+      }
+    },
+    "/v1/restores": {
+      "post": {
+        "operationId": "requestRestore",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RestoreRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/RestoreResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "csrfHeader": [],
+            "sessionCookie": []
+          },
+          {
+            "deviceAuthorization": []
+          }
+        ]
+      }
+    },
+    "/v1/snapshot": {
+      "get": {
+        "operationId": "fetchSnapshotPage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SnapshotCursor"
+          },
+          {
+            "$ref": "#/components/parameters/PageLimit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SnapshotPageResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "sessionCookie": []
+          },
+          {
+            "deviceAuthorization": []
+          }
+        ]
+      }
+    }
+  },
+  "servers": []
+}

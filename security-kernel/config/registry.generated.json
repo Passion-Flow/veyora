@@ -1,0 +1,594 @@
+{
+  "_generated": {
+    "banner": "GENERATED: read-only owner projection; edit contracts/registry/settings.json",
+    "catalog_version": 1,
+    "owner": "security-kernel",
+    "projection_integrity": "sha256:4a8e710e2dfadaf4b084121c39e1bbb2e473848ffa66da12dfde8c46b3166fda",
+    "read_only": true,
+    "source": "contracts/registry/settings.json",
+    "source_integrity": "sha256:9de9f3507d3b2dff770ef3889124d51731bc436fbb1b2a05e70a364423c1612f"
+  },
+  "settings": [
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 3,
+          "minimum": 3
+        },
+        "safety": {
+          "maximum": 3,
+          "minimum": 3
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Exact Argon2id iteration count for the immutable portable-v1 password profile governed by ADR 0001.",
+      "id": "security-kernel.argon2.iterations",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Authenticated KDF parameters are protocol metadata, never password material.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 3
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 65536,
+          "minimum": 65536
+        },
+        "safety": {
+          "maximum": 65536,
+          "minimum": 65536
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Exact Argon2id memory cost in KiB for the immutable portable-v1 password profile governed by ADR 0001.",
+      "id": "security-kernel.argon2.memory-kib",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Authenticated KDF parameters are protocol metadata, never password material.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 65536
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1,
+          "minimum": 1
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Exact Argon2id lane count for the immutable portable-v1 password profile governed by ADR 0001.",
+      "id": "security-kernel.argon2.parallelism",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "Authenticated KDF parameters are protocol metadata, never password material.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 1
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 10,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 10,
+          "minimum": 1
+        }
+      },
+      "classification": "runtime-nonsensitive",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Bounded local wall-clock abort budget for one Argon2 operation without weakening memory or iteration floors.",
+      "id": "security-kernel.argon2.wall-clock-ceiling-seconds",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A fixed resource ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "command",
+        "owner-file",
+        "deployment-adapter",
+        "secure-default"
+      ],
+      "reload": "restart",
+      "value": {
+        "kind": "duration-seconds"
+      },
+      "value_policy": {
+        "default": 10,
+        "mode": "default"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1,
+          "minimum": 1
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Fixed signed account-authorization-state format version.",
+      "id": "security-kernel.protocol.account-state-version",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A signed-state format version is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 1
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 4194304,
+          "minimum": 4194304
+        },
+        "safety": {
+          "maximum": 4194304,
+          "minimum": 4194304
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Fixed v1 plaintext backup chunk size before final-chunk padding and streaming encryption.",
+      "id": "security-kernel.protocol.backup-chunk-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A public protocol framing constant is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 4194304
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1,
+          "minimum": 1
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Fixed encrypted-backup-v1 framing version using libsodium secretstream XChaCha20-Poly1305.",
+      "id": "security-kernel.protocol.backup-format-version",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A backup format version is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 1
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1,
+          "minimum": 1
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Cryptographic suite identifier governed by ADR 0001; it is never selected by deployment configuration.",
+      "id": "security-kernel.protocol.crypto-suite",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A suite identifier is nonsensitive protocol metadata.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 1
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 512,
+          "minimum": 512
+        },
+        "safety": {
+          "maximum": 512,
+          "minimum": 512
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Non-configurable field-count safety ceiling for encrypted templates and items.",
+      "id": "security-kernel.protocol.fields-per-record-ceiling",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A safety ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 512
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 32,
+          "minimum": 32
+        },
+        "safety": {
+          "maximum": 32,
+          "minimum": 32
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Non-configurable relationship traversal depth ceiling.",
+      "id": "security-kernel.protocol.graph-depth-ceiling",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A safety ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 32
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "allowed": [
+            "0020-0001-0003"
+          ]
+        },
+        "safety": {
+          "allowed": [
+            "0020-0001-0003"
+          ]
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Fixed RFC 9180 HPKE suite tuple: DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, ChaCha20Poly1305.",
+      "id": "security-kernel.protocol.hpke-suite",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A standards algorithm tuple is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "string"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": "0020-0001-0003"
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1024,
+          "minimum": 1024
+        },
+        "safety": {
+          "maximum": 1024,
+          "minimum": 1024
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Maximum canonical UTF-8 master-password bytes accepted before Argon2 work.",
+      "id": "security-kernel.protocol.password-bytes-ceiling",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An input byte ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 1024
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 32,
+          "minimum": 32
+        },
+        "safety": {
+          "maximum": 32,
+          "minimum": 32
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Fixed CSPRNG entropy bytes encoded by the checksummed recovery text.",
+      "id": "security-kernel.protocol.recovery-entropy-bytes",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "An entropy length is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 32
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 2048,
+          "minimum": 2048
+        },
+        "safety": {
+          "maximum": 2048,
+          "minimum": 2048
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Non-configurable per-record relationship safety ceiling.",
+      "id": "security-kernel.protocol.relationships-per-record-ceiling",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A safety ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 2048
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1048576,
+          "minimum": 1048576
+        },
+        "safety": {
+          "maximum": 1048576,
+          "minimum": 1048576
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Non-configurable parsed string byte ceiling before client-side encryption.",
+      "id": "security-kernel.protocol.string-bytes-ceiling",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A safety ceiling is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "bytes"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 1048576
+      }
+    },
+    {
+      "bounds": {
+        "operational": {
+          "maximum": 1,
+          "minimum": 1
+        },
+        "safety": {
+          "maximum": 1,
+          "minimum": 1
+        }
+      },
+      "classification": "protocol-invariant",
+      "deprecation": {
+        "status": "active"
+      },
+      "description": "Canonical message protocol version governed by ADR 0001 and compatibility contracts.",
+      "id": "security-kernel.protocol.version",
+      "log_policy": {
+        "diagnostics": "allowed",
+        "logs": "allowed",
+        "reason": "A protocol version is nonsensitive.",
+        "support_bundles": "allowed"
+      },
+      "owner": "security-kernel",
+      "precedence": [
+        "protocol-contract"
+      ],
+      "reload": "build",
+      "value": {
+        "kind": "integer"
+      },
+      "value_policy": {
+        "mode": "fixed",
+        "value": 1
+      }
+    }
+  ]
+}

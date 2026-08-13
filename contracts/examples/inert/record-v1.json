@@ -1,0 +1,8 @@
+{
+  "schema_version":1,
+  "fixture_class":"inert-public-example",
+  "record_id":"000102030405060708090a0b0c0d0e0f",
+  "revision":1,
+  "ciphertext_base64":"aW5lcnQtY2lwaGVydGV4dC1ub3QtYS1zZWNyZXQ=",
+  "contains_real_secret":false
+}

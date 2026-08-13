@@ -1,0 +1,20 @@
+ARG RUST_IMAGE=rust:1.93.1-slim
+ARG DEBIAN_IMAGE=debian:bookworm-slim
+FROM ${RUST_IMAGE} AS builder
+ENV RUSTFLAGS="-D warnings"
+WORKDIR /veyora
+COPY security-kernel/ ./security-kernel/
+COPY backend/ ./backend/
+COPY contracts/ ./contracts/
+RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,target=/veyora/backend/target,sharing=locked \
+    cargo build --release --manifest-path backend/Cargo.toml -p migrator && \
+    cp backend/target/release/migrator /veyora-migrator
+
+FROM ${DEBIAN_IMAGE}
+COPY --from=builder /veyora-migrator /usr/local/bin/veyora-migrator
+# Migrations are baked into the image so the deployed stack needs no source
+# checkout: pull-and-run only. Keep in sync with the migrator's default
+# VEYORA_MIGRATIONS_DIR=/app/migrations.
+COPY backend/crates/postgres/migrations /app/migrations
+ENTRYPOINT ["veyora-migrator"]

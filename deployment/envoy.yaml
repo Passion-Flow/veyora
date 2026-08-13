@@ -1,0 +1,75 @@
+# Veyora Gateway — Envoy reverse proxy configuration template.
+#
+# In production this sits behind owner-managed external TLS ingress and is the
+# only externally published application boundary. It forwards to the API service
+# and enforces trusted-proxy headers, CSP, and rate limits.
+#
+# The __VEYORA_*__ placeholders are rendered from environment variables at
+# container start (see Dockerfile.gateway.build ENTRYPOINT and
+# .env.example). Nothing is hard-coded:
+#   __VEYORA_GATEWAY_LISTEN_PORT__       listener port (container side)
+#   __VEYORA_API_UPSTREAM_HOST__         API service hostname
+#   __VEYORA_API_UPSTREAM_PORT__         API service port
+#   __VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__  per-request route timeout
+# The admin interface stays bound to loopback inside the container (9901).
+
+static_resources:
+  listeners:
+    - name: veyora_gateway
+      address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: __VEYORA_GATEWAY_LISTEN_PORT__
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.http_connection_manager
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                stat_prefix: veyora_gateway
+                internal_address_config:
+                  cidr_ranges:
+                    - { address_prefix: 10.0.0.0, prefix_len: 8 }
+                    - { address_prefix: 172.16.0.0, prefix_len: 12 }
+                    - { address_prefix: 192.168.0.0, prefix_len: 16 }
+                route_config:
+                  virtual_hosts:
+                    - name: veyora_api
+                      domains: ["*"]
+                      routes:
+                        - match: { prefix: "/" }
+                          route:
+                            cluster: veyora_api
+                            timeout: __VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__s
+                http_filters:
+                  - name: envoy.filters.http.cors
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
+                  - name: envoy.filters.http.router
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+  clusters:
+    - name: veyora_api
+      type: STRICT_DNS
+      lb_policy: ROUND_ROBIN
+      load_assignment:
+        cluster_name: veyora_api
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: __VEYORA_API_UPSTREAM_HOST__
+                      port_value: __VEYORA_API_UPSTREAM_PORT__
+
+overload_manager:
+  resource_monitors:
+    - name: envoy.resource_monitors.global_downstream_max_connections
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.resource_monitors.downstream_connections.v3.DownstreamConnectionsConfig
+        max_active_downstream_connections: 1000
+
+admin:
+  address:
+    socket_address:
+      address: 127.0.0.1
+      port_value: 9901

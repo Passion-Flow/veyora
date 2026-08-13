@@ -1,0 +1,23 @@
+manifest-v1 = [
+  protocol-version: 1,
+  suite-id: 1,
+  deployment-id: bytes .size 16,
+  vault-id: bytes .size 16,
+  authority-kind: 4,
+  manifest-key-id: bytes .size 16,
+  signature-key-state-revision: uint,
+  manifest-revision: uint,
+  prior-manifest-root: bytes .size 32,
+  current-record-root: bytes .size 32,
+  committed-account-state-revision: uint,
+  committed-account-state-root: bytes .size 32,
+  key-epoch: uint,
+  live-count: uint,
+  tombstone-count: uint,
+  active-writer-version: uint,
+  active-suite: uint,
+  minimum-reader-version: uint,
+  minimum-suite: uint,
+  operation-authorization-hash: bytes .size 32,
+  operation-id: bytes .size 16
+]

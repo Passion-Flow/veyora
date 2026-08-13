@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/i18n/message-parameters-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "allowed_types", "forbidden_classes", "raw_html"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "allowed_types": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"enum": ["public-string", "integer", "duration", "date-time", "status-code"]}
+    },
+    "forbidden_classes": {
+      "type": "array",
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {"enum": ["secret", "master-password", "recovery-key", "vault-key", "plaintext-value", "ciphertext", "credential"]}
+    },
+    "raw_html": {"const": false}
+  }
+}
