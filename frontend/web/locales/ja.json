@@ -644,6 +644,9 @@
     },
     "settings.resetVaultConfirm": {
       "text": "もう一度タップして確認"
+    },
+    "toast.renderError": {
+      "text": "このビューの描画中に問題が発生しました"
     }
   }
 }

@@ -644,6 +644,9 @@
     },
     "settings.resetVaultConfirm": {
       "text": "Нажмите ещё раз для подтверждения"
+    },
+    "toast.renderError": {
+      "text": "Не удалось отобразить это представление"
     }
   }
 }

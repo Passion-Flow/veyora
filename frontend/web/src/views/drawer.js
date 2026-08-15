@@ -6,7 +6,7 @@
 import { t, formatDate, setLocale, getLocale } from '../i18n/index.js';
 import { LOCALES } from '../i18n/registry.js';
 import { icon } from '../core/icons.js';
-import { $, esc, toast, copyWithTimeout, downloadText } from '../core/ui.js';
+import { $, esc, toast, copyWithTimeout, downloadText, guardRender } from '../core/ui.js';
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES, detailFields } from '../data/schema.js';
@@ -23,6 +23,10 @@ export const LOCALE_CHANGED_EVENT = 'veyora:locale-changed';
 
 /** Open the drawer, optionally forcing a content view. */
 export function openDrawer(view) {
+  guardRender('drawer', () => openDrawerInner(view));
+}
+
+function openDrawerInner(view) {
   if (view) {
     state.detailView = view;
     state.selectedId = null;

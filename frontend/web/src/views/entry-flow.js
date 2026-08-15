@@ -7,7 +7,7 @@
  */
 import { t } from '../i18n/index.js';
 import { icon } from '../core/icons.js';
-import { $, esc, toast, copyWithTimeout, downloadText } from '../core/ui.js';
+import { $, esc, toast, copyWithTimeout, downloadText, guardRender } from '../core/ui.js';
 import { vault } from '../core/vault.js';
 import { state, resetSession } from '../core/state.js';
 import { SECURITY, DEMO, TIMING, STORAGE_KEYS } from '../config.js';
@@ -27,6 +27,10 @@ export function setOnVaultEntered(handler) { onVaultEntered = handler; }
 
 /** Render the full entry surface into the app root. */
 export function renderEntryFlow(targetView) {
+  guardRender('entry-flow', () => renderEntryFlowInner(targetView));
+}
+
+function renderEntryFlowInner(targetView) {
   const view = targetView || (vault.hasVault() ? 'lock-unlock' : 'lock-welcome');
   $('#root').innerHTML = `
     <div id="view-lock">

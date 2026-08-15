@@ -29,6 +29,21 @@ export function toast(message, iconName = 'check') {
   toastTimer = setTimeout(() => host.classList.remove('on'), TIMING.toastMs);
 }
 
+/**
+ * Render error boundary: a throwing render leaves the last good DOM in
+ * place, surfaces a toast instead of a white screen, and keeps the cause
+ * in the console for diagnosis.
+ */
+export function guardRender(label, fn) {
+  try {
+    return fn();
+  } catch (error) {
+    console.error(`[veyora] render failed: ${label}`, error);
+    try { toast(t('toast.renderError'), 'alert'); } catch { /* i18n unavailable */ }
+    return undefined;
+  }
+}
+
 /** Copy text, then clear the clipboard after the configured delay. */
 export async function copyWithTimeout(text, label) {
   let ok = false;

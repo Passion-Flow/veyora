@@ -644,6 +644,9 @@
     },
     "settings.resetVaultConfirm": {
       "text": "انقر مرة أخرى للتأكيد"
+    },
+    "toast.renderError": {
+      "text": "حدثت مشكلة أثناء عرض هذه الواجهة"
     }
   }
 }

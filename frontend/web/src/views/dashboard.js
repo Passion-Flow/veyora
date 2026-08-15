@@ -4,7 +4,7 @@
  */
 import { t, formatDate } from '../i18n/index.js';
 import { icon } from '../core/icons.js';
-import { $, esc } from '../core/ui.js';
+import { $, esc, guardRender } from '../core/ui.js';
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES } from '../data/schema.js';
@@ -58,6 +58,10 @@ export function visibleEntries() {
 
 /** Render the complete dashboard shell into the app root. */
 export function renderDashboard() {
+  guardRender('dashboard', () => renderDashboardInner());
+}
+
+function renderDashboardInner() {
   $('#root').innerHTML = `
     <div id="view-app" class="on">
       <header class="topbar">

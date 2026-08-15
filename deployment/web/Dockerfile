@@ -20,10 +20,12 @@ CMD ["/bin/sh", "-c", "\
   : \"${VEYORA_API_UPSTREAM_PORT:?VEYORA_API_UPSTREAM_PORT is required}\"; \
   : \"${VEYORA_WEB_PROXY_TIMEOUT_SECONDS:?VEYORA_WEB_PROXY_TIMEOUT_SECONDS is required}\"; \
   : \"${VEYORA_API_BASE_URL:?VEYORA_API_BASE_URL is required (e.g. http://localhost:8080)}\"; \
+  : \"${VEYORA_CSP_CONNECT_SRC:='self'}\"; \
   sed -i -e \"s/__VEYORA_WEB_LISTEN_PORT__/${VEYORA_WEB_LISTEN_PORT}/g\" \
          -e \"s/__VEYORA_API_UPSTREAM_HOST__/${VEYORA_API_UPSTREAM_HOST}/g\" \
          -e \"s/__VEYORA_API_UPSTREAM_PORT__/${VEYORA_API_UPSTREAM_PORT}/g\" \
          -e \"s/__VEYORA_WEB_PROXY_TIMEOUT_SECONDS__/${VEYORA_WEB_PROXY_TIMEOUT_SECONDS}/g\" \
+         -e \"s/__VEYORA_CSP_CONNECT_SRC__/${VEYORA_CSP_CONNECT_SRC}/g\" \
          /etc/nginx/conf.d/default.conf && \
   printf 'window.VEYORA_API_BASE_URL = \"%s\";\n' \"${VEYORA_API_BASE_URL}\" \
       > /usr/share/nginx/html/veyora-config.js && \

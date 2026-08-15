@@ -644,6 +644,9 @@
     },
     "settings.resetVaultConfirm": {
       "text": "Zum Bestätigen erneut tippen"
+    },
+    "toast.renderError": {
+      "text": "Beim Rendern dieser Ansicht ist ein Problem aufgetreten"
     }
   }
 }

@@ -644,6 +644,9 @@
     },
     "settings.resetVaultConfirm": {
       "text": "Tap again to confirm"
+    },
+    "toast.renderError": {
+      "text": "Something went wrong rendering this view"
     }
   }
 }

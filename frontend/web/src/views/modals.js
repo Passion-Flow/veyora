@@ -4,7 +4,7 @@
  */
 import { t } from '../i18n/index.js';
 import { icon } from '../core/icons.js';
-import { $, esc, toast, copyWithTimeout } from '../core/ui.js';
+import { $, esc, toast, copyWithTimeout, guardRender } from '../core/ui.js';
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { kernel, entropyBits } from '../core/kernel.js';
@@ -23,6 +23,10 @@ let generatorTarget = null;
 
 /** Open the entry modal; pass an id to edit an existing record. */
 export function openEntryModal(editId) {
+  guardRender('entry-modal', () => openEntryModalInner(editId));
+}
+
+function openEntryModalInner(editId) {
   state.editingId = editId || null;
   const entry = editId ? vault.entries.find(item => item.id === editId) : null;
   state.entryTmpl = entry ? entry.type : 'login';
@@ -158,6 +162,10 @@ const GENERATOR_OPTIONS = Object.freeze([
 
 /** Open the generator; `targetKey` names a secret field to fill on use. */
 export function openGenerator(targetKey) {
+  guardRender('generator', () => openGeneratorInner(targetKey));
+}
+
+function openGeneratorInner(targetKey) {
   generatorTarget = targetKey || null;
   $('#gen-use').classList.toggle('hidden', !generatorTarget);
   const range = $('#gen-len');

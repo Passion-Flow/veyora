@@ -644,6 +644,9 @@
     },
     "settings.resetVaultConfirm": {
       "text": "다시 눌러 확인"
+    },
+    "toast.renderError": {
+      "text": "이 뷰를 렌더링하는 중 문제가 발생했습니다"
     }
   }
 }

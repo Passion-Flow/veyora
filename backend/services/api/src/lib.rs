@@ -368,7 +368,7 @@ async fn health() -> StatusCode {
 /// Version info endpoint.
 async fn version() -> Json<VersionInfo> {
     Json(VersionInfo {
-        version: "v1.0.0-dev".to_string(),
+        version: format!("v{}", env!("CARGO_PKG_VERSION")),
         protocol_version: 1,
         suite_id: 1,
     })

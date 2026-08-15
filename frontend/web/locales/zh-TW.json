@@ -644,6 +644,9 @@
     },
     "settings.resetVaultConfirm": {
       "text": "再點一次確認"
+    },
+    "toast.renderError": {
+      "text": "呈現此檢視時發生問題"
     }
   }
 }
