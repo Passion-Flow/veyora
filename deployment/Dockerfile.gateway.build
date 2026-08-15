@@ -1,18 +1,54 @@
 ARG ENVOY_IMAGE=envoyproxy/envoy:v1.31.10
 FROM ${ENVOY_IMAGE}
 COPY deployment/envoy.yaml /etc/envoy/envoy.yaml
-EXPOSE 8080
+EXPOSE 8080 8443
 # Configuration is rendered from environment variables at container start and
 # every variable is REQUIRED (fail fast with a clear message, no defaults).
 # The full documented set lives in .env.example.
+#
+# TLS mode: when VEYORA_GATEWAY_TLS_CERT_FILE is set, the gateway terminates
+# TLS on VEYORA_GATEWAY_TLS_PORT (default 8443) and redirects HTTP→HTTPS on
+# VEYORA_GATEWAY_HTTP_PORT (default 8080). Without certificates, the gateway
+# falls back to plain HTTP on VEYORA_GATEWAY_HTTP_PORT only (development).
 ENTRYPOINT ["/bin/bash", "-c", "\
-  : \"${VEYORA_GATEWAY_LISTEN_PORT:?VEYORA_GATEWAY_LISTEN_PORT is required}\"; \
+  : \"${VEYORA_GATEWAY_HTTP_PORT:=8080}\"; \
   : \"${VEYORA_API_UPSTREAM_HOST:?VEYORA_API_UPSTREAM_HOST is required}\"; \
   : \"${VEYORA_API_UPSTREAM_PORT:?VEYORA_API_UPSTREAM_PORT is required}\"; \
   : \"${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS:?VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS is required}\"; \
-  sed -i -e \"s/__VEYORA_GATEWAY_LISTEN_PORT__/${VEYORA_GATEWAY_LISTEN_PORT}/g\" \
-         -e \"s/__VEYORA_API_UPSTREAM_HOST__/${VEYORA_API_UPSTREAM_HOST}/g\" \
-         -e \"s/__VEYORA_API_UPSTREAM_PORT__/${VEYORA_API_UPSTREAM_PORT}/g\" \
-         -e \"s/__VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__/${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}/g\" \
-         /etc/envoy/envoy.yaml && \
+  if [ -n \"${VEYORA_GATEWAY_TLS_CERT_FILE}\" ] && [ -n \"${VEYORA_GATEWAY_TLS_KEY_FILE}\" ]; then \
+    : \"${VEYORA_GATEWAY_TLS_PORT:=8443}\"; \
+    if [ ! -f \"${VEYORA_GATEWAY_TLS_CERT_FILE}\" ]; then \
+      echo \"veyora-gateway: TLS certificate not found: ${VEYORA_GATEWAY_TLS_CERT_FILE}\" >&2; exit 1; \
+    fi; \
+    if [ ! -f \"${VEYORA_GATEWAY_TLS_KEY_FILE}\" ]; then \
+      echo \"veyora-gateway: TLS private key not found: ${VEYORA_GATEWAY_TLS_KEY_FILE}\" >&2; exit 1; \
+    fi; \
+    echo \"veyora-gateway: TLS enabled on :${VEYORA_GATEWAY_TLS_PORT}, HTTP redirect on :${VEYORA_GATEWAY_HTTP_PORT}\" >&2; \
+    sed -i -e \"s/__VEYORA_GATEWAY_TLS_PORT__/${VEYORA_GATEWAY_TLS_PORT}/g\" \
+           -e \"s/__VEYORA_GATEWAY_HTTP_PORT__/${VEYORA_GATEWAY_HTTP_PORT}/g\" \
+           -e \"s|__VEYORA_GATEWAY_TLS_CERT_FILE__|${VEYORA_GATEWAY_TLS_CERT_FILE}|g\" \
+           -e \"s|__VEYORA_GATEWAY_TLS_KEY_FILE__|${VEYORA_GATEWAY_TLS_KEY_FILE}|g\" \
+           -e \"s/__VEYORA_API_UPSTREAM_HOST__/${VEYORA_API_UPSTREAM_HOST}/g\" \
+           -e \"s/__VEYORA_API_UPSTREAM_PORT__/${VEYORA_API_UPSTREAM_PORT}/g\" \
+           -e \"s/__VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__/${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}/g\" \
+           /etc/envoy/envoy.yaml; \
+  else \
+    echo \"veyora-gateway: TLS disabled (no certificates), plain HTTP on :${VEYORA_GATEWAY_HTTP_PORT}\" >&2; \
+    sed -i -e \"s/__VEYORA_GATEWAY_TLS_PORT__/${VEYORA_GATEWAY_HTTP_PORT}/g\" \
+           -e \"s/__VEYORA_GATEWAY_HTTP_PORT__/${VEYORA_GATEWAY_HTTP_PORT}/g\" \
+           -e \"s|__VEYORA_GATEWAY_TLS_CERT_FILE|/dev/null|g\" \
+           -e \"s|__VEYORA_GATEWAY_TLS_KEY_FILE|/dev/null|g\" \
+           -e \"s/__VEYORA_API_UPSTREAM_HOST__/${VEYORA_API_UPSTREAM_HOST}/g\" \
+           -e \"s/__VEYORA_API_UPSTREAM_PORT__/${VEYORA_API_UPSTREAM_PORT}/g\" \
+           -e \"s/__VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__/${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}/g\" \
+           /etc/envoy/envoy.yaml; \
+    # In plain-HTTP mode, strip the TLS listener (keep only the HTTP one). \
+    python3 -c \"\
+import yaml, sys; \
+config = yaml.safe_load(open('/etc/envoy/envoy.yaml')); \
+listeners = [l for l in config['static_resources']['listeners'] if l['name'] == 'veyora_gateway_redirect']; \
+config['static_resources']['listeners'] = listeners; \
+yaml.dump(config, open('/etc/envoy/envoy.yaml','w'), default_flow_style=False); \
+\" 2>/dev/null || sed -i '/veyora_gateway_tls/,/^    # ── HTTP/ { /^    # ── HTTP/!d }' /etc/envoy/envoy.yaml; \
+  fi && \
   exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]

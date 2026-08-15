@@ -1,31 +1,53 @@
-# Veyora Gateway — Envoy reverse proxy configuration template.
+# Veyora Gateway — Envoy reverse proxy with TLS termination.
 #
-# In production this sits behind owner-managed external TLS ingress and is the
-# only externally published application boundary. It forwards to the API service
-# and enforces trusted-proxy headers, CSP, and rate limits.
+# In production this is the only externally published application boundary.
+# It terminates TLS, redirects HTTP→HTTPS, enforces security headers, and
+# forwards to the API service.
 #
 # The __VEYORA_*__ placeholders are rendered from environment variables at
-# container start (see Dockerfile.gateway.build ENTRYPOINT and
-# .env.example). Nothing is hard-coded:
-#   __VEYORA_GATEWAY_LISTEN_PORT__       listener port (container side)
+# container start (see Dockerfile.gateway.build ENTRYPOINT and .env.example).
+# Nothing is hard-coded:
+#   __VEYORA_GATEWAY_TLS_PORT__          TLS listener port (container side, default 8443)
+#   __VEYORA_GATEWAY_HTTP_PORT__         HTTP redirect listener (container side, default 8080)
+#   __VEYORA_GATEWAY_TLS_CERT_FILE__     Full chain certificate path
+#   __VEYORA_GATEWAY_TLS_KEY_FILE__      Private key path
 #   __VEYORA_API_UPSTREAM_HOST__         API service hostname
 #   __VEYORA_API_UPSTREAM_PORT__         API service port
-#   __VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__  per-request route timeout
+#   __VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__  Per-request route timeout
 # The admin interface stays bound to loopback inside the container (9901).
 
 static_resources:
   listeners:
-    - name: veyora_gateway
+    # ── HTTPS listener (TLS termination) ──
+    - name: veyora_gateway_tls
       address:
         socket_address:
           address: 0.0.0.0
-          port_value: __VEYORA_GATEWAY_LISTEN_PORT__
+          port_value: __VEYORA_GATEWAY_TLS_PORT__
       filter_chains:
-        - filters:
+        - transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              common_tls_context:
+                tls_certificates:
+                  - certificate_chain:
+                      filename: __VEYORA_GATEWAY_TLS_CERT_FILE__
+                    private_key:
+                      filename: __VEYORA_GATEWAY_TLS_KEY_FILE__
+                tls_params:
+                  # TLS 1.2+ per RFC 8446 §Appendix B; TLS 1.0/1.1 are
+                  # deprecated per RFC 8996.
+                  tls_minimum_protocol_version: TLSv1_2
+                  tls_maximum_protocol_version: TLSv1_3
+              # Require a valid client SNI (prevents IP-based scanning).
+              require_client_certificate: false
+          filters:
             - name: envoy.filters.network.http_connection_manager
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-                stat_prefix: veyora_gateway
+                stat_prefix: veyora_gateway_tls
+                # Trust private-network X-Forwarded-* headers only.
                 internal_address_config:
                   cidr_ranges:
                     - { address_prefix: 10.0.0.0, prefix_len: 8 }
@@ -33,8 +55,27 @@ static_resources:
                     - { address_prefix: 192.168.0.0, prefix_len: 16 }
                 route_config:
                   virtual_hosts:
-                    - name: veyora_api
+                    - name: veyora_api_tls
                       domains: ["*"]
+                      # HSTS: max-age 2 years, includeSubDomains per
+                      # RFC 6797 §6.1.2. Not preload (single-service origin).
+                      response_headers_to_add:
+                        - header:
+                            key: Strict-Transport-Security
+                            value: "max-age=63072000; includeSubDomains"
+                          append_action: OVERWRITE_IF_EXISTS_OR_ADD
+                        - header:
+                            key: X-Content-Type-Options
+                            value: nosniff
+                          append_action: OVERWRITE_IF_EXISTS_OR_ADD
+                        - header:
+                            key: X-Frame-Options
+                            value: DENY
+                          append_action: OVERWRITE_IF_EXISTS_OR_ADD
+                        - header:
+                            key: Referrer-Policy
+                            value: strict-origin-when-cross-origin
+                          append_action: OVERWRITE_IF_EXISTS_OR_ADD
                       routes:
                         - match: { prefix: "/" }
                           route:
@@ -47,10 +88,51 @@ static_resources:
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+    # ── HTTP listener (redirect to HTTPS) ──
+    - name: veyora_gateway_redirect
+      address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: __VEYORA_GATEWAY_HTTP_PORT__
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.http_connection_manager
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                stat_prefix: veyora_gateway_redirect
+                route_config:
+                  virtual_hosts:
+                    - name: redirect_to_https
+                      domains: ["*"]
+                      response_headers_to_add:
+                        - header:
+                            key: Location
+                            value: "https://%REQ(:AUTHORITY)%%REQ(:PATH)%"
+                          append_action: OVERWRITE_IF_EXISTS_OR_ADD
+                      routes:
+                        - match: { prefix: "/" }
+                          direct_response:
+                            status: 301
+                            body:
+                              inline_string: "Moved to HTTPS\n"
+                http_filters:
+                  - name: envoy.filters.http.router
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
   clusters:
     - name: veyora_api
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
+      # Health-check the API so we stop routing when it is down.
+      health_checks:
+        - timeout: 2s
+          interval: 10s
+          unhealthy_threshold: 3
+          healthy_threshold: 1
+          http_health_check:
+            path: /healthz
       load_assignment:
         cluster_name: veyora_api
         endpoints:
