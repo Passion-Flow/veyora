@@ -86,6 +86,19 @@ export function renderDetail() {
 /* Record detail                                                       */
 /* ------------------------------------------------------------------ */
 
+/** Password-health badge for the detail header (reuse + age). */
+function healthBadge(entry) {
+  const health = analyzePasswordHealth(vault.entries);
+  const parts = [];
+  if (health.reusedIds.has(entry.id)) parts.push(t('health.reused'));
+  const age = health.ageDays.get(entry.id);
+  if (age !== undefined && age >= 0) {
+    const label = ageLabel(age, formatNumber);
+    if (label) parts.push(label);
+  }
+  return parts.length ? ` · ${parts.join(' · ')}` : '';
+}
+
 function entryHtml(entry) {
   const type = TYPES[entry.type];
   const revealed = Boolean(state.revealed[entry.id]);

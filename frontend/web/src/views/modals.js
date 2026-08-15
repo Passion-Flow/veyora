@@ -125,6 +125,7 @@ async function saveEntry() {
       existing.name = name;
       existing.updated = new Date().toISOString();
       await recordSync.saveEntry(existing, existing.revision);
+      state.selectedId = existing.id;
       toast(t('toast.updated', { revision: existing.revision }), 'check');
     } else {
       let id = slugify(name);
@@ -134,6 +135,7 @@ async function saveEntry() {
       defs.forEach(def => { if (def.k !== 'name') entry[def.k] = read(def.k); });
       await recordSync.saveEntry(entry);
       vault.entries.push(entry);
+      state.selectedId = id;
       toast(t('toast.created'), 'lock');
     }
   } catch (error) {

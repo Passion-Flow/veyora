@@ -12,6 +12,7 @@ import { analyzePasswordHealth } from '../data/health.js';
 import { formatNumber } from '../i18n/index.js';
 import { GENERATOR, TIMING } from '../config.js';
 import { recordSync } from '../core/records.js';
+import { storage } from '../core/storage.js';
 import { t as translate } from '../i18n/index.js';
 
 /** Visual masking glyph — a symbol, not localized text. */
