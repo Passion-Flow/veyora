@@ -508,3 +508,23 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;background:var(--fi
 
 /* ---------- TOTP live display ---------- */
 #totp-section .totp-code{min-width:120px}
+
+/* ---------- progressive enhancement ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus trap visual: ring on focusable elements inside dialogs */
+.drawer:focus-within .btn:focus-visible,
+.overlay:focus-within .btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---------- search highlight ---------- */
+mark{background:var(--fill);color:var(--fill-ink);padding:0 1px}
+.trow.on mark{background:var(--fill-ink);color:var(--fill)}

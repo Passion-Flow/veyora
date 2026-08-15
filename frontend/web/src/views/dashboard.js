@@ -191,6 +191,7 @@ function wireDashboard() {
   });
   $('#sort').addEventListener('change', event => {
     state.sort = event.target.value;
+    storage.set('veyora.web.sort', state.sort);
     renderTable();
   });
   $('#table-body').addEventListener('click', onTableClick);
@@ -277,6 +278,7 @@ export function renderTabs() {
   document.querySelectorAll('.tab').forEach(button =>
     button.addEventListener('click', async () => {
       state.nav = button.dataset.nav;
+      storage.set('veyora.web.nav', state.nav);
       if (state.nav === 'trash' && !state.trashEntries) {
         state.trashEntries = await recordSync.fetchTrash().catch(() => []);
       }
@@ -314,6 +316,16 @@ export function renderTable() {
     const subtitle = entry.username || entry.website || entry.service
       || entry.host || t(`type.${entry.type}`);
     const loginCell = entry.username || SECRET_MASK;
+    const highlightMatch = (text) => {
+      if (!state.query.trim()) return esc(text);
+      const q = state.query.trim().toLowerCase();
+      const idx = String(text).toLowerCase().indexOf(q);
+      if (idx < 0) return esc(text);
+      const before = esc(String(text).slice(0, idx));
+      const match = esc(String(text).slice(idx, idx + q.length));
+      const after = esc(String(text).slice(idx + q.length));
+      return `${before}<mark>${match}</mark>${after}`;
+    };
     const selected = entry.id === state.selectedId && !state.detailView;
     const badges = [];
     if (health.reusedIds.has(entry.id)) badges.push(`<span class="badge-warn" title="${t('health.reused')}">${icon('alert', 10)}</span>`);
@@ -322,8 +334,8 @@ export function renderTable() {
       <div class="col-item">
         <span class="tile">${icon(type.icon, 14)}</span>
         <div style="min-width:0">
-          <div class="tn">${esc(entry.name)}${entry.favorite ? ' ' + icon('starFill', 12) : ''}${badges.join('')}</div>
-          <div class="ts">${esc(subtitle)}</div>
+          <div class="tn">${highlightMatch(entry.name)}${entry.favorite ? ' ' + icon('starFill', 12) : ''}${badges.join('')}</div>
+          <div class="ts">${highlightMatch(subtitle)}</div>
         </div>
       </div>
       <span class="col-type"><span class="ttype">${t(`type.${entry.type}`)}</span></span>

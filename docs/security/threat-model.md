@@ -127,3 +127,48 @@ to bypass client cryptography.
 
 Report potential vulnerabilities through the private process in
 [SECURITY.md](../../SECURITY.md).
+
+## Feature-specific analysis (2026-08 update)
+
+### TOTP (RFC 6238)
+
+TOTP secrets are stored inside the encrypted entry JSON (`totpSecret`
+field, Base32). The server never sees them. Code generation uses
+WebCrypto HMAC-SHA-1 entirely in the browser; no network request is
+involved. The countdown display is purely visual; no timing information
+leaks to the server.
+
+### Trash / tombstone restore
+
+Tombstoned records retain their ciphertext on the server. Restoring
+re-PUTs the same ciphertext with `tombstone: false`. An attacker with
+server access could enumerate tombstoned record IDs, but without the
+key the ciphertext is indistinguishable from active records.
+
+### Password health analysis (reuse + age)
+
+Computed entirely client-side over decrypted entries. Results render as
+UI badges; no data leaves the browser.
+
+### CSV import/export
+
+Import: parsing and encryption happen in the browser; the server
+receives only sealed ciphertext via the batch endpoint. Export:
+decryption happens in the browser; the CSV file is generated client-side
+and downloaded directly. No server involvement.
+
+### Master password rotation
+
+Re-encryption happens in the browser: derive a new root key from the
+new password over a fresh salt, re-seal every record, CAS-update on the
+server. Mid-flight failure triggers best-effort rollback (re-seal under
+the old key). Documented limitation: a rollback failure may leave some
+records encrypted under the new key while the salt stays old — the user
+would need the new password to access those specific records.
+
+### Password verifier record
+
+A reserved record (`veyora-verifier-v1`) with known plaintext ensures
+even an empty vault rejects wrong passwords, preventing "unlock with
+anything" on a fresh installation. The verifier is opaque to the server
+(it is sealed like any other record).

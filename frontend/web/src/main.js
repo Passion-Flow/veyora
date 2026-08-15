@@ -200,3 +200,40 @@ async function boot() {
 }
 
 boot();
+
+/* ------------------------------------------------------------------ */
+/* Focus trap: keeps Tab inside the open dialog (drawer or modal).     */
+/* WAI-ARIA Authoring Practices §5.3 dialog pattern.                    */
+/* ------------------------------------------------------------------ */
+
+const FOCUSABLE = 'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Tab') return;
+  const drawer = document.querySelector('#drawer.on');
+  const overlay = document.querySelector('.overlay.on');
+  const container = drawer || overlay;
+  if (!container) return;
+  const focusables = [...container.querySelectorAll(FOCUSABLE)].filter(el => el.offsetParent !== null);
+  if (!focusables.length) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
+
+/* ------------------------------------------------------------------ */
+/* Sort and tab persistence: restore the last session's view.          */
+/* ------------------------------------------------------------------ */
+
+window.addEventListener('veyora:restore-ui-state', () => {
+  const savedSort = storage.get('veyora.web.sort');
+  const savedNav = storage.get('veyora.web.nav');
+  if (savedSort) state.sort = savedSort;
+  if (savedNav) state.nav = savedNav;
+});

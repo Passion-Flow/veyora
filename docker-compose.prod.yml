@@ -92,3 +92,16 @@ services:
 
 volumes:
   veyora-pg:
+
+  backup:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-backup:${VERSION:-v1.0.0}
+    profiles: ["backup"]
+    environment:
+      DATABASE_URL: postgres://veyora:${VEYORA_DB_PASSWORD}@db:5432/veyora
+    volumes:
+      - ./backups:/backups
+    entrypoint: ["/bin/sh", "-c", "while true; do sleep 86400; ./backup > /backups/veyora-$(date +%Y%m%d).json; find /backups -name '*.json' -mtime +7 -delete; done"]
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy

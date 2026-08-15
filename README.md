@@ -210,6 +210,9 @@ formats may change before a supported release.
 
 ## Documentation
 
+- [User guide](docs/USER-GUIDE.md)
+- [Operator guide](docs/OPERATOR-GUIDE.md)
+- [TLS deployment](docs/DEPLOYMENT-TLS.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Deployment](docs/DEPLOYMENT.md)
 - [API reference](docs/reference/api.md)

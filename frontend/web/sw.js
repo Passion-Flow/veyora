@@ -16,6 +16,7 @@ const PRECACHE = [
   '/',
   '/index.html',
   '/veyora-config.js',
+  '/manifest.json',
   '/assets/fonts/fonts.css',
   '/src/styles/tokens.css',
   '/src/styles/base.css',

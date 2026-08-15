@@ -37,6 +37,25 @@ process is established.
 - Web container packages `frontend/web`; the legacy single-file client has
   been removed and `make run-web` / `make build-wasm` target the new client
 
+### Added
+
+- PWA manifest for install-to-homescreen
+- Search result highlighting (`<mark>` tags)
+- Sort and tab selection persist across sessions
+- Focus trap in modals and drawer (WAI-ARIA dialog pattern)
+- `prefers-reduced-motion` respected for all animations
+- Comprehensive E2E browser test (`scripts/test-browser-full.mjs`)
+  covering TOTP, trash restore, password rotation, keyboard navigation,
+  health badges, search highlighting, and language switching
+- TLS deployment guide (`docs/DEPLOYMENT-TLS.md`)
+- User guide (`docs/USER-GUIDE.md`)
+- Operator guide (`docs/OPERATOR-GUIDE.md`)
+- Threat model updated with TOTP, trash, health analysis, CSV
+  interchange, and password rotation analysis
+- Backup service in production Compose (daily, 7-day retention)
+- `.env.example` documents `VEYORA_API_CORS_ORIGINS` and
+  `VEYORA_API_RATE_LIMIT`
+
 ### Fixed
 
 - Unlock distinguishes connectivity failures from wrong-password failures

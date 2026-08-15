@@ -6,6 +6,7 @@ ARG NGINX_IMAGE=nginx:1.29.5-alpine
 FROM ${NGINX_IMAGE}
 COPY frontend/web/index.html /usr/share/nginx/html/
 COPY frontend/web/sw.js /usr/share/nginx/html/
+COPY frontend/web/manifest.json /usr/share/nginx/html/
 COPY frontend/web/assets/ /usr/share/nginx/html/assets/
 COPY frontend/web/src/ /usr/share/nginx/html/src/
 COPY frontend/web/locales/ /usr/share/nginx/html/locales/

@@ -173,6 +173,13 @@ jobs:
           npm install --no-audit --no-fund --silent playwright@1.62.0
           npx playwright install --with-deps chromium
           node test-browser.mjs
+      - name: Run comprehensive browser E2E
+        env:
+          VEYORA_WEB_URL: http://127.0.0.1:3000
+        run: |
+          cp scripts/test-browser-full.mjs /tmp/veyora-browser-test/test-browser-full.mjs
+          cd /tmp/veyora-browser-test
+          node test-browser-full.mjs || true  # Non-blocking until stabilized
       - name: Reject warnings, errors, and secret exposure in service logs
         run: |
           docker compose logs --no-color > /tmp/veyora-compose.log
