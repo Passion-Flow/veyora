@@ -647,6 +647,30 @@
     },
     "toast.renderError": {
       "text": "Ocurrió un problema al renderizar esta vista"
+    },
+    "settings.changePw": {
+      "text": "Cambiar la contraseña maestra"
+    },
+    "settings.changePwSub": {
+      "text": "Recifra cada registro con una clave nueva"
+    },
+    "settings.changePwBtn": {
+      "text": "Cambiar"
+    },
+    "settings.changePwCurrent": {
+      "text": "Contraseña maestra actual"
+    },
+    "toast.passwordChanged": {
+      "text": "Contraseña maestra cambiada — todos los registros recifrados"
+    },
+    "toast.importBadCsv": {
+      "text": "El archivo CSV no coincide con el formato esperado"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "# elemento importado",
+        "other": "# elementos importados"
+      }
     }
   }
 }

@@ -647,6 +647,30 @@
     },
     "toast.renderError": {
       "text": "Un problème est survenu lors de l'affichage de cette vue"
+    },
+    "settings.changePw": {
+      "text": "Changer le mot de passe maître"
+    },
+    "settings.changePwSub": {
+      "text": "Rechiffre chaque enregistrement sous une nouvelle clé"
+    },
+    "settings.changePwBtn": {
+      "text": "Changer"
+    },
+    "settings.changePwCurrent": {
+      "text": "Mot de passe maître actuel"
+    },
+    "toast.passwordChanged": {
+      "text": "Mot de passe maître modifié — tous les enregistrements rechiffrés"
+    },
+    "toast.importBadCsv": {
+      "text": "Le fichier CSV ne correspond pas au format attendu"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "# élément importé",
+        "other": "# éléments importés"
+      }
     }
   }
 }

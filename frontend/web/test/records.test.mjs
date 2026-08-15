@@ -88,3 +88,97 @@ test('vault metadata persists through the safe storage layer', () => {
   vault.reset();
   assert.ok(!vault.hasVault());
 });
+
+test('importCsv encrypts and batch-stores every row, all-or-nothing', async () => {
+  recordSync.rootKey = await kernel.deriveRootKey('import-password', '00'.repeat(16));
+  vault.meta = { created: true, salt: '00'.repeat(16), vaultId: 'ab'.repeat(4) };
+  vault.entries = [];
+  const HEADER = 'name,website,username,password,notes,tags_json';
+  const csv = `${HEADER}\nAcme,https://acme,u,pw1,,[]\n`;
+  calls.length = 0;
+  // Call order: batch POST → fetchAll list → fetchAll record GET, whose
+  // ciphertext is taken from the batch request itself (sealed under the
+  // same active root key).
+  const responses = [
+    { body: [{ record_id: 'acme', ok: true, revision: 1, error: null }] },
+    { body: [{ record_id: 'acme', revision: 1, tombstone: false }] },
+    { replayBatchCiphertext: true },
+    { replayBatchCiphertext: true },
+  ];
+  globalThis.fetch = async (url, options = {}) => {
+    calls.push({ url: String(url), options });
+    const next = responses.shift();
+    if (!next) throw new TypeError('fetch failed');
+    let body = next.body;
+    if (next.replayBatchCiphertext) {
+      const batchCall = calls.find(call => call.options.method === 'POST');
+      body = { record_id: 'acme', revision: 1, ciphertext: JSON.parse(batchCall.options.body)[0].ciphertext };
+    }
+    return { ok: true, status: 200, json: async () => body };
+  };
+
+  const imported = await recordSync.importCsv(csv);
+  assert.equal(imported, 1);
+  const batch = calls.find(call => call.options.method === 'POST');
+  assert.ok(batch.url.endsWith('/records/batch'));
+  const dto = JSON.parse(batch.options.body)[0];
+  assert.equal(dto.record_id, 'acme');
+  assert.match(dto.ciphertext, /^[0-9a-f]+$/);
+
+  // A partial batch failure aborts with the server's stable code. (Entries
+  // from the first phase are cleared: re-importing the same id is rejected
+  // by design before any network call.)
+  vault.entries = [];
+  stubFetch([{ body: [{ record_id: 'acme', ok: false, revision: null, error: 'PM-STORE-CONFLICT' }] }]);
+  await assert.rejects(
+    () => recordSync.importCsv(csv),
+    error => error.code === 'PM-STORE-CONFLICT',
+  );
+});
+
+test('changeMasterPassword re-keys everything and commits the new salt', async () => {
+  vault.reset();
+  vault.meta = { created: true, salt: '11'.repeat(16), vaultId: 'cd'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('old-password', vault.meta.salt);
+  const entry = { id: 'acme', type: 'login', name: 'Acme', secret: 's', revision: 4 };
+  vault.entries = [entry];
+
+  const dtoUnderOldKey = await recordSync.sealAsDto('acme', JSON.stringify({ name: 'Acme', secret: 's' }), 5, 4);
+  const sealedHex = dtoUnderOldKey.ciphertext;
+
+  // fetch stubs in exact call order: verify list → verify GET → inventory
+  // list → inventory GET → re-key PUT → final fetchAll list (empty, so the
+  // post-change refresh needs no record GETs).
+  stubFetch([
+    { body: [{ record_id: 'acme', revision: 5, tombstone: false }] },
+    { body: { record_id: 'acme', revision: 5, ciphertext: sealedHex } },
+    { body: [{ record_id: 'acme', revision: 5, tombstone: false }] },
+    { body: { record_id: 'acme', revision: 5, ciphertext: sealedHex } },
+    { body: { revision: 6 } },
+    { body: [] },
+  ]);
+  calls.length = 0;
+  await recordSync.changeMasterPassword('old-password', 'brand-new-password');
+  assert.notEqual(vault.meta.salt, '11'.repeat(16));
+  const put = calls.find(call => call.options.method === 'PUT');
+  const body = JSON.parse(put.options.body);
+  assert.equal(body.revision, 6);
+  assert.equal(body.expected_prior_revision, 5);
+  // Re-key PUTs are sealed before the salt commit, so they carry the old
+  // identity; the vault itself must end up on the new salt.
+  assert.equal(body.deployment_id, '11'.repeat(16));
+});
+
+test('changeMasterPassword rejects a wrong current password', async () => {
+  vault.meta = { created: true, salt: '22'.repeat(16), vaultId: 'ef'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('real-password', vault.meta.salt);
+  const dto = await recordSync.sealAsDto('acme', '{}', 1);
+  stubFetch([
+    { body: [{ record_id: 'acme', revision: 1, tombstone: false }] },
+    { body: dto },
+  ]);
+  await assert.rejects(
+    () => recordSync.changeMasterPassword('wrong-current', 'next-password'),
+    error => /PM-KERNEL-/.test(String(error.message)),
+  );
+});

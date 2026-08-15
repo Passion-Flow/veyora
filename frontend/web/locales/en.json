@@ -647,6 +647,30 @@
     },
     "toast.renderError": {
       "text": "Something went wrong rendering this view"
+    },
+    "settings.changePw": {
+      "text": "Change master password"
+    },
+    "settings.changePwSub": {
+      "text": "Re-encrypts every record under a new key"
+    },
+    "settings.changePwBtn": {
+      "text": "Change"
+    },
+    "settings.changePwCurrent": {
+      "text": "Current master password"
+    },
+    "toast.passwordChanged": {
+      "text": "Master password changed — all records re-encrypted"
+    },
+    "toast.importBadCsv": {
+      "text": "The CSV file does not match the expected format"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "# entry imported",
+        "other": "# entries imported"
+      }
     }
   }
 }

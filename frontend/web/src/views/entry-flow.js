@@ -328,9 +328,15 @@ function wireWelcome() {
     }
     clearError('welcome-error');
     vault.create();
-    // Derive the session root key now so the vault opens ready to write.
+    // Derive the session root key now so the vault opens ready to write;
+    // the verifier record makes even an empty vault password-checked.
     await stageButtonWork($('#btn-create'), async (label) => {
       recordSync.rootKey = await kernel.deriveRootKey(password, vault.meta.salt);
+      try {
+        await recordSync.ensureVerifier();
+      } catch {
+        // API unreachable: live entries become the password check instead.
+      }
       label.textContent = t('entry.stage.decrypting');
       await new Promise(resolve => setTimeout(resolve, TIMING.decryptStageMs));
     }).catch(() => {});

@@ -647,6 +647,29 @@
     },
     "toast.renderError": {
       "text": "このビューの描画中に問題が発生しました"
+    },
+    "settings.changePw": {
+      "text": "マスターパスワードの変更"
+    },
+    "settings.changePwSub": {
+      "text": "すべてのレコードを新しい鍵で再暗号化します"
+    },
+    "settings.changePwBtn": {
+      "text": "変更"
+    },
+    "settings.changePwCurrent": {
+      "text": "現在のマスターパスワード"
+    },
+    "toast.passwordChanged": {
+      "text": "マスターパスワードを変更しました — すべてのレコードを再暗号化しました"
+    },
+    "toast.importBadCsv": {
+      "text": "CSV ファイルが期待する形式ではありません"
+    },
+    "toast.imported": {
+      "plural": {
+        "other": "# 件の項目をインポートしました"
+      }
     }
   }
 }

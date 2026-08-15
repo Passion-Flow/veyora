@@ -79,6 +79,15 @@ export function randomHex(byteCount) {
   return toHex(bytes);
 }
 
+/** Key-mixed demo tag: 8 bytes mixing key and nonce (demo mode only). */
+function demoTag(key, nonce) {
+  const tag = new Uint8Array(8);
+  for (let i = 0; i < tag.length; i++) {
+    tag[i] = (key[i % key.length] ^ nonce[i % nonce.length] ^ (i * 31)) & 0xff;
+  }
+  return tag;
+}
+
 export class DemoKernel {
   /** Derive a root key from password material (demo: digest reference). */
   async deriveRootKey(password, saltHex) {
@@ -87,17 +96,31 @@ export class DemoKernel {
     return new Uint8Array(digest);
   }
 
-  /** Demo record wrapping: identity transform, symmetric seal/open. */
+  /**
+   * Demo record wrapping: passthrough payload behind a key-mixed tag so a
+   * wrong key still fails like the real AEAD would (demo semantics only —
+   * not a cryptographic construction).
+   */
   deriveRecordKey(rootKey) {
     return rootKey;
   }
 
   seal(recordKey, nonce, plaintextBytes) {
-    return plaintextBytes;
+    const tag = demoTag(recordKey, nonce);
+    const sealed = new Uint8Array(tag.length + plaintextBytes.length);
+    sealed.set(tag, 0);
+    sealed.set(plaintextBytes, tag.length);
+    return sealed;
   }
 
   open(recordKey, nonce, sealedBytes) {
-    return sealedBytes;
+    const tag = demoTag(recordKey, nonce);
+    for (let i = 0; i < tag.length; i++) {
+      if (sealedBytes[i] !== tag[i]) {
+        throw new Error('PM-KERNEL-CRYPTOGRAPHIC-FAILURE');
+      }
+    }
+    return sealedBytes.slice(tag.length);
   }
 
   generateNonce() {

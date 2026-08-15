@@ -647,6 +647,29 @@
     },
     "toast.renderError": {
       "text": "渲染此视图时出现问题"
+    },
+    "settings.changePw": {
+      "text": "修改主密码"
+    },
+    "settings.changePwSub": {
+      "text": "用新密钥重新加密所有记录"
+    },
+    "settings.changePwBtn": {
+      "text": "修改"
+    },
+    "settings.changePwCurrent": {
+      "text": "当前主密码"
+    },
+    "toast.passwordChanged": {
+      "text": "主密码已修改——所有记录已重新加密"
+    },
+    "toast.importBadCsv": {
+      "text": "CSV 文件格式不符合要求"
+    },
+    "toast.imported": {
+      "plural": {
+        "other": "已导入 # 条条目"
+      }
     }
   }
 }

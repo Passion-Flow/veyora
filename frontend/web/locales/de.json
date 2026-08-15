@@ -647,6 +647,30 @@
     },
     "toast.renderError": {
       "text": "Beim Rendern dieser Ansicht ist ein Problem aufgetreten"
+    },
+    "settings.changePw": {
+      "text": "Master-Passwort ändern"
+    },
+    "settings.changePwSub": {
+      "text": "Verschlüsselt alle Datensätze mit einem neuen Schlüssel"
+    },
+    "settings.changePwBtn": {
+      "text": "Ändern"
+    },
+    "settings.changePwCurrent": {
+      "text": "Aktuelles Master-Passwort"
+    },
+    "toast.passwordChanged": {
+      "text": "Master-Passwort geändert — alle Datensätze neu verschlüsselt"
+    },
+    "toast.importBadCsv": {
+      "text": "Die CSV-Datei entspricht nicht dem erwarteten Format"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "# Eintrag importiert",
+        "other": "# Einträge importiert"
+      }
     }
   }
 }

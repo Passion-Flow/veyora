@@ -238,6 +238,20 @@ function settingsHtml() {
     </div>
     <div class="d-sec set-sec">
       <div class="micro" style="margin-bottom:var(--space-3)">${t('settings.security')}</div>
+      <div class="set-row hidden" id="change-pw-form" style="align-items:stretch">
+        <div style="flex:1;display:grid;gap:10px">
+          <input class="field-input" id="cp-current" type="password" autocomplete="current-password"
+                 placeholder="${t('settings.changePwCurrent')}">
+          <input class="field-input" id="cp-new" type="password" autocomplete="new-password"
+                 placeholder="${t('entry.create.passwordPh', { min: SECURITY.password.minLength })}">
+          <input class="field-input" id="cp-confirm" type="password" autocomplete="new-password"
+                 placeholder="${t('entry.create.confirmPh')}">
+          <div style="display:flex;gap:var(--space-2)">
+            <button class="btn" id="cp-cancel">${t('common.cancel')}</button>
+            <button class="btn btn-primary" id="cp-save">${t('modal.save')}</button>
+          </div>
+        </div>
+      </div>
       <div class="set-row">
         <div><div class="t">${t('settings.autolock')}</div><div class="s">${t('settings.autolockSub')}</div></div>
         <select class="select" id="set-autolock">${optionList(SECURITY.autoLock.optionsMinutes, settings.autoLockMin, 'settings.minutes')}</select>
@@ -245,6 +259,10 @@ function settingsHtml() {
       <div class="set-row">
         <div><div class="t">${t('settings.clipboard')}</div><div class="s">${t('settings.clipboardSub')}</div></div>
         <select class="select" id="set-clip">${optionList(SECURITY.clipboard.optionsSeconds, settings.clipboardSec, 'settings.seconds')}</select>
+      </div>
+      <div class="set-row" id="change-pw-row">
+        <div><div class="t">${t('settings.changePw')}</div><div class="s">${t('settings.changePwSub')}</div></div>
+        <button class="btn" id="set-change-pw">${icon('key', 14)}${t('settings.changePwBtn')}</button>
       </div>
     </div>
     <div class="d-sec set-sec">
@@ -256,6 +274,7 @@ function settingsHtml() {
       <div class="set-row">
         <div><div class="t">${t('settings.import')}</div><div class="s">${t('settings.importSub')}</div></div>
         <button class="btn" id="set-import">${icon('upload', 14)}${t('settings.importBtn')}</button>
+        <input type="file" id="import-file" accept=".csv,text/csv" class="hidden">
       </div>
       <div class="set-row">
         <div><div class="t">${t('settings.resetVault')}</div><div class="s">${t('settings.resetVaultSub')}</div></div>
@@ -301,8 +320,64 @@ function wireSettings() {
     toast(t('toast.clipSet', { n: state.settings.clipboardSec }), 'clock');
   };
   $('#set-export').onclick = exportCsv;
-  $('#set-import').onclick = () => toast(t('toast.importStub'), 'upload');
+  wireImport();
+  wireChangePassword();
   wireResetButton();
+}
+
+/** CSV import: parse, encrypt, batch-store, refresh. */
+function wireImport() {
+  const fileInput = document.getElementById('import-file');
+  $('#set-import').onclick = () => fileInput.click();
+  fileInput.onchange = async () => {
+    const file = fileInput.files && fileInput.files[0];
+    fileInput.value = '';
+    if (!file) return;
+    try {
+      const count = await recordSync.importCsv(await file.text());
+      toast(t('toast.imported', { count }), 'upload');
+      renderTabs();
+      renderTable();
+    } catch (error) {
+      const badCsv = error && error.code && error.code.startsWith('csv.');
+      toast(badCsv ? t('toast.importBadCsv') : t('toast.syncFailed'), 'alert');
+    }
+  };
+}
+
+/** Change master password: verify current, re-key everything, keep session. */
+function wireChangePassword() {
+  const showForm = (visible) => {
+    document.getElementById('change-pw-form').classList.toggle('hidden', !visible);
+    document.getElementById('change-pw-row').classList.toggle('hidden', visible);
+  };
+  $('#set-change-pw').onclick = () => {
+    showForm(true);
+    const first = document.getElementById('cp-current');
+    if (first) first.focus();
+  };
+  $('#cp-cancel').onclick = () => showForm(false);
+  $('#cp-save').onclick = async () => {
+    const current = document.getElementById('cp-current').value;
+    const next = document.getElementById('cp-new').value;
+    const confirm = document.getElementById('cp-confirm').value;
+    if (next.length < SECURITY.password.minLength) {
+      return toast(t('entry.create.errLength', { min: SECURITY.password.minLength }), 'alert');
+    }
+    if (next !== confirm) return toast(t('entry.create.errMismatch'), 'alert');
+    const button = $('#cp-save');
+    button.disabled = true;
+    try {
+      await recordSync.changeMasterPassword(current, next);
+      toast(t('toast.passwordChanged'), 'key');
+      showForm(false);
+    } catch (error) {
+      const wrongPassword = error && /PM-KERNEL-/.test(String(error.message));
+      toast(wrongPassword ? t('entry.unlock.errWrong') : t('toast.syncFailed'), 'alert');
+    } finally {
+      button.disabled = false;
+    }
+  };
 }
 
 /** Two-step confirmation for the destructive local vault reset. */

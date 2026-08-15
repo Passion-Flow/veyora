@@ -647,6 +647,32 @@
     },
     "toast.renderError": {
       "text": "Не удалось отобразить это представление"
+    },
+    "settings.changePw": {
+      "text": "Сменить мастер-пароль"
+    },
+    "settings.changePwSub": {
+      "text": "Перешифровывает все записи новым ключом"
+    },
+    "settings.changePwBtn": {
+      "text": "Сменить"
+    },
+    "settings.changePwCurrent": {
+      "text": "Текущий мастер-пароль"
+    },
+    "toast.passwordChanged": {
+      "text": "Мастер-пароль изменён — все записи перешифрованы"
+    },
+    "toast.importBadCsv": {
+      "text": "Файл CSV не соответствует ожидаемому формату"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "импортирована # запись",
+        "few": "импортировано # записи",
+        "many": "импортировано # записей",
+        "other": "импортировано # записей"
+      }
     }
   }
 }

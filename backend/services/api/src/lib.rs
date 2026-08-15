@@ -108,32 +108,41 @@ pub struct AppState {
     config: Config,
 }
 
-#[derive(Default)]
 pub struct RequestMetrics {
     total_requests: AtomicU64,
     put_count: AtomicU64,
     get_count: AtomicU64,
     delete_count: AtomicU64,
+    started: std::time::Instant,
 }
 
 impl RequestMetrics {
     fn new() -> Self {
-        Self::default()
+        Self {
+            total_requests: AtomicU64::new(0),
+            put_count: AtomicU64::new(0),
+            get_count: AtomicU64::new(0),
+            delete_count: AtomicU64::new(0),
+            started: std::time::Instant::now(),
+        }
     }
-    #[allow(dead_code)]
     fn record(&self, method: &str) {
         self.total_requests.fetch_add(1, Ordering::Relaxed);
         match method {
-            "PUT" => self.put_count.fetch_add(1, Ordering::Relaxed),
-            "GET" => self.get_count.fetch_add(1, Ordering::Relaxed),
-            "DELETE" => self.delete_count.fetch_add(1, Ordering::Relaxed),
-            _ => 0,
-        };
+            "PUT" => {
+                self.put_count.fetch_add(1, Ordering::Relaxed);
+            }
+            "GET" => {
+                self.get_count.fetch_add(1, Ordering::Relaxed);
+            }
+            "DELETE" => {
+                self.delete_count.fetch_add(1, Ordering::Relaxed);
+            }
+            _ => {}
+        }
     }
     fn uptime_seconds(&self) -> u64 {
-        // Approximate: use total_requests as a proxy for liveness.
-        // A real deployment uses process start time from /proc.
-        self.total_requests.load(Ordering::Relaxed)
+        self.started.elapsed().as_secs()
     }
 }
 
@@ -185,7 +194,10 @@ pub fn app(state: AppState) -> Router {
             state.clone(),
             body_limit_middleware,
         ))
-        .layer(axum::middleware::from_fn(request_log_middleware))
+        .layer(axum::middleware::from_fn_with_state(
+            state.clone(),
+            request_log_middleware,
+        ))
         .layer(axum::middleware::from_fn(cors_middleware))
         .layer(axum::middleware::from_fn_with_state(
             state.clone(),
@@ -225,11 +237,13 @@ async fn cors_ok() -> StatusCode {
 /// duration, and a short hex request ID to stderr. The ID is also returned
 /// in the X-Request-Id response header for client-side correlation.
 async fn request_log_middleware(
+    State(state): State<AppState>,
     req: axum::extract::Request,
     next: axum::middleware::Next,
 ) -> axum::response::Response {
     let method = req.method().clone();
     let path = req.uri().path().to_string();
+    state.metrics.record(method.as_str());
     // Generate a short request ID (8 random bytes as hex).
     let mut id_bytes = [0u8; 8];
     let _ = std::fs::File::open("/dev/urandom").and_then(|mut f| {
@@ -259,6 +273,17 @@ async fn request_log_middleware(
 /// `token` requires `Authorization: Bearer <VEYORA_API_TOKEN>` on every
 /// non-health endpoint; `disabled` is an explicit opt-out that must be set —
 /// the entrypoint refuses to start without one of the two.
+/// Constant-time equality for secrets: compares all bytes even on mismatch
+/// so response timing does not reveal how much of the token was correct.
+/// Length differences still short-circuit (length is not secret here).
+fn constant_time_eq(a: &str, b: &str) -> bool {
+    let (a, b) = (a.as_bytes(), b.as_bytes());
+    if a.len() != b.len() {
+        return false;
+    }
+    a.iter().zip(b).fold(0u8, |diff, (x, y)| diff | (x ^ y)) == 0
+}
+
 async fn auth_middleware(
     State(state): State<AppState>,
     req: axum::extract::Request,
@@ -280,7 +305,7 @@ async fn auth_middleware(
         .and_then(|v| v.to_str().ok())
         .unwrap_or("");
     if let Some(token) = auth_header.strip_prefix("Bearer ")
-        && token == expected_token
+        && constant_time_eq(token, expected_token)
     {
         return next.run(req).await;
     }
@@ -1279,5 +1304,48 @@ mod tests {
         let bytes = response.into_body().collect().await.unwrap().to_bytes();
         let revision: RevisionResponse = serde_json::from_slice(&bytes).unwrap();
         assert_eq!(revision.revision, 1);
+    }
+
+    #[test]
+    fn constant_time_comparison_behaves_like_equality() {
+        assert!(constant_time_eq("secret-token", "secret-token"));
+        assert!(!constant_time_eq("secret-token", "secret-tokeX"));
+        assert!(!constant_time_eq("short", "longer-value"));
+        assert!(constant_time_eq("", ""));
+    }
+
+    #[tokio::test]
+    async fn metrics_count_observed_requests() {
+        let router = app_with_store();
+        for _ in 0..2 {
+            let _ = router
+                .clone()
+                .oneshot(
+                    axum::http::Request::builder()
+                        .uri("/healthz")
+                        .body(axum::body::Body::empty())
+                        .unwrap(),
+                )
+                .await
+                .unwrap();
+        }
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/metrics")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let text = String::from_utf8(bytes.to_vec()).unwrap();
+        let total = text
+            .lines()
+            .find(|line| line.starts_with("veyora_requests_total "))
+            .and_then(|line| line.split_whitespace().last())
+            .and_then(|value| value.parse::<u64>().ok())
+            .expect("requests counter present");
+        assert!(total >= 2, "counter should observe requests, got {total}");
     }
 }

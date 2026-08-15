@@ -647,6 +647,33 @@
     },
     "toast.renderError": {
       "text": "حدثت مشكلة أثناء عرض هذه الواجهة"
+    },
+    "settings.changePw": {
+      "text": "تغيير كلمة المرور الرئيسية"
+    },
+    "settings.changePwSub": {
+      "text": "يعيد تشفير كل السجلات بمفتاح جديد"
+    },
+    "settings.changePwBtn": {
+      "text": "تغيير"
+    },
+    "settings.changePwCurrent": {
+      "text": "كلمة المرور الرئيسية الحالية"
+    },
+    "toast.passwordChanged": {
+      "text": "تم تغيير كلمة المرور الرئيسية — أعيد تشفير جميع السجلات"
+    },
+    "toast.importBadCsv": {
+      "text": "ملف CSV لا يطابق التنسيق المتوقع"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "تم استيراد عنصر واحد",
+        "two": "تم استيراد عنصرين",
+        "few": "تم استيراد # عناصر",
+        "many": "تم استيراد # عنصرًا",
+        "other": "تم استيراد # عنصر"
+      }
     }
   }
 }
