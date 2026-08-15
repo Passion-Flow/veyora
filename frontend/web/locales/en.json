@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "Clipboard clears after {n}s"
+    },
+    "toast.conflict": {
+      "text": "Revision conflict — the record changed elsewhere"
+    },
+    "toast.syncFailed": {
+      "text": "Sync failed — check the API connection"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "This recovery kit is not valid."
     }
   }
 }

@@ -58,6 +58,20 @@ export const RECOVERY_KIT = Object.freeze({
   checksumSeparator: ' · ',
 });
 
+/** Wire protocol constants shared by the kernel adapter and the API client. */
+export const PROTOCOL = Object.freeze({
+  version: 1,
+  suiteId: 1,
+  /** XChaCha20-Poly1305 nonce length in bytes. */
+  nonceLength: 24,
+  /** CBOR context for domain-separated record keys (kept byte-identical
+   *  to values used by previously stored records). */
+  recordKeyContext: Object.freeze([0x82, 0x40, 0x40]),
+  recordAad: 'pm-v1/record-aad',
+  /** Placeholder envelope hashes until template packs and manifests ship. */
+  zeroHash: '0'.repeat(64),
+});
+
 /** Timing constants (demo staging; the real kernel replaces the waits). */
 export const TIMING = Object.freeze({
   deriveStageMs: 500,

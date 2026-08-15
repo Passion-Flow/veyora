@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "剪贴板将在 {n} 秒后清除"
+    },
+    "toast.conflict": {
+      "text": "版本冲突——记录已在别处被修改"
+    },
+    "toast.syncFailed": {
+      "text": "同步失败——请检查 API 连接"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "恢复套件无效。"
     }
   }
 }

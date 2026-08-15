@@ -11,6 +11,8 @@ import { $, esc, toast, copyWithTimeout, downloadText } from '../core/ui.js';
 import { vault } from '../core/vault.js';
 import { state, resetSession } from '../core/state.js';
 import { SECURITY, DEMO, TIMING, STORAGE_KEYS } from '../config.js';
+import { kernel } from '../core/kernel.js';
+import { recordSync } from '../core/records.js';
 import { strength } from './strength.js';
 
 /** Visual masking glyph — a symbol, not localized text. */
@@ -118,7 +120,9 @@ function unlockHtml() {
         <span class="st-txt">${t('entry.unlock.btn')}</span><span class="st-ic"></span>
       </button>
       <button type="button" class="lock-alt" id="goto-recover">${t('entry.unlock.recoverLink')}</button>
-      <p class="lock-foot">${t('entry.unlock.demoFoot', { probe: DEMO.wrongPasswordProbe })} · <a id="demo-reset">${t('entry.demoReset')}</a></p>
+      <p class="lock-foot">${state.kernelMode === 'demo'
+        ? t('entry.unlock.demoFoot', { probe: DEMO.wrongPasswordProbe })
+        : t('entry.demoFoot')} · <a id="demo-reset">${t('entry.demoReset')}</a></p>
     </form>`;
 }
 
@@ -173,16 +177,25 @@ function showView(id) {
   }
 }
 
-function renderVaultMeta() {
+async function renderVaultMeta() {
   const host = $('#vault-meta');
   if (!host || !vault.hasVault()) return;
   const meta = vault.meta;
-  host.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span>${
-    t('entry.unlock.vaultMeta', {
+  const dot = '<span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span>';
+  const render = (count) => {
+    host.innerHTML = `${dot}${t('entry.unlock.vaultMeta', {
       vault: meta.vaultId.toUpperCase(),
-      count: vault.entries.length,
+      count,
       device: t('entry.unlock.saltNote'),
     })}`;
+  };
+  render(vault.entries.length);
+  // Refresh the count from the server (public metadata, no decryption).
+  try {
+    render(await recordSync.countRecords());
+  } catch {
+    // API unreachable: keep the local estimate.
+  }
 }
 
 function applyThemeIcon() {
@@ -205,22 +218,41 @@ function clearError(id) {
   if (el) el.classList.remove('on');
 }
 
-/** Staged derive→decrypt animation, then hand control to main.js. */
+/** Enter the dashboard after unlocking state is prepared. */
+function enterVaultNow() {
+  resetSession();
+  state.unlocked = true;
+  if (onVaultEntered) onVaultEntered();
+}
+
+/** Staged hand-off for flows without live decryption work (kit, recover). */
 async function enterVault(button) {
+  const label = button.querySelector('.st-txt');
+  const iconHost = button.querySelector('.st-ic');
+  button.disabled = true;
+  label.textContent = t('entry.stage.decrypting');
+  iconHost.innerHTML = '<span class="spinner"></span>';
+  await new Promise(resolve => setTimeout(resolve, TIMING.decryptStageMs));
+  button.disabled = false;
+  label.textContent = button.dataset.label;
+  iconHost.innerHTML = '';
+  enterVaultNow();
+}
+
+/** Run real kernel work behind the staged button animation. */
+async function stageButtonWork(button, work) {
   const label = button.querySelector('.st-txt');
   const iconHost = button.querySelector('.st-ic');
   button.disabled = true;
   label.textContent = t('entry.stage.deriving');
   iconHost.innerHTML = '<span class="spinner"></span>';
-  await new Promise(resolve => setTimeout(resolve, TIMING.deriveStageMs));
-  label.textContent = t('entry.stage.decrypting');
-  await new Promise(resolve => setTimeout(resolve, TIMING.decryptStageMs));
-  button.disabled = false;
-  label.textContent = button.dataset.label;
-  iconHost.innerHTML = '';
-  resetSession();
-  state.unlocked = true;
-  if (onVaultEntered) onVaultEntered();
+  try {
+    await work(label);
+  } finally {
+    button.disabled = false;
+    label.textContent = button.dataset.label;
+    iconHost.innerHTML = '';
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -273,7 +305,7 @@ function wireWelcome() {
     $('#mn-new-pw2').textContent = confirmNote('#new-pw', '#new-pw2');
   });
   $('#ack-row').addEventListener('click', () => $('#ack-chk').classList.toggle('on'));
-  $('#btn-create').addEventListener('click', () => {
+  $('#btn-create').addEventListener('click', async () => {
     const password = $('#new-pw').value;
     const confirm = $('#new-pw2').value;
     if (password.length < SECURITY.password.minLength) {
@@ -285,6 +317,12 @@ function wireWelcome() {
     }
     clearError('welcome-error');
     vault.create();
+    // Derive the session root key now so the vault opens ready to write.
+    await stageButtonWork($('#btn-create'), async (label) => {
+      recordSync.rootKey = await kernel.deriveRootKey(password, vault.meta.salt);
+      label.textContent = t('entry.stage.decrypting');
+      await new Promise(resolve => setTimeout(resolve, TIMING.decryptStageMs));
+    }).catch(() => {});
     $('#kit-code').textContent = vault.meta.kit;
     showView('lock-kit');
   });
@@ -306,16 +344,29 @@ function wireUnlock() {
   $('#btn-unlock').addEventListener('click', async () => {
     const password = $('#master-pw').value;
     if (!password) return lockError('unlock-error', t('entry.unlock.errEmpty'));
-    await vault.deriveRootKey(password).catch(() => null); // staging until WASM
-    if (DEMO.enabled && password.toLowerCase() === DEMO.wrongPasswordProbe) {
+    // Demo kernel cannot verify keys, so a probe password demonstrates the
+    // failure state; the WASM kernel fails for real on wrong passwords.
+    if (state.kernelMode === 'demo' && DEMO.enabled
+        && password.toLowerCase() === DEMO.wrongPasswordProbe) {
       return lockError('unlock-error', t('entry.unlock.errWrong'));
     }
     clearError('unlock-error');
-    enterVault($('#btn-unlock'));
+    let opened = false;
+    await stageButtonWork($('#btn-unlock'), async (label) => {
+      recordSync.rootKey = await kernel.deriveRootKey(password, vault.meta ? vault.meta.salt : '');
+      label.textContent = t('entry.stage.decrypting');
+      vault.entries = await recordSync.fetchAll();
+      opened = true;
+    }).catch(() => {
+      opened = false; // decryption failure on live records = wrong password
+    });
+    if (!opened) return lockError('unlock-error', t('entry.unlock.errWrong'));
+    enterVaultNow();
   });
   $('#goto-recover').addEventListener('click', () => showView('lock-recover'));
   $('#demo-reset').addEventListener('click', () => {
     vault.reset();
+    recordSync.lock();
     renderEntryFlow('lock-welcome');
   });
 }
@@ -324,18 +375,26 @@ function wireRecover() {
   $('#recover-pw2').addEventListener('input', () => {
     $('#mn-recover-pw2').textContent = confirmNote('#recover-pw', '#recover-pw2');
   });
-  $('#btn-recover').addEventListener('click', () => {
+  $('#btn-recover').addEventListener('click', async () => {
     const kit = $('#recover-kit').value.trim();
     const password = $('#recover-pw').value;
     const confirm = $('#recover-pw2').value;
     if (!kit) return lockError('recover-error', t('entry.recover.errKit'));
+    if (state.kernelMode !== 'demo' && !kernel.validateRecoveryKit(kit)) {
+      return lockError('recover-error', t('entry.recover.errKitInvalid'));
+    }
     if (password.length < SECURITY.password.minLength) {
       return lockError('recover-error', t('entry.create.errLength', { min: SECURITY.password.minLength }));
     }
     if (password !== confirm) return lockError('recover-error', t('entry.create.errMismatch'));
     clearError('recover-error');
     if (!vault.hasVault()) vault.create();
-    enterVault($('#btn-recover'));
+    await stageButtonWork($('#btn-recover'), async (label) => {
+      recordSync.rootKey = await kernel.deriveRootKey(password, vault.meta.salt);
+      label.textContent = t('entry.stage.decrypting');
+      await new Promise(resolve => setTimeout(resolve, TIMING.decryptStageMs));
+    }).catch(() => {});
+    enterVaultNow();
   });
   $('#back-unlock').addEventListener('click', () => renderEntryFlow('lock-unlock'));
 }

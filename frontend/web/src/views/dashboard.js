@@ -9,6 +9,8 @@ import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES } from '../data/schema.js';
 import { GENERATOR } from '../config.js';
+import { recordSync } from '../core/records.js';
+import { t as translate } from '../i18n/index.js';
 
 /** Visual masking glyph — a symbol, not localized text. */
 const SECRET_MASK = '••••••••';
@@ -210,9 +212,18 @@ function onTableClick(event) {
     event.stopPropagation();
     const target = vault.entries.find(item => item.id === favId);
     if (target) {
+      const priorRevision = target.revision;
       target.favorite = !target.favorite;
       renderTabs();
       renderTable();
+      recordSync.saveEntry(target, priorRevision).catch(() => {
+        target.favorite = !target.favorite;
+        target.revision = priorRevision;
+        renderTabs();
+        renderTable();
+        import('../core/ui.js').then(({ toast }) =>
+          toast(translate('toast.syncFailed'), 'alert'));
+      });
     }
     return;
   }

@@ -7,6 +7,8 @@
 
 #![forbid(unsafe_code)]
 
+pub mod error_catalog;
+
 use std::sync::Arc;
 
 use axum::Json;
@@ -189,6 +191,8 @@ pub fn app(state: AppState) -> Router {
             state.clone(),
             auth_middleware,
         ))
+        // Outermost layer: rewrites error envelopes per Accept-Language.
+        .layer(axum::middleware::from_fn(localize_error_middleware))
         .with_state(state)
 }
 
@@ -204,10 +208,11 @@ async fn body_limit_middleware(
         && let Ok(n) = s.parse::<usize>()
         && n > state.config.max_body_bytes
     {
-        return axum::response::Response::builder()
-            .status(axum::http::StatusCode::PAYLOAD_TOO_LARGE)
-            .body(axum::body::Body::empty())
-            .unwrap();
+        return error_response(
+            axum::http::StatusCode::PAYLOAD_TOO_LARGE,
+            "PM-API-BODY-TOO-LARGE",
+            error_catalog::FALLBACK_LOCALE,
+        );
     }
     next.run(req).await
 }
@@ -279,11 +284,15 @@ async fn auth_middleware(
     {
         return next.run(req).await;
     }
-    axum::response::Response::builder()
-        .status(axum::http::StatusCode::UNAUTHORIZED)
-        .header("www-authenticate", "Bearer")
-        .body(axum::body::Body::empty())
-        .unwrap()
+    let mut response = error_response(
+        axum::http::StatusCode::UNAUTHORIZED,
+        "PM-API-UNAUTHORIZED",
+        error_catalog::FALLBACK_LOCALE,
+    );
+    response
+        .headers_mut()
+        .insert("www-authenticate", "Bearer".parse().unwrap());
+    response
 }
 
 /// Batch PUT multiple records in a single request. Returns per-record results.
@@ -442,6 +451,12 @@ async fn get_record(
     Ok(Json(RecordDto::from_record(record)))
 }
 
+/// Revision echo for PUT/DELETE responses.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RevisionResponse {
+    pub revision: u64,
+}
+
 async fn put_record(
     State(state): State<AppState>,
     Path(id): Path<String>,
@@ -456,7 +471,7 @@ async fn put_record(
         .run(move |store| store.put(record, expected_prior_revision))
         .await
         .map_err(ApiError::from)?;
-    Ok((StatusCode::CREATED, format!("{{\"revision\":{revision}}}")).into_response())
+    Ok((StatusCode::CREATED, Json(RevisionResponse { revision })).into_response())
 }
 
 async fn tombstone_record(
@@ -468,7 +483,7 @@ async fn tombstone_record(
         .run(move |store| store.tombstone(&id, body.expected_prior_revision))
         .await
         .map_err(ApiError::from)?;
-    Ok((StatusCode::OK, format!("{{\"revision\":{revision}}}")).into_response())
+    Ok((StatusCode::OK, Json(RevisionResponse { revision })).into_response())
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -568,6 +583,10 @@ impl From<RecordSummary> for RecordSummaryDto {
 }
 
 /// Closed, redacted API error surface. Bodies never echo record bytes.
+///
+/// Errors serialize as `{"error":{"code":…,"message":…}}`. The stable code is
+/// the contract; the message is localized presentation resolved from
+/// `Accept-Language` by [`localize_error_middleware`], defaulting to English.
 #[derive(Debug)]
 pub enum ApiError {
     Store(StoreError),
@@ -575,9 +594,21 @@ pub enum ApiError {
     BadBody,
 }
 
-impl IntoResponse for ApiError {
-    fn into_response(self) -> Response {
-        let (status, code) = match self {
+/// Serializable error envelope shared by every error response path.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ErrorDetail {
+    pub code: String,
+    pub message: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ErrorBody {
+    pub error: ErrorDetail,
+}
+
+impl ApiError {
+    fn status_and_code(&self) -> (StatusCode, &'static str) {
+        match self {
             Self::Store(StoreError::NotFound) => (StatusCode::NOT_FOUND, "PM-STORE-NOT-FOUND"),
             Self::Store(StoreError::Conflict) => (StatusCode::CONFLICT, "PM-STORE-CONFLICT"),
             Self::Store(StoreError::InvalidRecord) => {
@@ -588,9 +619,91 @@ impl IntoResponse for ApiError {
             }
             Self::RouteMismatch => (StatusCode::BAD_REQUEST, "PM-API-ROUTE-MISMATCH"),
             Self::BadBody => (StatusCode::BAD_REQUEST, "PM-API-BAD-BODY"),
-        };
-        (status, code).into_response()
+        }
     }
+}
+
+/// Build a JSON error response for a stable code in the given locale.
+fn error_response(status: StatusCode, code: &str, locale: &str) -> Response {
+    let body = ErrorBody {
+        error: ErrorDetail {
+            code: code.to_string(),
+            message: error_catalog::localized_message(code, locale).to_string(),
+        },
+    };
+    (status, Json(body)).into_response()
+}
+
+impl IntoResponse for ApiError {
+    fn into_response(self) -> Response {
+        let (status, code) = self.status_and_code();
+        error_response(status, code, error_catalog::FALLBACK_LOCALE)
+    }
+}
+
+/// Error bodies are at most a few hundred bytes; the guard only bounds the
+/// buffering of bodies this middleware itself produced.
+const ERROR_BODY_BUFFER_LIMIT: usize = 8 * 1024;
+
+/// Localize error envelopes per `Accept-Language`.
+///
+/// Runs as the outermost layer so handler errors and middleware errors
+/// (auth, body limit) are rewritten uniformly: the stable code stays
+/// untouched and only the human-readable message is translated. Successful
+/// responses pass through untouched.
+async fn localize_error_middleware(
+    req: axum::extract::Request,
+    next: axum::middleware::Next,
+) -> axum::response::Response {
+    let locale = error_catalog::negotiate_locale(
+        req.headers()
+            .get(axum::http::header::ACCEPT_LANGUAGE)
+            .and_then(|value| value.to_str().ok()),
+    );
+    let response = next.run(req).await;
+    let status = response.status();
+    if !status.is_client_error() && !status.is_server_error() {
+        return response;
+    }
+    let content_type = response
+        .headers()
+        .get(axum::http::header::CONTENT_TYPE)
+        .and_then(|value| value.to_str().ok())
+        .unwrap_or_default();
+    if !content_type.starts_with("application/json") {
+        return response;
+    }
+    let (parts, body) = response.into_parts();
+    let bytes = match axum::body::to_bytes(body, ERROR_BODY_BUFFER_LIMIT).await {
+        Ok(bytes) => bytes,
+        Err(_) => return Response::from_parts(parts, axum::body::Body::empty()),
+    };
+    let parsed: ErrorBody = match serde_json::from_slice(&bytes) {
+        Ok(parsed) => parsed,
+        Err(_) => {
+            // Not one of our envelopes; restore it untouched.
+            return Response::from_parts(parts, axum::body::Body::from(bytes));
+        }
+    };
+    let message = error_catalog::localized_message(&parsed.error.code, locale).to_string();
+    let localized = ErrorBody {
+        error: ErrorDetail {
+            code: parsed.error.code,
+            message,
+        },
+    };
+    let mut parts = parts;
+    parts.headers.remove(axum::http::header::CONTENT_LENGTH);
+    if let Ok(value) = locale.parse() {
+        parts
+            .headers
+            .insert(axum::http::header::CONTENT_LANGUAGE, value);
+    }
+    parts
+        .headers
+        .append(axum::http::header::VARY, "accept-language".parse().unwrap());
+    let payload = serde_json::to_vec(&localized).unwrap_or_default();
+    Response::from_parts(parts, axum::body::Body::from(payload))
 }
 
 impl From<StoreError> for ApiError {
@@ -1028,5 +1141,143 @@ mod tests {
         let result: PurgeResult = serde_json::from_slice(&bytes).unwrap();
         // InMemoryStore returns 0 (tombstones retained for sync)
         assert_eq!(result.purged, 0);
+    }
+
+    #[tokio::test]
+    async fn error_body_is_json_with_stable_code() {
+        let response = app_with_store()
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records/does-not-exist")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
+        assert_eq!(
+            response.headers().get("content-type").unwrap(),
+            "application/json"
+        );
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(body.error.code, "PM-STORE-NOT-FOUND");
+        assert_eq!(body.error.message, "Record not found.");
+    }
+
+    #[tokio::test]
+    async fn error_message_localizes_via_accept_language() {
+        let response = app_with_store()
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records/does-not-exist")
+                    .header("accept-language", "zh-CN,zh;q=0.9,en;q=0.8")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
+        assert_eq!(response.headers().get("content-language").unwrap(), "zh-CN");
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(body.error.code, "PM-STORE-NOT-FOUND");
+        assert_eq!(body.error.message, "记录不存在。");
+    }
+
+    #[tokio::test]
+    async fn unknown_locale_falls_back_to_english() {
+        let response = app_with_store()
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records/does-not-exist")
+                    .header("accept-language", "xx-YY")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.headers().get("content-language").unwrap(), "en");
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(body.error.message, "Record not found.");
+    }
+
+    #[tokio::test]
+    async fn unauthorized_error_is_json_envelope() {
+        let router = app(AppState::new(
+            Arc::new(InMemoryStore::new()),
+            Config {
+                bind: "127.0.0.1:0".to_string(),
+                auth_mode: AuthMode::BearerToken("test-token".to_string()),
+                max_body_bytes: 256 * 1024,
+            },
+        ));
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert_eq!(
+            response.headers().get("www-authenticate").unwrap(),
+            "Bearer"
+        );
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(body.error.code, "PM-API-UNAUTHORIZED");
+    }
+
+    #[tokio::test]
+    async fn oversized_body_error_is_json_envelope() {
+        let router = app_with_store();
+        let big_body = "x".repeat(300 * 1024);
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .method("PUT")
+                    .uri("/records/too-big")
+                    .header("content-type", "application/json")
+                    .header("accept-language", "ja")
+                    .header("content-length", big_body.len().to_string())
+                    .body(axum::body::Body::from(big_body))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::PAYLOAD_TOO_LARGE);
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(body.error.code, "PM-API-BODY-TOO-LARGE");
+        assert_eq!(body.error.message, "リクエスト本体が上限を超えています。");
+    }
+
+    #[tokio::test]
+    async fn put_revision_response_is_json() {
+        let router = app_with_store();
+        let body = serde_json::to_vec(&dto("record-json", 1)).unwrap();
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .method("PUT")
+                    .uri("/records/record-json")
+                    .header("content-type", "application/json")
+                    .body(axum::body::Body::from(body))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::CREATED);
+        assert_eq!(
+            response.headers().get("content-type").unwrap(),
+            "application/json"
+        );
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let revision: RevisionResponse = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(revision.revision, 1);
     }
 }

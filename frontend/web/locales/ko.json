@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "클립보드가 {n}초 후 지워집니다"
+    },
+    "toast.conflict": {
+      "text": "리비전 충돌 — 레코드가 다른 곳에서 변경되었습니다"
+    },
+    "toast.syncFailed": {
+      "text": "동기화 실패 — API 연결을 확인하세요"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "이 복구 키트는 유효하지 않습니다."
     }
   }
 }

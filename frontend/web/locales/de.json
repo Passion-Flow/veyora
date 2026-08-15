@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "Zwischenablage wird nach {n}s geleert"
+    },
+    "toast.conflict": {
+      "text": "Revisionskonflikt — der Datensatz wurde anderweitig geändert"
+    },
+    "toast.syncFailed": {
+      "text": "Synchronisierung fehlgeschlagen — API-Verbindung prüfen"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "Dieser Wiederherstellungssatz ist ungültig."
     }
   }
 }

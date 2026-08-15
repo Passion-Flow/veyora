@@ -27,6 +27,8 @@ export const state = {
   revealed: {},
   /** Whether the vault is currently unlocked. */
   unlocked: false,
+  /** Active kernel adapter mode: 'wasm' (real crypto) or 'demo'. */
+  kernelMode: 'demo',
   /** User preferences (persisted where noted). */
   settings: {
     theme: localStorage.getItem(STORAGE_KEYS.theme) || 'light',        // persisted

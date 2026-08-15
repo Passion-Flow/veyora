@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "Le presse-papiers sera vidé après {n}s"
+    },
+    "toast.conflict": {
+      "text": "Conflit de révision — l'enregistrement a été modifié ailleurs"
+    },
+    "toast.syncFailed": {
+      "text": "Échec de synchronisation — vérifiez la connexion API"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "Ce kit de récupération n'est pas valide."
     }
   }
 }

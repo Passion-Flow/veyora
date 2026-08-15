@@ -14,7 +14,7 @@
  * and reviewed before the WASM bindings are wired. Swapping the adapter is a
  * one-line change in main.js; no view code touches crypto directly.
  */
-import { GENERATOR, RECOVERY_KIT } from '../config.js';
+import { GENERATOR, RECOVERY_KIT, PROTOCOL } from '../config.js';
 
 /** Cryptographically uniform integer below `limit` via rejection sampling. */
 function randomByte() {
@@ -30,15 +30,53 @@ function pickUniform(set) {
   return set[byte % set.length];
 }
 
-export function randomHex(byteCount) {
-  const bytes = new Uint8Array(byteCount);
-  crypto.getRandomValues(bytes);
+/** Hex encoding helpers shared by every kernel adapter. */
+export function toHex(bytes) {
   return [...bytes].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+export function fromHex(hex) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return bytes;
 }
 
 /** Estimated entropy in bits for a password of `length` over `poolSize`. */
 export function entropyBits(length, poolSize) {
   return Math.round(length * Math.log2(poolSize || 1));
+}
+
+/**
+ * Password generation policy shared by both adapters.
+ *
+ * The WASM kernel exposes a fixed 20-character v1 profile; the vault UI
+ * offers user-chosen lengths and character sets. Both paths use the OS
+ * CSPRNG with rejection sampling, mirroring the kernel's sampler design.
+ */
+function generateFromOptions(options) {
+  const pools = GENERATOR.sets;
+  let pool = '';
+  if (options.upper) pool += pools.upper;
+  if (options.lower) pool += pools.lower;
+  if (options.digit) pool += pools.digit;
+  if (options.sym) pool += pools.symbol;
+  if (options.amb) {
+    const ambiguous = GENERATOR.ambiguousCharacters;
+    pool = [...pool].filter(ch => !ambiguous.includes(ch)).join('');
+  }
+  if (!pool) return null;
+  let value = '';
+  for (let i = 0; i < options.len; i++) value += pickUniform(pool);
+  return { value, poolSize: pool.length };
+}
+
+/** Random hex string of `byteCount` bytes. */
+export function randomHex(byteCount) {
+  const bytes = new Uint8Array(byteCount);
+  crypto.getRandomValues(bytes);
+  return toHex(bytes);
 }
 
 export class DemoKernel {
@@ -49,25 +87,31 @@ export class DemoKernel {
     return new Uint8Array(digest);
   }
 
-  /** Generate a password from generator options. Returns { value, poolSize }. */
-  generatePassword(options) {
-    const pools = GENERATOR.sets;
-    let pool = '';
-    if (options.upper) pool += pools.upper;
-    if (options.lower) pool += pools.lower;
-    if (options.digit) pool += pools.digit;
-    if (options.sym) pool += pools.symbol;
-    if (options.amb) {
-      const ambiguous = GENERATOR.ambiguousCharacters;
-      pool = [...pool].filter(ch => !ambiguous.includes(ch)).join('');
-    }
-    if (!pool) return null;
-    let value = '';
-    for (let i = 0; i < options.len; i++) value += pickUniform(pool);
-    return { value, poolSize: pool.length };
+  /** Demo record wrapping: identity transform, symmetric seal/open. */
+  deriveRecordKey(rootKey) {
+    return rootKey;
   }
 
-  /** Encode a checksummed recovery kit string. */
+  seal(recordKey, nonce, plaintextBytes) {
+    return plaintextBytes;
+  }
+
+  open(recordKey, nonce, sealedBytes) {
+    return sealedBytes;
+  }
+
+  generateNonce() {
+    const nonce = new Uint8Array(PROTOCOL.nonceLength);
+    crypto.getRandomValues(nonce);
+    return nonce;
+  }
+
+  /** Generate a password from generator options. Returns { value, poolSize }. */
+  generatePassword(options) {
+    return generateFromOptions(options);
+  }
+
+  /** Encode a checksummed recovery kit string (demo format). */
   generateRecoveryKit() {
     const groups = [];
     for (let g = 0; g < RECOVERY_KIT.groups; g++) {
@@ -81,10 +125,102 @@ export class DemoKernel {
     const checksum = groups[groups.length - 1];
     return body + RECOVERY_KIT.checksumSeparator + checksum;
   }
+
+  /** Demo kits are not checksummed; accept any non-empty form. */
+  validateRecoveryKit(form) {
+    return form.trim().length > 0;
+  }
 }
 
 /**
- * The active kernel instance. main.js replaces this with the WASM-backed
- * adapter once bindings load; views import `kernel` only.
+ * Real kernel adapter over the Rust/WASM bindings (src/wasm/veyora_kernel.js).
+ * Method surface matches DemoKernel so views never branch on the mode.
  */
-export const kernel = new DemoKernel();
+export class WasmKernel {
+  constructor(bindings) {
+    this.bindings = bindings;
+  }
+
+  /** Argon2id (V1 profile) password-key derivation over a 16-byte salt. */
+  async deriveRootKey(password, saltHex) {
+    return this.bindings.derivePasswordKey(
+      new TextEncoder().encode(password),
+      fromHex(saltHex),
+    );
+  }
+
+  deriveRecordKey(rootKey) {
+    return this.bindings.deriveRecordKey(
+      rootKey,
+      new Uint8Array(PROTOCOL.recordKeyContext),
+    );
+  }
+
+  generateNonce() {
+    return this.bindings.generateNonce();
+  }
+
+  /** XChaCha20-Poly1305 seal; returns ciphertext||tag. */
+  seal(recordKey, nonce, plaintextBytes) {
+    return this.bindings.sealRecord(
+      recordKey, nonce,
+      new TextEncoder().encode(PROTOCOL.recordAad),
+      plaintextBytes,
+    );
+  }
+
+  open(recordKey, nonce, sealedBytes) {
+    return this.bindings.openRecord(
+      recordKey, nonce,
+      new TextEncoder().encode(PROTOCOL.recordAad),
+      sealedBytes,
+    );
+  }
+
+  generatePassword(options) {
+    return generateFromOptions(options);
+  }
+
+  /** Kernel-format recovery kit (Base32, checksummed, hyphen groups). */
+  generateRecoveryKit() {
+    return this.bindings.generateRecoveryKit();
+  }
+
+  /** True when the kernel accepts the kit's checksum. */
+  validateRecoveryKit(form) {
+    try {
+      this.bindings.validateRecoveryKit(form);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+}
+
+/**
+ * The active kernel instance. `loadKernel()` swaps in the WASM-backed
+ * adapter when the bindings are available; ES module live bindings make
+ * the switch visible to every importer.
+ */
+export let kernel = new DemoKernel();
+
+/**
+ * Try to activate the WASM kernel.
+ *
+ * The generated module exposes init as its default export and the wrapped
+ * functions as named exports once initialized; the raw exports returned by
+ * init() use the low-level ABI and must not be called directly.
+ *
+ * @returns {Promise<'wasm'|'demo'>} the activated mode
+ */
+export async function loadKernel() {
+  try {
+    const module = await import('../wasm/veyora_kernel.js');
+    await module.default();
+    kernel = new WasmKernel(module);
+    return 'wasm';
+  } catch {
+    kernel = new DemoKernel();
+    return 'demo';
+  }
+}

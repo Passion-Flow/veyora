@@ -10,6 +10,7 @@ import { vault } from '../core/vault.js';
 import { kernel, entropyBits } from '../core/kernel.js';
 import { TYPES, TEMPLATE_FIELDS, SECRET_REQUIRED, slugify } from '../data/schema.js';
 import { GENERATOR } from '../config.js';
+import { recordSync } from '../core/records.js';
 import { strength } from './strength.js';
 import { renderTabs, renderTable, closeOverlays } from './dashboard.js';
 
@@ -91,7 +92,16 @@ function updateMeter(key, password) {
     : '';
 }
 
-function saveEntry() {
+/** Map a save failure to a user-facing toast and keep the modal open. */
+function reportSaveFailure(error) {
+  if (error && error.code === 'PM-STORE-CONFLICT') {
+    toast(t('toast.conflict'), 'alert');
+  } else {
+    toast(t('toast.syncFailed'), 'alert');
+  }
+}
+
+async function saveEntry() {
   const defs = TEMPLATE_FIELDS[state.entryTmpl];
   const read = key => {
     const input = document.getElementById(`f-${key}`);
@@ -102,23 +112,25 @@ function saveEntry() {
   if (SECRET_REQUIRED.includes(state.entryTmpl) && !read('secret')) {
     return toast(t('modal.secretRequired'), 'alert');
   }
-  if (state.editingId) {
-    const entry = vault.entries.find(item => item.id === state.editingId);
-    defs.forEach(def => { if (def.k !== 'name') entry[def.k] = read(def.k); });
-    entry.name = name;
-    entry.revision += 1;
-    entry.updated = new Date().toISOString();
-    state.selectedId = entry.id;
-    toast(t('toast.updated', { revision: entry.revision }), 'check');
-  } else {
-    let id = slugify(name);
-    let suffix = 2;
-    while (vault.entries.some(item => item.id === id)) id = `${slugify(name)}-${suffix++}`;
-    const entry = { id, type: state.entryTmpl, name, revision: 1, updated: new Date().toISOString(), favorite: false };
-    defs.forEach(def => { if (def.k !== 'name') entry[def.k] = read(def.k); });
-    vault.entries.push(entry);
-    state.selectedId = id;
-    toast(t('toast.created'), 'lock');
+  try {
+    if (state.editingId) {
+      const existing = vault.entries.find(item => item.id === state.editingId);
+      defs.forEach(def => { if (def.k !== 'name') existing[def.k] = read(def.k); });
+      existing.name = name;
+      await recordSync.saveEntry(existing, existing.revision);
+      toast(t('toast.updated', { revision: existing.revision }), 'check');
+    } else {
+      let id = slugify(name);
+      let suffix = 2;
+      while (vault.entries.some(item => item.id === id)) id = `${slugify(name)}-${suffix++}`;
+      const entry = { id, type: state.entryTmpl, name, revision: 1, updated: new Date().toISOString(), favorite: false };
+      defs.forEach(def => { if (def.k !== 'name') entry[def.k] = read(def.k); });
+      await recordSync.saveEntry(entry);
+      vault.entries.push(entry);
+      toast(t('toast.created'), 'lock');
+    }
+  } catch (error) {
+    return reportSaveFailure(error);
   }
   state.detailView = null;
   closeOverlays();

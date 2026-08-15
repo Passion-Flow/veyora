@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "クリップボードは {n} 秒後に消去されます"
+    },
+    "toast.conflict": {
+      "text": "リビジョン競合 — レコードは別の場所で更新されています"
+    },
+    "toast.syncFailed": {
+      "text": "同期に失敗しました — API 接続を確認してください"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "このリカバリーキットは無効です。"
     }
   }
 }

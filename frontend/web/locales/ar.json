@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "تُمسح الحافظة بعد {n} ثانية"
+    },
+    "toast.conflict": {
+      "text": "تعارض في الإصدار — تم تعديل السجل في مكان آخر"
+    },
+    "toast.syncFailed": {
+      "text": "فشلت المزامنة — تحقق من اتصال API"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "رمز الاستعادة غير صالح."
     }
   }
 }

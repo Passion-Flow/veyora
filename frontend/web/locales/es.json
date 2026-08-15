@@ -635,6 +635,15 @@
     },
     "toast.clipSet": {
       "text": "El portapapeles se borrará tras {n}s"
+    },
+    "toast.conflict": {
+      "text": "Conflicto de revisión — el registro cambió en otro lugar"
+    },
+    "toast.syncFailed": {
+      "text": "Fallo de sincronización — comprueba la conexión API"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "Este kit de recuperación no es válido."
     }
   }
 }

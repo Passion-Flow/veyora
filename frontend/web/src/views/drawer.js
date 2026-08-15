@@ -11,6 +11,7 @@ import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES, detailFields } from '../data/schema.js';
 import { STORAGE_KEYS, SECURITY, TIMING, DATA_EXPORT } from '../config.js';
+import { recordSync } from '../core/records.js';
 import { renderTabs, renderTable } from './dashboard.js';
 
 /** Visual masking glyph — a symbol, not localized text. */
@@ -127,18 +128,32 @@ function wireEntryDetail(entry) {
   $('#d-edit').onclick = () => {
     import('./modals.js').then(module => module.openEntryModal(entry.id));
   };
-  $('#d-fav').onclick = () => {
+  $('#d-fav').onclick = () => syncFavorite(entry);
+  wireDeleteButton(entry);
+}
+
+/** Toggle a favorite: optimistic update, rolled back on CAS/network failure. */
+async function syncFavorite(entry) {
+  const priorRevision = entry.revision;
+  entry.favorite = !entry.favorite;
+  renderTabs();
+  renderTable();
+  renderDetail();
+  try {
+    await recordSync.saveEntry(entry, priorRevision);
+  } catch (error) {
     entry.favorite = !entry.favorite;
+    entry.revision = priorRevision;
     renderTabs();
     renderTable();
     renderDetail();
-  };
-  wireDeleteButton(entry);
+    toast(error.code === 'PM-STORE-CONFLICT' ? t('toast.conflict') : t('toast.syncFailed'), 'alert');
+  }
 }
 
 function wireDeleteButton(entry) {
   const button = $('#d-del');
-  button.onclick = () => {
+  button.onclick = async () => {
     if (!button.dataset.armed) {
       button.dataset.armed = '1';
       button.classList.add('btn-danger-confirm');
@@ -150,6 +165,12 @@ function wireDeleteButton(entry) {
           button.innerHTML = `${icon('trash', 14)}${t('common.delete')}`;
         }
       }, TIMING.deleteArmMs);
+      return;
+    }
+    try {
+      await recordSync.tombstone(entry.id, entry.revision);
+    } catch (error) {
+      toast(error.code === 'PM-STORE-CONFLICT' ? t('toast.conflict') : t('toast.syncFailed'), 'alert');
       return;
     }
     vault.entries = vault.entries.filter(item => item.id !== entry.id);

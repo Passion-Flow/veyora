@@ -8,6 +8,8 @@
 import { t, setLocale, detectLocale } from './i18n/index.js';
 import { state, resetSession } from './core/state.js';
 import { vault } from './core/vault.js';
+import { loadKernel } from './core/kernel.js';
+import { recordSync } from './core/records.js';
 import { icon } from './core/icons.js';
 import { $, toast } from './core/ui.js';
 import { STORAGE_KEYS, TIMING } from './config.js';
@@ -82,6 +84,7 @@ function lockVault() {
   closeDrawer();
   closeOverlays();
   resetSession();
+  recordSync.lock(); // zero the session root key
   $('#root').innerHTML = '';
   renderEntryFlow('lock-unlock');
   toast(t('toast.locked'), 'lock');
@@ -174,6 +177,7 @@ function applyDocumentTitle() {
 
 async function boot() {
   vault.load();
+  state.kernelMode = await loadKernel();
   const requested = state.settings.locale || detectLocale();
   await setLocale(requested);
   applyDocumentTheme();

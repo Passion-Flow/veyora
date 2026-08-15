@@ -75,12 +75,24 @@ Tombstone a record (soft delete). Requires the expected prior revision for CAS.
 Returns `200 OK` with `{"revision": 2}` on success.
 
 ## Error Codes
+
+Error responses share one JSON envelope. The `code` is the stable contract;
+`message` is localized presentation negotiated from `Accept-Language`
+(`en` fallback), and the response carries `Content-Language` / `Vary` headers.
+
+```json
+{"error": {"code": "PM-STORE-CONFLICT", "message": "Revision conflict: the record changed elsewhere."}}
+```
+
 | HTTP | Body code | Meaning |
 |------|-----------|---------|
 | 400 | `PM-STORE-INVALID-RECORD` | Malformed record |
 | 400 | `PM-API-ROUTE-MISMATCH` | Path/body record_id differ |
+| 400 | `PM-API-BAD-BODY` | Request body could not be parsed |
+| 401 | `PM-API-UNAUTHORIZED` | Missing/invalid bearer token (auth mode `token`) |
 | 404 | `PM-STORE-NOT-FOUND` | Record doesn't exist |
 | 409 | `PM-STORE-CONFLICT` | CAS revision mismatch |
+| 413 | `PM-API-BODY-TOO-LARGE` | Body exceeds `VEYORA_API_MAX_BODY_BYTES` |
 | 503 | `PM-STORE-UNAVAILABLE` | Database unreachable |
 
 ## CORS
