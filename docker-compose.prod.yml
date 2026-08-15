@@ -95,18 +95,18 @@ services:
       - "127.0.0.1:${VEYORA_WEB_PORT:-3000}:80"
     restart: unless-stopped
 
-volumes:
-  veyora-pg:
-
   backup:
     image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-backup:${VERSION:-v1.0.0}
     profiles: ["backup"]
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
-      DATABASE_URL: postgres://veyora:${VEYORA_DB_PASSWORD}@db:5432/veyora
+      DATABASE_URL: postgres://${VEYORA_DB_USER:-veyora}:${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in .env}@postgres:5432/${VEYORA_DB_NAME:-veyora}
     volumes:
       - ./backups:/backups
     entrypoint: ["/bin/sh", "-c", "while true; do sleep 86400; ./backup > /backups/veyora-$(date +%Y%m%d).json; find /backups -name '*.json' -mtime +7 -delete; done"]
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
+
+volumes:
+  veyora-pg:
