@@ -5,8 +5,8 @@
  * deliberately framework-free and easy to audit. All UI state lives here;
  * persistence goes through the storage helpers.
  */
-import { SECURITY } from '../config.js';
-import { STORAGE_KEYS } from '../config.js';
+import { SECURITY, STORAGE_KEYS, GENERATOR } from '../config.js';
+import { storage } from './storage.js';
 
 export const state = {
   /** Dashboard filter: 'all' | 'favorites' | a type key. */
@@ -31,14 +31,14 @@ export const state = {
   kernelMode: 'demo',
   /** User preferences (persisted where noted). */
   settings: {
-    theme: localStorage.getItem(STORAGE_KEYS.theme) || 'light',        // persisted
-    locale: localStorage.getItem(STORAGE_KEYS.locale) || null,         // null = auto
+    theme: storage.get(STORAGE_KEYS.theme) || 'light',        // persisted
+    locale: storage.get(STORAGE_KEYS.locale) || null,         // null = auto
     autoLockMin: SECURITY.autoLock.defaultMinutes,
     clipboardSec: SECURITY.clipboard.defaultSeconds,
   },
   /** Generator panel options. */
   gen: {
-    len: 20, upper: true, lower: true, digit: true, sym: true, amb: true,
+    len: GENERATOR.length.default, upper: true, lower: true, digit: true, sym: true, amb: true,
   },
 };
 

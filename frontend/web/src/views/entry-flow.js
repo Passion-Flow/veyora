@@ -13,6 +13,7 @@ import { state, resetSession } from '../core/state.js';
 import { SECURITY, DEMO, TIMING, STORAGE_KEYS } from '../config.js';
 import { kernel } from '../core/kernel.js';
 import { recordSync } from '../core/records.js';
+import { storage } from '../core/storage.js';
 import { strength } from './strength.js';
 
 /** Visual masking glyph — a symbol, not localized text. */
@@ -70,7 +71,7 @@ function welcomeHtml() {
         <div class="meter-note" id="mn-new-pw2"></div>
       </div>
       <label class="ack" id="ack-row">
-        <span class="chk" id="ack-chk"></span>
+        <span class="chk" id="ack-chk" role="checkbox" aria-checked="false" tabindex="0"></span>
         <span>${t('entry.create.ack')}</span>
       </label>
       <div class="lock-error" id="welcome-error"></div>
@@ -257,7 +258,7 @@ function wireEntryFlow() {
   $('#lock-theme').addEventListener('click', () => {
     const next = state.settings.theme === 'dark' ? 'light' : 'dark';
     state.settings.theme = next;
-    localStorage.setItem(STORAGE_KEYS.theme, next);
+    storage.set(STORAGE_KEYS.theme, next);
     document.documentElement.dataset.theme = next;
     applyThemeIcon();
   });
@@ -300,7 +301,17 @@ function wireWelcome() {
   $('#new-pw2').addEventListener('input', () => {
     $('#mn-new-pw2').textContent = confirmNote('#new-pw', '#new-pw2');
   });
-  $('#ack-row').addEventListener('click', () => $('#ack-chk').classList.toggle('on'));
+  $('#ack-row').addEventListener('click', () => {
+    const box = $('#ack-chk');
+    box.classList.toggle('on');
+    box.setAttribute('aria-checked', String(box.classList.contains('on')));
+  });
+  $('#ack-chk').addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      $('#ack-row').click();
+    }
+  });
   $('#btn-create').addEventListener('click', async () => {
     const password = $('#new-pw').value;
     const confirm = $('#new-pw2').value;

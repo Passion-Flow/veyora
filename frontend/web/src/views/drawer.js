@@ -10,8 +10,9 @@ import { $, esc, toast, copyWithTimeout, downloadText } from '../core/ui.js';
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES, detailFields } from '../data/schema.js';
-import { STORAGE_KEYS, SECURITY, TIMING, DATA_EXPORT } from '../config.js';
+import { STORAGE_KEYS, SECURITY, TIMING, DATA_EXPORT, APP } from '../config.js';
 import { recordSync } from '../core/records.js';
+import { storage } from '../core/storage.js';
 import { renderTabs, renderTable } from './dashboard.js';
 
 /** Visual masking glyph — a symbol, not localized text. */
@@ -30,6 +31,7 @@ export function openDrawer(view) {
   $('#backdrop').classList.add('on');
   $('#drawer-title').textContent = drawerTitle();
   renderDetail();
+  setTimeout(() => { const button = $('#drawer-close'); if (button) button.focus(); }, 50);
 }
 
 /** Close the drawer and clear its selection state. */
@@ -259,7 +261,7 @@ function settingsHtml() {
     <div class="d-sec set-sec">
       <div class="micro" style="margin-bottom:var(--space-3)">${t('settings.about')}</div>
       <div class="about-grid">
-        <div class="about-cell"><div class="k micro">${t('about.version')}</div><div class="v">${t('about.versionValue')}</div></div>
+        <div class="about-cell"><div class="k micro">${t('about.version')}</div><div class="v">${APP.version}</div></div>
         <div class="about-cell"><div class="k micro">${t('about.kernel')}</div><div class="v">${t('about.kernelValue')}</div></div>
         <div class="about-cell"><div class="k micro">${t('about.kdf')}</div><div class="v">${t('about.kdfValue')}</div></div>
         <div class="about-cell"><div class="k micro">${t('about.cipher')}</div><div class="v">${t('about.cipherValue')}</div></div>
@@ -281,7 +283,7 @@ function wireSettings() {
   $('#set-locale').onchange = async (event) => {
     const tag = event.target.value;
     state.settings.locale = tag;
-    localStorage.setItem(STORAGE_KEYS.locale, tag);
+    storage.set(STORAGE_KEYS.locale, tag);
     await setLocale(tag);
     window.dispatchEvent(new CustomEvent(LOCALE_CHANGED_EVENT, { detail: { locale: tag } }));
   };
@@ -323,7 +325,7 @@ function wireResetButton() {
 
 function applyTheme(theme) {
   state.settings.theme = theme;
-  localStorage.setItem(STORAGE_KEYS.theme, theme);
+  storage.set(STORAGE_KEYS.theme, theme);
   document.documentElement.dataset.theme = theme;
   renderDetail();
   const topbarButton = $('#tb-theme');

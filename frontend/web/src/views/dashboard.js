@@ -97,14 +97,14 @@ export function renderDashboard() {
         </div>
       </div>
       <div class="backdrop" id="backdrop"></div>
-      <aside class="drawer" id="drawer">
+      <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
         <div class="drawer-head">
           <span class="micro" id="drawer-title"></span>
-          <button class="btn-icon" id="drawer-close" title="${t('common.close')}">${icon('x', 15)}</button>
+          <button class="btn-icon" id="drawer-close" title="${t('common.close')}" aria-label="${t('common.close')}">${icon('x', 15)}</button>
         </div>
         <div class="drawer-body"><div id="detail-inner"></div></div>
       </aside>
-      <div class="overlay" id="ov-entry">
+      <div class="overlay" id="ov-entry" role="dialog" aria-modal="true" aria-labelledby="entry-modal-title">
         <div class="modal">
           <div class="modal-head">
             <h2 id="entry-modal-title"></h2>
@@ -121,7 +121,7 @@ export function renderDashboard() {
           </div>
         </div>
       </div>
-      <div class="overlay" id="ov-gen">
+      <div class="overlay" id="ov-gen" role="dialog" aria-modal="true" aria-label="${t('gen.title')}">
         <div class="modal modal-sm">
           <div class="modal-head">
             <h2>${t('gen.title')}</h2>

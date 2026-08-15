@@ -74,8 +74,18 @@ tools/
 ## Testing
 
 ```bash
-node tools/check-locales.mjs   # catalog integrity (10 locales shipped)
+node tools/check-locales.mjs        # catalog integrity (10 locales shipped)
+node --test "test/*.test.mjs"       # unit tests: i18n plurals/fallbacks,
+                                    # strength tiers, schema, hex codec,
+                                    # real WASM kernel seal/open + tamper,
+                                    # sync-layer error mapping (stubbed fetch)
 ```
+
+The kernel tests execute the checked-in WASM bindings directly, so a broken
+crypto build fails in seconds instead of in a browser. The browser smoke
+(`scripts/test-browser.mjs`, wired into CI) covers the live flow end to end:
+create vault → recovery kit → seal & store → reload → wrong password
+rejected → decrypt → reveal → delete → lock.
 
 End-to-end (browser, real kernel + real API): create vault → recovery kit →
 create entry (sealed, stored as ciphertext) → reload → wrong password must

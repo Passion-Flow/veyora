@@ -8,6 +8,7 @@
 import { t, setLocale, detectLocale } from './i18n/index.js';
 import { state, resetSession } from './core/state.js';
 import { vault } from './core/vault.js';
+import { storage } from './core/storage.js';
 import { loadKernel } from './core/kernel.js';
 import { recordSync } from './core/records.js';
 import { icon } from './core/icons.js';
@@ -118,7 +119,7 @@ document.addEventListener('click', event => {
   if (event.target.closest('#btn-lock')) return lockVault();
   if (event.target.closest('#tb-theme')) {
     state.settings.theme = state.settings.theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem(STORAGE_KEYS.theme, state.settings.theme);
+    storage.set(STORAGE_KEYS.theme, state.settings.theme);
     applyDocumentTheme();
     const entryFlowButton = $('#lock-theme');
     if (entryFlowButton) {

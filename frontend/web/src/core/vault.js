@@ -8,6 +8,7 @@
  */
 import { STORAGE_KEYS, SECURITY } from '../config.js';
 import { kernel, randomHex } from './kernel.js';
+import { storage } from './storage.js';
 
 export const vault = {
   /** Decrypted entry collection for the current session (starts empty). */
@@ -18,7 +19,7 @@ export const vault = {
   /** Restore device metadata. Entries arrive from the API after unlock. */
   load() {
     try {
-      this.meta = JSON.parse(localStorage.getItem(STORAGE_KEYS.vault) || 'null');
+      this.meta = JSON.parse(storage.get(STORAGE_KEYS.vault) || 'null');
     } catch {
       this.meta = null;
     }
@@ -26,7 +27,7 @@ export const vault = {
   },
 
   persist() {
-    localStorage.setItem(STORAGE_KEYS.vault, JSON.stringify(this.meta));
+    storage.set(STORAGE_KEYS.vault, JSON.stringify(this.meta));
   },
 
   hasVault() {
@@ -56,12 +57,7 @@ export const vault = {
 
   /** Wipe device metadata (demo reset). */
   reset() {
-    localStorage.removeItem(STORAGE_KEYS.vault);
+    storage.remove(STORAGE_KEYS.vault);
     this.meta = null;
-  },
-
-  /** Derive a fresh root key — demo staging until WASM is wired. */
-  async deriveRootKey(password) {
-    return kernel.deriveRootKey(password, this.meta ? this.meta.salt : '');
   },
 };

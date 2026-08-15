@@ -22,30 +22,32 @@ const catalogs = new Map();
 let currentLocale = FALLBACK_LOCALE;
 
 /** Load one catalog, tolerant of missing files (partial coverage is valid). */
-async function loadCatalog(tag) {
-  if (catalogs.has(tag)) return catalogs.get(tag);
-  let catalog = null;
+async function defaultLoadCatalog(tag) {
   try {
     const response = await fetch(`../../locales/${tag}.json`);
-    if (response.ok) catalog = await response.json();
+    if (response.ok) return await response.json();
   } catch {
-    catalog = null; // absent locale simply falls through the chain
+    return null; // absent locale simply falls through the chain
   }
-  catalogs.set(tag, catalog);
-  return catalog;
+  return null;
 }
 
 /**
  * Activate a locale: loads its chain and applies document metadata.
+ * `options.load` overrides the catalog source (used by the test suite).
  * Returns the tag actually activated.
  */
-export async function setLocale(tag) {
+export async function setLocale(tag, { load = defaultLoadCatalog } = {}) {
   const chain = localeChain(tag);
-  await Promise.all(chain.map(loadCatalog));
+  await Promise.all(chain.map(async (locale) => {
+    catalogs.set(locale, await load(locale));
+  }));
   const entry = findLocale(tag) || findLocale(chain[0]) || findLocale(FALLBACK_LOCALE);
   currentLocale = entry ? entry.tag : FALLBACK_LOCALE;
-  document.documentElement.lang = currentLocale;
-  document.documentElement.dir = (entry && entry.dir) || 'ltr';
+  if (typeof document !== 'undefined') {
+    document.documentElement.lang = currentLocale;
+    document.documentElement.dir = (entry && entry.dir) || 'ltr';
+  }
   return currentLocale;
 }
 
@@ -74,7 +76,8 @@ export function t(key, params) {
   if (message.plural) {
     const count = params && (params.count ?? firstNumber(params));
     if (typeof count !== 'number') return key;
-    return formatPattern(selectPlural(message.plural, count), { ...params, count });
+    const branch = selectPlural(message.plural, count);
+    return formatPattern(branch, { ...params, count }).replace(/#/g, formatNumber(count));
   }
   return formatPattern(message.text || '', params || {});
 }

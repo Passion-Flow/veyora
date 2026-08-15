@@ -1,5 +1,5 @@
 # Veyora common operations
-.PHONY: help check check-web check-desktop check-tooling build build-wasm test test-kernel test-backend test-wasm-runtime test-browser run run-web run-db migrate worker backup restore sandbox docker-build docker-up docker-down clean
+.PHONY: help check check-web check-locales test-web-client check-desktop check-tooling build build-wasm test test-kernel test-backend test-wasm-runtime test-browser run run-web run-db migrate worker backup restore sandbox docker-build docker-up docker-down clean
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
@@ -10,6 +10,12 @@ check: ## Validate the public repository structure and documentation links
 
 check-web: ## Validate the static web client, JavaScript, and WASM assets
 	node scripts/check-web.mjs
+
+check-locales: ## Validate frontend locale catalog integrity
+	cd frontend/web && node tools/check-locales.mjs
+
+test-web-client: ## Run the web client unit tests (i18n, kernel, sync)
+	cd frontend/web && node --test "test/*.test.mjs"
 
 check-desktop: ## Validate the desktop capability spike TypeScript
 	cd frontend/spikes/m0-desktop && npm run check
@@ -45,7 +51,7 @@ test-wasm-runtime: ## Execute a freshly generated WASM binding in Node.js
 test-browser: ## Exercise the running web client with Playwright
 	node scripts/test-browser.mjs
 
-test: check check-web check-desktop check-tooling test-kernel test-backend ## Run all dependency-free source checks
+test: check check-web check-locales test-web-client check-desktop check-tooling test-kernel test-backend ## Run all dependency-free source checks
 
 run: ## Start the in-memory API on 127.0.0.1:8080
 	cd backend && cargo build --locked -p api

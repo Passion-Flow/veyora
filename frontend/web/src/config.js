@@ -104,25 +104,42 @@ export const DEMO = Object.freeze({
 });
 
 /**
- * API endpoint resolution. Explicit before implicit, mirroring the legacy
- * client: stored override, injected global, then location heuristic.
+ * API endpoint resolution (lazy). Explicit before implicit, mirroring the
+ * legacy client: stored override, injected global, then location heuristic.
+ * Resolved once on first use so environments without a DOM (the Node test
+ * runner) can still import this module.
  */
+let resolvedApiBaseUrl = null;
+
 function resolveApiBaseUrl() {
-  const stored = localStorage.getItem('veyora-api-url');
-  if (stored) return stored;
-  if (typeof window.VEYORA_API_BASE_URL === 'string' && window.VEYORA_API_BASE_URL) {
-    return window.VEYORA_API_BASE_URL;
+  if (resolvedApiBaseUrl) return resolvedApiBaseUrl;
+  const readStored = key => {
+    try {
+      return globalThis.localStorage?.getItem(key) ?? null;
+    } catch {
+      return null;
+    }
+  };
+  let base = readStored('veyora-api-url');
+  if (!base && typeof window !== 'undefined'
+      && typeof window.VEYORA_API_BASE_URL === 'string' && window.VEYORA_API_BASE_URL) {
+    base = window.VEYORA_API_BASE_URL;
   }
-  const devHosts = Object.freeze(['localhost', '127.0.0.1']);
-  const devPorts = Object.freeze(['3000']);
-  if (devHosts.includes(window.location.hostname) || devPorts.includes(window.location.port)) {
-    return 'http://127.0.0.1:8080';
+  if (!base && typeof window !== 'undefined') {
+    const devHosts = Object.freeze(['localhost', '127.0.0.1']);
+    const devPorts = Object.freeze(['3000']);
+    if (devHosts.includes(window.location.hostname) || devPorts.includes(window.location.port)) {
+      base = 'http://127.0.0.1:8080';
+    } else {
+      base = window.location.origin + '/api';
+    }
   }
-  return window.location.origin + '/api';
+  resolvedApiBaseUrl = base || '';
+  return resolvedApiBaseUrl;
 }
 
 export const API = Object.freeze({
-  baseUrl: resolveApiBaseUrl(),
+  get baseUrl() { return resolveApiBaseUrl(); },
   paths: Object.freeze({
     health: '/healthz',
     records: '/records',

@@ -537,9 +537,6 @@
     "about.version": {
       "text": "버전"
     },
-    "about.versionValue": {
-      "text": "1.0.0-preview"
-    },
     "about.kernel": {
       "text": "커널"
     },

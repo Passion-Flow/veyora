@@ -27,6 +27,10 @@ jobs:
         run: python3 scripts/check-repository.py
       - name: Validate the static web client
         run: node scripts/check-web.mjs
+      - name: Validate locale catalogs
+        run: node frontend/web/tools/check-locales.mjs
+      - name: Unit-test the web client
+        run: node --test "frontend/web/test/*.test.mjs"
       - name: Validate the desktop capability spike
         run: npm run check
         working-directory: frontend/spikes/m0-desktop
@@ -156,7 +160,7 @@ jobs:
         run: |
           ./scripts/smoke-test.sh http://127.0.0.1:8080
           curl --fail --silent http://127.0.0.1:3000/ >/dev/null
-          test "$(curl --silent --output /dev/null --write-out '%{content_type}' http://127.0.0.1:3000/wasm/veyora_kernel_bg.wasm)" = "application/wasm"
+          test "$(curl --silent --output /dev/null --write-out '%{content_type}' http://127.0.0.1:3000/src/wasm/veyora_kernel_bg.wasm)" = "application/wasm"
           curl --fail --silent http://127.0.0.1:3000/api/healthz >/dev/null
       - name: Exercise the browser, API, and WebAssembly together
         env:
