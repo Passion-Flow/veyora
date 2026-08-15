@@ -119,6 +119,7 @@ async function saveEntry() {
       const existing = vault.entries.find(item => item.id === state.editingId);
       defs.forEach(def => { if (def.k !== 'name') existing[def.k] = read(def.k); });
       existing.name = name;
+      existing.updated = new Date().toISOString();
       await recordSync.saveEntry(existing, existing.revision);
       toast(t('toast.updated', { revision: existing.revision }), 'check');
     } else {

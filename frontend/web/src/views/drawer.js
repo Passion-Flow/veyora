@@ -148,6 +148,7 @@ function scheduleRevealRehide(entryId) {
 async function syncFavorite(entry) {
   const priorRevision = entry.revision;
   entry.favorite = !entry.favorite;
+  entry.updated = new Date().toISOString();
   renderTabs();
   renderTable();
   renderDetail();

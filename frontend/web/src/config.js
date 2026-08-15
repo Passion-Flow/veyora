@@ -80,6 +80,7 @@ export const TIMING = Object.freeze({
   deleteArmMs: 2600,
   lockTickMs: 1000,
   activityThrottleMs: 4000,
+  searchDebounceMs: 120,
 });
 
 /** Vault data export (CSV) parameters — protocol-level column names. */

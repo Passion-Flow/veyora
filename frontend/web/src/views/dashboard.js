@@ -8,7 +8,7 @@ import { $, esc } from '../core/ui.js';
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES } from '../data/schema.js';
-import { GENERATOR } from '../config.js';
+import { GENERATOR, TIMING } from '../config.js';
 import { recordSync } from '../core/records.js';
 import { t as translate } from '../i18n/index.js';
 
@@ -166,9 +166,14 @@ export function renderDashboard() {
 }
 
 function wireDashboard() {
+  let searchTimer = null;
   $('#search').addEventListener('input', event => {
-    state.query = event.target.value;
-    renderTable();
+    const value = event.target.value;
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.query = value;
+      renderTable();
+    }, TIMING.searchDebounceMs);
   });
   $('#search').addEventListener('keydown', event => {
     if (event.key === 'Escape' && event.target.value) {
