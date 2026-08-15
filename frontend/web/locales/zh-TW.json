@@ -686,6 +686,27 @@
       "plural": {
         "other": "{count} 個過期"
       }
+    },
+    "drawer.totp": {
+      "text": "驗證器代碼"
+    },
+    "field.totpSecret": {
+      "text": "TOTP 金鑰（Base32）"
+    },
+    "ph.totpSecret": {
+      "text": "例如 JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "回收桶"
+    },
+    "table.trashEmpty": {
+      "text": "回收桶為空"
+    },
+    "action.restore": {
+      "text": "還原"
+    },
+    "toast.restored": {
+      "text": "條目已還原"
     }
   }
 }

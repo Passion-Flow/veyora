@@ -686,6 +686,27 @@
       "plural": {
         "other": "{count}개 오래됨"
       }
+    },
+    "drawer.totp": {
+      "text": "인증 코드"
+    },
+    "field.totpSecret": {
+      "text": "TOTP 시크릿(Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "예: JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "휴지통"
+    },
+    "table.trashEmpty": {
+      "text": "휴지통이 비어 있습니다"
+    },
+    "action.restore": {
+      "text": "복원"
+    },
+    "toast.restored": {
+      "text": "항목이 복원되었습니다"
     }
   }
 }

@@ -689,6 +689,27 @@
         "one": "{count} stale",
         "other": "{count} stale"
       }
+    },
+    "drawer.totp": {
+      "text": "Authenticator code"
+    },
+    "field.totpSecret": {
+      "text": "TOTP secret (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "e.g. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Trash"
+    },
+    "table.trashEmpty": {
+      "text": "Trash is empty"
+    },
+    "action.restore": {
+      "text": "Restore"
+    },
+    "toast.restored": {
+      "text": "Entry restored"
     }
   }
 }

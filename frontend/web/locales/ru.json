@@ -695,6 +695,27 @@
         "many": "{count} устарели",
         "other": "{count} устарели"
       }
+    },
+    "drawer.totp": {
+      "text": "Код аутентификации"
+    },
+    "field.totpSecret": {
+      "text": "Секрет TOTP (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "напр. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Корзина"
+    },
+    "table.trashEmpty": {
+      "text": "Корзина пуста"
+    },
+    "action.restore": {
+      "text": "Восстановить"
+    },
+    "toast.restored": {
+      "text": "Запись восстановлена"
     }
   }
 }

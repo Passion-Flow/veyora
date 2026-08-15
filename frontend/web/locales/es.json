@@ -689,6 +689,27 @@
         "one": "{count} antigua",
         "other": "{count} antiguas"
       }
+    },
+    "drawer.totp": {
+      "text": "Código de autenticación"
+    },
+    "field.totpSecret": {
+      "text": "Secreto TOTP (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "p. ej. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Papelera"
+    },
+    "table.trashEmpty": {
+      "text": "La papelera está vacía"
+    },
+    "action.restore": {
+      "text": "Restaurar"
+    },
+    "toast.restored": {
+      "text": "Entrada restaurada"
     }
   }
 }

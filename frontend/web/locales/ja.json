@@ -686,6 +686,27 @@
       "plural": {
         "other": "{count} 件古い"
       }
+    },
+    "drawer.totp": {
+      "text": "認証コード"
+    },
+    "field.totpSecret": {
+      "text": "TOTPシークレット（Base32）"
+    },
+    "ph.totpSecret": {
+      "text": "例: JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "ごみ箱"
+    },
+    "table.trashEmpty": {
+      "text": "ごみ箱は空です"
+    },
+    "action.restore": {
+      "text": "復元"
+    },
+    "toast.restored": {
+      "text": "エントリを復元しました"
     }
   }
 }

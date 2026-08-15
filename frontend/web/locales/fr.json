@@ -689,6 +689,27 @@
         "one": "{count} périmé",
         "other": "{count} périmés"
       }
+    },
+    "drawer.totp": {
+      "text": "Code d'authentification"
+    },
+    "field.totpSecret": {
+      "text": "Secret TOTP (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "p. ex. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Corbeille"
+    },
+    "table.trashEmpty": {
+      "text": "La corbeille est vide"
+    },
+    "action.restore": {
+      "text": "Restaurer"
+    },
+    "toast.restored": {
+      "text": "Entrée restaurée"
     }
   }
 }

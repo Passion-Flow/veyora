@@ -686,6 +686,27 @@
       "plural": {
         "other": "{count} 个过期"
       }
+    },
+    "drawer.totp": {
+      "text": "验证器代码"
+    },
+    "field.totpSecret": {
+      "text": "TOTP 密钥（Base32）"
+    },
+    "ph.totpSecret": {
+      "text": "例如 JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "回收站"
+    },
+    "table.trashEmpty": {
+      "text": "回收站为空"
+    },
+    "action.restore": {
+      "text": "恢复"
+    },
+    "toast.restored": {
+      "text": "条目已恢复"
     }
   }
 }

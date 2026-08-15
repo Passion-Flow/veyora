@@ -28,6 +28,7 @@ export const TEMPLATE_FIELDS = Object.freeze({
     Object.freeze({ k: 'username', labelKey: 'field.username', phKey: 'ph.username' }),
     Object.freeze({ k: 'website', labelKey: 'field.website', phKey: 'ph.website' }),
     Object.freeze({ k: 'secret', labelKey: 'field.password', secret: true, gen: true }),
+    Object.freeze({ k: 'totpSecret', labelKey: 'field.totpSecret', phKey: 'ph.totpSecret' }),
     Object.freeze({ k: 'notes', labelKey: 'field.notes', phKey: 'ph.notes', textarea: true, span: true }),
   ]),
   note: Object.freeze([
@@ -86,6 +87,7 @@ export function detailFields(entry) {
   if (entry.secretkey) {
     fields.push({ labelKey: 'field.privateKey', value: entry.secretkey, mono: true, secret: true, copy: true, pre: true });
   }
+  if (entry.totpSecret) fields.push({ labelKey: 'field.totpSecret', value: entry.totpSecret, mono: true, copy: true, totp: true });
   if (entry.notes) fields.push({ labelKey: 'field.notes', value: entry.notes, notes: true });
   return fields;
 }

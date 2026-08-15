@@ -275,8 +275,11 @@ export function renderTabs() {
       t(key)}<span class="cnt">${count}</span></button>`;
   }).join('');
   document.querySelectorAll('.tab').forEach(button =>
-    button.addEventListener('click', () => {
+    button.addEventListener('click', async () => {
       state.nav = button.dataset.nav;
+      if (state.nav === 'trash' && !state.trashEntries) {
+        state.trashEntries = await recordSync.fetchTrash().catch(() => []);
+      }
       renderTabs();
       renderTable();
     }));

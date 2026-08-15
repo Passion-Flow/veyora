@@ -505,3 +505,6 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;background:var(--fi
 .badge-warn,.badge-stale{display:inline-flex;align-items:center;margin-left:4px}
 .badge-warn{color:var(--ink)}
 .badge-stale{color:var(--ink-3)}
+
+/* ---------- TOTP live display ---------- */
+#totp-section .totp-code{min-width:120px}

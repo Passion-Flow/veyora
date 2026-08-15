@@ -216,6 +216,40 @@ export const recordSync = {
     return true;
   },
 
+  /**
+   * Fetch tombstoned entries for the trash view. Ciphertext is still on
+   * the server; we decrypt it to show the name, and restoration re-PUTs
+   * the same ciphertext with tombstone=false.
+   */
+  async fetchTrash() {
+    const bodies = await apiFetch(`${API.paths.records}?embed=bodies`).catch(() => null);
+    if (!Array.isArray(bodies)) return [];
+    return bodies
+      .filter(dto => dto.tombstone && !isReservedId(dto.record_id))
+      .map(dto => {
+        try {
+          return this.decrypt(dto);
+        } catch {
+          return { id: dto.record_id, type: 'login', name: dto.record_id, secret: '', revision: dto.revision, _undecryptable: true };
+        }
+      });
+  },
+
+  /** Restore a tombstoned entry by re-PUTting with tombstone=false. */
+  async restoreEntry(entry) {
+    const dto = await apiFetch(`${API.paths.records}/${encodeURIComponent(entry.id)}`);
+    dto.tombstone = false;
+    dto.revision = dto.revision + 1;
+    dto.expected_prior_revision = dto.revision - 1;
+    const result = await apiFetch(`${API.paths.records}/${encodeURIComponent(entry.id)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dto),
+    });
+    entry.revision = result.revision;
+    return entry;
+  },
+
   /** Server-visible record count (no decryption; safe pre-unlock). */
   async countRecords() {
     const summaries = await apiFetch(API.paths.records);

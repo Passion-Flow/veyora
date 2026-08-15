@@ -689,6 +689,27 @@
         "one": "{count} veraltet",
         "other": "{count} veraltet"
       }
+    },
+    "drawer.totp": {
+      "text": "Authenticator-Code"
+    },
+    "field.totpSecret": {
+      "text": "TOTP-Geheimnis (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "z. B. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Papierkorb"
+    },
+    "table.trashEmpty": {
+      "text": "Papierkorb ist leer"
+    },
+    "action.restore": {
+      "text": "Wiederherstellen"
+    },
+    "toast.restored": {
+      "text": "Eintrag wiederhergestellt"
     }
   }
 }

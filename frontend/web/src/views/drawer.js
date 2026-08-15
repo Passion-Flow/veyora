@@ -11,6 +11,7 @@ import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES, detailFields } from '../data/schema.js';
 import { analyzePasswordHealth, ageLabel } from '../data/health.js';
+import { generateTotp, totpSecondsRemaining } from '../data/totp.js';
 import { formatNumber } from '../i18n/index.js';
 import { exportLoginCsv } from '../data/csv.js';
 import { STORAGE_KEYS, SECURITY, TIMING, DATA_EXPORT, APP } from '../config.js';
@@ -124,12 +125,48 @@ function entryHtml(entry) {
         entry.favorite ? t('drawer.unfavorite') : t('drawer.favorite')}</button>
       <button class="btn" id="d-del" style="margin-left:auto">${icon('trash', 14)}${t('common.delete')}</button>
     </div>
+${entry.totpSecret ? totpHtml(entry) : ''}
     <div class="d-sec">${fields}</div>
     <div class="d-foot">${t('drawer.foot', { id: entry.id.toUpperCase() })}</div>`;
 }
 
+/** Live TOTP display with countdown (RFC 6238). */
+let totpTimer = null;
+function totpHtml(entry) {
+  return `<div class="d-sec" id="totp-section">
+    <div class="micro" style="margin-bottom:var(--space-2)">${t('drawer.totp')}</div>
+    <div style="display:flex;align-items:center;gap:var(--space-4)">
+      <span class="totp-code" id="totp-code" style="font-family:var(--font-mono);font-size:var(--type-scale-0);font-weight:600;letter-spacing:.1em">·</span>
+      <div style="flex:1;height:3px;background:var(--line)">
+        <div id="totp-progress" style="height:100%;background:var(--fill);transition:width 1s linear"></div>
+      </div>
+      <span class="totp-remaining micro" id="totp-remaining"></span>
+    </div>
+  </div>`;
+}
+
+function startTotpTicker(entry) {
+  clearInterval(totpTimer);
+  const codeEl = document.getElementById('totp-code');
+  if (!codeEl || !entry.totpSecret) return;
+  const update = async () => {
+    try {
+      const code = await generateTotp(entry.totpSecret);
+      codeEl.textContent = code.slice(0, 3) + ' ' + code.slice(3);
+      const remaining = totpSecondsRemaining();
+      const progress = document.getElementById('totp-progress');
+      const remEl = document.getElementById('totp-remaining');
+      if (progress) progress.style.width = `${(remaining / 30) * 100}%`;
+      if (remEl) remEl.textContent = `${remaining}s`;
+    } catch { /* invalid base32 secret: show dashes */ }
+  };
+  update();
+  totpTimer = setInterval(update, 1000);
+}
+
 function wireEntryDetail(entry) {
   $('#d-copy').onclick = () => copyWithTimeout(entry.secret);
+  startTotpTicker(entry);
   $('#d-reveal').onclick = () => {
     state.revealed[entry.id] = !state.revealed[entry.id];
     renderDetail();

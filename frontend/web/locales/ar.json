@@ -692,6 +692,27 @@
         "one": "{count} قديم",
         "other": "{count} قديم"
       }
+    },
+    "drawer.totp": {
+      "text": "رمز المصادقة"
+    },
+    "field.totpSecret": {
+      "text": "سر TOTP (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "مثال JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "سلة المحذوفات"
+    },
+    "table.trashEmpty": {
+      "text": "سلة المحذوفات فارغة"
+    },
+    "action.restore": {
+      "text": "استعادة"
+    },
+    "toast.restored": {
+      "text": "تم استعادة السجل"
     }
   }
 }
