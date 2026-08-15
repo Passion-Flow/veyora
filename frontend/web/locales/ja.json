@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "金庫を復号中"
     },
-    "entry.demoFoot": {
-      "text": "プレビュー · デモ"
-    },
-    "entry.demoReset": {
-      "text": "リセット"
-    },
     "entry.create.step": {
       "text": "01 · 金庫を作成"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "パスワードを忘れた？リカバリーキットで復元"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "デモ——任意のパスワードで解錠、{probe} と入力するとエラー状態を確認できます"
     },
     "entry.recover.tag": {
       "text": "復元"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "このリカバリーキットは無効です。"
+    },
+    "settings.resetVault": {
+      "text": "ローカルの金庫をリセット"
+    },
+    "settings.resetVaultSub": {
+      "text": "端末のメタデータを消去してやり直します — サーバーのレコードは保持されます"
+    },
+    "settings.resetVaultBtn": {
+      "text": "リセット"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "もう一度タップして確認"
     }
   }
 }

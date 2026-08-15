@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "正在解密保險庫"
     },
-    "entry.demoFoot": {
-      "text": "預覽 · 演示"
-    },
-    "entry.demoReset": {
-      "text": "重設"
-    },
     "entry.create.step": {
       "text": "01 · 建立保險庫"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "忘記密碼？使用復原套件找回"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "演示——任意密碼可解鎖，輸入 {probe} 檢視錯誤狀態"
     },
     "entry.recover.tag": {
       "text": "復原"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "復原套件無效。"
+    },
+    "settings.resetVault": {
+      "text": "重設本地保險庫"
+    },
+    "settings.resetVaultSub": {
+      "text": "清除本機中繼資料以重新開始——伺服器上的記錄會保留"
+    },
+    "settings.resetVaultBtn": {
+      "text": "重設"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "再點一次確認"
     }
   }
 }

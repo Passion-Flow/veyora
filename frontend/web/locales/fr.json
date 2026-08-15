@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "Déchiffrement du coffre"
     },
-    "entry.demoFoot": {
-      "text": "Aperçu · démo"
-    },
-    "entry.demoReset": {
-      "text": "réinitialiser"
-    },
     "entry.create.step": {
       "text": "01 · Créer votre coffre"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "Mot de passe perdu ? Récupérer avec le kit"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "démo — tout mot de passe déverrouille, tapez {probe} pour l'état d'erreur"
     },
     "entry.recover.tag": {
       "text": "Récupération"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "Ce kit de récupération n'est pas valide."
+    },
+    "settings.resetVault": {
+      "text": "Réinitialiser le coffre local"
+    },
+    "settings.resetVaultSub": {
+      "text": "Efface les métadonnées de l'appareil — les enregistrements serveur sont conservés"
+    },
+    "settings.resetVaultBtn": {
+      "text": "Réinitialiser"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "Touchez à nouveau pour confirmer"
     }
   }
 }

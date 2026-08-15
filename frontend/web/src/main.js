@@ -59,6 +59,8 @@ function tickLock() {
   const minutes = Math.floor(remaining / 60000);
   const seconds = Math.floor((remaining % 60000) / 1000);
   chip.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  const host = chip.closest('.autolock');
+  if (host) host.classList.toggle('urgent', remaining < 60000);
 }
 
 function trackActivity() {
@@ -73,6 +75,16 @@ function trackActivity() {
 
 window.addEventListener('veyora:autolock-changed', () => {
   if (state.unlocked) startLockTimer();
+});
+
+/** Destructive local reset dispatched from the settings drawer. */
+window.addEventListener('veyora:reset-vault', () => {
+  stopLockTimer();
+  closeOverlays();
+  recordSync.lock();
+  resetSession();
+  $('#root').innerHTML = '';
+  renderEntryFlow('lock-welcome');
 });
 
 /* ------------------------------------------------------------------ */

@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "正在解密保险库"
     },
-    "entry.demoFoot": {
-      "text": "预览 · 演示"
-    },
-    "entry.demoReset": {
-      "text": "重置"
-    },
     "entry.create.step": {
       "text": "01 · 创建保险库"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "忘记密码？使用恢复套件找回"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "演示——任意密码可解锁，输入 {probe} 查看错误状态"
     },
     "entry.recover.tag": {
       "text": "恢复"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "恢复套件无效。"
+    },
+    "settings.resetVault": {
+      "text": "重置本地保险库"
+    },
+    "settings.resetVaultSub": {
+      "text": "清除本机元数据以重新开始——服务器上的记录会保留"
+    },
+    "settings.resetVaultBtn": {
+      "text": "重置"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "再点一次确认"
     }
   }
 }

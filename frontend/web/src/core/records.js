@@ -51,16 +51,14 @@ export const recordSync = {
     return vault.entries;
   },
 
-  /** Fetch summaries, then decrypt each live record. */
+  /** Fetch summaries, then decrypt each live record in parallel. */
   async fetchAll() {
     const summaries = await apiFetch(API.paths.records);
-    const entries = [];
-    for (const summary of summaries) {
-      if (summary.tombstone) continue;
-      const dto = await apiFetch(`${API.paths.records}/${encodeURIComponent(summary.record_id)}`);
-      entries.push(this.decrypt(dto));
-    }
-    return entries;
+    const live = summaries.filter(summary => !summary.tombstone);
+    const dtos = await Promise.all(
+      live.map(summary => apiFetch(`${API.paths.records}/${encodeURIComponent(summary.record_id)}`)),
+    );
+    return dtos.map(dto => this.decrypt(dto));
   },
 
   /** Server-visible record count (no decryption; safe pre-unlock). */

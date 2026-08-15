@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "جارٍ فك تشفير الخزنة"
     },
-    "entry.demoFoot": {
-      "text": "معاينة · عرض تجريبي"
-    },
-    "entry.demoReset": {
-      "text": "إعادة تعيين"
-    },
     "entry.create.step": {
       "text": "01 · أنشئ خزنتك"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "فقدت كلمة المرور؟ استعادتها بالرمز"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "تجريبي — أي كلمة مرور تفتح الخزنة، اكتب {probe} لرؤية حالة الخطأ"
     },
     "entry.recover.tag": {
       "text": "الاستعادة"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "رمز الاستعادة غير صالح."
+    },
+    "settings.resetVault": {
+      "text": "إعادة تعيين الخزنة المحلية"
+    },
+    "settings.resetVaultSub": {
+      "text": "يمسح بيانات الجهاز للبدء من جديد — تُحفظ سجلات الخادم"
+    },
+    "settings.resetVaultBtn": {
+      "text": "إعادة تعيين"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "انقر مرة أخرى للتأكيد"
     }
   }
 }

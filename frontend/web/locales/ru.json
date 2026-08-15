@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "Расшифровка хранилища"
     },
-    "entry.demoFoot": {
-      "text": "Превью · демо"
-    },
-    "entry.demoReset": {
-      "text": "сброс"
-    },
     "entry.create.step": {
       "text": "01 · Создание хранилища"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "Забыли пароль? Восстановить кодом"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "демо — подойдёт любой пароль, введите {probe}, чтобы увидеть ошибку"
     },
     "entry.recover.tag": {
       "text": "Восстановление"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "Этот код восстановления недействителен."
+    },
+    "settings.resetVault": {
+      "text": "Сбросить локальное хранилище"
+    },
+    "settings.resetVaultSub": {
+      "text": "Очищает метаданные устройства — записи на сервере сохраняются"
+    },
+    "settings.resetVaultBtn": {
+      "text": "Сбросить"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "Нажмите ещё раз для подтверждения"
     }
   }
 }

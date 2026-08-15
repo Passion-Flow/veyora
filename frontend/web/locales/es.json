@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "Descifrando la bóveda"
     },
-    "entry.demoFoot": {
-      "text": "Vista previa · demo"
-    },
-    "entry.demoReset": {
-      "text": "reiniciar"
-    },
     "entry.create.step": {
       "text": "01 · Crea tu bóveda"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "¿Perdiste la contraseña? Recupera con el kit"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "demo — cualquier contraseña desbloquea, escribe {probe} para ver el estado de error"
     },
     "entry.recover.tag": {
       "text": "Recuperación"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "Este kit de recuperación no es válido."
+    },
+    "settings.resetVault": {
+      "text": "Restablecer la bóveda local"
+    },
+    "settings.resetVaultSub": {
+      "text": "Borra los metadatos del dispositivo — los registros del servidor se conservan"
+    },
+    "settings.resetVaultBtn": {
+      "text": "Restablecer"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "Toca de nuevo para confirmar"
     }
   }
 }

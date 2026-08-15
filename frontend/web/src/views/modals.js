@@ -112,6 +112,8 @@ async function saveEntry() {
   if (SECRET_REQUIRED.includes(state.entryTmpl) && !read('secret')) {
     return toast(t('modal.secretRequired'), 'alert');
   }
+  const saveButton = $('#btn-save-entry');
+  saveButton.disabled = true; // seal + PUT is async; block double submits
   try {
     if (state.editingId) {
       const existing = vault.entries.find(item => item.id === state.editingId);
@@ -130,8 +132,10 @@ async function saveEntry() {
       toast(t('toast.created'), 'lock');
     }
   } catch (error) {
+    saveButton.disabled = false;
     return reportSaveFailure(error);
   }
+  saveButton.disabled = false;
   state.detailView = null;
   closeOverlays();
   renderTabs();

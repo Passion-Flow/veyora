@@ -124,12 +124,24 @@ function wireEntryDetail(entry) {
   $('#d-reveal').onclick = () => {
     state.revealed[entry.id] = !state.revealed[entry.id];
     renderDetail();
+    scheduleRevealRehide(entry.id);
   };
   $('#d-edit').onclick = () => {
     import('./modals.js').then(module => module.openEntryModal(entry.id));
   };
   $('#d-fav').onclick = () => syncFavorite(entry);
   wireDeleteButton(entry);
+}
+
+/** Auto-hide revealed secrets after the configured clipboard window. */
+let revealTimer = null;
+function scheduleRevealRehide(entryId) {
+  clearTimeout(revealTimer);
+  if (!state.revealed[entryId]) return;
+  revealTimer = setTimeout(() => {
+    state.revealed[entryId] = false;
+    if ($('#drawer') && $('#drawer').classList.contains('on')) renderDetail();
+  }, state.settings.clipboardSec * 1000);
 }
 
 /** Toggle a favorite: optimistic update, rolled back on CAS/network failure. */
@@ -238,6 +250,10 @@ function settingsHtml() {
         <div><div class="t">${t('settings.import')}</div><div class="s">${t('settings.importSub')}</div></div>
         <button class="btn" id="set-import">${icon('upload', 14)}${t('settings.importBtn')}</button>
       </div>
+      <div class="set-row">
+        <div><div class="t">${t('settings.resetVault')}</div><div class="s">${t('settings.resetVaultSub')}</div></div>
+        <button class="btn" id="set-reset">${icon('trash', 14)}${t('settings.resetVaultBtn')}</button>
+      </div>
     </div>
     <div class="d-sec set-sec">
       <div class="micro" style="margin-bottom:var(--space-3)">${t('settings.about')}</div>
@@ -279,6 +295,29 @@ function wireSettings() {
   };
   $('#set-export').onclick = exportCsv;
   $('#set-import').onclick = () => toast(t('toast.importStub'), 'upload');
+  wireResetButton();
+}
+
+/** Two-step confirmation for the destructive local vault reset. */
+function wireResetButton() {
+  const button = $('#set-reset');
+  button.onclick = () => {
+    if (!button.dataset.armed) {
+      button.dataset.armed = '1';
+      button.classList.add('btn-danger-confirm');
+      button.innerHTML = `${icon('alert', 14)}${t('settings.resetVaultConfirm')}`;
+      setTimeout(() => {
+        if (button.isConnected) {
+          delete button.dataset.armed;
+          button.classList.remove('btn-danger-confirm');
+          button.innerHTML = `${icon('trash', 14)}${t('settings.resetVaultBtn')}`;
+        }
+      }, TIMING.deleteArmMs);
+      return;
+    }
+    vault.reset();
+    window.dispatchEvent(new CustomEvent('veyora:reset-vault'));
+  };
 }
 
 function applyTheme(theme) {

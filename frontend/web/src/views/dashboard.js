@@ -170,6 +170,14 @@ function wireDashboard() {
     state.query = event.target.value;
     renderTable();
   });
+  $('#search').addEventListener('keydown', event => {
+    if (event.key === 'Escape' && event.target.value) {
+      event.target.value = '';
+      state.query = '';
+      renderTable();
+      event.target.blur();
+    }
+  });
   $('#sort').addEventListener('change', event => {
     state.sort = event.target.value;
     renderTable();
@@ -201,6 +209,10 @@ export function closeOverlays() {
 }
 
 function onTableClick(event) {
+  if (event.target.closest('#empty-cta')) {
+    event.stopPropagation();
+    return import('./modals.js').then(module => module.openEntryModal());
+  }
   const entry = vault.entries.find(item => item.id === event.target.closest('[data-copy]')?.dataset.copy);
   if (entry) {
     event.stopPropagation();
@@ -270,7 +282,9 @@ export function renderTable() {
   if (!list.length) {
     body.innerHTML = `<div class="table-empty"><div class="big">${t('table.emptyTitle')}</div><div>${
       state.query ? t('table.emptyNoResults', { query: esc(state.query) }) : t('table.emptyNew')
-    }</div></div>`;
+    }</div>${state.query ? '' :
+      `<button class="btn btn-primary" id="empty-cta" style="margin-top:18px">${icon('plus', 14)}${t('top.newEntry')}</button>`}
+    </div>`;
     return;
   }
   body.innerHTML = list.map(entry => {

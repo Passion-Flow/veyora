@@ -183,12 +183,6 @@ input[type="password"]::-ms-clear{display:none}
   text-transform:uppercase;
 }
 .lock-card .rec-code{font-size:13px;padding:var(--space-4) 14px;margin-bottom:var(--space-3);line-height:1.9}
-.lock-foot{
-  position:absolute;bottom:26px;left:var(--space-7);margin:0;
-  font-size:var(--type-micro);color:var(--ink-3);
-}
-.lock-foot a{text-decoration:underline;text-underline-offset:2px;cursor:pointer;color:inherit}
-.lock-foot .mono{color:inherit}
 
 /* ============================================================
    DASHBOARD — topbar / tabs / table / drawer
@@ -218,6 +212,7 @@ input[type="password"]::-ms-clear{display:none}
   font-family:var(--font-mono);font-size:var(--type-micro);color:var(--ink-2);
   padding:0 6px;flex:none;
 }
+.autolock.urgent{color:var(--fill-ink);background:var(--fill);padding:2px 8px}
 .tb-lock{
   width:34px;height:34px;border:var(--border-strong);
   display:flex;align-items:center;justify-content:center;
@@ -493,7 +488,6 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;background:var(--fi
 
 /* ---------- RTL overrides (logical mirrors of directional rules) ---------- */
 [dir="rtl"] .lock-brand{left:auto;right:var(--space-7)}
-[dir="rtl"] .lock-foot{left:auto;right:var(--space-7)}
 [dir="rtl"] .lock-theme{right:auto;left:var(--space-5)}
 [dir="rtl"] .lock-error{border-left:none;border-right:2px solid var(--ink)}
 [dir="rtl"] .pwfield .lock-input{padding-right:14px;padding-left:46px}

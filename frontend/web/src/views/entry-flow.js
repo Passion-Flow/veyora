@@ -77,7 +77,6 @@ function welcomeHtml() {
       <button type="button" class="lock-btn" id="btn-create" data-label="${t('entry.create.btn')}">
         <span class="st-txt">${t('entry.create.btn')}</span><span class="st-ic"></span>
       </button>
-      <p class="lock-foot">${t('entry.demoFoot')}</p>
     </form>`;
 }
 
@@ -120,9 +119,6 @@ function unlockHtml() {
         <span class="st-txt">${t('entry.unlock.btn')}</span><span class="st-ic"></span>
       </button>
       <button type="button" class="lock-alt" id="goto-recover">${t('entry.unlock.recoverLink')}</button>
-      <p class="lock-foot">${state.kernelMode === 'demo'
-        ? t('entry.unlock.demoFoot', { probe: DEMO.wrongPasswordProbe })
-        : t('entry.demoFoot')} · <a id="demo-reset">${t('entry.demoReset')}</a></p>
     </form>`;
 }
 
@@ -352,23 +348,25 @@ function wireUnlock() {
     }
     clearError('unlock-error');
     let opened = false;
+    let failure = null;
     await stageButtonWork($('#btn-unlock'), async (label) => {
       recordSync.rootKey = await kernel.deriveRootKey(password, vault.meta ? vault.meta.salt : '');
       label.textContent = t('entry.stage.decrypting');
       vault.entries = await recordSync.fetchAll();
       opened = true;
-    }).catch(() => {
-      opened = false; // decryption failure on live records = wrong password
+    }).catch((error) => {
+      failure = error;
     });
-    if (!opened) return lockError('unlock-error', t('entry.unlock.errWrong'));
-    enterVaultNow();
+    if (opened) return enterVaultNow();
+    // Distinguish connectivity problems from a wrong master password so the
+    // message never misleads; reselect the field for a quick retry.
+    $('#master-pw').select();
+    const unreachable = failure
+      && (failure.code === 'PM-NETWORK-UNREACHABLE' || (failure.status || 0) >= 500);
+    return lockError('unlock-error',
+      unreachable ? t('toast.syncFailed') : t('entry.unlock.errWrong'));
   });
   $('#goto-recover').addEventListener('click', () => showView('lock-recover'));
-  $('#demo-reset').addEventListener('click', () => {
-    vault.reset();
-    recordSync.lock();
-    renderEntryFlow('lock-welcome');
-  });
 }
 
 function wireRecover() {

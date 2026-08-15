@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "금고 복호화 중"
     },
-    "entry.demoFoot": {
-      "text": "프리뷰 · 데모"
-    },
-    "entry.demoReset": {
-      "text": "재설정"
-    },
     "entry.create.step": {
       "text": "01 · 금고 만들기"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "비밀번호를 잃으셨나요? 복구 키트로 복원"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "데모 — 아무 비밀번호나 잠금 해제, {probe}를 입력하면 오류 상태를 볼 수 있습니다"
     },
     "entry.recover.tag": {
       "text": "복구"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "이 복구 키트는 유효하지 않습니다."
+    },
+    "settings.resetVault": {
+      "text": "로컬 금고 재설정"
+    },
+    "settings.resetVaultSub": {
+      "text": "기기 메타데이터를 지우고 다시 시작합니다 — 서버 레코드는 유지됩니다"
+    },
+    "settings.resetVaultBtn": {
+      "text": "재설정"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "다시 눌러 확인"
     }
   }
 }

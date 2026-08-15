@@ -48,12 +48,6 @@
     "entry.stage.decrypting": {
       "text": "Decrypting vault"
     },
-    "entry.demoFoot": {
-      "text": "Preview · demo"
-    },
-    "entry.demoReset": {
-      "text": "reset"
-    },
     "entry.create.step": {
       "text": "01 · Create your vault"
     },
@@ -140,9 +134,6 @@
     },
     "entry.unlock.recoverLink": {
       "text": "Lost the password? Recover with the kit"
-    },
-    "entry.unlock.demoFoot": {
-      "text": "demo — any password unlocks, type {probe} for the error state"
     },
     "entry.recover.tag": {
       "text": "Recovery"
@@ -644,6 +635,18 @@
     },
     "entry.recover.errKitInvalid": {
       "text": "This recovery kit is not valid."
+    },
+    "settings.resetVault": {
+      "text": "Reset local vault"
+    },
+    "settings.resetVaultSub": {
+      "text": "Clears device metadata to start over — server records are kept"
+    },
+    "settings.resetVaultBtn": {
+      "text": "Reset"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "Tap again to confirm"
     }
   }
 }
