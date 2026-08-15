@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "ja",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "あなたのプライベートな空間"
+    },
+    "common.cancel": {
+      "text": "キャンセル"
+    },
+    "common.copy": {
+      "text": "コピー"
+    },
+    "common.close": {
+      "text": "閉じる"
+    },
+    "common.show": {
+      "text": "パスワードを表示"
+    },
+    "common.hide": {
+      "text": "隠す"
+    },
+    "common.edit": {
+      "text": "編集"
+    },
+    "common.delete": {
+      "text": "削除"
+    },
+    "common.themeToggle": {
+      "text": "テーマ切替"
+    },
+    "common.passwordsMatch": {
+      "text": "パスワードが一致しています"
+    },
+    "common.passwordsMismatch": {
+      "text": "パスワードが一致しません"
+    },
+    "entry.capsLock": {
+      "text": "Caps Lock がオンです"
+    },
+    "entry.stage.deriving": {
+      "text": "鍵を導出中"
+    },
+    "entry.stage.decrypting": {
+      "text": "金庫を復号中"
+    },
+    "entry.demoFoot": {
+      "text": "プレビュー · デモ"
+    },
+    "entry.demoReset": {
+      "text": "リセット"
+    },
+    "entry.create.step": {
+      "text": "01 · 金庫を作成"
+    },
+    "entry.create.title": {
+      "text": "マスターパスワードを設定。"
+    },
+    "entry.create.passwordLabel": {
+      "text": "マスターパスワード"
+    },
+    "entry.create.passwordPh": {
+      "text": "{min} 文字以上"
+    },
+    "entry.create.confirmLabel": {
+      "text": "パスワードの確認"
+    },
+    "entry.create.confirmPh": {
+      "text": "もう一度入力"
+    },
+    "entry.create.ack": {
+      "text": "このパスワードは復元できないことを理解しました——パスワードなしで金庫を開けるにはリカバリーキットのみが使えます。"
+    },
+    "entry.create.btn": {
+      "text": "金庫を作成"
+    },
+    "entry.create.errLength": {
+      "text": "{min} 文字以上にしてください——このパスワードが金庫の唯一の鍵です。"
+    },
+    "entry.create.errMismatch": {
+      "text": "パスワードが一致しません。"
+    },
+    "entry.create.errAck": {
+      "text": "パスワードが復元できないことを確認してから続行してください。"
+    },
+    "entry.kit.step": {
+      "text": "02 · リカバリーキット"
+    },
+    "entry.kit.title": {
+      "text": "パスワードを忘れたら？<br>このコードが唯一の入口です。"
+    },
+    "entry.kit.sub": {
+      "text": "オフラインで保存してください——マスターパスワードを失ったときの唯一の復元手段です。"
+    },
+    "entry.kit.download": {
+      "text": ".txt をダウンロード"
+    },
+    "entry.kit.open": {
+      "text": "金庫を開く"
+    },
+    "entry.kit.skip": {
+      "text": "今はスキップ——後で金庫内から再生成できます"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA リカバリーキット"
+    },
+    "entry.kit.fileTail": {
+      "text": "オフラインで保管してください。このキットを持つ人は誰でも金庫にアクセスできます。"
+    },
+    "entry.unlock.tag": {
+      "text": "金庫はロック中"
+    },
+    "entry.unlock.title": {
+      "text": "おかえりなさい。"
+    },
+    "entry.unlock.sub": {
+      "text": "マスターパスワードを入力し、この端末上で鍵を導出して金庫を復号します。"
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "マスターパスワード"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "金庫 {vault} · {count, plural, other {# 件のレコード}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "ソルトはこの端末に保存"
+    },
+    "entry.unlock.btn": {
+      "text": "金庫を解錠"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "マスターパスワードを入力してください。"
+    },
+    "entry.unlock.errWrong": {
+      "text": "復号に失敗しました——マスターパスワードが違います。金庫はロックされたままです。"
+    },
+    "entry.unlock.recoverLink": {
+      "text": "パスワードを忘れた？リカバリーキットで復元"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "デモ——任意のパスワードで解錠、{probe} と入力するとエラー状態を確認できます"
+    },
+    "entry.recover.tag": {
+      "text": "復元"
+    },
+    "entry.recover.title": {
+      "text": "アクセスを復元。"
+    },
+    "entry.recover.sub": {
+      "text": "キットを貼り付けて新しいマスターパスワードを設定します——すべて端末内で再導出されます。"
+    },
+    "entry.recover.kitLabel": {
+      "text": "リカバリーキット"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · チェックサム"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "新しいマスターパスワード"
+    },
+    "entry.recover.btn": {
+      "text": "アクセスを復元"
+    },
+    "entry.recover.back": {
+      "text": "解錠に戻る"
+    },
+    "entry.recover.errKit": {
+      "text": "オフライン保管したリカバリーキットを貼り付けてください。"
+    },
+    "strength.readout": {
+      "text": "{bits} ビット · {label}"
+    },
+    "strength.weak": {
+      "text": "弱い"
+    },
+    "strength.fair": {
+      "text": "普通"
+    },
+    "strength.good": {
+      "text": "良好"
+    },
+    "strength.strong": {
+      "text": "強い"
+    },
+    "strength.excellent": {
+      "text": "非常に強い"
+    },
+    "nav.all": {
+      "text": "すべての項目"
+    },
+    "nav.favorites": {
+      "text": "お気に入り"
+    },
+    "type.login": {
+      "text": "ログイン"
+    },
+    "type.login.plural": {
+      "text": "ログイン"
+    },
+    "type.note": {
+      "text": "セキュアノート"
+    },
+    "type.note.plural": {
+      "text": "セキュアノート"
+    },
+    "type.api-token": {
+      "text": "API トークン"
+    },
+    "type.api-token.plural": {
+      "text": "API トークン"
+    },
+    "type.ssh": {
+      "text": "SSH 鍵"
+    },
+    "type.ssh.plural": {
+      "text": "SSH 鍵"
+    },
+    "type.identity": {
+      "text": "本人情報"
+    },
+    "type.identity.plural": {
+      "text": "本人情報"
+    },
+    "top.searchPh": {
+      "text": "金庫を検索"
+    },
+    "top.recovery": {
+      "text": "リカバリーキット"
+    },
+    "top.settings": {
+      "text": "設定"
+    },
+    "top.lock": {
+      "text": "今すぐロック"
+    },
+    "top.newEntry": {
+      "text": "新規項目"
+    },
+    "top.autolock": {
+      "text": "自動ロックまで"
+    },
+    "top.sort": {
+      "text": "並べ替え"
+    },
+    "table.colItem": {
+      "text": "項目"
+    },
+    "table.colType": {
+      "text": "種類"
+    },
+    "table.colLogin": {
+      "text": "ログイン / シークレット"
+    },
+    "table.colUpdated": {
+      "text": "更新"
+    },
+    "table.count": {
+      "text": "{count, plural, other {# 件のレコード}}"
+    },
+    "table.emptyTitle": {
+      "text": "何もありません"
+    },
+    "table.emptyNoResults": {
+      "text": "「{query}」に一致する結果はありません"
+    },
+    "table.emptyNew": {
+      "text": "最初の項目を作成して始めましょう"
+    },
+    "action.copySecret": {
+      "text": "シークレットをコピー"
+    },
+    "action.favorite": {
+      "text": "お気に入り"
+    },
+    "sort.name": {
+      "text": "名前 A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "名前 Z–A"
+    },
+    "sort.updated": {
+      "text": "更新が新しい順"
+    },
+    "sort.type": {
+      "text": "種類順"
+    },
+    "drawer.title.entry": {
+      "text": "項目"
+    },
+    "drawer.title.settings": {
+      "text": "設定"
+    },
+    "drawer.title.recovery": {
+      "text": "リカバリーキット"
+    },
+    "drawer.copyPassword": {
+      "text": "パスワードをコピー"
+    },
+    "drawer.copySecret": {
+      "text": "シークレットをコピー"
+    },
+    "drawer.reveal": {
+      "text": "表示"
+    },
+    "drawer.favorite": {
+      "text": "お気に入り"
+    },
+    "drawer.unfavorite": {
+      "text": "お気に入り済み"
+    },
+    "drawer.confirmDelete": {
+      "text": "削除を確認"
+    },
+    "drawer.meta": {
+      "text": "{date} 更新 · リビジョン {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "お気に入り"
+    },
+    "drawer.foot": {
+      "text": "レコード {id} · スイート 1 · プロトコル v1 · WASM カーネルによりブラウザ内で復号"
+    },
+    "field.name": {
+      "text": "名前"
+    },
+    "field.itemName": {
+      "text": "項目名"
+    },
+    "field.fullName": {
+      "text": "氏名"
+    },
+    "field.username": {
+      "text": "ユーザー名 / メール"
+    },
+    "field.website": {
+      "text": "ウェブサイト"
+    },
+    "field.service": {
+      "text": "サービス"
+    },
+    "field.host": {
+      "text": "ホスト"
+    },
+    "field.password": {
+      "text": "パスワード"
+    },
+    "field.token": {
+      "text": "トークン"
+    },
+    "field.passphrase": {
+      "text": "パスフレーズ"
+    },
+    "field.idNumber": {
+      "text": "ID 番号"
+    },
+    "field.content": {
+      "text": "内容"
+    },
+    "field.privateKey": {
+      "text": "秘密鍵"
+    },
+    "field.notes": {
+      "text": "メモ"
+    },
+    "ph.name": {
+      "text": "例: GitHub"
+    },
+    "ph.noteName": {
+      "text": "例: サーバー復旧手順書"
+    },
+    "ph.tokenName": {
+      "text": "例: GHCR 公開トークン"
+    },
+    "ph.sshName": {
+      "text": "例: ed25519 — ワークステーション"
+    },
+    "ph.itemName": {
+      "text": "例: パスポート"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "例: GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "任意"
+    },
+    "ph.content": {
+      "text": "非公開テキスト——端末から出る前に暗号化されます"
+    },
+    "ph.generate": {
+      "text": "自動生成"
+    },
+    "modal.newTitle": {
+      "text": "新規項目"
+    },
+    "modal.editTitle": {
+      "text": "項目を編集"
+    },
+    "modal.create": {
+      "text": "項目を作成"
+    },
+    "modal.save": {
+      "text": "変更を保存"
+    },
+    "modal.encryptedNote": {
+      "text": "端末内で暗号化 · 暗号文として保存"
+    },
+    "modal.nameRequired": {
+      "text": "名前は必須です"
+    },
+    "modal.secretRequired": {
+      "text": "シークレットは必須です"
+    },
+    "modal.generate": {
+      "text": "生成"
+    },
+    "gen.title": {
+      "text": "パスワード生成"
+    },
+    "gen.entropy": {
+      "text": "推定エントロピー"
+    },
+    "gen.bitsUnit": {
+      "text": "ビット"
+    },
+    "gen.length": {
+      "text": "長さ"
+    },
+    "gen.upper": {
+      "text": "大文字"
+    },
+    "gen.lower": {
+      "text": "小文字"
+    },
+    "gen.digits": {
+      "text": "数字"
+    },
+    "gen.symbols": {
+      "text": "記号"
+    },
+    "gen.ambiguous": {
+      "text": "紛らわしい文字を避ける"
+    },
+    "gen.regenerate": {
+      "text": "再生成"
+    },
+    "gen.use": {
+      "text": "このパスワードを使う"
+    },
+    "gen.poolNote": {
+      "text": "プールは {count} 文字"
+    },
+    "gen.errCharset": {
+      "text": "少なくとも 1 つの文字セットを選択してください"
+    },
+    "settings.title": {
+      "text": "設定"
+    },
+    "settings.sub": {
+      "text": "端末ローカルの設定 · この端末のみ"
+    },
+    "settings.appearance": {
+      "text": "外観"
+    },
+    "settings.theme": {
+      "text": "テーマ"
+    },
+    "settings.themeSub": {
+      "text": "白地に黒、または黒地に白"
+    },
+    "settings.light": {
+      "text": "ライト"
+    },
+    "settings.dark": {
+      "text": "ダーク"
+    },
+    "settings.language": {
+      "text": "言語"
+    },
+    "settings.languageSub": {
+      "text": "表示言語。欠落時は英語にフォールバック"
+    },
+    "settings.security": {
+      "text": "セキュリティ"
+    },
+    "settings.autolock": {
+      "text": "無操作後に自動ロック"
+    },
+    "settings.autolockSub": {
+      "text": "鍵情報はメモリからゼロ化されます"
+    },
+    "settings.clipboard": {
+      "text": "コピー後にクリップボードを消去"
+    },
+    "settings.clipboardSub": {
+      "text": "シークレットがクリップボードに残りません"
+    },
+    "settings.data": {
+      "text": "データ"
+    },
+    "settings.export": {
+      "text": "金庫をエクスポート"
+    },
+    "settings.exportSub": {
+      "text": "平文 CSV——取り扱いに注意"
+    },
+    "settings.exportBtn": {
+      "text": "CSV をエクスポート"
+    },
+    "settings.import": {
+      "text": "CSV をインポート"
+    },
+    "settings.importSub": {
+      "text": "汎用ログイン CSV（name, secret）"
+    },
+    "settings.importBtn": {
+      "text": "インポート"
+    },
+    "settings.about": {
+      "text": "情報"
+    },
+    "settings.note": {
+      "text": "Veyora は実験的なプレビュー版です——監査済みのセキュリティ製品ではありません。"
+    },
+    "settings.minutes": {
+      "text": "{n} 分"
+    },
+    "settings.seconds": {
+      "text": "{n} 秒"
+    },
+    "about.version": {
+      "text": "バージョン"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "カーネル"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "鍵導出"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "暗号方式"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "署名方式"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "サーバーが見るもの"
+    },
+    "about.serverSeesValue": {
+      "text": "暗号文のみ"
+    },
+    "recovery.title": {
+      "text": "リカバリーキット"
+    },
+    "recovery.sub": {
+      "text": "Base32 · チェックサム付き · オフライン保管"
+    },
+    "recovery.warnHead": {
+      "text": "重要——閉じる前に保存してください"
+    },
+    "recovery.warnBody": {
+      "text": "このキットはマスターパスワードなしで金庫を復号できます。持っている人は誰でもあなたのデータにアクセスできます。印刷するか書き写し、オフラインで安全に保管し、この端末には絶対に保存しないでください。"
+    },
+    "recovery.copyKit": {
+      "text": "キットをコピー"
+    },
+    "recovery.regenerate": {
+      "text": "新しく生成"
+    },
+    "recovery.note": {
+      "text": "マスターパスワードとキットの両方を失うと、設計上金庫は復元できません——リセット手段はありません。"
+    },
+    "toast.copied": {
+      "text": "コピーしました · クリップボードは {seconds} 秒後に消去されます"
+    },
+    "toast.copyFail": {
+      "text": "この環境ではコピーに失敗しました"
+    },
+    "toast.locked": {
+      "text": "金庫をロックしました——鍵情報はゼロ化済み"
+    },
+    "toast.created": {
+      "text": "項目を暗号化して保存しました"
+    },
+    "toast.updated": {
+      "text": "項目を再暗号化 · リビジョン {revision}"
+    },
+    "toast.deleted": {
+      "text": "項目を削除 · 削除リビジョンを記録"
+    },
+    "toast.kitRegen": {
+      "text": "新しいキットを生成しました"
+    },
+    "toast.kitSkip": {
+      "text": "キットはトップバーの盾アイコンからいつでも利用できます"
+    },
+    "toast.exported": {
+      "text": "{count, plural, other {# 件の項目をエクスポートしました}}"
+    },
+    "toast.importStub": {
+      "text": "デモ版——インポートはスタブです"
+    },
+    "toast.autolockSet": {
+      "text": "自動ロックを {n} 分に設定しました"
+    },
+    "toast.clipSet": {
+      "text": "クリップボードは {n} 秒後に消去されます"
+    }
+  }
+}

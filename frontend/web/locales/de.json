@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "de",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "Ihr privater digitaler Raum"
+    },
+    "common.cancel": {
+      "text": "Abbrechen"
+    },
+    "common.copy": {
+      "text": "Kopieren"
+    },
+    "common.close": {
+      "text": "Schließen"
+    },
+    "common.show": {
+      "text": "Passwort zeigen"
+    },
+    "common.hide": {
+      "text": "Verbergen"
+    },
+    "common.edit": {
+      "text": "Bearbeiten"
+    },
+    "common.delete": {
+      "text": "Löschen"
+    },
+    "common.themeToggle": {
+      "text": "Design umschalten"
+    },
+    "common.passwordsMatch": {
+      "text": "Passwörter stimmen überein"
+    },
+    "common.passwordsMismatch": {
+      "text": "Passwörter stimmen nicht überein"
+    },
+    "entry.capsLock": {
+      "text": "Feststelltaste ist aktiv"
+    },
+    "entry.stage.deriving": {
+      "text": "Schlüssel wird abgeleitet"
+    },
+    "entry.stage.decrypting": {
+      "text": "Tresor wird entschlüsselt"
+    },
+    "entry.demoFoot": {
+      "text": "Vorschau · Demo"
+    },
+    "entry.demoReset": {
+      "text": "zurücksetzen"
+    },
+    "entry.create.step": {
+      "text": "01 · Tresor erstellen"
+    },
+    "entry.create.title": {
+      "text": "Master-Passwort festlegen."
+    },
+    "entry.create.passwordLabel": {
+      "text": "Master-Passwort"
+    },
+    "entry.create.passwordPh": {
+      "text": "Mindestens {min} Zeichen"
+    },
+    "entry.create.confirmLabel": {
+      "text": "Passwort bestätigen"
+    },
+    "entry.create.confirmPh": {
+      "text": "Erneut eingeben"
+    },
+    "entry.create.ack": {
+      "text": "Ich verstehe, dass dieses Passwort nicht wiederherstellbar ist — nur der Wiederherstellungssatz kann den Tresor ohne Passwort öffnen."
+    },
+    "entry.create.btn": {
+      "text": "Tresor erstellen"
+    },
+    "entry.create.errLength": {
+      "text": "Verwenden Sie mindestens {min} Zeichen — dieses Passwort ist der einzige Schlüssel zum Tresor."
+    },
+    "entry.create.errMismatch": {
+      "text": "Passwörter stimmen nicht überein."
+    },
+    "entry.create.errAck": {
+      "text": "Bestätigen Sie, dass das Passwort nicht wiederherstellbar ist, bevor Sie fortfahren."
+    },
+    "entry.kit.step": {
+      "text": "02 · Wiederherstellungssatz"
+    },
+    "entry.kit.title": {
+      "text": "Passwort vergessen?<br>Dieser Code ist der Weg zurück."
+    },
+    "entry.kit.sub": {
+      "text": "Offline speichern — der einzige Wiederherstellungsweg, wenn das Master-Passwort verloren geht."
+    },
+    "entry.kit.download": {
+      "text": ".txt herunterladen"
+    },
+    "entry.kit.open": {
+      "text": "Tresor öffnen"
+    },
+    "entry.kit.skip": {
+      "text": "Vorerst überspringen — später im Tresor neu generieren"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA WIEDERHERSTELLUNGSSATZ"
+    },
+    "entry.kit.fileTail": {
+      "text": "Offline aufbewahren. Jeder mit diesem Satz kann auf den Tresor zugreifen."
+    },
+    "entry.unlock.tag": {
+      "text": "Tresor gesperrt"
+    },
+    "entry.unlock.title": {
+      "text": "Willkommen zurück."
+    },
+    "entry.unlock.sub": {
+      "text": "Master-Passwort eingeben, um den Schlüssel auf diesem Gerät abzuleiten und den Tresor zu entschlüsseln."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "Master-Passwort"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "Tresor {vault} · {count, plural, one {# Datensatz} other {# Datensätze}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "Salt auf diesem Gerät"
+    },
+    "entry.unlock.btn": {
+      "text": "Tresor entsperren"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "Master-Passwort eingeben."
+    },
+    "entry.unlock.errWrong": {
+      "text": "Entschlüsselung fehlgeschlagen — falsches Master-Passwort. Der Tresor bleibt gesperrt."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "Passwort verloren? Mit dem Satz wiederherstellen"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "Demo — jedes Passwort entschlüsselt, {probe} eingeben für den Fehlerzustand"
+    },
+    "entry.recover.tag": {
+      "text": "Wiederherstellung"
+    },
+    "entry.recover.title": {
+      "text": "Zugang wiederherstellen."
+    },
+    "entry.recover.sub": {
+      "text": "Satz einfügen und neues Master-Passwort festlegen — alles wird lokal neu abgeleitet."
+    },
+    "entry.recover.kitLabel": {
+      "text": "Wiederherstellungssatz"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · Prüfsumme"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "Neues Master-Passwort"
+    },
+    "entry.recover.btn": {
+      "text": "Zugang wiederherstellen"
+    },
+    "entry.recover.back": {
+      "text": "Zurück zum Entsperren"
+    },
+    "entry.recover.errKit": {
+      "text": "Fügen Sie den Wiederherstellungssatz aus Ihrer Offline-Kopie ein."
+    },
+    "strength.readout": {
+      "text": "{bits} Bit · {label}"
+    },
+    "strength.weak": {
+      "text": "Schwach"
+    },
+    "strength.fair": {
+      "text": "Ausreichend"
+    },
+    "strength.good": {
+      "text": "Gut"
+    },
+    "strength.strong": {
+      "text": "Stark"
+    },
+    "strength.excellent": {
+      "text": "Sehr stark"
+    },
+    "nav.all": {
+      "text": "Alle Einträge"
+    },
+    "nav.favorites": {
+      "text": "Favoriten"
+    },
+    "type.login": {
+      "text": "Login"
+    },
+    "type.login.plural": {
+      "text": "Logins"
+    },
+    "type.note": {
+      "text": "Sichere Notiz"
+    },
+    "type.note.plural": {
+      "text": "Sichere Notizen"
+    },
+    "type.api-token": {
+      "text": "API-Token"
+    },
+    "type.api-token.plural": {
+      "text": "API-Tokens"
+    },
+    "type.ssh": {
+      "text": "SSH-Schlüssel"
+    },
+    "type.ssh.plural": {
+      "text": "SSH-Schlüssel"
+    },
+    "type.identity": {
+      "text": "Identität"
+    },
+    "type.identity.plural": {
+      "text": "Identitäten"
+    },
+    "top.searchPh": {
+      "text": "Tresor durchsuchen"
+    },
+    "top.recovery": {
+      "text": "Wiederherstellungssatz"
+    },
+    "top.settings": {
+      "text": "Einstellungen"
+    },
+    "top.lock": {
+      "text": "Jetzt sperren"
+    },
+    "top.newEntry": {
+      "text": "Neuer Eintrag"
+    },
+    "top.autolock": {
+      "text": "Auto-Sperre in"
+    },
+    "top.sort": {
+      "text": "Sortieren"
+    },
+    "table.colItem": {
+      "text": "Eintrag"
+    },
+    "table.colType": {
+      "text": "Typ"
+    },
+    "table.colLogin": {
+      "text": "Login / Geheimnis"
+    },
+    "table.colUpdated": {
+      "text": "Aktualisiert"
+    },
+    "table.count": {
+      "text": "{count, plural, one {# Datensatz} other {# Datensätze}}"
+    },
+    "table.emptyTitle": {
+      "text": "Nichts hier"
+    },
+    "table.emptyNoResults": {
+      "text": "Keine Ergebnisse für „{query}“"
+    },
+    "table.emptyNew": {
+      "text": "Erstellen Sie Ihren ersten Eintrag"
+    },
+    "action.copySecret": {
+      "text": "Geheimnis kopieren"
+    },
+    "action.favorite": {
+      "text": "Favorit"
+    },
+    "sort.name": {
+      "text": "Name A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "Name Z–A"
+    },
+    "sort.updated": {
+      "text": "Zuletzt aktualisiert"
+    },
+    "sort.type": {
+      "text": "Typ"
+    },
+    "drawer.title.entry": {
+      "text": "Eintrag"
+    },
+    "drawer.title.settings": {
+      "text": "Einstellungen"
+    },
+    "drawer.title.recovery": {
+      "text": "Wiederherstellungssatz"
+    },
+    "drawer.copyPassword": {
+      "text": "Passwort kopieren"
+    },
+    "drawer.copySecret": {
+      "text": "Geheimnis kopieren"
+    },
+    "drawer.reveal": {
+      "text": "Anzeigen"
+    },
+    "drawer.favorite": {
+      "text": "Favorit"
+    },
+    "drawer.unfavorite": {
+      "text": "Favorisiert"
+    },
+    "drawer.confirmDelete": {
+      "text": "Löschen bestätigen"
+    },
+    "drawer.meta": {
+      "text": "aktualisiert {date} · Revision {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "Favorit"
+    },
+    "drawer.foot": {
+      "text": "Datensatz {id} · Suite 1 · Protokoll v1 · im Browser über den WASM-Kernel entschlüsselt"
+    },
+    "field.name": {
+      "text": "Name"
+    },
+    "field.itemName": {
+      "text": "Eintragsname"
+    },
+    "field.fullName": {
+      "text": "Vollständiger Name"
+    },
+    "field.username": {
+      "text": "Benutzername / E-Mail"
+    },
+    "field.website": {
+      "text": "Webseite"
+    },
+    "field.service": {
+      "text": "Dienst"
+    },
+    "field.host": {
+      "text": "Host"
+    },
+    "field.password": {
+      "text": "Passwort"
+    },
+    "field.token": {
+      "text": "Token"
+    },
+    "field.passphrase": {
+      "text": "Passphrase"
+    },
+    "field.idNumber": {
+      "text": "Ausweisnummer"
+    },
+    "field.content": {
+      "text": "Inhalt"
+    },
+    "field.privateKey": {
+      "text": "Privater Schlüssel"
+    },
+    "field.notes": {
+      "text": "Notizen"
+    },
+    "ph.name": {
+      "text": "z. B. GitHub"
+    },
+    "ph.noteName": {
+      "text": "z. B. Server-Runbook"
+    },
+    "ph.tokenName": {
+      "text": "z. B. GHCR-Publish-Token"
+    },
+    "ph.sshName": {
+      "text": "z. B. ed25519 — Workstation"
+    },
+    "ph.itemName": {
+      "text": "z. B. Reisepass"
+    },
+    "ph.username": {
+      "text": "sie@beispiel.de"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "z. B. GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "Optional"
+    },
+    "ph.content": {
+      "text": "Privater Text — wird verschlüsselt, bevor er dieses Gerät verlässt"
+    },
+    "ph.generate": {
+      "text": "Automatisch generieren"
+    },
+    "modal.newTitle": {
+      "text": "Neuer Eintrag"
+    },
+    "modal.editTitle": {
+      "text": "Eintrag bearbeiten"
+    },
+    "modal.create": {
+      "text": "Eintrag erstellen"
+    },
+    "modal.save": {
+      "text": "Änderungen speichern"
+    },
+    "modal.encryptedNote": {
+      "text": "Lokal verschlüsselt · dann als Chiffretext gespeichert"
+    },
+    "modal.nameRequired": {
+      "text": "Name ist erforderlich"
+    },
+    "modal.secretRequired": {
+      "text": "Geheimnisfeld ist erforderlich"
+    },
+    "modal.generate": {
+      "text": "Gen"
+    },
+    "gen.title": {
+      "text": "Passwort-Generator"
+    },
+    "gen.entropy": {
+      "text": "geschätzte Entropie"
+    },
+    "gen.bitsUnit": {
+      "text": "BIT"
+    },
+    "gen.length": {
+      "text": "Länge"
+    },
+    "gen.upper": {
+      "text": "Großbuchstaben"
+    },
+    "gen.lower": {
+      "text": "Kleinbuchstaben"
+    },
+    "gen.digits": {
+      "text": "Ziffern"
+    },
+    "gen.symbols": {
+      "text": "Sonderzeichen"
+    },
+    "gen.ambiguous": {
+      "text": "Mehrdeutige Zeichen vermeiden"
+    },
+    "gen.regenerate": {
+      "text": "Neu generieren"
+    },
+    "gen.use": {
+      "text": "Dieses Passwort verwenden"
+    },
+    "gen.poolNote": {
+      "text": "{count} Zeichen im Vorrat"
+    },
+    "gen.errCharset": {
+      "text": "Wählen Sie mindestens einen Zeichensatz"
+    },
+    "settings.title": {
+      "text": "Einstellungen"
+    },
+    "settings.sub": {
+      "text": "Lokale Einstellungen · nur dieses Gerät"
+    },
+    "settings.appearance": {
+      "text": "Erscheinungsbild"
+    },
+    "settings.theme": {
+      "text": "Design"
+    },
+    "settings.themeSub": {
+      "text": "Schwarz auf Weiß oder Weiß auf Schwarz"
+    },
+    "settings.light": {
+      "text": "Hell"
+    },
+    "settings.dark": {
+      "text": "Dunkel"
+    },
+    "settings.language": {
+      "text": "Sprache"
+    },
+    "settings.languageSub": {
+      "text": "Sprache der Oberfläche, mit englischer Rückfallstufe"
+    },
+    "settings.security": {
+      "text": "Sicherheit"
+    },
+    "settings.autolock": {
+      "text": "Automatisch sperren bei Inaktivität"
+    },
+    "settings.autolockSub": {
+      "text": "Schlüsselmaterial wird im Speicher genullt"
+    },
+    "settings.clipboard": {
+      "text": "Zwischenablage nach dem Kopieren leeren"
+    },
+    "settings.clipboardSub": {
+      "text": "Geheimnisse verweilen nicht in der Zwischenablage"
+    },
+    "settings.data": {
+      "text": "Daten"
+    },
+    "settings.export": {
+      "text": "Tresor exportieren"
+    },
+    "settings.exportSub": {
+      "text": "Klartext-CSV — mit Vorsicht behandeln"
+    },
+    "settings.exportBtn": {
+      "text": "CSV exportieren"
+    },
+    "settings.import": {
+      "text": "CSV importieren"
+    },
+    "settings.importSub": {
+      "text": "Generische Login-CSV (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "Importieren"
+    },
+    "settings.about": {
+      "text": "Über"
+    },
+    "settings.note": {
+      "text": "Veyora ist eine experimentelle Vorschau — kein geprüftes Sicherheitsprodukt."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {# Minute} other {# Minuten}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {# Sekunde} other {# Sekunden}}"
+    },
+    "about.version": {
+      "text": "Version"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "Kernel"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "KDF"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "Chiffre"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "Signaturen"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "Server sieht"
+    },
+    "about.serverSeesValue": {
+      "text": "nur Chiffretext"
+    },
+    "recovery.title": {
+      "text": "Wiederherstellungssatz"
+    },
+    "recovery.sub": {
+      "text": "Base32 · mit Prüfsumme · offline aufbewahren"
+    },
+    "recovery.warnHead": {
+      "text": "Kritisch — vor dem Schließen speichern"
+    },
+    "recovery.warnBody": {
+      "text": "Dieser Satz kann Ihren Tresor ohne das Master-Passwort entschlüsseln. Wer ihn besitzt, besitzt Ihre Daten. Drucken oder notieren Sie ihn, bewahren Sie ihn offline sicher auf und speichern Sie ihn niemals auf diesem Gerät."
+    },
+    "recovery.copyKit": {
+      "text": "Satz kopieren"
+    },
+    "recovery.regenerate": {
+      "text": "Neu generieren"
+    },
+    "recovery.note": {
+      "text": "Wenn Master-Passwort und Satz beide verloren gehen, ist der Tresor dem Design nach nicht wiederherstellbar — es gibt keinen Reset-Pfad."
+    },
+    "toast.copied": {
+      "text": "Kopiert · Zwischenablage wird in {seconds}s geleert"
+    },
+    "toast.copyFail": {
+      "text": "Kopieren in diesem Kontext fehlgeschlagen"
+    },
+    "toast.locked": {
+      "text": "Tresor gesperrt — Schlüsselmaterial genullt"
+    },
+    "toast.created": {
+      "text": "Eintrag verschlüsselt & gespeichert"
+    },
+    "toast.updated": {
+      "text": "Eintrag neu verschlüsselt · Revision {revision}"
+    },
+    "toast.deleted": {
+      "text": "Eintrag gelöscht · Tombstone-Revision erfasst"
+    },
+    "toast.kitRegen": {
+      "text": "Neuer Satz generiert"
+    },
+    "toast.kitSkip": {
+      "text": "Der Satz bleibt über das Schild-Symbol in der Kopfleiste verfügbar"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {# Eintrag exportiert} other {# Einträge exportiert}}"
+    },
+    "toast.importStub": {
+      "text": "Demo-Build — Import ist ein Stub"
+    },
+    "toast.autolockSet": {
+      "text": "Auto-Sperre auf {n} Min. gesetzt"
+    },
+    "toast.clipSet": {
+      "text": "Zwischenablage wird nach {n}s geleert"
+    }
+  }
+}

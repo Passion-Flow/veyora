@@ -1,0 +1,21 @@
+/* ============================================================================
+   Veyora base stylesheet — resets and element defaults, all token-driven.
+   ============================================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:var(--ink);
+  font-size:var(--type-scale-3);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--fill);color:var(--fill-ink)}
+button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--line-2);border:3px solid var(--surface);border-radius:6px}
+::-webkit-scrollbar-track{background:transparent}
+a{color:inherit}

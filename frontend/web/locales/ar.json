@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "ar",
+  "direction": "rtl",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "مساحتك الرقمية الخاصة"
+    },
+    "common.cancel": {
+      "text": "إلغاء"
+    },
+    "common.copy": {
+      "text": "نسخ"
+    },
+    "common.close": {
+      "text": "إغلاق"
+    },
+    "common.show": {
+      "text": "إظهار كلمة المرور"
+    },
+    "common.hide": {
+      "text": "إخفاء"
+    },
+    "common.edit": {
+      "text": "تحرير"
+    },
+    "common.delete": {
+      "text": "حذف"
+    },
+    "common.themeToggle": {
+      "text": "تبديل المظهر"
+    },
+    "common.passwordsMatch": {
+      "text": "كلمتا المرور متطابقتان"
+    },
+    "common.passwordsMismatch": {
+      "text": "كلمتا المرور غير متطابقتين"
+    },
+    "entry.capsLock": {
+      "text": "زر الأحرف الكبيرة مُفعّل"
+    },
+    "entry.stage.deriving": {
+      "text": "جارٍ اشتقاق المفتاح"
+    },
+    "entry.stage.decrypting": {
+      "text": "جارٍ فك تشفير الخزنة"
+    },
+    "entry.demoFoot": {
+      "text": "معاينة · عرض تجريبي"
+    },
+    "entry.demoReset": {
+      "text": "إعادة تعيين"
+    },
+    "entry.create.step": {
+      "text": "01 · أنشئ خزنتك"
+    },
+    "entry.create.title": {
+      "text": "عيّن كلمة مرور رئيسية."
+    },
+    "entry.create.passwordLabel": {
+      "text": "كلمة المرور الرئيسية"
+    },
+    "entry.create.passwordPh": {
+      "text": "{min} محارف على الأقل"
+    },
+    "entry.create.confirmLabel": {
+      "text": "تأكيد كلمة المرور"
+    },
+    "entry.create.confirmPh": {
+      "text": "أعد إدخالها"
+    },
+    "entry.create.ack": {
+      "text": "أفهم أن كلمة المرور هذه لا يمكن استعادتها — طريقة فتح الخزنة بدونها هي رمز الاستعادة وحده."
+    },
+    "entry.create.btn": {
+      "text": "إنشاء الخزنة"
+    },
+    "entry.create.errLength": {
+      "text": "استخدم {min} محارف على الأقل — كلمة المرور هذه هي المفتاح الوحيد للخزنة."
+    },
+    "entry.create.errMismatch": {
+      "text": "كلمتا المرور غير متطابقتين."
+    },
+    "entry.create.errAck": {
+      "text": "أكّد أنك تفهم عدم إمكانية استعادة كلمة المرور قبل المتابعة."
+    },
+    "entry.kit.step": {
+      "text": "02 · رمز الاستعادة"
+    },
+    "entry.kit.title": {
+      "text": "نسيت كلمة المرور؟<br>هذا الرمز هو الطريق الوحيد للعودة."
+    },
+    "entry.kit.sub": {
+      "text": "احفظه دون اتصال — إنه سبيل الاستعادة الوحيد عند فقدان كلمة المرور الرئيسية."
+    },
+    "entry.kit.download": {
+      "text": "تنزيل .txt"
+    },
+    "entry.kit.open": {
+      "text": "افتح خزنتي"
+    },
+    "entry.kit.skip": {
+      "text": "التخطي الآن — يمكن إعادة إنشائه لاحقًا داخل الخزنة"
+    },
+    "entry.kit.fileHead": {
+      "text": "رمز استعادة VEYORA"
+    },
+    "entry.kit.fileTail": {
+      "text": "احفظه دون اتصال. أي شخص يملك هذا الرمز يستطيع الوصول إلى الخزنة."
+    },
+    "entry.unlock.tag": {
+      "text": "الخزنة مقفلة"
+    },
+    "entry.unlock.title": {
+      "text": "مرحبًا بعودتك."
+    },
+    "entry.unlock.sub": {
+      "text": "أدخل كلمة المرور الرئيسية لاشتقاق المفتاح وفك تشفير الخزنة على هذا الجهاز."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "كلمة المرور الرئيسية"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "الخزنة {vault} · {count, plural, zero {# سجل} one {سجل واحد} two {سجلان} few {# سجلات} many {# سجلًا} other {# سجل}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "الملح محفوظ على هذا الجهاز"
+    },
+    "entry.unlock.btn": {
+      "text": "فتح الخزنة"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "أدخل كلمة المرور الرئيسية."
+    },
+    "entry.unlock.errWrong": {
+      "text": "فشل فك التشفير — كلمة المرور الرئيسية خاطئة. تبقى الخزنة مقفلة."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "فقدت كلمة المرور؟ استعادتها بالرمز"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "تجريبي — أي كلمة مرور تفتح الخزنة، اكتب {probe} لرؤية حالة الخطأ"
+    },
+    "entry.recover.tag": {
+      "text": "الاستعادة"
+    },
+    "entry.recover.title": {
+      "text": "استعد الوصول."
+    },
+    "entry.recover.sub": {
+      "text": "الصق الرمز وعيّن كلمة مرور رئيسية جديدة — يعاد كل شيء محليًا."
+    },
+    "entry.recover.kitLabel": {
+      "text": "رمز الاستعادة"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · مجموع التحقق"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "كلمة مرور رئيسية جديدة"
+    },
+    "entry.recover.btn": {
+      "text": "استعادة الوصول"
+    },
+    "entry.recover.back": {
+      "text": "العودة إلى فتح القفل"
+    },
+    "entry.recover.errKit": {
+      "text": "الصق رمز الاستعادة من نسختك المحفوظة دون اتصال."
+    },
+    "strength.readout": {
+      "text": "{bits} بت · {label}"
+    },
+    "strength.weak": {
+      "text": "ضعيفة"
+    },
+    "strength.fair": {
+      "text": "مقبولة"
+    },
+    "strength.good": {
+      "text": "جيدة"
+    },
+    "strength.strong": {
+      "text": "قوية"
+    },
+    "strength.excellent": {
+      "text": "ممتازة"
+    },
+    "nav.all": {
+      "text": "كل العناصر"
+    },
+    "nav.favorites": {
+      "text": "المفضلة"
+    },
+    "type.login": {
+      "text": "تسجيل دخول"
+    },
+    "type.login.plural": {
+      "text": "تسجيلات الدخول"
+    },
+    "type.note": {
+      "text": "ملاحظة آمنة"
+    },
+    "type.note.plural": {
+      "text": "ملاحظات آمنة"
+    },
+    "type.api-token": {
+      "text": "رمز API"
+    },
+    "type.api-token.plural": {
+      "text": "رموز API"
+    },
+    "type.ssh": {
+      "text": "مفتاح SSH"
+    },
+    "type.ssh.plural": {
+      "text": "مفاتيح SSH"
+    },
+    "type.identity": {
+      "text": "هوية"
+    },
+    "type.identity.plural": {
+      "text": "الهويات"
+    },
+    "top.searchPh": {
+      "text": "ابحث في الخزنة"
+    },
+    "top.recovery": {
+      "text": "رمز الاستعادة"
+    },
+    "top.settings": {
+      "text": "الإعدادات"
+    },
+    "top.lock": {
+      "text": "قفل الآن"
+    },
+    "top.newEntry": {
+      "text": "عنصر جديد"
+    },
+    "top.autolock": {
+      "text": "القفل التلقائي بعد"
+    },
+    "top.sort": {
+      "text": "الترتيب"
+    },
+    "table.colItem": {
+      "text": "العنصر"
+    },
+    "table.colType": {
+      "text": "النوع"
+    },
+    "table.colLogin": {
+      "text": "الدخول / السر"
+    },
+    "table.colUpdated": {
+      "text": "محدّث"
+    },
+    "table.count": {
+      "text": "{count, plural, zero {# سجل} one {سجل واحد} two {سجلان} few {# سجلات} many {# سجلًا} other {# سجل}}"
+    },
+    "table.emptyTitle": {
+      "text": "لا شيء هنا"
+    },
+    "table.emptyNoResults": {
+      "text": "لا نتائج لـ «{query}»"
+    },
+    "table.emptyNew": {
+      "text": "أنشئ أول عنصر للبدء"
+    },
+    "action.copySecret": {
+      "text": "نسخ السر"
+    },
+    "action.favorite": {
+      "text": "مفضلة"
+    },
+    "sort.name": {
+      "text": "الاسم A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "الاسم Z–A"
+    },
+    "sort.updated": {
+      "text": "الأحدث تحديثًا"
+    },
+    "sort.type": {
+      "text": "النوع"
+    },
+    "drawer.title.entry": {
+      "text": "العنصر"
+    },
+    "drawer.title.settings": {
+      "text": "الإعدادات"
+    },
+    "drawer.title.recovery": {
+      "text": "رمز الاستعادة"
+    },
+    "drawer.copyPassword": {
+      "text": "نسخ كلمة المرور"
+    },
+    "drawer.copySecret": {
+      "text": "نسخ السر"
+    },
+    "drawer.reveal": {
+      "text": "إظهار"
+    },
+    "drawer.favorite": {
+      "text": "مفضلة"
+    },
+    "drawer.unfavorite": {
+      "text": "في المفضلة"
+    },
+    "drawer.confirmDelete": {
+      "text": "تأكيد الحذف"
+    },
+    "drawer.meta": {
+      "text": "حُدّث في {date} · إصدار {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "مفضلة"
+    },
+    "drawer.foot": {
+      "text": "السجل {id} · الحزمة 1 · البروتوكول v1 · يُفك تشفيره في المتصفح عبر نواة WASM"
+    },
+    "field.name": {
+      "text": "الاسم"
+    },
+    "field.itemName": {
+      "text": "اسم العنصر"
+    },
+    "field.fullName": {
+      "text": "الاسم الكامل"
+    },
+    "field.username": {
+      "text": "اسم المستخدم / البريد"
+    },
+    "field.website": {
+      "text": "الموقع"
+    },
+    "field.service": {
+      "text": "الخدمة"
+    },
+    "field.host": {
+      "text": "المضيف"
+    },
+    "field.password": {
+      "text": "كلمة المرور"
+    },
+    "field.token": {
+      "text": "الرمز"
+    },
+    "field.passphrase": {
+      "text": "عبارة المرور"
+    },
+    "field.idNumber": {
+      "text": "رقم الهوية"
+    },
+    "field.content": {
+      "text": "المحتوى"
+    },
+    "field.privateKey": {
+      "text": "المفتاح الخاص"
+    },
+    "field.notes": {
+      "text": "ملاحظات"
+    },
+    "ph.name": {
+      "text": "مثال: GitHub"
+    },
+    "ph.noteName": {
+      "text": "مثال: دليل استعادة الخادم"
+    },
+    "ph.tokenName": {
+      "text": "مثال: رمز نشر GHCR"
+    },
+    "ph.sshName": {
+      "text": "مثال: ed25519 — محطة العمل"
+    },
+    "ph.itemName": {
+      "text": "مثال: جواز السفر"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "مثال: GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "اختياري"
+    },
+    "ph.content": {
+      "text": "نص خاص — يُشفَّر قبل مغادرته هذا الجهاز"
+    },
+    "ph.generate": {
+      "text": "توليد تلقائي"
+    },
+    "modal.newTitle": {
+      "text": "عنصر جديد"
+    },
+    "modal.editTitle": {
+      "text": "تحرير العنصر"
+    },
+    "modal.create": {
+      "text": "إنشاء العنصر"
+    },
+    "modal.save": {
+      "text": "حفظ التغييرات"
+    },
+    "modal.encryptedNote": {
+      "text": "يُشفَّر محليًا · ثم يُخزَّن كنص مشفّر"
+    },
+    "modal.nameRequired": {
+      "text": "الاسم مطلوب"
+    },
+    "modal.secretRequired": {
+      "text": "حقل السر مطلوب"
+    },
+    "modal.generate": {
+      "text": "توليد"
+    },
+    "gen.title": {
+      "text": "مولّد كلمات المرور"
+    },
+    "gen.entropy": {
+      "text": "العشوائية المقدّرة"
+    },
+    "gen.bitsUnit": {
+      "text": "بت"
+    },
+    "gen.length": {
+      "text": "الطول"
+    },
+    "gen.upper": {
+      "text": "أحرف كبيرة"
+    },
+    "gen.lower": {
+      "text": "أحرف صغيرة"
+    },
+    "gen.digits": {
+      "text": "أرقام"
+    },
+    "gen.symbols": {
+      "text": "رموز"
+    },
+    "gen.ambiguous": {
+      "text": "تجنّب المحارف الملتبسة"
+    },
+    "gen.regenerate": {
+      "text": "إعادة التوليد"
+    },
+    "gen.use": {
+      "text": "استخدم كلمة المرور هذه"
+    },
+    "gen.poolNote": {
+      "text": "{count} محرفًا في المجموعة"
+    },
+    "gen.errCharset": {
+      "text": "اختر مجموعة محارف واحدة على الأقل"
+    },
+    "settings.title": {
+      "text": "الإعدادات"
+    },
+    "settings.sub": {
+      "text": "تفضيلات محلية · هذا الجهاز فقط"
+    },
+    "settings.appearance": {
+      "text": "المظهر"
+    },
+    "settings.theme": {
+      "text": "السمة"
+    },
+    "settings.themeSub": {
+      "text": "أسود على أبيض، أو أبيض على أسود"
+    },
+    "settings.light": {
+      "text": "فاتح"
+    },
+    "settings.dark": {
+      "text": "داكن"
+    },
+    "settings.language": {
+      "text": "اللغة"
+    },
+    "settings.languageSub": {
+      "text": "لغة الواجهة، مع الرجوع إلى الإنجليزية"
+    },
+    "settings.security": {
+      "text": "الأمان"
+    },
+    "settings.autolock": {
+      "text": "قفل تلقائي عند الخمول"
+    },
+    "settings.autolockSub": {
+      "text": "يُصفَّر مفتاح التشفير من الذاكرة"
+    },
+    "settings.clipboard": {
+      "text": "مسح الحافظة بعد النسخ"
+    },
+    "settings.clipboardSub": {
+      "text": "لا تبقى الأسرار في الحافظة"
+    },
+    "settings.data": {
+      "text": "البيانات"
+    },
+    "settings.export": {
+      "text": "تصدير الخزنة"
+    },
+    "settings.exportSub": {
+      "text": "CSV نصًا صريحًا — تعامل معه بحذر"
+    },
+    "settings.exportBtn": {
+      "text": "تصدير CSV"
+    },
+    "settings.import": {
+      "text": "استيراد CSV"
+    },
+    "settings.importSub": {
+      "text": "CSV دخول عام (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "استيراد"
+    },
+    "settings.about": {
+      "text": "حول"
+    },
+    "settings.note": {
+      "text": "Veyora معاينة تجريبية — وليست منتج أمان مدقّقًا."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {دقيقة واحدة} two {دقيقتان} few {# دقائق} many {# دقيقة} other {# دقيقة}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {ثانية واحدة} two {ثانيتان} few {# ثوانٍ} many {# ثانية} other {# ثانية}}"
+    },
+    "about.version": {
+      "text": "الإصدار"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "النواة"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "اشتقاق المفتاح"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "التشفير"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "التواقيع"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "الخادم يرى"
+    },
+    "about.serverSeesValue": {
+      "text": "النص المشفّر فقط"
+    },
+    "recovery.title": {
+      "text": "رمز الاستعادة"
+    },
+    "recovery.sub": {
+      "text": "Base32 · مع مجموع تحقق · احفظه دون اتصال"
+    },
+    "recovery.warnHead": {
+      "text": "حرج — احفظه قبل الإغلاق"
+    },
+    "recovery.warnBody": {
+      "text": "يمكن لهذا الرمز فك تشفير خزنتك دون كلمة المرور الرئيسية. من يملكه يملك بياناتك. اطبعه أو انسخه يدويًا واحفظه دون اتصال في مكان آمن، ولا تخزنه أبدًا على هذا الجهاز."
+    },
+    "recovery.copyKit": {
+      "text": "نسخ الرمز"
+    },
+    "recovery.regenerate": {
+      "text": "إنشاء رمز جديد"
+    },
+    "recovery.note": {
+      "text": "فقدان كلمة المرور والرمز معًا يعني استحالة استعادة الخزنة بحكم التصميم — لا توجد طريقة إعادة تعيين."
+    },
+    "toast.copied": {
+      "text": "تم النسخ · تُمسح الحافظة خلال {seconds} ثانية"
+    },
+    "toast.copyFail": {
+      "text": "فشل النسخ في هذا السياق"
+    },
+    "toast.locked": {
+      "text": "قُفلت الخزنة — صُفِّر مفتاح التشفير"
+    },
+    "toast.created": {
+      "text": "شُفِّر العنصر وحُفظ"
+    },
+    "toast.updated": {
+      "text": "أعيد تشفير العنصر · الإصدار {revision}"
+    },
+    "toast.deleted": {
+      "text": "حُذف العنصر · سُجّل إصدار الحذف"
+    },
+    "toast.kitRegen": {
+      "text": "أُنشئ رمز جديد"
+    },
+    "toast.kitSkip": {
+      "text": "يبقى الرمز متاحًا من أيقونة الدرع في الشريط العلوي"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {صُدِّر عنصر واحد} two {صُدِّر عنصران} few {صُدِّر # عناصر} many {صُدِّر # عنصرًا} other {صُدِّر # عنصر}}"
+    },
+    "toast.importStub": {
+      "text": "نسخة تجريبية — الاستيراد غير مفعّل"
+    },
+    "toast.autolockSet": {
+      "text": "القفل التلقائي: {n} دقيقة"
+    },
+    "toast.clipSet": {
+      "text": "تُمسح الحافظة بعد {n} ثانية"
+    }
+  }
+}

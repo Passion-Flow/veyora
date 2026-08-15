@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veyora</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./src/styles/tokens.css">
+  <link rel="stylesheet" href="./src/styles/base.css">
+  <link rel="stylesheet" href="./src/styles/components.css">
+  <script src="./veyora-config.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="toast"></div>
+  <script>
+    // Development error surface: surfaces module/boot failures that would
+    // otherwise render as a blank page. No-ops when everything loads.
+    window.addEventListener('error', function (event) {
+      var el = document.createElement('pre');
+      el.id = 'boot-error';
+      el.textContent = 'BOOT ERROR: ' + (event.message || event.error) +
+        ' @ ' + (event.filename || '') + ':' + event.lineno;
+      document.body.appendChild(el);
+    });
+    window.addEventListener('unhandledrejection', function (event) {
+      var el = document.createElement('pre');
+      el.id = 'boot-rejection';
+      el.textContent = 'BOOT REJECTION: ' +
+        (event.reason && (event.reason.stack || event.reason.message) || event.reason);
+      document.body.appendChild(el);
+    });
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

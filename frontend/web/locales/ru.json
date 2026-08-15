@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "ru",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "Ваше личное цифровое пространство"
+    },
+    "common.cancel": {
+      "text": "Отмена"
+    },
+    "common.copy": {
+      "text": "Копировать"
+    },
+    "common.close": {
+      "text": "Закрыть"
+    },
+    "common.show": {
+      "text": "Показать пароль"
+    },
+    "common.hide": {
+      "text": "Скрыть"
+    },
+    "common.edit": {
+      "text": "Изменить"
+    },
+    "common.delete": {
+      "text": "Удалить"
+    },
+    "common.themeToggle": {
+      "text": "Переключить тему"
+    },
+    "common.passwordsMatch": {
+      "text": "Пароли совпадают"
+    },
+    "common.passwordsMismatch": {
+      "text": "Пароли не совпадают"
+    },
+    "entry.capsLock": {
+      "text": "Включён Caps Lock"
+    },
+    "entry.stage.deriving": {
+      "text": "Вывод ключа"
+    },
+    "entry.stage.decrypting": {
+      "text": "Расшифровка хранилища"
+    },
+    "entry.demoFoot": {
+      "text": "Превью · демо"
+    },
+    "entry.demoReset": {
+      "text": "сброс"
+    },
+    "entry.create.step": {
+      "text": "01 · Создание хранилища"
+    },
+    "entry.create.title": {
+      "text": "Задайте мастер-пароль."
+    },
+    "entry.create.passwordLabel": {
+      "text": "Мастер-пароль"
+    },
+    "entry.create.passwordPh": {
+      "text": "Не менее {min} символов"
+    },
+    "entry.create.confirmLabel": {
+      "text": "Подтвердите пароль"
+    },
+    "entry.create.confirmPh": {
+      "text": "Введите ещё раз"
+    },
+    "entry.create.ack": {
+      "text": "Я понимаю, что этот пароль невозможно восстановить — без него хранилище открывается только кодом восстановления."
+    },
+    "entry.create.btn": {
+      "text": "Создать хранилище"
+    },
+    "entry.create.errLength": {
+      "text": "Используйте не менее {min} символов — этот пароль единственный ключ к хранилищу."
+    },
+    "entry.create.errMismatch": {
+      "text": "Пароли не совпадают."
+    },
+    "entry.create.errAck": {
+      "text": "Подтвердите, что пароль невозможно восстановить, прежде чем продолжить."
+    },
+    "entry.kit.step": {
+      "text": "02 · Код восстановления"
+    },
+    "entry.kit.title": {
+      "text": "Забыли пароль?<br>Этот код — единственный путь назад."
+    },
+    "entry.kit.sub": {
+      "text": "Сохраните его офлайн — это единственный способ восстановления при утере мастер-пароля."
+    },
+    "entry.kit.download": {
+      "text": "Скачать .txt"
+    },
+    "entry.kit.open": {
+      "text": "Открыть хранилище"
+    },
+    "entry.kit.skip": {
+      "text": "Пропустить — позже можно создать заново в хранилище"
+    },
+    "entry.kit.fileHead": {
+      "text": "КОД ВОССТАНОВЛЕНИЯ VEYORA"
+    },
+    "entry.kit.fileTail": {
+      "text": "Храните офлайн. Любой, у кого есть этот код, получит доступ к хранилищу."
+    },
+    "entry.unlock.tag": {
+      "text": "Хранилище заблокировано"
+    },
+    "entry.unlock.title": {
+      "text": "С возвращением."
+    },
+    "entry.unlock.sub": {
+      "text": "Введите мастер-пароль, чтобы вывести ключ и расшифровать хранилище на этом устройстве."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "Мастер-пароль"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "Хранилище {vault} · {count, plural, one {# запись} few {# записи} many {# записей} other {# записей}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "соль хранится на устройстве"
+    },
+    "entry.unlock.btn": {
+      "text": "Разблокировать"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "Введите мастер-пароль."
+    },
+    "entry.unlock.errWrong": {
+      "text": "Расшифровка не удалась — неверный мастер-пароль. Хранилище остаётся заблокированным."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "Забыли пароль? Восстановить кодом"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "демо — подойдёт любой пароль, введите {probe}, чтобы увидеть ошибку"
+    },
+    "entry.recover.tag": {
+      "text": "Восстановление"
+    },
+    "entry.recover.title": {
+      "text": "Восстановить доступ."
+    },
+    "entry.recover.sub": {
+      "text": "Вставьте код и задайте новый мастер-пароль — всё пересчитывается локально."
+    },
+    "entry.recover.kitLabel": {
+      "text": "Код восстановления"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · контрольная сумма"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "Новый мастер-пароль"
+    },
+    "entry.recover.btn": {
+      "text": "Восстановить доступ"
+    },
+    "entry.recover.back": {
+      "text": "Назад к разблокировке"
+    },
+    "entry.recover.errKit": {
+      "text": "Вставьте код восстановления из вашей офлайн-копии."
+    },
+    "strength.readout": {
+      "text": "{bits} бит · {label}"
+    },
+    "strength.weak": {
+      "text": "Слабый"
+    },
+    "strength.fair": {
+      "text": "Средний"
+    },
+    "strength.good": {
+      "text": "Хороший"
+    },
+    "strength.strong": {
+      "text": "Сильный"
+    },
+    "strength.excellent": {
+      "text": "Отличный"
+    },
+    "nav.all": {
+      "text": "Все записи"
+    },
+    "nav.favorites": {
+      "text": "Избранные"
+    },
+    "type.login": {
+      "text": "Логин"
+    },
+    "type.login.plural": {
+      "text": "Логины"
+    },
+    "type.note": {
+      "text": "Защищённая заметка"
+    },
+    "type.note.plural": {
+      "text": "Защищённые заметки"
+    },
+    "type.api-token": {
+      "text": "API-токен"
+    },
+    "type.api-token.plural": {
+      "text": "API-токены"
+    },
+    "type.ssh": {
+      "text": "SSH-ключ"
+    },
+    "type.ssh.plural": {
+      "text": "SSH-ключи"
+    },
+    "type.identity": {
+      "text": "Удостоверение"
+    },
+    "type.identity.plural": {
+      "text": "Удостоверения"
+    },
+    "top.searchPh": {
+      "text": "Поиск по хранилищу"
+    },
+    "top.recovery": {
+      "text": "Код восстановления"
+    },
+    "top.settings": {
+      "text": "Настройки"
+    },
+    "top.lock": {
+      "text": "Заблокировать"
+    },
+    "top.newEntry": {
+      "text": "Новая запись"
+    },
+    "top.autolock": {
+      "text": "Автоблокировка через"
+    },
+    "top.sort": {
+      "text": "Сортировка"
+    },
+    "table.colItem": {
+      "text": "Запись"
+    },
+    "table.colType": {
+      "text": "Тип"
+    },
+    "table.colLogin": {
+      "text": "Логин / секрет"
+    },
+    "table.colUpdated": {
+      "text": "Обновлено"
+    },
+    "table.count": {
+      "text": "{count, plural, one {# запись} few {# записи} many {# записей} other {# записей}}"
+    },
+    "table.emptyTitle": {
+      "text": "Здесь пусто"
+    },
+    "table.emptyNoResults": {
+      "text": "Ничего не найдено по запросу «{query}»"
+    },
+    "table.emptyNew": {
+      "text": "Создайте первую запись, чтобы начать"
+    },
+    "action.copySecret": {
+      "text": "Копировать секрет"
+    },
+    "action.favorite": {
+      "text": "В избранное"
+    },
+    "sort.name": {
+      "text": "Имя A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "Имя Z–A"
+    },
+    "sort.updated": {
+      "text": "Недавно обновлённые"
+    },
+    "sort.type": {
+      "text": "Тип"
+    },
+    "drawer.title.entry": {
+      "text": "Запись"
+    },
+    "drawer.title.settings": {
+      "text": "Настройки"
+    },
+    "drawer.title.recovery": {
+      "text": "Код восстановления"
+    },
+    "drawer.copyPassword": {
+      "text": "Копировать пароль"
+    },
+    "drawer.copySecret": {
+      "text": "Копировать секрет"
+    },
+    "drawer.reveal": {
+      "text": "Показать"
+    },
+    "drawer.favorite": {
+      "text": "В избранное"
+    },
+    "drawer.unfavorite": {
+      "text": "В избранном"
+    },
+    "drawer.confirmDelete": {
+      "text": "Подтвердите удаление"
+    },
+    "drawer.meta": {
+      "text": "обновлено {date} · ревизия {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "избранное"
+    },
+    "drawer.foot": {
+      "text": "запись {id} · набор 1 · протокол v1 · расшифровано в браузере через WASM-ядро"
+    },
+    "field.name": {
+      "text": "Название"
+    },
+    "field.itemName": {
+      "text": "Название записи"
+    },
+    "field.fullName": {
+      "text": "Полное имя"
+    },
+    "field.username": {
+      "text": "Имя пользователя / эл. почта"
+    },
+    "field.website": {
+      "text": "Сайт"
+    },
+    "field.service": {
+      "text": "Сервис"
+    },
+    "field.host": {
+      "text": "Хост"
+    },
+    "field.password": {
+      "text": "Пароль"
+    },
+    "field.token": {
+      "text": "Токен"
+    },
+    "field.passphrase": {
+      "text": "Парольная фраза"
+    },
+    "field.idNumber": {
+      "text": "Номер документа"
+    },
+    "field.content": {
+      "text": "Содержимое"
+    },
+    "field.privateKey": {
+      "text": "Приватный ключ"
+    },
+    "field.notes": {
+      "text": "Заметки"
+    },
+    "ph.name": {
+      "text": "напр. GitHub"
+    },
+    "ph.noteName": {
+      "text": "напр. Регламент восстановления сервера"
+    },
+    "ph.tokenName": {
+      "text": "напр. Токен публикации GHCR"
+    },
+    "ph.sshName": {
+      "text": "напр. ed25519 — рабочая станция"
+    },
+    "ph.itemName": {
+      "text": "напр. Паспорт"
+    },
+    "ph.username": {
+      "text": "vy@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "напр. GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "Необязательно"
+    },
+    "ph.content": {
+      "text": "Личный текст — шифруется до отправки с устройства"
+    },
+    "ph.generate": {
+      "text": "Сгенерировать"
+    },
+    "modal.newTitle": {
+      "text": "Новая запись"
+    },
+    "modal.editTitle": {
+      "text": "Изменить запись"
+    },
+    "modal.create": {
+      "text": "Создать запись"
+    },
+    "modal.save": {
+      "text": "Сохранить изменения"
+    },
+    "modal.encryptedNote": {
+      "text": "Шифруется локально · затем хранится как шифртекст"
+    },
+    "modal.nameRequired": {
+      "text": "Укажите название"
+    },
+    "modal.secretRequired": {
+      "text": "Заполните секретное поле"
+    },
+    "modal.generate": {
+      "text": "Ген"
+    },
+    "gen.title": {
+      "text": "Генератор паролей"
+    },
+    "gen.entropy": {
+      "text": "оценка энтропии"
+    },
+    "gen.bitsUnit": {
+      "text": "БИТ"
+    },
+    "gen.length": {
+      "text": "Длина"
+    },
+    "gen.upper": {
+      "text": "Прописные"
+    },
+    "gen.lower": {
+      "text": "Строчные"
+    },
+    "gen.digits": {
+      "text": "Цифры"
+    },
+    "gen.symbols": {
+      "text": "Символы"
+    },
+    "gen.ambiguous": {
+      "text": "Исключить похожие символы"
+    },
+    "gen.regenerate": {
+      "text": "Сгенерировать заново"
+    },
+    "gen.use": {
+      "text": "Использовать пароль"
+    },
+    "gen.poolNote": {
+      "text": "в наборе {count} символов"
+    },
+    "gen.errCharset": {
+      "text": "Выберите хотя бы один набор символов"
+    },
+    "settings.title": {
+      "text": "Настройки"
+    },
+    "settings.sub": {
+      "text": "Локальные настройки · только это устройство"
+    },
+    "settings.appearance": {
+      "text": "Оформление"
+    },
+    "settings.theme": {
+      "text": "Тема"
+    },
+    "settings.themeSub": {
+      "text": "Чёрным по белому или белым по чёрному"
+    },
+    "settings.light": {
+      "text": "Светлая"
+    },
+    "settings.dark": {
+      "text": "Тёмная"
+    },
+    "settings.language": {
+      "text": "Язык"
+    },
+    "settings.languageSub": {
+      "text": "Язык интерфейса, резерв — английский"
+    },
+    "settings.security": {
+      "text": "Безопасность"
+    },
+    "settings.autolock": {
+      "text": "Автоблокировка при простое"
+    },
+    "settings.autolockSub": {
+      "text": "Ключевой материал обнуляется в памяти"
+    },
+    "settings.clipboard": {
+      "text": "Очищать буфер после копирования"
+    },
+    "settings.clipboardSub": {
+      "text": "Секреты не остаются в буфере обмена"
+    },
+    "settings.data": {
+      "text": "Данные"
+    },
+    "settings.export": {
+      "text": "Экспорт хранилища"
+    },
+    "settings.exportSub": {
+      "text": "CSV в открытом виде — обращайтесь осторожно"
+    },
+    "settings.exportBtn": {
+      "text": "Экспорт CSV"
+    },
+    "settings.import": {
+      "text": "Импорт CSV"
+    },
+    "settings.importSub": {
+      "text": "Универсальный CSV логинов (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "Импорт"
+    },
+    "settings.about": {
+      "text": "О приложении"
+    },
+    "settings.note": {
+      "text": "Veyora — экспериментальное превью, а не аудитированный продукт безопасности."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {# минута} few {# минуты} many {# минут} other {# минут}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {# секунда} few {# секунды} many {# секунд} other {# секунд}}"
+    },
+    "about.version": {
+      "text": "Версия"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "Ядро"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "Вывод ключа"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "Шифр"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "Подписи"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "Сервер видит"
+    },
+    "about.serverSeesValue": {
+      "text": "только шифртекст"
+    },
+    "recovery.title": {
+      "text": "Код восстановления"
+    },
+    "recovery.sub": {
+      "text": "Base32 · с контрольной суммой · храните офлайн"
+    },
+    "recovery.warnHead": {
+      "text": "Критично — сохраните до закрытия"
+    },
+    "recovery.warnBody": {
+      "text": "Этот код расшифровывает хранилище без мастер-пароля. У кого он — у того и ваши данные. Распечатайте или перепишите его, храните офлайн в надёжном месте и никогда не держите на этом устройстве."
+    },
+    "recovery.copyKit": {
+      "text": "Копировать код"
+    },
+    "recovery.regenerate": {
+      "text": "Создать новый"
+    },
+    "recovery.note": {
+      "text": "Утрачивая и мастер-пароль, и этот код, вы теряете хранилище навсегда — механизма сброса не существует."
+    },
+    "toast.copied": {
+      "text": "Скопировано · буфер очистится через {seconds} с"
+    },
+    "toast.copyFail": {
+      "text": "Не удалось скопировать в этом контексте"
+    },
+    "toast.locked": {
+      "text": "Хранилище заблокировано — ключевой материал обнулён"
+    },
+    "toast.created": {
+      "text": "Запись зашифрована и сохранена"
+    },
+    "toast.updated": {
+      "text": "Запись перешифрована · ревизия {revision}"
+    },
+    "toast.deleted": {
+      "text": "Запись удалена · зафиксирована ревизия удаления"
+    },
+    "toast.kitRegen": {
+      "text": "Создан новый код"
+    },
+    "toast.kitSkip": {
+      "text": "Код всегда доступен по значку щита в верхней панели"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {экспортирована # запись} few {экспортировано # записи} many {экспортировано # записей} other {экспортировано # записей}}"
+    },
+    "toast.importStub": {
+      "text": "Демо-сборка — импорт заглушка"
+    },
+    "toast.autolockSet": {
+      "text": "Автоблокировка: {n} мин"
+    },
+    "toast.clipSet": {
+      "text": "Буфер очистится через {n} с"
+    }
+  }
+}

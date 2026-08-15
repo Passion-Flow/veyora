@@ -52,8 +52,8 @@ run: ## Start the in-memory API on 127.0.0.1:8080
 	cd backend && VEYORA_STORE=in-memory VEYORA_API_BIND=127.0.0.1:8080 VEYORA_API_AUTH=disabled VEYORA_API_MAX_BODY_BYTES=262144 ./target/debug/api
 
 run-web: ## Serve the web client on 127.0.0.1:3000
-	printf 'window.VEYORA_API_BASE_URL = "http://127.0.0.1:8080";\n' > deployment/web/veyora-config.js
-	cd deployment/web && python3 -m http.server 3000 --bind 127.0.0.1
+	printf 'window.VEYORA_API_BASE_URL = "http://127.0.0.1:8080";\n' > frontend/web/veyora-config.js
+	cd frontend/web && python3 -m http.server 3000 --bind 127.0.0.1
 
 run-db: ## Start PostgreSQL for source development
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml up postgres

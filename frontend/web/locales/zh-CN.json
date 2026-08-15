@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "zh-CN",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "你的私密数字空间"
+    },
+    "common.cancel": {
+      "text": "取消"
+    },
+    "common.copy": {
+      "text": "复制"
+    },
+    "common.close": {
+      "text": "关闭"
+    },
+    "common.show": {
+      "text": "显示密码"
+    },
+    "common.hide": {
+      "text": "隐藏"
+    },
+    "common.edit": {
+      "text": "编辑"
+    },
+    "common.delete": {
+      "text": "删除"
+    },
+    "common.themeToggle": {
+      "text": "切换主题"
+    },
+    "common.passwordsMatch": {
+      "text": "两次输入一致"
+    },
+    "common.passwordsMismatch": {
+      "text": "两次输入不一致"
+    },
+    "entry.capsLock": {
+      "text": "大写锁定已开启"
+    },
+    "entry.stage.deriving": {
+      "text": "正在派生密钥"
+    },
+    "entry.stage.decrypting": {
+      "text": "正在解密保险库"
+    },
+    "entry.demoFoot": {
+      "text": "预览 · 演示"
+    },
+    "entry.demoReset": {
+      "text": "重置"
+    },
+    "entry.create.step": {
+      "text": "01 · 创建保险库"
+    },
+    "entry.create.title": {
+      "text": "设置主密码。"
+    },
+    "entry.create.passwordLabel": {
+      "text": "主密码"
+    },
+    "entry.create.passwordPh": {
+      "text": "至少 {min} 个字符"
+    },
+    "entry.create.confirmLabel": {
+      "text": "确认密码"
+    },
+    "entry.create.confirmPh": {
+      "text": "再输入一次"
+    },
+    "entry.create.ack": {
+      "text": "我已了解该密码无法找回——只有恢复套件可以在没有密码的情况下解锁保险库。"
+    },
+    "entry.create.btn": {
+      "text": "创建保险库"
+    },
+    "entry.create.errLength": {
+      "text": "请至少使用 {min} 个字符——这个密码是保险库唯一的钥匙。"
+    },
+    "entry.create.errMismatch": {
+      "text": "两次输入不一致。"
+    },
+    "entry.create.errAck": {
+      "text": "请先确认你已了解密码无法找回，再继续。"
+    },
+    "entry.kit.step": {
+      "text": "02 · 恢复套件"
+    },
+    "entry.kit.title": {
+      "text": "忘了密码？<br>这串码就是唯一的入口。"
+    },
+    "entry.kit.sub": {
+      "text": "离线保存它——主密码丢失时，这是唯一的恢复途径。"
+    },
+    "entry.kit.download": {
+      "text": "下载 .txt"
+    },
+    "entry.kit.open": {
+      "text": "打开我的保险库"
+    },
+    "entry.kit.skip": {
+      "text": "暂时跳过——之后可在保险库中重新生成"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA 恢复套件"
+    },
+    "entry.kit.fileTail": {
+      "text": "离线保存。持有此套件的任何人都能访问保险库。"
+    },
+    "entry.unlock.tag": {
+      "text": "保险库已锁定"
+    },
+    "entry.unlock.title": {
+      "text": "欢迎回来。"
+    },
+    "entry.unlock.sub": {
+      "text": "输入主密码，在本机派生密钥并解密保险库。"
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "主密码"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "保险库 {vault} · {count, plural, other {# 条记录}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "盐值保存在本机"
+    },
+    "entry.unlock.btn": {
+      "text": "解锁保险库"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "请输入主密码。"
+    },
+    "entry.unlock.errWrong": {
+      "text": "解密失败——主密码错误。保险库保持锁定。"
+    },
+    "entry.unlock.recoverLink": {
+      "text": "忘记密码？使用恢复套件找回"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "演示——任意密码可解锁，输入 {probe} 查看错误状态"
+    },
+    "entry.recover.tag": {
+      "text": "恢复"
+    },
+    "entry.recover.title": {
+      "text": "找回访问权限。"
+    },
+    "entry.recover.sub": {
+      "text": "粘贴恢复套件并设置新的主密码——全部在本机重新派生。"
+    },
+    "entry.recover.kitLabel": {
+      "text": "恢复套件"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · 校验码"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "新的主密码"
+    },
+    "entry.recover.btn": {
+      "text": "找回访问权限"
+    },
+    "entry.recover.back": {
+      "text": "返回解锁"
+    },
+    "entry.recover.errKit": {
+      "text": "请粘贴你离线保存的恢复套件。"
+    },
+    "strength.readout": {
+      "text": "{bits} 位 · {label}"
+    },
+    "strength.weak": {
+      "text": "弱"
+    },
+    "strength.fair": {
+      "text": "一般"
+    },
+    "strength.good": {
+      "text": "良好"
+    },
+    "strength.strong": {
+      "text": "强"
+    },
+    "strength.excellent": {
+      "text": "极强"
+    },
+    "nav.all": {
+      "text": "全部条目"
+    },
+    "nav.favorites": {
+      "text": "收藏"
+    },
+    "type.login": {
+      "text": "登录凭据"
+    },
+    "type.login.plural": {
+      "text": "登录凭据"
+    },
+    "type.note": {
+      "text": "安全笔记"
+    },
+    "type.note.plural": {
+      "text": "安全笔记"
+    },
+    "type.api-token": {
+      "text": "API 令牌"
+    },
+    "type.api-token.plural": {
+      "text": "API 令牌"
+    },
+    "type.ssh": {
+      "text": "SSH 密钥"
+    },
+    "type.ssh.plural": {
+      "text": "SSH 密钥"
+    },
+    "type.identity": {
+      "text": "身份信息"
+    },
+    "type.identity.plural": {
+      "text": "身份信息"
+    },
+    "top.searchPh": {
+      "text": "搜索保险库"
+    },
+    "top.recovery": {
+      "text": "恢复套件"
+    },
+    "top.settings": {
+      "text": "设置"
+    },
+    "top.lock": {
+      "text": "立即锁定"
+    },
+    "top.newEntry": {
+      "text": "新建条目"
+    },
+    "top.autolock": {
+      "text": "自动锁定倒计时"
+    },
+    "top.sort": {
+      "text": "排序"
+    },
+    "table.colItem": {
+      "text": "条目"
+    },
+    "table.colType": {
+      "text": "类型"
+    },
+    "table.colLogin": {
+      "text": "账号 / 密钥"
+    },
+    "table.colUpdated": {
+      "text": "更新时间"
+    },
+    "table.count": {
+      "text": "{count, plural, other {# 条记录}}"
+    },
+    "table.emptyTitle": {
+      "text": "这里空空如也"
+    },
+    "table.emptyNoResults": {
+      "text": "没有与“{query}”匹配的结果"
+    },
+    "table.emptyNew": {
+      "text": "创建第一个条目开始使用"
+    },
+    "action.copySecret": {
+      "text": "复制密文"
+    },
+    "action.favorite": {
+      "text": "收藏"
+    },
+    "sort.name": {
+      "text": "名称 A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "名称 Z–A"
+    },
+    "sort.updated": {
+      "text": "最近更新"
+    },
+    "sort.type": {
+      "text": "按类型"
+    },
+    "drawer.title.entry": {
+      "text": "条目"
+    },
+    "drawer.title.settings": {
+      "text": "设置"
+    },
+    "drawer.title.recovery": {
+      "text": "恢复套件"
+    },
+    "drawer.copyPassword": {
+      "text": "复制密码"
+    },
+    "drawer.copySecret": {
+      "text": "复制密文"
+    },
+    "drawer.reveal": {
+      "text": "显示"
+    },
+    "drawer.favorite": {
+      "text": "收藏"
+    },
+    "drawer.unfavorite": {
+      "text": "已收藏"
+    },
+    "drawer.confirmDelete": {
+      "text": "确认删除"
+    },
+    "drawer.meta": {
+      "text": "更新于 {date} · 版本 {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "已收藏"
+    },
+    "drawer.foot": {
+      "text": "记录 {id} · 套件 1 · 协议 v1 · 通过 WASM 内核在浏览器内解密"
+    },
+    "field.name": {
+      "text": "名称"
+    },
+    "field.itemName": {
+      "text": "条目名称"
+    },
+    "field.fullName": {
+      "text": "姓名"
+    },
+    "field.username": {
+      "text": "用户名 / 邮箱"
+    },
+    "field.website": {
+      "text": "网站"
+    },
+    "field.service": {
+      "text": "服务"
+    },
+    "field.host": {
+      "text": "主机"
+    },
+    "field.password": {
+      "text": "密码"
+    },
+    "field.token": {
+      "text": "令牌"
+    },
+    "field.passphrase": {
+      "text": "口令"
+    },
+    "field.idNumber": {
+      "text": "证件号码"
+    },
+    "field.content": {
+      "text": "内容"
+    },
+    "field.privateKey": {
+      "text": "私钥"
+    },
+    "field.notes": {
+      "text": "备注"
+    },
+    "ph.name": {
+      "text": "例如 GitHub"
+    },
+    "ph.noteName": {
+      "text": "例如 服务器恢复手册"
+    },
+    "ph.tokenName": {
+      "text": "例如 GHCR 发布令牌"
+    },
+    "ph.sshName": {
+      "text": "例如 ed25519 — 工作站"
+    },
+    "ph.itemName": {
+      "text": "例如 护照"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "例如 GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "可选"
+    },
+    "ph.content": {
+      "text": "私密文本——离开本设备前即已加密"
+    },
+    "ph.generate": {
+      "text": "自动生成"
+    },
+    "modal.newTitle": {
+      "text": "新建条目"
+    },
+    "modal.editTitle": {
+      "text": "编辑条目"
+    },
+    "modal.create": {
+      "text": "创建条目"
+    },
+    "modal.save": {
+      "text": "保存更改"
+    },
+    "modal.encryptedNote": {
+      "text": "本地加密 · 而后以密文存储"
+    },
+    "modal.nameRequired": {
+      "text": "名称为必填项"
+    },
+    "modal.secretRequired": {
+      "text": "密文为必填项"
+    },
+    "modal.generate": {
+      "text": "生成"
+    },
+    "gen.title": {
+      "text": "密码生成器"
+    },
+    "gen.entropy": {
+      "text": "预估熵"
+    },
+    "gen.bitsUnit": {
+      "text": "位"
+    },
+    "gen.length": {
+      "text": "长度"
+    },
+    "gen.upper": {
+      "text": "大写字母"
+    },
+    "gen.lower": {
+      "text": "小写字母"
+    },
+    "gen.digits": {
+      "text": "数字"
+    },
+    "gen.symbols": {
+      "text": "符号"
+    },
+    "gen.ambiguous": {
+      "text": "避免易混淆字符"
+    },
+    "gen.regenerate": {
+      "text": "重新生成"
+    },
+    "gen.use": {
+      "text": "使用此密码"
+    },
+    "gen.poolNote": {
+      "text": "字符池共 {count} 个字符"
+    },
+    "gen.errCharset": {
+      "text": "请至少选择一种字符集"
+    },
+    "settings.title": {
+      "text": "设置"
+    },
+    "settings.sub": {
+      "text": "本地偏好 · 仅限此设备"
+    },
+    "settings.appearance": {
+      "text": "外观"
+    },
+    "settings.theme": {
+      "text": "主题"
+    },
+    "settings.themeSub": {
+      "text": "白底黑字，或黑底白字"
+    },
+    "settings.light": {
+      "text": "浅色"
+    },
+    "settings.dark": {
+      "text": "深色"
+    },
+    "settings.language": {
+      "text": "语言"
+    },
+    "settings.languageSub": {
+      "text": "界面语言，缺失时回退到英文"
+    },
+    "settings.security": {
+      "text": "安全"
+    },
+    "settings.autolock": {
+      "text": "闲置后自动锁定"
+    },
+    "settings.autolockSub": {
+      "text": "密钥材料将从内存中清零"
+    },
+    "settings.clipboard": {
+      "text": "复制后清除剪贴板"
+    },
+    "settings.clipboardSub": {
+      "text": "密文不会残留在剪贴板中"
+    },
+    "settings.data": {
+      "text": "数据"
+    },
+    "settings.export": {
+      "text": "导出保险库"
+    },
+    "settings.exportSub": {
+      "text": "明文 CSV——请谨慎处理"
+    },
+    "settings.exportBtn": {
+      "text": "导出 CSV"
+    },
+    "settings.import": {
+      "text": "导入 CSV"
+    },
+    "settings.importSub": {
+      "text": "通用登录 CSV（name, secret）"
+    },
+    "settings.importBtn": {
+      "text": "导入"
+    },
+    "settings.about": {
+      "text": "关于"
+    },
+    "settings.note": {
+      "text": "Veyora 是实验性预览版——并非经过审计的安全产品。"
+    },
+    "settings.minutes": {
+      "text": "{n} 分钟"
+    },
+    "settings.seconds": {
+      "text": "{n} 秒"
+    },
+    "about.version": {
+      "text": "版本"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "内核"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "密钥派生"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "加密算法"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "签名算法"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "服务器可见"
+    },
+    "about.serverSeesValue": {
+      "text": "仅密文"
+    },
+    "recovery.title": {
+      "text": "恢复套件"
+    },
+    "recovery.sub": {
+      "text": "Base32 · 带校验 · 离线保存"
+    },
+    "recovery.warnHead": {
+      "text": "严重警告——请先保存再关闭"
+    },
+    "recovery.warnBody": {
+      "text": "此套件无需主密码即可解密你的保险库。任何持有它的人都能得到你的数据。请打印或抄写，离线妥善保存，绝不要存放在本设备上。"
+    },
+    "recovery.copyKit": {
+      "text": "复制套件"
+    },
+    "recovery.regenerate": {
+      "text": "重新生成"
+    },
+    "recovery.note": {
+      "text": "主密码与恢复套件同时丢失意味着保险库按设计无法恢复——不存在重置途径。"
+    },
+    "toast.copied": {
+      "text": "已复制 · 剪贴板将在 {seconds} 秒后清除"
+    },
+    "toast.copyFail": {
+      "text": "当前环境下复制失败"
+    },
+    "toast.locked": {
+      "text": "保险库已锁定——密钥材料已清零"
+    },
+    "toast.created": {
+      "text": "条目已加密并存储"
+    },
+    "toast.updated": {
+      "text": "条目已重新加密 · 版本 {revision}"
+    },
+    "toast.deleted": {
+      "text": "条目已删除 · 已记录墓碑版本"
+    },
+    "toast.kitRegen": {
+      "text": "已生成新套件"
+    },
+    "toast.kitSkip": {
+      "text": "恢复套件随时可在顶栏盾牌图标中获取"
+    },
+    "toast.exported": {
+      "text": "已导出 {count} 条条目"
+    },
+    "toast.importStub": {
+      "text": "演示版本——导入功能为占位"
+    },
+    "toast.autolockSet": {
+      "text": "自动锁定已设为 {n} 分钟"
+    },
+    "toast.clipSet": {
+      "text": "剪贴板将在 {n} 秒后清除"
+    }
+  }
+}

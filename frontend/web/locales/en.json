@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "en",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "Your private digital space"
+    },
+    "common.cancel": {
+      "text": "Cancel"
+    },
+    "common.copy": {
+      "text": "Copy"
+    },
+    "common.close": {
+      "text": "Close"
+    },
+    "common.show": {
+      "text": "Show password"
+    },
+    "common.hide": {
+      "text": "Hide"
+    },
+    "common.edit": {
+      "text": "Edit"
+    },
+    "common.delete": {
+      "text": "Delete"
+    },
+    "common.themeToggle": {
+      "text": "Toggle theme"
+    },
+    "common.passwordsMatch": {
+      "text": "Passwords match"
+    },
+    "common.passwordsMismatch": {
+      "text": "Passwords don't match"
+    },
+    "entry.capsLock": {
+      "text": "Caps lock is on"
+    },
+    "entry.stage.deriving": {
+      "text": "Deriving key"
+    },
+    "entry.stage.decrypting": {
+      "text": "Decrypting vault"
+    },
+    "entry.demoFoot": {
+      "text": "Preview · demo"
+    },
+    "entry.demoReset": {
+      "text": "reset"
+    },
+    "entry.create.step": {
+      "text": "01 · Create your vault"
+    },
+    "entry.create.title": {
+      "text": "Set a master password."
+    },
+    "entry.create.passwordLabel": {
+      "text": "Master password"
+    },
+    "entry.create.passwordPh": {
+      "text": "At least {min} characters"
+    },
+    "entry.create.confirmLabel": {
+      "text": "Confirm password"
+    },
+    "entry.create.confirmPh": {
+      "text": "Repeat it"
+    },
+    "entry.create.ack": {
+      "text": "I understand that this password cannot be recovered — only the recovery kit can unlock the vault without it."
+    },
+    "entry.create.btn": {
+      "text": "Create vault"
+    },
+    "entry.create.errLength": {
+      "text": "Use at least {min} characters — this password is the only key to the vault."
+    },
+    "entry.create.errMismatch": {
+      "text": "Passwords don't match."
+    },
+    "entry.create.errAck": {
+      "text": "Acknowledge that the password cannot be recovered before continuing."
+    },
+    "entry.kit.step": {
+      "text": "02 · Recovery kit"
+    },
+    "entry.kit.title": {
+      "text": "Forgot the password?<br>This code is the way back in."
+    },
+    "entry.kit.sub": {
+      "text": "Save it offline — it's the only recovery path when the master password is lost."
+    },
+    "entry.kit.download": {
+      "text": "Download .txt"
+    },
+    "entry.kit.open": {
+      "text": "Open my vault"
+    },
+    "entry.kit.skip": {
+      "text": "Skip for now — regenerate it later in the vault"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA RECOVERY KIT"
+    },
+    "entry.kit.fileTail": {
+      "text": "Store offline. Anyone with this kit can access the vault."
+    },
+    "entry.unlock.tag": {
+      "text": "Vault locked"
+    },
+    "entry.unlock.title": {
+      "text": "Welcome back."
+    },
+    "entry.unlock.sub": {
+      "text": "Enter the master password to derive the key and decrypt the vault on this device."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "Master password"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "Vault {vault} · {count, plural, one {# record} other {# records}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "salt on this device"
+    },
+    "entry.unlock.btn": {
+      "text": "Unlock vault"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "Enter the master password."
+    },
+    "entry.unlock.errWrong": {
+      "text": "Decryption failed — wrong master password. The vault stays locked."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "Lost the password? Recover with the kit"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "demo — any password unlocks, type {probe} for the error state"
+    },
+    "entry.recover.tag": {
+      "text": "Recovery"
+    },
+    "entry.recover.title": {
+      "text": "Recover access."
+    },
+    "entry.recover.sub": {
+      "text": "Paste the kit and set a new master password — everything re-derives locally."
+    },
+    "entry.recover.kitLabel": {
+      "text": "Recovery kit"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · checksum"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "New master password"
+    },
+    "entry.recover.btn": {
+      "text": "Recover access"
+    },
+    "entry.recover.back": {
+      "text": "Back to unlock"
+    },
+    "entry.recover.errKit": {
+      "text": "Paste the recovery kit from your offline copy."
+    },
+    "strength.readout": {
+      "text": "{bits} bits · {label}"
+    },
+    "strength.weak": {
+      "text": "Weak"
+    },
+    "strength.fair": {
+      "text": "Fair"
+    },
+    "strength.good": {
+      "text": "Good"
+    },
+    "strength.strong": {
+      "text": "Strong"
+    },
+    "strength.excellent": {
+      "text": "Excellent"
+    },
+    "nav.all": {
+      "text": "All items"
+    },
+    "nav.favorites": {
+      "text": "Favorites"
+    },
+    "type.login": {
+      "text": "Login"
+    },
+    "type.login.plural": {
+      "text": "Logins"
+    },
+    "type.note": {
+      "text": "Secure note"
+    },
+    "type.note.plural": {
+      "text": "Secure notes"
+    },
+    "type.api-token": {
+      "text": "API token"
+    },
+    "type.api-token.plural": {
+      "text": "API tokens"
+    },
+    "type.ssh": {
+      "text": "SSH key"
+    },
+    "type.ssh.plural": {
+      "text": "SSH keys"
+    },
+    "type.identity": {
+      "text": "Identity"
+    },
+    "type.identity.plural": {
+      "text": "Identities"
+    },
+    "top.searchPh": {
+      "text": "Search vault"
+    },
+    "top.recovery": {
+      "text": "Recovery kit"
+    },
+    "top.settings": {
+      "text": "Settings"
+    },
+    "top.lock": {
+      "text": "Lock now"
+    },
+    "top.newEntry": {
+      "text": "New entry"
+    },
+    "top.autolock": {
+      "text": "Auto-lock countdown"
+    },
+    "top.sort": {
+      "text": "Sort"
+    },
+    "table.colItem": {
+      "text": "Item"
+    },
+    "table.colType": {
+      "text": "Type"
+    },
+    "table.colLogin": {
+      "text": "Login / secret"
+    },
+    "table.colUpdated": {
+      "text": "Updated"
+    },
+    "table.count": {
+      "text": "{count, plural, one {# record} other {# records}}"
+    },
+    "table.emptyTitle": {
+      "text": "Nothing here"
+    },
+    "table.emptyNoResults": {
+      "text": "No results for “{query}”"
+    },
+    "table.emptyNew": {
+      "text": "Create your first entry to begin"
+    },
+    "action.copySecret": {
+      "text": "Copy secret"
+    },
+    "action.favorite": {
+      "text": "Favorite"
+    },
+    "sort.name": {
+      "text": "Name A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "Name Z–A"
+    },
+    "sort.updated": {
+      "text": "Recently updated"
+    },
+    "sort.type": {
+      "text": "Type"
+    },
+    "drawer.title.entry": {
+      "text": "Entry"
+    },
+    "drawer.title.settings": {
+      "text": "Settings"
+    },
+    "drawer.title.recovery": {
+      "text": "Recovery kit"
+    },
+    "drawer.copyPassword": {
+      "text": "Copy password"
+    },
+    "drawer.copySecret": {
+      "text": "Copy secret"
+    },
+    "drawer.reveal": {
+      "text": "Reveal"
+    },
+    "drawer.favorite": {
+      "text": "Favorite"
+    },
+    "drawer.unfavorite": {
+      "text": "Favorited"
+    },
+    "drawer.confirmDelete": {
+      "text": "Confirm delete"
+    },
+    "drawer.meta": {
+      "text": "updated {date} · revision {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "favorite"
+    },
+    "drawer.foot": {
+      "text": "record {id} · suite 1 · protocol v1 · decrypted in-browser via the WASM kernel"
+    },
+    "field.name": {
+      "text": "Name"
+    },
+    "field.itemName": {
+      "text": "Item name"
+    },
+    "field.fullName": {
+      "text": "Full name"
+    },
+    "field.username": {
+      "text": "Username / e-mail"
+    },
+    "field.website": {
+      "text": "Website"
+    },
+    "field.service": {
+      "text": "Service"
+    },
+    "field.host": {
+      "text": "Host"
+    },
+    "field.password": {
+      "text": "Password"
+    },
+    "field.token": {
+      "text": "Token"
+    },
+    "field.passphrase": {
+      "text": "Passphrase"
+    },
+    "field.idNumber": {
+      "text": "ID number"
+    },
+    "field.content": {
+      "text": "Content"
+    },
+    "field.privateKey": {
+      "text": "Private key"
+    },
+    "field.notes": {
+      "text": "Notes"
+    },
+    "ph.name": {
+      "text": "e.g. GitHub"
+    },
+    "ph.noteName": {
+      "text": "e.g. Recovery runbook"
+    },
+    "ph.tokenName": {
+      "text": "e.g. GHCR publish token"
+    },
+    "ph.sshName": {
+      "text": "e.g. ed25519 — workstation"
+    },
+    "ph.itemName": {
+      "text": "e.g. Passport"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "e.g. GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "Optional"
+    },
+    "ph.content": {
+      "text": "Private text — encrypted before it leaves this device"
+    },
+    "ph.generate": {
+      "text": "Auto-generate"
+    },
+    "modal.newTitle": {
+      "text": "New entry"
+    },
+    "modal.editTitle": {
+      "text": "Edit entry"
+    },
+    "modal.create": {
+      "text": "Create entry"
+    },
+    "modal.save": {
+      "text": "Save changes"
+    },
+    "modal.encryptedNote": {
+      "text": "Encrypted locally · then stored as ciphertext"
+    },
+    "modal.nameRequired": {
+      "text": "Name is required"
+    },
+    "modal.secretRequired": {
+      "text": "Secret field is required"
+    },
+    "modal.generate": {
+      "text": "Gen"
+    },
+    "gen.title": {
+      "text": "Password generator"
+    },
+    "gen.entropy": {
+      "text": "estimated entropy"
+    },
+    "gen.bitsUnit": {
+      "text": "BITS"
+    },
+    "gen.length": {
+      "text": "Length"
+    },
+    "gen.upper": {
+      "text": "Uppercase"
+    },
+    "gen.lower": {
+      "text": "Lowercase"
+    },
+    "gen.digits": {
+      "text": "Digits"
+    },
+    "gen.symbols": {
+      "text": "Symbols"
+    },
+    "gen.ambiguous": {
+      "text": "Avoid ambiguous characters"
+    },
+    "gen.regenerate": {
+      "text": "Regenerate"
+    },
+    "gen.use": {
+      "text": "Use this password"
+    },
+    "gen.poolNote": {
+      "text": "{count} characters in pool"
+    },
+    "gen.errCharset": {
+      "text": "Select at least one character set"
+    },
+    "settings.title": {
+      "text": "Settings"
+    },
+    "settings.sub": {
+      "text": "Local preferences · this device only"
+    },
+    "settings.appearance": {
+      "text": "Appearance"
+    },
+    "settings.theme": {
+      "text": "Theme"
+    },
+    "settings.themeSub": {
+      "text": "Black on white, or white on black"
+    },
+    "settings.light": {
+      "text": "Light"
+    },
+    "settings.dark": {
+      "text": "Dark"
+    },
+    "settings.language": {
+      "text": "Language"
+    },
+    "settings.languageSub": {
+      "text": "Interface language, with English fallback"
+    },
+    "settings.security": {
+      "text": "Security"
+    },
+    "settings.autolock": {
+      "text": "Auto-lock after inactivity"
+    },
+    "settings.autolockSub": {
+      "text": "Key material is zeroed from memory"
+    },
+    "settings.clipboard": {
+      "text": "Clear clipboard after copy"
+    },
+    "settings.clipboardSub": {
+      "text": "Secrets never linger in the clipboard"
+    },
+    "settings.data": {
+      "text": "Data"
+    },
+    "settings.export": {
+      "text": "Export vault"
+    },
+    "settings.exportSub": {
+      "text": "Plaintext CSV — handle with care"
+    },
+    "settings.exportBtn": {
+      "text": "Export CSV"
+    },
+    "settings.import": {
+      "text": "Import CSV"
+    },
+    "settings.importSub": {
+      "text": "Generic login CSV (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "Import"
+    },
+    "settings.about": {
+      "text": "About"
+    },
+    "settings.note": {
+      "text": "Veyora is an experimental preview — not an audited security product."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {# minute} other {# minutes}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {# second} other {# seconds}}"
+    },
+    "about.version": {
+      "text": "Version"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "Kernel"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "KDF"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "Cipher"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "Signatures"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "Server sees"
+    },
+    "about.serverSeesValue": {
+      "text": "ciphertext only"
+    },
+    "recovery.title": {
+      "text": "Recovery kit"
+    },
+    "recovery.sub": {
+      "text": "Base32 · checksummed · keep offline"
+    },
+    "recovery.warnHead": {
+      "text": "Critical — store before dismissing"
+    },
+    "recovery.warnBody": {
+      "text": "This kit can decrypt your vault without the master password. Anyone holding it holds your data. Print it or write it down, store it somewhere safe offline, and never keep it on this device."
+    },
+    "recovery.copyKit": {
+      "text": "Copy kit"
+    },
+    "recovery.regenerate": {
+      "text": "Generate new"
+    },
+    "recovery.note": {
+      "text": "Losing both the master password and this kit means the vault is unrecoverable by design — there is no reset path."
+    },
+    "toast.copied": {
+      "text": "Copied · clipboard clears in {seconds}s"
+    },
+    "toast.copyFail": {
+      "text": "Copy failed in this context"
+    },
+    "toast.locked": {
+      "text": "Vault locked — key material zeroed"
+    },
+    "toast.created": {
+      "text": "Entry encrypted & stored"
+    },
+    "toast.updated": {
+      "text": "Entry re-encrypted · revision {revision}"
+    },
+    "toast.deleted": {
+      "text": "Entry deleted · tombstone revision recorded"
+    },
+    "toast.kitRegen": {
+      "text": "New kit generated"
+    },
+    "toast.kitSkip": {
+      "text": "The kit stays available under the shield icon in the topbar"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {# entry exported} other {# entries exported}}"
+    },
+    "toast.importStub": {
+      "text": "Demo build — import is stubbed"
+    },
+    "toast.autolockSet": {
+      "text": "Auto-lock set to {n} min"
+    },
+    "toast.clipSet": {
+      "text": "Clipboard clears after {n}s"
+    }
+  }
+}

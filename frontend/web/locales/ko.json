@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "ko",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "당신의 프라이빗 디지털 공간"
+    },
+    "common.cancel": {
+      "text": "취소"
+    },
+    "common.copy": {
+      "text": "복사"
+    },
+    "common.close": {
+      "text": "닫기"
+    },
+    "common.show": {
+      "text": "비밀번호 표시"
+    },
+    "common.hide": {
+      "text": "숨기기"
+    },
+    "common.edit": {
+      "text": "편집"
+    },
+    "common.delete": {
+      "text": "삭제"
+    },
+    "common.themeToggle": {
+      "text": "테마 전환"
+    },
+    "common.passwordsMatch": {
+      "text": "비밀번호가 일치합니다"
+    },
+    "common.passwordsMismatch": {
+      "text": "비밀번호가 일치하지 않습니다"
+    },
+    "entry.capsLock": {
+      "text": "Caps Lock이 켜져 있습니다"
+    },
+    "entry.stage.deriving": {
+      "text": "키 파생 중"
+    },
+    "entry.stage.decrypting": {
+      "text": "금고 복호화 중"
+    },
+    "entry.demoFoot": {
+      "text": "프리뷰 · 데모"
+    },
+    "entry.demoReset": {
+      "text": "재설정"
+    },
+    "entry.create.step": {
+      "text": "01 · 금고 만들기"
+    },
+    "entry.create.title": {
+      "text": "마스터 비밀번호를 설정하세요."
+    },
+    "entry.create.passwordLabel": {
+      "text": "마스터 비밀번호"
+    },
+    "entry.create.passwordPh": {
+      "text": "{min}자 이상"
+    },
+    "entry.create.confirmLabel": {
+      "text": "비밀번호 확인"
+    },
+    "entry.create.confirmPh": {
+      "text": "다시 입력"
+    },
+    "entry.create.ack": {
+      "text": "이 비밀번호는 복구할 수 없음을 이해합니다 — 비밀번호 없이 금고를 여는 방법은 복구 키트뿐입니다."
+    },
+    "entry.create.btn": {
+      "text": "금고 만들기"
+    },
+    "entry.create.errLength": {
+      "text": "{min}자 이상 사용하세요 — 이 비밀번호가 금고의 유일한 열쇠입니다."
+    },
+    "entry.create.errMismatch": {
+      "text": "비밀번호가 일치하지 않습니다."
+    },
+    "entry.create.errAck": {
+      "text": "비밀번호를 복구할 수 없음을 확인한 후 계속하세요."
+    },
+    "entry.kit.step": {
+      "text": "02 · 복구 키트"
+    },
+    "entry.kit.title": {
+      "text": "비밀번호를 잊었다면?<br>이 코드가 유일한 입구입니다."
+    },
+    "entry.kit.sub": {
+      "text": "오프라인으로 보관하세요 — 마스터 비밀번호를 잃었을 때 유일한 복구 수단입니다."
+    },
+    "entry.kit.download": {
+      "text": ".txt 다운로드"
+    },
+    "entry.kit.open": {
+      "text": "금고 열기"
+    },
+    "entry.kit.skip": {
+      "text": "지금은 건너뛰기 — 나중에 금고에서 다시 생성할 수 있습니다"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA 복구 키트"
+    },
+    "entry.kit.fileTail": {
+      "text": "오프라인에 보관하세요. 이 키트를 가진 사람은 누구나 금고에 접근할 수 있습니다."
+    },
+    "entry.unlock.tag": {
+      "text": "금고 잠김"
+    },
+    "entry.unlock.title": {
+      "text": "다시 오신 것을 환영합니다."
+    },
+    "entry.unlock.sub": {
+      "text": "마스터 비밀번호를 입력하면 이 기기에서 키를 파생해 금고를 복호화합니다."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "마스터 비밀번호"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "금고 {vault} · {count, plural, other {레코드 #건}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "솔트는 이 기기에 저장"
+    },
+    "entry.unlock.btn": {
+      "text": "금고 잠금 해제"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "마스터 비밀번호를 입력하세요."
+    },
+    "entry.unlock.errWrong": {
+      "text": "복호화 실패 — 마스터 비밀번호가 틀렸습니다. 금고는 잠긴 상태로 유지됩니다."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "비밀번호를 잃으셨나요? 복구 키트로 복원"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "데모 — 아무 비밀번호나 잠금 해제, {probe}를 입력하면 오류 상태를 볼 수 있습니다"
+    },
+    "entry.recover.tag": {
+      "text": "복구"
+    },
+    "entry.recover.title": {
+      "text": "접근 복원."
+    },
+    "entry.recover.sub": {
+      "text": "키트를 붙여넣고 새 마스터 비밀번호를 설정하세요 — 모두 이 기기에서 다시 파생됩니다."
+    },
+    "entry.recover.kitLabel": {
+      "text": "복구 키트"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · 체크섬"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "새 마스터 비밀번호"
+    },
+    "entry.recover.btn": {
+      "text": "접근 복원"
+    },
+    "entry.recover.back": {
+      "text": "잠금 해제로 돌아가기"
+    },
+    "entry.recover.errKit": {
+      "text": "오프라인으로 보관한 복구 키트를 붙여넣으세요."
+    },
+    "strength.readout": {
+      "text": "{bits}비트 · {label}"
+    },
+    "strength.weak": {
+      "text": "약함"
+    },
+    "strength.fair": {
+      "text": "보통"
+    },
+    "strength.good": {
+      "text": "좋음"
+    },
+    "strength.strong": {
+      "text": "강함"
+    },
+    "strength.excellent": {
+      "text": "매우 강함"
+    },
+    "nav.all": {
+      "text": "모든 항목"
+    },
+    "nav.favorites": {
+      "text": "즐겨찾기"
+    },
+    "type.login": {
+      "text": "로그인"
+    },
+    "type.login.plural": {
+      "text": "로그인"
+    },
+    "type.note": {
+      "text": "보안 노트"
+    },
+    "type.note.plural": {
+      "text": "보안 노트"
+    },
+    "type.api-token": {
+      "text": "API 토큰"
+    },
+    "type.api-token.plural": {
+      "text": "API 토큰"
+    },
+    "type.ssh": {
+      "text": "SSH 키"
+    },
+    "type.ssh.plural": {
+      "text": "SSH 키"
+    },
+    "type.identity": {
+      "text": "신원 정보"
+    },
+    "type.identity.plural": {
+      "text": "신원 정보"
+    },
+    "top.searchPh": {
+      "text": "금고 검색"
+    },
+    "top.recovery": {
+      "text": "복구 키트"
+    },
+    "top.settings": {
+      "text": "설정"
+    },
+    "top.lock": {
+      "text": "지금 잠그기"
+    },
+    "top.newEntry": {
+      "text": "새 항목"
+    },
+    "top.autolock": {
+      "text": "자동 잠금 남은 시간"
+    },
+    "top.sort": {
+      "text": "정렬"
+    },
+    "table.colItem": {
+      "text": "항목"
+    },
+    "table.colType": {
+      "text": "유형"
+    },
+    "table.colLogin": {
+      "text": "로그인 / 시크릿"
+    },
+    "table.colUpdated": {
+      "text": "업데이트"
+    },
+    "table.count": {
+      "text": "{count, plural, other {레코드 #건}}"
+    },
+    "table.emptyTitle": {
+      "text": "아무것도 없습니다"
+    },
+    "table.emptyNoResults": {
+      "text": "“{query}”에 대한 결과가 없습니다"
+    },
+    "table.emptyNew": {
+      "text": "첫 항목을 만들어 시작하세요"
+    },
+    "action.copySecret": {
+      "text": "시크릿 복사"
+    },
+    "action.favorite": {
+      "text": "즐겨찾기"
+    },
+    "sort.name": {
+      "text": "이름 A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "이름 Z–A"
+    },
+    "sort.updated": {
+      "text": "최근 업데이트"
+    },
+    "sort.type": {
+      "text": "유형별"
+    },
+    "drawer.title.entry": {
+      "text": "항목"
+    },
+    "drawer.title.settings": {
+      "text": "설정"
+    },
+    "drawer.title.recovery": {
+      "text": "복구 키트"
+    },
+    "drawer.copyPassword": {
+      "text": "비밀번호 복사"
+    },
+    "drawer.copySecret": {
+      "text": "시크릿 복사"
+    },
+    "drawer.reveal": {
+      "text": "표시"
+    },
+    "drawer.favorite": {
+      "text": "즐겨찾기"
+    },
+    "drawer.unfavorite": {
+      "text": "즐겨찾기됨"
+    },
+    "drawer.confirmDelete": {
+      "text": "삭제 확인"
+    },
+    "drawer.meta": {
+      "text": "{date} 업데이트 · 리비전 {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "즐겨찾기"
+    },
+    "drawer.foot": {
+      "text": "레코드 {id} · 스위트 1 · 프로토콜 v1 · WASM 커널로 브라우저에서 복호화"
+    },
+    "field.name": {
+      "text": "이름"
+    },
+    "field.itemName": {
+      "text": "항목 이름"
+    },
+    "field.fullName": {
+      "text": "전체 이름"
+    },
+    "field.username": {
+      "text": "사용자 이름 / 이메일"
+    },
+    "field.website": {
+      "text": "웹사이트"
+    },
+    "field.service": {
+      "text": "서비스"
+    },
+    "field.host": {
+      "text": "호스트"
+    },
+    "field.password": {
+      "text": "비밀번호"
+    },
+    "field.token": {
+      "text": "토큰"
+    },
+    "field.passphrase": {
+      "text": "패스프레이즈"
+    },
+    "field.idNumber": {
+      "text": "ID 번호"
+    },
+    "field.content": {
+      "text": "내용"
+    },
+    "field.privateKey": {
+      "text": "개인 키"
+    },
+    "field.notes": {
+      "text": "메모"
+    },
+    "ph.name": {
+      "text": "예: GitHub"
+    },
+    "ph.noteName": {
+      "text": "예: 서버 복구 매뉴얼"
+    },
+    "ph.tokenName": {
+      "text": "예: GHCR 게시 토큰"
+    },
+    "ph.sshName": {
+      "text": "예: ed25519 — 워크스테이션"
+    },
+    "ph.itemName": {
+      "text": "예: 여권"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "예: GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "선택"
+    },
+    "ph.content": {
+      "text": "비공개 텍스트 — 이 기기를 떠나기 전에 암호화됩니다"
+    },
+    "ph.generate": {
+      "text": "자동 생성"
+    },
+    "modal.newTitle": {
+      "text": "새 항목"
+    },
+    "modal.editTitle": {
+      "text": "항목 편집"
+    },
+    "modal.create": {
+      "text": "항목 만들기"
+    },
+    "modal.save": {
+      "text": "변경 사항 저장"
+    },
+    "modal.encryptedNote": {
+      "text": "로컬에서 암호화 · 암호문으로 저장"
+    },
+    "modal.nameRequired": {
+      "text": "이름은 필수입니다"
+    },
+    "modal.secretRequired": {
+      "text": "시크릿은 필수입니다"
+    },
+    "modal.generate": {
+      "text": "생성"
+    },
+    "gen.title": {
+      "text": "비밀번호 생성기"
+    },
+    "gen.entropy": {
+      "text": "예상 엔트로피"
+    },
+    "gen.bitsUnit": {
+      "text": "비트"
+    },
+    "gen.length": {
+      "text": "길이"
+    },
+    "gen.upper": {
+      "text": "대문자"
+    },
+    "gen.lower": {
+      "text": "소문자"
+    },
+    "gen.digits": {
+      "text": "숫자"
+    },
+    "gen.symbols": {
+      "text": "기호"
+    },
+    "gen.ambiguous": {
+      "text": "혼동되는 문자 제외"
+    },
+    "gen.regenerate": {
+      "text": "다시 생성"
+    },
+    "gen.use": {
+      "text": "이 비밀번호 사용"
+    },
+    "gen.poolNote": {
+      "text": "풀에 {count}개 문자"
+    },
+    "gen.errCharset": {
+      "text": "문자 집합을 하나 이상 선택하세요"
+    },
+    "settings.title": {
+      "text": "설정"
+    },
+    "settings.sub": {
+      "text": "로컬 환경설정 · 이 기기에만 적용"
+    },
+    "settings.appearance": {
+      "text": "화면"
+    },
+    "settings.theme": {
+      "text": "테마"
+    },
+    "settings.themeSub": {
+      "text": "흰 바탕에 검은 글자, 또는 그 반대"
+    },
+    "settings.light": {
+      "text": "라이트"
+    },
+    "settings.dark": {
+      "text": "다크"
+    },
+    "settings.language": {
+      "text": "언어"
+    },
+    "settings.languageSub": {
+      "text": "인터페이스 언어, 누락 시 영어로 대체"
+    },
+    "settings.security": {
+      "text": "보안"
+    },
+    "settings.autolock": {
+      "text": "미사용 시 자동 잠금"
+    },
+    "settings.autolockSub": {
+      "text": "키 자료가 메모리에서 제거됩니다"
+    },
+    "settings.clipboard": {
+      "text": "복사 후 클립보드 지우기"
+    },
+    "settings.clipboardSub": {
+      "text": "시크릿이 클립보드에 남지 않습니다"
+    },
+    "settings.data": {
+      "text": "데이터"
+    },
+    "settings.export": {
+      "text": "금고 내보내기"
+    },
+    "settings.exportSub": {
+      "text": "평문 CSV — 주의해서 다루세요"
+    },
+    "settings.exportBtn": {
+      "text": "CSV 내보내기"
+    },
+    "settings.import": {
+      "text": "CSV 가져오기"
+    },
+    "settings.importSub": {
+      "text": "일반 로그인 CSV (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "가져오기"
+    },
+    "settings.about": {
+      "text": "정보"
+    },
+    "settings.note": {
+      "text": "Veyora는 실험적 프리뷰입니다 — 감사를 마친 보안 제품이 아닙니다."
+    },
+    "settings.minutes": {
+      "text": "{n}분"
+    },
+    "settings.seconds": {
+      "text": "{n}초"
+    },
+    "about.version": {
+      "text": "버전"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "커널"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "키 파생"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "암호 방식"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "서명 방식"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "서버가 보는 것"
+    },
+    "about.serverSeesValue": {
+      "text": "암호문만"
+    },
+    "recovery.title": {
+      "text": "복구 키트"
+    },
+    "recovery.sub": {
+      "text": "Base32 · 체크섬 포함 · 오프라인 보관"
+    },
+    "recovery.warnHead": {
+      "text": "중요 — 닫기 전에 저장하세요"
+    },
+    "recovery.warnBody": {
+      "text": "이 키트는 마스터 비밀번호 없이 금고를 복호화할 수 있습니다. 이를 가진 사람은 누구나 데이터에 접근할 수 있습니다. 인쇄하거나 필사해 오프라인에 안전하게 보관하고, 절대 이 기기에 저장하지 마세요."
+    },
+    "recovery.copyKit": {
+      "text": "키트 복사"
+    },
+    "recovery.regenerate": {
+      "text": "새로 생성"
+    },
+    "recovery.note": {
+      "text": "마스터 비밀번호와 복구 키트를 모두 잃으면 설계상 금고를 복구할 수 없습니다 — 재설정 방법은 없습니다."
+    },
+    "toast.copied": {
+      "text": "복사됨 · 클립보드는 {seconds}초 후 지워집니다"
+    },
+    "toast.copyFail": {
+      "text": "이 환경에서는 복사에 실패했습니다"
+    },
+    "toast.locked": {
+      "text": "금고 잠김 — 키 자료 제거됨"
+    },
+    "toast.created": {
+      "text": "항목 암호화 및 저장됨"
+    },
+    "toast.updated": {
+      "text": "항목 재암호화 · 리비전 {revision}"
+    },
+    "toast.deleted": {
+      "text": "항목 삭제됨 · 톰스톤 리비전 기록됨"
+    },
+    "toast.kitRegen": {
+      "text": "새 키트가 생성되었습니다"
+    },
+    "toast.kitSkip": {
+      "text": "복구 키트는 언제든 상단 바 방패 아이콘에서 사용할 수 있습니다"
+    },
+    "toast.exported": {
+      "text": "{count, plural, other {항목 #개 내보냈습니다}}"
+    },
+    "toast.importStub": {
+      "text": "데모 빌드 — 가져오기는 스텁입니다"
+    },
+    "toast.autolockSet": {
+      "text": "자동 잠금이 {n}분으로 설정되었습니다"
+    },
+    "toast.clipSet": {
+      "text": "클립보드가 {n}초 후 지워집니다"
+    }
+  }
+}

@@ -1,0 +1,112 @@
+/* ============================================================================
+   Veyora design tokens — the single source of truth for every visual value.
+   Components MUST reference these variables; literal values are not allowed
+   in component styles. Monochrome only: the palette carries no hue.
+   ============================================================================ */
+:root{
+  /* ---- color · monochrome scale ---------------------------------------- */
+  --color-ink-0:#111111;      /* primary foreground (light theme)           */
+  --color-ink-1:#555555;      /* secondary text                             */
+  --color-ink-2:#8f8f8f;      /* tertiary / placeholder                     */
+  --color-surface-0:#ffffff;  /* raised surface                             */
+  --color-surface-1:#fafafa;  /* page background                            */
+  --color-line-1:#e5e5e5;     /* hairline                                   */
+  --color-line-2:#d4d4d4;     /* control border                             */
+
+  /* ---- theme roles (swapped wholesale by data-theme) -------------------- */
+  --bg:var(--color-surface-1);
+  --surface:var(--color-surface-0);
+  --ink:var(--color-ink-0);
+  --ink-2:var(--color-ink-1);
+  --ink-3:var(--color-ink-2);
+  --line:var(--color-line-1);
+  --line-2:var(--color-line-2);
+  --fill:var(--color-ink-0);        /* max-contrast block                    */
+  --fill-ink:var(--color-surface-0);/* text on max-contrast block            */
+  --hover:#f4f4f4;
+  --overlay:rgba(17,17,17,.42);
+  --shadow-color:rgba(0,0,0,.14);
+
+  /* ---- typography ------------------------------------------------------- */
+  --font-sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Consolas,monospace;
+  --type-scale-0:26px;   /* entry screen display                           */
+  --type-scale-1:23px;   /* drawer title                                   */
+  --type-scale-2:16.5px; /* generator output                               */
+  --type-scale-3:14px;   /* body                                           */
+  --type-scale-4:13px;   /* dense body / buttons                           */
+  --type-scale-5:12px;   /* minor labels                                   */
+  --type-scale-6:11px;   /* micro numerals                                 */
+  --type-micro:10px;     /* uppercase micro labels                         */
+  --tracking-micro:.12em;
+  --tracking-wide:.05em;
+  --tracking-brand:.34em;
+
+  /* ---- spacing scale ----------------------------------------------------- */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-7:32px;
+  --space-8:40px;
+
+  /* ---- layout dimensions -------------------------------------------------- */
+  --topbar-h:58px;
+  --tabs-h:42px;
+  --control-h:34px;
+  --control-h-lg:46px;
+  --tile-size:32px;
+  --tile-size-lg:46px;
+  --lock-card-w:380px;
+  --drawer-w:500px;
+  --search-max-w:440px;
+  --page-pad:24px;
+  --col-type-w:112px;
+  --col-login-w:230px;
+  --col-updated-w:96px;
+  --col-actions-w:112px;
+  --table-gap:16px;
+  --modal-w:600px;
+  --modal-w-sm:520px;
+
+  /* ---- geometry ------------------------------------------------------------ */
+  --radius-0:0px;          /* monochrome edition is deliberately square      */
+  --border-hairline:1px solid var(--line);
+  --border-control:1px solid var(--line-2);
+  --border-strong:1px solid var(--ink);
+  --meter-h:3px;
+  --tile-border:1px solid var(--line-2);
+
+  /* ---- elevation ------------------------------------------------------------ */
+  --shadow-overlay:0 24px 64px var(--shadow-color);
+
+  /* ---- z-index scale ---------------------------------------------------------- */
+  --z-sticky:2;
+  --z-drawer:50;
+  --z-backdrop:40;
+  --z-modal:60;
+  --z-toast:90;
+
+  /* ---- motion ------------------------------------------------------------------ */
+  --motion-fast:.12s;
+  --motion-base:.2s;
+  --motion-slow:.3s;
+  --ease-out:cubic-bezier(.2,.7,.2,1);
+}
+
+html[data-theme="dark"]{
+  --bg:#0b0b0b;
+  --surface:#111111;
+  --ink:#f2f2f2;
+  --ink-2:#a8a8a8;
+  --ink-3:#6f6f6f;
+  --line:#232323;
+  --line-2:#3a3a3a;
+  --fill:#f2f2f2;
+  --fill-ink:#0b0b0b;
+  --hover:#1a1a1a;
+  --overlay:rgba(0,0,0,.6);
+  --shadow-color:rgba(0,0,0,.55);
+}

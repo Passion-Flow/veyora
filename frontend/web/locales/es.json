@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "locale": "es",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "Tu espacio digital privado"
+    },
+    "common.cancel": {
+      "text": "Cancelar"
+    },
+    "common.copy": {
+      "text": "Copiar"
+    },
+    "common.close": {
+      "text": "Cerrar"
+    },
+    "common.show": {
+      "text": "Mostrar contraseña"
+    },
+    "common.hide": {
+      "text": "Ocultar"
+    },
+    "common.edit": {
+      "text": "Editar"
+    },
+    "common.delete": {
+      "text": "Eliminar"
+    },
+    "common.themeToggle": {
+      "text": "Cambiar tema"
+    },
+    "common.passwordsMatch": {
+      "text": "Las contraseñas coinciden"
+    },
+    "common.passwordsMismatch": {
+      "text": "Las contraseñas no coinciden"
+    },
+    "entry.capsLock": {
+      "text": "Bloq Mayús está activado"
+    },
+    "entry.stage.deriving": {
+      "text": "Derivando clave"
+    },
+    "entry.stage.decrypting": {
+      "text": "Descifrando la bóveda"
+    },
+    "entry.demoFoot": {
+      "text": "Vista previa · demo"
+    },
+    "entry.demoReset": {
+      "text": "reiniciar"
+    },
+    "entry.create.step": {
+      "text": "01 · Crea tu bóveda"
+    },
+    "entry.create.title": {
+      "text": "Define una contraseña maestra."
+    },
+    "entry.create.passwordLabel": {
+      "text": "Contraseña maestra"
+    },
+    "entry.create.passwordPh": {
+      "text": "Al menos {min} caracteres"
+    },
+    "entry.create.confirmLabel": {
+      "text": "Confirmar contraseña"
+    },
+    "entry.create.confirmPh": {
+      "text": "Repítela"
+    },
+    "entry.create.ack": {
+      "text": "Entiendo que esta contraseña no se puede recuperar — solo el kit de recuperación puede abrir la bóveda sin ella."
+    },
+    "entry.create.btn": {
+      "text": "Crear bóveda"
+    },
+    "entry.create.errLength": {
+      "text": "Usa al menos {min} caracteres — esta contraseña es la única llave de la bóveda."
+    },
+    "entry.create.errMismatch": {
+      "text": "Las contraseñas no coinciden."
+    },
+    "entry.create.errAck": {
+      "text": "Confirma que la contraseña no se puede recuperar antes de continuar."
+    },
+    "entry.kit.step": {
+      "text": "02 · Kit de recuperación"
+    },
+    "entry.kit.title": {
+      "text": "¿Olvidaste la contraseña?<br>Este código es la única vuelta."
+    },
+    "entry.kit.sub": {
+      "text": "Guárdalo sin conexión — es la única vía de recuperación si pierdes la contraseña maestra."
+    },
+    "entry.kit.download": {
+      "text": "Descargar .txt"
+    },
+    "entry.kit.open": {
+      "text": "Abrir mi bóveda"
+    },
+    "entry.kit.skip": {
+      "text": "Omitir por ahora — regenéralo luego en la bóveda"
+    },
+    "entry.kit.fileHead": {
+      "text": "KIT DE RECUPERACIÓN DE VEYORA"
+    },
+    "entry.kit.fileTail": {
+      "text": "Guarda sin conexión. Cualquiera con este kit puede acceder a la bóveda."
+    },
+    "entry.unlock.tag": {
+      "text": "Bóveda bloqueada"
+    },
+    "entry.unlock.title": {
+      "text": "Bienvenido de nuevo."
+    },
+    "entry.unlock.sub": {
+      "text": "Introduce la contraseña maestra para derivar la clave y descifrar la bóveda en este dispositivo."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "Contraseña maestra"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "Bóveda {vault} · {count, plural, one {# registro} other {# registros}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "sal en este dispositivo"
+    },
+    "entry.unlock.btn": {
+      "text": "Desbloquear bóveda"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "Introduce la contraseña maestra."
+    },
+    "entry.unlock.errWrong": {
+      "text": "Fallo de descifrado — contraseña maestra incorrecta. La bóveda sigue bloqueada."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "¿Perdiste la contraseña? Recupera con el kit"
+    },
+    "entry.unlock.demoFoot": {
+      "text": "demo — cualquier contraseña desbloquea, escribe {probe} para ver el estado de error"
+    },
+    "entry.recover.tag": {
+      "text": "Recuperación"
+    },
+    "entry.recover.title": {
+      "text": "Recuperar el acceso."
+    },
+    "entry.recover.sub": {
+      "text": "Pega el kit y define una nueva contraseña maestra — todo se vuelve a derivar localmente."
+    },
+    "entry.recover.kitLabel": {
+      "text": "Kit de recuperación"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · suma de verificación"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "Nueva contraseña maestra"
+    },
+    "entry.recover.btn": {
+      "text": "Recuperar acceso"
+    },
+    "entry.recover.back": {
+      "text": "Volver al desbloqueo"
+    },
+    "entry.recover.errKit": {
+      "text": "Pega el kit de recuperación de tu copia sin conexión."
+    },
+    "strength.readout": {
+      "text": "{bits} bits · {label}"
+    },
+    "strength.weak": {
+      "text": "Débil"
+    },
+    "strength.fair": {
+      "text": "Regular"
+    },
+    "strength.good": {
+      "text": "Buena"
+    },
+    "strength.strong": {
+      "text": "Fuerte"
+    },
+    "strength.excellent": {
+      "text": "Excelente"
+    },
+    "nav.all": {
+      "text": "Todos los elementos"
+    },
+    "nav.favorites": {
+      "text": "Favoritos"
+    },
+    "type.login": {
+      "text": "Inicio de sesión"
+    },
+    "type.login.plural": {
+      "text": "Inicios de sesión"
+    },
+    "type.note": {
+      "text": "Nota segura"
+    },
+    "type.note.plural": {
+      "text": "Notas seguras"
+    },
+    "type.api-token": {
+      "text": "Token de API"
+    },
+    "type.api-token.plural": {
+      "text": "Tokens de API"
+    },
+    "type.ssh": {
+      "text": "Clave SSH"
+    },
+    "type.ssh.plural": {
+      "text": "Claves SSH"
+    },
+    "type.identity": {
+      "text": "Identidad"
+    },
+    "type.identity.plural": {
+      "text": "Identidades"
+    },
+    "top.searchPh": {
+      "text": "Buscar en la bóveda"
+    },
+    "top.recovery": {
+      "text": "Kit de recuperación"
+    },
+    "top.settings": {
+      "text": "Ajustes"
+    },
+    "top.lock": {
+      "text": "Bloquear ahora"
+    },
+    "top.newEntry": {
+      "text": "Nuevo elemento"
+    },
+    "top.autolock": {
+      "text": "Bloqueo automático en"
+    },
+    "top.sort": {
+      "text": "Ordenar"
+    },
+    "table.colItem": {
+      "text": "Elemento"
+    },
+    "table.colType": {
+      "text": "Tipo"
+    },
+    "table.colLogin": {
+      "text": "Usuario / secreto"
+    },
+    "table.colUpdated": {
+      "text": "Actualizado"
+    },
+    "table.count": {
+      "text": "{count, plural, one {# registro} other {# registros}}"
+    },
+    "table.emptyTitle": {
+      "text": "Nada por aquí"
+    },
+    "table.emptyNoResults": {
+      "text": "Sin resultados para «{query}»"
+    },
+    "table.emptyNew": {
+      "text": "Crea tu primer elemento para empezar"
+    },
+    "action.copySecret": {
+      "text": "Copiar secreto"
+    },
+    "action.favorite": {
+      "text": "Favorito"
+    },
+    "sort.name": {
+      "text": "Nombre A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "Nombre Z–A"
+    },
+    "sort.updated": {
+      "text": "Actualizado recientemente"
+    },
+    "sort.type": {
+      "text": "Tipo"
+    },
+    "drawer.title.entry": {
+      "text": "Elemento"
+    },
+    "drawer.title.settings": {
+      "text": "Ajustes"
+    },
+    "drawer.title.recovery": {
+      "text": "Kit de recuperación"
+    },
+    "drawer.copyPassword": {
+      "text": "Copiar contraseña"
+    },
+    "drawer.copySecret": {
+      "text": "Copiar secreto"
+    },
+    "drawer.reveal": {
+      "text": "Revelar"
+    },
+    "drawer.favorite": {
+      "text": "Favorito"
+    },
+    "drawer.unfavorite": {
+      "text": "Favorito"
+    },
+    "drawer.confirmDelete": {
+      "text": "Confirmar eliminación"
+    },
+    "drawer.meta": {
+      "text": "actualizado {date} · revisión {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "favorito"
+    },
+    "drawer.foot": {
+      "text": "registro {id} · suite 1 · protocolo v1 · descifrado en el navegador vía el núcleo WASM"
+    },
+    "field.name": {
+      "text": "Nombre"
+    },
+    "field.itemName": {
+      "text": "Nombre del elemento"
+    },
+    "field.fullName": {
+      "text": "Nombre completo"
+    },
+    "field.username": {
+      "text": "Usuario / correo"
+    },
+    "field.website": {
+      "text": "Sitio web"
+    },
+    "field.service": {
+      "text": "Servicio"
+    },
+    "field.host": {
+      "text": "Host"
+    },
+    "field.password": {
+      "text": "Contraseña"
+    },
+    "field.token": {
+      "text": "Token"
+    },
+    "field.passphrase": {
+      "text": "Frase de paso"
+    },
+    "field.idNumber": {
+      "text": "Número de identificación"
+    },
+    "field.content": {
+      "text": "Contenido"
+    },
+    "field.privateKey": {
+      "text": "Clave privada"
+    },
+    "field.notes": {
+      "text": "Notas"
+    },
+    "ph.name": {
+      "text": "p. ej. GitHub"
+    },
+    "ph.noteName": {
+      "text": "p. ej. Manual de recuperación del servidor"
+    },
+    "ph.tokenName": {
+      "text": "p. ej. Token de publicación GHCR"
+    },
+    "ph.sshName": {
+      "text": "p. ej. ed25519 — estación de trabajo"
+    },
+    "ph.itemName": {
+      "text": "p. ej. Pasaporte"
+    },
+    "ph.username": {
+      "text": "tu@ejemplo.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "p. ej. GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "Opcional"
+    },
+    "ph.content": {
+      "text": "Texto privado — se cifra antes de salir de este dispositivo"
+    },
+    "ph.generate": {
+      "text": "Generar automáticamente"
+    },
+    "modal.newTitle": {
+      "text": "Nuevo elemento"
+    },
+    "modal.editTitle": {
+      "text": "Editar elemento"
+    },
+    "modal.create": {
+      "text": "Crear elemento"
+    },
+    "modal.save": {
+      "text": "Guardar cambios"
+    },
+    "modal.encryptedNote": {
+      "text": "Cifrado localmente · luego se guarda como texto cifrado"
+    },
+    "modal.nameRequired": {
+      "text": "El nombre es obligatorio"
+    },
+    "modal.secretRequired": {
+      "text": "El campo secreto es obligatorio"
+    },
+    "modal.generate": {
+      "text": "Gen"
+    },
+    "gen.title": {
+      "text": "Generador de contraseñas"
+    },
+    "gen.entropy": {
+      "text": "entropía estimada"
+    },
+    "gen.bitsUnit": {
+      "text": "BITS"
+    },
+    "gen.length": {
+      "text": "Longitud"
+    },
+    "gen.upper": {
+      "text": "Mayúsculas"
+    },
+    "gen.lower": {
+      "text": "Minúsculas"
+    },
+    "gen.digits": {
+      "text": "Dígitos"
+    },
+    "gen.symbols": {
+      "text": "Símbolos"
+    },
+    "gen.ambiguous": {
+      "text": "Evitar caracteres ambiguos"
+    },
+    "gen.regenerate": {
+      "text": "Regenerar"
+    },
+    "gen.use": {
+      "text": "Usar esta contraseña"
+    },
+    "gen.poolNote": {
+      "text": "{count} caracteres en el conjunto"
+    },
+    "gen.errCharset": {
+      "text": "Selecciona al menos un conjunto de caracteres"
+    },
+    "settings.title": {
+      "text": "Ajustes"
+    },
+    "settings.sub": {
+      "text": "Preferencias locales · solo este dispositivo"
+    },
+    "settings.appearance": {
+      "text": "Apariencia"
+    },
+    "settings.theme": {
+      "text": "Tema"
+    },
+    "settings.themeSub": {
+      "text": "Negro sobre blanco, o blanco sobre negro"
+    },
+    "settings.light": {
+      "text": "Claro"
+    },
+    "settings.dark": {
+      "text": "Oscuro"
+    },
+    "settings.language": {
+      "text": "Idioma"
+    },
+    "settings.languageSub": {
+      "text": "Idioma de la interfaz, con repliegue al inglés"
+    },
+    "settings.security": {
+      "text": "Seguridad"
+    },
+    "settings.autolock": {
+      "text": "Bloqueo automático por inactividad"
+    },
+    "settings.autolockSub": {
+      "text": "El material de clave se pone a cero en memoria"
+    },
+    "settings.clipboard": {
+      "text": "Borrar portapapeles tras copiar"
+    },
+    "settings.clipboardSub": {
+      "text": "Los secretos no permanecen en el portapapeles"
+    },
+    "settings.data": {
+      "text": "Datos"
+    },
+    "settings.export": {
+      "text": "Exportar bóveda"
+    },
+    "settings.exportSub": {
+      "text": "CSV en texto claro — maneja con cuidado"
+    },
+    "settings.exportBtn": {
+      "text": "Exportar CSV"
+    },
+    "settings.import": {
+      "text": "Importar CSV"
+    },
+    "settings.importSub": {
+      "text": "CSV genérico de inicios de sesión (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "Importar"
+    },
+    "settings.about": {
+      "text": "Acerca de"
+    },
+    "settings.note": {
+      "text": "Veyora es una vista previa experimental — no es un producto de seguridad auditado."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {# minuto} other {# minutos}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {# segundo} other {# segundos}}"
+    },
+    "about.version": {
+      "text": "Versión"
+    },
+    "about.versionValue": {
+      "text": "1.0.0-preview"
+    },
+    "about.kernel": {
+      "text": "Núcleo"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "Derivación de clave"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "Cifrado"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "Firmas"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "El servidor ve"
+    },
+    "about.serverSeesValue": {
+      "text": "solo texto cifrado"
+    },
+    "recovery.title": {
+      "text": "Kit de recuperación"
+    },
+    "recovery.sub": {
+      "text": "Base32 · con suma de verificación · sin conexión"
+    },
+    "recovery.warnHead": {
+      "text": "Crítico — guarda antes de cerrar"
+    },
+    "recovery.warnBody": {
+      "text": "Este kit puede descifrar tu bóveda sin la contraseña maestra. Quien lo tenga, tiene tus datos. Imprímelo o cópialo a mano, guárdalo sin conexión en un lugar seguro y nunca lo guardes en este dispositivo."
+    },
+    "recovery.copyKit": {
+      "text": "Copiar kit"
+    },
+    "recovery.regenerate": {
+      "text": "Generar nuevo"
+    },
+    "recovery.note": {
+      "text": "Perder tanto la contraseña maestra como este kit hace la bóveda irrecuperable por diseño — no existe vía de restablecimiento."
+    },
+    "toast.copied": {
+      "text": "Copiado · el portapapeles se borra en {seconds}s"
+    },
+    "toast.copyFail": {
+      "text": "Copiado falló en este contexto"
+    },
+    "toast.locked": {
+      "text": "Bóveda bloqueada — material de clave puesto a cero"
+    },
+    "toast.created": {
+      "text": "Elemento cifrado y guardado"
+    },
+    "toast.updated": {
+      "text": "Elemento recifrado · revisión {revision}"
+    },
+    "toast.deleted": {
+      "text": "Elemento eliminado · revisión de eliminación registrada"
+    },
+    "toast.kitRegen": {
+      "text": "Nuevo kit generado"
+    },
+    "toast.kitSkip": {
+      "text": "El kit sigue disponible en el icono de escudo de la barra superior"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {# elemento exportado} other {# elementos exportados}}"
+    },
+    "toast.importStub": {
+      "text": "Versión demo — la importación es un stub"
+    },
+    "toast.autolockSet": {
+      "text": "Bloqueo automático fijado en {n} min"
+    },
+    "toast.clipSet": {
+      "text": "El portapapeles se borrará tras {n}s"
+    }
+  }
+}
