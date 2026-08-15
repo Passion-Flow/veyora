@@ -57,11 +57,16 @@ UPSTREAM_IMAGES=(
 # Optional Docker Hub mirror prefix (see header notes).
 UPSTREAM_MIRROR="${UPSTREAM_MIRROR:-}"
 resolve_upstream() {
-  if [ -n "$UPSTREAM_MIRROR" ]; then
-    printf '%s/library/%s@%s\n' "$UPSTREAM_MIRROR" "${1%%@*}" "${1##*@}"
-  else
+  if [ -z "$UPSTREAM_MIRROR" ]; then
     printf '%s\n' "$1"
+    return
   fi
+  local repo="${1%%@*}" digest="${1##*@}"
+  case "$repo" in
+    # Namespaced upstreams keep their path; official images live under library/.
+    */*) printf '%s/%s@%s\n' "$UPSTREAM_MIRROR" "$repo" "$digest" ;;
+    *)   printf '%s/library/%s@%s\n' "$UPSTREAM_MIRROR" "$repo" "$digest" ;;
+  esac
 }
 
 for index in "${!FOUNDATIONS[@]}"; do
