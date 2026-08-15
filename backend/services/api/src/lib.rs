@@ -453,16 +453,36 @@ async fn metrics(State(state): State<AppState>) -> String {
     )
 }
 
+/// Query parameters for the record list endpoint.
+#[derive(Debug, Deserialize)]
+pub struct ListQuery {
+    /// `?embed=bodies` returns full record DTOs (including ciphertext) so
+    /// clients can hydrate a whole vault in one round trip instead of one
+    /// GET per record. Any other value returns summaries only.
+    pub embed: Option<String>,
+}
+
+/// List record summaries (metadata only), or full records with
+/// `?embed=bodies` for single-round-trip hydration.
 async fn list_records(
     State(state): State<AppState>,
-) -> Result<Json<Vec<RecordSummaryDto>>, ApiError> {
+    axum::extract::Query(query): axum::extract::Query<ListQuery>,
+) -> Result<axum::response::Response, ApiError> {
+    let embed_bodies = query.embed.as_deref() == Some("bodies");
+    if embed_bodies {
+        let records = state
+            .run(|store| store.list_bodies())
+            .await
+            .map_err(ApiError::from)?;
+        let dtos: Vec<RecordDto> = records.into_iter().map(RecordDto::from_record).collect();
+        return Ok(Json(dtos).into_response());
+    }
     let summaries = state
         .run(|store| store.list())
         .await
         .map_err(ApiError::from)?;
-    Ok(Json(
-        summaries.into_iter().map(RecordSummaryDto::from).collect(),
-    ))
+    let dtos: Vec<RecordSummaryDto> = summaries.into_iter().map(RecordSummaryDto::from).collect();
+    Ok(Json(dtos).into_response())
 }
 
 async fn get_record(
@@ -1312,6 +1332,60 @@ mod tests {
         assert!(!constant_time_eq("secret-token", "secret-tokeX"));
         assert!(!constant_time_eq("short", "longer-value"));
         assert!(constant_time_eq("", ""));
+    }
+
+    #[tokio::test]
+    async fn list_embed_bodies_returns_full_records_in_one_round_trip() {
+        let router = app_with_store();
+        let body = serde_json::to_vec(&dto("embed-aaaa", 1)).unwrap();
+        let _ = router
+            .clone()
+            .oneshot(
+                axum::http::Request::builder()
+                    .method("PUT")
+                    .uri("/records/embed-aaaa")
+                    .header("content-type", "application/json")
+                    .body(axum::body::Body::from(body))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        let response = router
+            .clone()
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records?embed=bodies")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::OK);
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let records: Vec<RecordDto> = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(records.len(), 1);
+        assert_eq!(records[0].record_id, "embed-aaaa");
+        assert_eq!(records[0].ciphertext, "a5".repeat(1040));
+
+        // Default listing stays summary-shaped (no ciphertext leak).
+        let summary_response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        let bytes = summary_response
+            .into_body()
+            .collect()
+            .await
+            .unwrap()
+            .to_bytes();
+        let value: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+        assert!(value[0].get("ciphertext").is_none());
     }
 
     #[tokio::test]

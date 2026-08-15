@@ -63,6 +63,8 @@ pub trait OpaqueStore: Send + Sync {
     ) -> Result<u64, StoreError>;
     fn get(&self, record_id: &str) -> Result<GenericEncryptedRecordV1, StoreError>;
     fn list(&self) -> Result<Vec<RecordSummary>, StoreError>;
+    /// Full-record listing for single-round-trip hydration (`?embed=bodies`).
+    fn list_bodies(&self) -> Result<Vec<GenericEncryptedRecordV1>, StoreError>;
     fn tombstone(&self, record_id: &str, expected_prior_revision: u64) -> Result<u64, StoreError>;
     /// Purge tombstoned records. Returns the count of records removed.
     /// The InMemoryStore always returns 0 (tombstones are retained for sync);
@@ -167,6 +169,13 @@ impl OpaqueStore for InMemoryStore {
         let mut summaries: Vec<RecordSummary> = rows.values().map(summary).collect();
         summaries.sort_by(|a, b| a.record_id.cmp(&b.record_id));
         Ok(summaries)
+    }
+
+    fn list_bodies(&self) -> Result<Vec<GenericEncryptedRecordV1>, StoreError> {
+        let rows = self.rows.lock().unwrap_or_else(PoisonError::into_inner);
+        let mut records: Vec<GenericEncryptedRecordV1> = rows.values().cloned().collect();
+        records.sort_by(|a, b| a.record_id.cmp(&b.record_id));
+        Ok(records)
     }
 
     fn tombstone(&self, record_id: &str, expected_prior_revision: u64) -> Result<u64, StoreError> {

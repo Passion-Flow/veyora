@@ -33,6 +33,11 @@ List all record summaries (opaque metadata only, no ciphertext).
 ]
 ```
 
+### `GET /records?embed=bodies`
+Single-round-trip hydration: returns full record DTOs (including ciphertext)
+instead of summaries, so a client can unlock a whole vault with one request
+instead of one GET per record. The response shape matches `GET /records/{id}`.
+
 ### `GET /records/{id}`
 Retrieve one opaque encrypted record (full ciphertext).
 ```json

@@ -89,7 +89,7 @@ function renderDashboardInner() {
               `<option value="${value}"${value === state.sort ? ' selected' : ''}>${t(key)}</option>`).join('')}
           </select>
         </div>
-        <div class="tablewrap">
+        <div class="tablewrap" id="tablewrap" tabindex="0" role="grid" aria-label="records">
           <div class="tgrid thead">
             <span class="micro col-item">${t('table.colItem')}</span>
             <span class="micro col-type">${t('table.colType')}</span>
@@ -302,7 +302,7 @@ export function renderTable() {
       || entry.host || t(`type.${entry.type}`);
     const loginCell = entry.username || SECRET_MASK;
     const selected = entry.id === state.selectedId && !state.detailView;
-    return `<div class="tgrid trow${selected ? ' on' : ''}" data-id="${entry.id}">
+    return `<div class="tgrid trow${selected ? ' on' : ''}" data-id="${entry.id}" tabindex="0">
       <div class="col-item">
         <span class="tile">${icon(type.icon, 14)}</span>
         <div style="min-width:0">

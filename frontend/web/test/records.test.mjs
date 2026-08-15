@@ -100,6 +100,7 @@ test('importCsv encrypts and batch-stores every row, all-or-nothing', async () =
   // ciphertext is taken from the batch request itself (sealed under the
   // same active root key).
   const responses = [
+    { body: [] }, // embed probe: server answers summaries-only (empty here)
     { body: [{ record_id: 'acme', ok: true, revision: 1, error: null }] },
     { body: [{ record_id: 'acme', revision: 1, tombstone: false }] },
     { replayBatchCiphertext: true },
@@ -150,12 +151,13 @@ test('changeMasterPassword re-keys everything and commits the new salt', async (
   // list → inventory GET → re-key PUT → final fetchAll list (empty, so the
   // post-change refresh needs no record GETs).
   stubFetch([
-    { body: [{ record_id: 'acme', revision: 5, tombstone: false }] },
-    { body: { record_id: 'acme', revision: 5, ciphertext: sealedHex } },
-    { body: [{ record_id: 'acme', revision: 5, tombstone: false }] },
-    { body: { record_id: 'acme', revision: 5, ciphertext: sealedHex } },
-    { body: { revision: 6 } },
-    { body: [] },
+    { body: [{ record_id: 'acme', revision: 5, ciphertext: sealedHex }] }, // verify list
+    { body: { record_id: 'acme', revision: 5, ciphertext: sealedHex } },   // verify GET
+    { body: [{ record_id: 'acme', revision: 5, ciphertext: sealedHex }] }, // inventory list
+    { body: { record_id: 'acme', revision: 5, ciphertext: sealedHex } },   // inventory GET
+    { body: { revision: 6 } },                                             // re-key PUT
+    { body: [] },                                                          // embed probe (final)
+    { body: [] },                                                          // summaries (final)
   ]);
   calls.length = 0;
   await recordSync.changeMasterPassword('old-password', 'brand-new-password');

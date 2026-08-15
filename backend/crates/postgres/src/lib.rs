@@ -254,6 +254,33 @@ impl OpaqueStore for PostgresStore {
             .collect())
     }
 
+    fn list_bodies(&self) -> Result<Vec<GenericEncryptedRecordV1>, StoreError> {
+        let mut client = self.pool.get()?;
+        let rows = client
+            .query(
+                "SELECT record_id, revision, protocol_version, suite_id, deployment_id, vault_id,                  ciphertext, ciphertext_hash, ciphertext_length, tombstone,                  template_envelope_hash, manifest_binding FROM records ORDER BY record_id",
+                &[],
+            )
+            .map_err(|_| StoreError::StoreUnavailable)?;
+        Ok(rows
+            .iter()
+            .map(|row| GenericEncryptedRecordV1 {
+                protocol_version: row.get::<_, i16>("protocol_version") as u16,
+                suite_id: row.get::<_, i16>("suite_id") as u16,
+                deployment_id: row.get("deployment_id"),
+                vault_id: row.get("vault_id"),
+                record_id: row.get("record_id"),
+                revision: row.get::<_, i64>("revision") as u64,
+                ciphertext: row.get("ciphertext"),
+                ciphertext_hash: row.get("ciphertext_hash"),
+                ciphertext_length: row.get::<_, i64>("ciphertext_length") as u64,
+                tombstone: row.get("tombstone"),
+                template_envelope_hash: row.get("template_envelope_hash"),
+                manifest_binding: row.get("manifest_binding"),
+            })
+            .collect())
+    }
+
     fn tombstone(&self, record_id: &str, expected_prior_revision: u64) -> Result<u64, StoreError> {
         let mut client = self.pool.get()?;
         let mut tx = client

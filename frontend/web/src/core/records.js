@@ -65,11 +65,21 @@ export const recordSync = {
     return vault.entries;
   },
 
-  /** Fetch summaries, verify the master password, then decrypt in parallel. */
+  /**
+   * Hydrate the vault. Prefers the single-round-trip `?embed=bodies` fast
+   * path when the server supports it, falling back to per-record GETs
+   * against older APIs. Verification (verifier record / first live record)
+   * runs before anything else so a wrong password fails fast.
+   */
   async fetchAll() {
+    const bodies = await apiFetch(`${API.paths.records}?embed=bodies`).catch(() => null);
+    if (Array.isArray(bodies) && bodies.length > 0 && bodies[0].ciphertext !== undefined) {
+      await this.verifyRootKey(bodies);
+      return bodies
+        .filter(dto => !dto.tombstone && !isReservedId(dto.record_id))
+        .map(dto => this.decrypt(dto));
+    }
     const summaries = await apiFetch(API.paths.records);
-    // The verifier (or the first live record, for pre-verifier vaults) is
-    // the password check: an AEAD failure here means a wrong master password.
     await this.verifyRootKey(summaries);
     const live = summaries.filter(summary => !summary.tombstone && !isReservedId(summary.record_id));
     const dtos = await Promise.all(
