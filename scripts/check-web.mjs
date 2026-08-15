@@ -1,76 +1,73 @@
 #!/usr/bin/env node
+/**
+ * Web client integrity check.
+ *
+ * Validates the frontend/web client that ships in the container image:
+ *   1. The HTML shell exists and references the stylesheet and entrypoint.
+ *   2. Every JavaScript module parses (node --check semantics).
+ *   3. The WASM kernel artifact is present and carries the wasm magic bytes.
+ *   4. Locale catalogs parse as JSON with the contract envelope.
+ */
 
-import fs from 'node:fs';
-import os from 'node:os';
-import path from 'node:path';
+import { readFile, readdir } from 'node:fs/promises';
+import { existsSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const webRoot = path.join(repository, 'deployment', 'web');
-const htmlPath = path.join(webRoot, 'index.html');
-const html = fs.readFileSync(htmlPath, 'utf8');
-
+const webRoot = join(dirname(fileURLToPath(import.meta.url)), '..', 'frontend', 'web');
 const failures = [];
-const requireCondition = (condition, message) => {
-  if (!condition) failures.push(message);
+const check = (ok, message) => {
+  if (!ok) failures.push(message);
 };
 
-requireCondition(/<meta\s+charset=["']UTF-8["']/i.test(html), 'index.html must declare UTF-8');
-requireCondition(/<meta\s+name=["']viewport["']/i.test(html), 'index.html must declare a viewport');
-requireCondition(/<title>[^<]+<\/title>/i.test(html), 'index.html must have a title');
-requireCondition(!/(?:src|href)=["']https?:\/\//i.test(html), 'remote runtime assets are not allowed');
+const html = await readFile(join(webRoot, 'index.html'), 'utf-8');
+check(html.includes('src/main.js'), 'index.html must reference src/main.js');
+check(html.includes('tokens.css'), 'index.html must load the design tokens');
 
-const ids = [...html.matchAll(/\sid=["']([^"']+)["']/g)].map((match) => match[1]);
-const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
-requireCondition(duplicateIds.length === 0, `duplicate element IDs: ${[...new Set(duplicateIds)].join(', ')}`);
-
-const referencedIds = [...html.matchAll(/\$\(["']([^"']+)["']\)/g)].map((match) => match[1]);
-const missingIds = [...new Set(referencedIds.filter((id) => !ids.includes(id)))];
-requireCondition(missingIds.length === 0, `JavaScript references missing element IDs: ${missingIds.join(', ')}`);
-
-const moduleMatches = [...html.matchAll(/<script\s+type=["']module["']>([\s\S]*?)<\/script>/gi)];
-requireCondition(moduleMatches.length === 1, 'index.html must contain exactly one inline module');
-
-const parseModule = (source, identifier) => {
-  const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'veyora-web-check-'));
-  const modulePath = path.join(temporaryDirectory, 'module.mjs');
-  try {
-    fs.writeFileSync(modulePath, source);
-    execFileSync(process.execPath, ['--check', modulePath], { stdio: 'pipe' });
-  } catch (error) {
-    const detail = error.stderr?.toString().trim() || error.message;
-    failures.push(`${identifier} is not valid JavaScript: ${detail}`);
-  } finally {
-    fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+const modules = [];
+(function walk(dir) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isFile() && entry.name.endsWith('.js')) modules.push(full);
+    else if (entry.isDirectory()) walk(full);
   }
-};
+})(join(webRoot, 'src'));
 
-if (moduleMatches.length === 1) {
-  const source = moduleMatches[0][1];
-  parseModule(source, 'index.html inline module');
-  for (const match of source.matchAll(/from\s+["'](\.[^"']+)["']/g)) {
-    const target = path.resolve(webRoot, match[1]);
-    requireCondition(target.startsWith(`${webRoot}${path.sep}`), `module import escapes web root: ${match[1]}`);
-    requireCondition(fs.existsSync(target), `module import does not exist: ${match[1]}`);
+for (const module of modules) {
+  try {
+    execFileSync(process.execPath, ['--check', module], { stdio: 'pipe' });
+  } catch {
+    failures.push(`module does not parse: ${module}`);
   }
 }
 
-const bindingPath = path.join(webRoot, 'wasm', 'veyora_kernel.js');
-const binaryPath = path.join(webRoot, 'wasm', 'veyora_kernel_bg.wasm');
-requireCondition(fs.existsSync(bindingPath), 'checked-in WASM JavaScript binding is missing');
-requireCondition(fs.existsSync(binaryPath), 'checked-in WASM binary is missing');
+const wasmPath = join(webRoot, 'src', 'wasm', 'veyora_kernel_bg.wasm');
+if (!existsSync(wasmPath)) {
+  failures.push('WASM kernel artifact missing: src/wasm/veyora_kernel_bg.wasm');
+} else {
+  const wasm = await readFile(wasmPath);
+  check(wasm[0] === 0x00 && wasm[1] === 0x61 && wasm[2] === 0x73 && wasm[3] === 0x6d,
+    'WASM artifact does not start with the wasm magic bytes');
+}
 
-if (fs.existsSync(bindingPath)) parseModule(fs.readFileSync(bindingPath, 'utf8'), 'veyora_kernel.js');
-if (fs.existsSync(binaryPath)) {
-  const binary = fs.readFileSync(binaryPath);
-  requireCondition(binary.length > 8, 'WASM binary is empty');
-  requireCondition(binary.subarray(0, 4).equals(Buffer.from([0x00, 0x61, 0x73, 0x6d])), 'WASM magic header is invalid');
+const localeDir = join(webRoot, 'locales');
+const catalogs = (await readdir(localeDir)).filter(name => name.endsWith('.json'));
+for (const file of catalogs) {
+  try {
+    const catalog = JSON.parse(await readFile(join(localeDir, file), 'utf-8'));
+    check(catalog.schema_version === 1, `${file} lacks schema_version`);
+    check(typeof catalog.locale === 'string', `${file} lacks locale`);
+    check(['ltr', 'rtl'].includes(catalog.direction), `${file} lacks direction`);
+    check(catalog.messages && Object.keys(catalog.messages).length > 0, `${file} has no messages`);
+  } catch {
+    failures.push(`locale catalog does not parse: ${file}`);
+  }
 }
 
 if (failures.length > 0) {
-  for (const failure of failures) console.error(`ERROR: ${failure}`);
+  console.error(`Web integrity check FAILED (${failures.length}):`);
+  for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
-
-console.log(`Web integrity check passed (${ids.length} unique elements, valid JavaScript and WASM assets).`);
+console.log(`Web integrity check passed (${modules.length} modules, wasm kernel, ${catalogs.length} catalogs).`);

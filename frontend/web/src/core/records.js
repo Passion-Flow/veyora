@@ -9,7 +9,7 @@
 import { API, PROTOCOL } from '../config.js';
 import { kernel, toHex, fromHex, randomHex } from './kernel.js';
 import { vault } from './vault.js';
-import { parseLoginCsv } from '../data/csv.js';
+import { parseLoginCsv, typeFromTagsJson } from '../data/csv.js';
 
 /**
  * Password verifier: a reserved record whose plaintext is a fixed constant.
@@ -113,7 +113,8 @@ export const recordSync = {
       const plaintext = JSON.stringify({
         _imported: true, seq: index,
         name: row.name, website: row.website, username: row.username,
-        secret: row.secret, notes: row.notes, type: 'login',
+        secret: row.secret, notes: row.notes,
+        type: typeFromTagsJson(row.tagsJson),
       });
       return this.sealAsDto(row.id, plaintext, 1);
     }));

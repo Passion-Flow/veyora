@@ -4,7 +4,7 @@
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseLoginCsv, CSV_ERRORS } from '../src/data/csv.js';
+import { parseLoginCsv, exportLoginCsv, typeFromTagsJson, CSV_ERRORS } from '../src/data/csv.js';
 
 const HEADER = 'name,website,username,password,notes,tags_json';
 
@@ -13,7 +13,7 @@ test('parses plain rows and maps contract columns', () => {
   assert.equal(rows.length, 1);
   assert.deepEqual(rows[0], {
     id: 'github', name: 'GitHub', website: 'https://github.com',
-    username: 'me@example.com', secret: 'secret1', notes: '',
+    username: 'me@example.com', secret: 'secret1', notes: '', tagsJson: '[]',
   });
 });
 
@@ -56,4 +56,28 @@ test('empty trailing lines and whitespace-only rows are tolerated', () => {
   const { rows } = parseLoginCsv(`${HEADER}\nSolo,https://s,u,pw,,[]\n\n\n`);
   assert.equal(rows.length, 1);
   assert.equal(rows[0].id, 'solo');
+});
+
+test('export serializes contract CSV and round-trips through import', () => {
+  const entries = [
+    { name: 'Acme, Inc.', website: 'https://acme', username: 'u"q"', secret: 'p,w', notes: 'n1', type: 'login' },
+    { name: 'Runbook', secret: 'multi\nline', notes: '', type: 'note' },
+  ];
+  const csv = exportLoginCsv(entries);
+  const { rows } = parseLoginCsv(csv, []);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].name, 'Acme, Inc.');
+  assert.equal(rows[0].secret, 'p,w');
+  assert.equal(rows[0].username, 'u"q"');
+  assert.equal(typeFromTagsJson(rows[1].tagsJson), 'note');
+  assert.equal(typeFromTagsJson(rows[0].tagsJson), 'login');
+  assert.equal(typeFromTagsJson('not json'), 'login');
+});
+
+test('export escapes quotes, commas, and newlines per RFC-4180', () => {
+  const csv = exportLoginCsv([{ name: 'A"B', username: 'x,y', secret: 's', notes: 'l1\nl2', type: 'login' }]);
+  const { rows } = parseLoginCsv(csv, []);
+  assert.equal(rows[0].name, 'A"B');
+  assert.equal(rows[0].username, 'x,y');
+  assert.equal(rows[0].notes, 'l1\nl2');
 });

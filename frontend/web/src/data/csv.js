@@ -78,7 +78,45 @@ function splitRecords(text) {
 }
 
 /**
- * Parse and validate a generic login CSV export.
+ * Serialize vault entries back into the contract CSV format.
+ *
+ * Every entry type is preserved: the interchange columns carry login-shaped
+ * data, and the entry type rides in `tags_json` (a JSON string array) so an
+ * export can be re-imported losslessly.
+ */
+export function exportLoginCsv(entries) {
+  const quote = (value) => {
+    const text = String(value ?? '');
+    return /[",\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  };
+  const lines = [EXPECTED_HEADER.join(',')];
+  for (const entry of entries) {
+    const tags = JSON.stringify(entry.type && entry.type !== 'login' ? [`type:${entry.type}`] : []);
+    const columns = [
+      entry.name,
+      entry.website || '',
+      entry.username || '',
+      entry.secret || '',
+      entry.notes || '',
+      tags,
+    ];
+    lines.push(columns.map(quote).join(','));
+  }
+  return lines.join('\r\n') + '\r\n';
+}
+
+/** Type carried through `tags_json`, or 'login' by default. */
+export function typeFromTagsJson(tagsJson) {
+  try {
+    const tags = JSON.parse(tagsJson || '[]');
+    const typed = Array.isArray(tags) ? tags.find(tag => typeof tag === 'string' && tag.startsWith('type:')) : null;
+    return typed ? typed.slice('type:'.length) : 'login';
+  } catch {
+    return 'login';
+  }
+}
+/**
+ * Parse and validate a generic login CSV document.
  *
  * @param {string} text raw file contents
  * @param {Iterable<string>} existingIds record ids already in the vault
@@ -114,7 +152,7 @@ export function parseLoginCsv(text, existingIds = []) {
       throw Object.assign(new Error(`duplicate derived id ${id}`), { code: CSV_ERRORS.duplicateId });
     }
     seen.add(id);
-    rows.push({ id, name, website, username, secret: password, notes });
+    rows.push({ id, name, website, username, secret: password, notes, tagsJson: fields[5] });
   }
   return { rows };
 }

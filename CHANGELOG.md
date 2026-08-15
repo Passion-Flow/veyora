@@ -13,6 +13,35 @@ process is established.
 - English-first project documentation and multilingual translation gateway
 - Public repository integrity checks and simplified continuous integration
 - Localhost-only default port publishing for the Compose preview
+- Monochrome web client (`frontend/web`): framework-free ES modules, design
+  tokens, full i18n (10 locales with RTL and ICU plurals), dashboard with
+  drawer detail, error boundaries, and accessibility semantics
+- Real security-kernel integration in the browser: Argon2id derivation,
+  XChaCha20-Poly1305 seal/open, checksummed recovery kits, CAS record sync
+- Password verifier record: even an empty vault rejects a wrong master
+  password
+- Generic login CSV import/export per the interchange contract, with the
+  entry type riding in `tags_json` for lossless round trips
+- Master-password rotation: verifies the current password, re-keys every
+  record under a fresh salt, and best-effort-rolls-back on mid-flight
+  server failures
+- Localized JSON error envelopes negotiated from `Accept-Language`
+  (Content-Language/Vary headers) across the API surface
+- Content-Security-Policy on the web container, live request metrics,
+  constant-time bearer-token comparison
+- Web client unit tests (Node `--test`, 34 cases incl. real-WASM kernel
+  and CSV contract suites) wired into CI alongside the locale checker
+
+### Changed
+
+- Web container packages `frontend/web`; the legacy single-file client has
+  been removed and `make run-web` / `make build-wasm` target the new client
+
+### Fixed
+
+- Unlock distinguishes connectivity failures from wrong-password failures
+- Editing or favoriting an entry refreshes its updated timestamp
+- Render failures keep the last good DOM instead of a blank screen
 
 ### Changed
 

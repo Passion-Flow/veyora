@@ -153,11 +153,11 @@ function renderDashboardInner() {
                 <span class="len-val" id="gen-len-val">${state.gen.len}</span>
               </div>
             </div>
-            <div class="gen-opt"><label>${t('gen.upper')}</label><span class="chk on" id="gen-upper" role="checkbox" aria-checked="true" tabindex="0"></span></div>
-            <div class="gen-opt"><label>${t('gen.lower')}</label><span class="chk on" id="gen-lower" role="checkbox" aria-checked="true" tabindex="0"></span></div>
-            <div class="gen-opt"><label>${t('gen.digits')}</label><span class="chk on" id="gen-digit" role="checkbox" aria-checked="true" tabindex="0"></span></div>
-            <div class="gen-opt"><label>${t('gen.symbols')}</label><span class="chk on" id="gen-sym" role="checkbox" aria-checked="true" tabindex="0"></span></div>
-            <div class="gen-opt"><label>${t('gen.ambiguous')}</label><span class="chk on" id="gen-amb" role="checkbox" aria-checked="true" tabindex="0"></span></div>
+            <div class="gen-opt"><label>${t('gen.upper')}</label><span class="chk${state.gen.upper ? ' on' : ''}" id="gen-upper" role="checkbox" aria-checked="${String(state.gen.upper)}" tabindex="0"></span></div>
+            <div class="gen-opt"><label>${t('gen.lower')}</label><span class="chk${state.gen.lower ? ' on' : ''}" id="gen-lower" role="checkbox" aria-checked="${String(state.gen.lower)}" tabindex="0"></span></div>
+            <div class="gen-opt"><label>${t('gen.digits')}</label><span class="chk${state.gen.digit ? ' on' : ''}" id="gen-digit" role="checkbox" aria-checked="${String(state.gen.digit)}" tabindex="0"></span></div>
+            <div class="gen-opt"><label>${t('gen.symbols')}</label><span class="chk${state.gen.sym ? ' on' : ''}" id="gen-sym" role="checkbox" aria-checked="${String(state.gen.sym)}" tabindex="0"></span></div>
+            <div class="gen-opt"><label>${t('gen.ambiguous')}</label><span class="chk${state.gen.amb ? ' on' : ''}" id="gen-amb" role="checkbox" aria-checked="${String(state.gen.amb)}" tabindex="0"></span></div>
           </div>
           <div class="modal-foot">
             <button class="btn" id="gen-copy">${icon('copy', 14)}${t('common.copy')}</button>

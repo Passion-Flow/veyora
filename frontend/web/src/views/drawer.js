@@ -10,6 +10,7 @@ import { $, esc, toast, copyWithTimeout, downloadText, guardRender } from '../co
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES, detailFields } from '../data/schema.js';
+import { exportLoginCsv } from '../data/csv.js';
 import { STORAGE_KEYS, SECURITY, TIMING, DATA_EXPORT, APP } from '../config.js';
 import { recordSync } from '../core/records.js';
 import { storage } from '../core/storage.js';
@@ -412,11 +413,9 @@ function applyTheme(theme) {
 }
 
 function exportCsv() {
-  const rows = [DATA_EXPORT.columns, ...vault.entries.map(entry => [
-    entry.name, t(`type.${entry.type}`), entry.username || '', entry.secret || '',
-  ])];
-  const csv = rows.map(row =>
-    row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(DATA_EXPORT.delimiter)).join('\n');
+  // Contract format (generic-login-csv-v1): exports re-import losslessly,
+  // with the entry type riding in tags_json.
+  const csv = exportLoginCsv(vault.entries);
   downloadText(DATA_EXPORT.filename, csv, 'text/csv');
   toast(t('toast.exported', { count: vault.entries.length }), 'download');
 }

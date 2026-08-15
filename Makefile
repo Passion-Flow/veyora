@@ -28,7 +28,7 @@ build: ## Build all backend services
 
 build-wasm: ## Build the WebAssembly kernel for the web client
 	cd security-kernel && cargo build --locked --target wasm32-unknown-unknown --lib -p kernel-wasm --release
-	wasm-bindgen --target web --out-dir deployment/web/wasm \
+	wasm-bindgen --target web --out-dir frontend/web/src/wasm \
 		--out-name veyora_kernel \
 		security-kernel/target/wasm32-unknown-unknown/release/kernel_wasm.wasm
 
