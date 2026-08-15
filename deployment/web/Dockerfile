@@ -1,8 +1,13 @@
+# Static web client image — packages the frontend/web client.
+# Build context must be the repository root so both the client sources and
+# the deployment-owned nginx configuration are available:
+#   docker build -f deployment/web/Dockerfile .
 ARG NGINX_IMAGE=nginx:1.29.5-alpine
 FROM ${NGINX_IMAGE}
-COPY index.html /usr/share/nginx/html/
-COPY wasm/ /usr/share/nginx/html/wasm/
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY frontend/web/index.html /usr/share/nginx/html/
+COPY frontend/web/src/ /usr/share/nginx/html/src/
+COPY frontend/web/locales/ /usr/share/nginx/html/locales/
+COPY deployment/web/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 # Configuration is rendered from environment variables at container start and
 # every variable is REQUIRED (fail fast, no defaults). VEYORA_API_BASE_URL is

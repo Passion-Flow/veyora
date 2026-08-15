@@ -10,6 +10,11 @@
 # Registry-neutral override:
 #   REGISTRY=ghcr.io NAMESPACE=your-account VERSION=v1.0.0 ./scripts/build-and-push.sh
 #
+# Networks without direct Docker Hub access can route the pinned upstream
+# foundations through a trustworthy mirror. Digests are content-addressed,
+# so a mirror yields byte-identical images:
+#   UPSTREAM_MIRROR=docker.m.daocloud.io ./scripts/build-and-push.sh
+#
 # Prerequisites:
 #   docker buildx (included in Docker 19.03+)
 #   docker login to the target registry
@@ -49,9 +54,19 @@ UPSTREAM_IMAGES=(
   "debian:bookworm-slim@sha256:abd67ffcfa541b485a3dff59865ab629aa048a6c613e639d36e7456b0b229241"
 )
 
+# Optional Docker Hub mirror prefix (see header notes).
+UPSTREAM_MIRROR="${UPSTREAM_MIRROR:-}"
+resolve_upstream() {
+  if [ -n "$UPSTREAM_MIRROR" ]; then
+    printf '%s/library/%s@%s\n' "$UPSTREAM_MIRROR" "${1%%@*}" "${1##*@}"
+  else
+    printf '%s\n' "$1"
+  fi
+}
+
 for index in "${!FOUNDATIONS[@]}"; do
   foundation="${FOUNDATIONS[$index]}"
-  upstream="${UPSTREAM_IMAGES[$index]}"
+  upstream="$(resolve_upstream "${UPSTREAM_IMAGES[$index]}")"
   image="$REGISTRY/$NAMESPACE/veyora-$foundation:$VERSION"
   echo ""
   echo "=== Mirroring $upstream -> $image ==="
@@ -96,7 +111,7 @@ docker buildx build \
   --tag "$WEB_IMAGE" \
   -f deployment/web/Dockerfile \
   --push \
-  deployment/web/
+  .
 echo "  ✓ Pushed $WEB_IMAGE"
 
 # --- Gateway (Envoy) ---
