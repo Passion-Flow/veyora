@@ -11,7 +11,7 @@
  * shell revalidates so deploys are picked up on the next visit.
  */
 
-const CACHE_NAME = 'veyora-v1';
+const CACHE_NAME = 'veyora-v2';
 const PRECACHE = [
   '/',
   '/index.html',
