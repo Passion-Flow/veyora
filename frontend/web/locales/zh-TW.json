@@ -670,6 +670,22 @@
       "plural": {
         "other": "已匯入 # 筆條目"
       }
+    },
+    "health.reused": {
+      "text": "密碼已復用"
+    },
+    "health.stale": {
+      "text": "密碼已過期"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "other": "{count} 個復用"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "other": "{count} 個過期"
+      }
     }
   }
 }

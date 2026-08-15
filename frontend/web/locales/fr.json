@@ -671,6 +671,24 @@
         "one": "# élément importé",
         "other": "# éléments importés"
       }
+    },
+    "health.reused": {
+      "text": "Mot de passe réutilisé"
+    },
+    "health.stale": {
+      "text": "Mot de passe périmé"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} réutilisé",
+        "other": "{count} réutilisés"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} périmé",
+        "other": "{count} périmés"
+      }
     }
   }
 }

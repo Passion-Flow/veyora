@@ -670,6 +670,22 @@
       "plural": {
         "other": "# 件の項目をインポートしました"
       }
+    },
+    "health.reused": {
+      "text": "パスワード再利用"
+    },
+    "health.stale": {
+      "text": "パスワードが古い"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "other": "{count} 件再利用"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "other": "{count} 件古い"
+      }
     }
   }
 }

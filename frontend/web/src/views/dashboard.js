@@ -8,6 +8,8 @@ import { $, esc, guardRender } from '../core/ui.js';
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES } from '../data/schema.js';
+import { analyzePasswordHealth } from '../data/health.js';
+import { formatNumber } from '../i18n/index.js';
 import { GENERATOR, TIMING } from '../config.js';
 import { recordSync } from '../core/records.js';
 import { t as translate } from '../i18n/index.js';
@@ -283,10 +285,18 @@ export function renderTabs() {
 /** Render the record table body and the toolbar title. */
 export function renderTable() {
   const list = visibleEntries();
+  const health = analyzePasswordHealth(vault.entries);
   const navLabelKey = state.nav === 'all' ? 'nav.all'
     : state.nav === 'favorites' ? 'nav.favorites'
     : `type.${state.nav}.plural`;
-  $('#table-title').textContent = `${t(navLabelKey)} · ${t('table.count', { count: list.length })}`;
+  let titleText = `${t(navLabelKey)} · ${t('table.count', { count: list.length })}`;
+  if (health.reusedIds.size > 0 || health.staleIds.size > 0) {
+    const parts = [];
+    if (health.reusedIds.size > 0) parts.push(t('health.reusedCount', { count: health.reusedIds.size }));
+    if (health.staleIds.size > 0) parts.push(t('health.staleCount', { count: health.staleIds.size }));
+    titleText += ` · ${parts.join(' · ')}`;
+  }
+  $('#table-title').textContent = titleText;
   const body = $('#table-body');
   if (!list.length) {
     body.innerHTML = `<div class="table-empty"><div class="big">${t('table.emptyTitle')}</div><div>${
@@ -302,11 +312,14 @@ export function renderTable() {
       || entry.host || t(`type.${entry.type}`);
     const loginCell = entry.username || SECRET_MASK;
     const selected = entry.id === state.selectedId && !state.detailView;
+    const badges = [];
+    if (health.reusedIds.has(entry.id)) badges.push(`<span class="badge-warn" title="${t('health.reused')}">${icon('alert', 10)}</span>`);
+    if (health.staleIds.has(entry.id)) badges.push(`<span class="badge-stale" title="${t('health.stale')}">${icon('clock', 10)}</span>`);
     return `<div class="tgrid trow${selected ? ' on' : ''}" data-id="${entry.id}" tabindex="0">
       <div class="col-item">
         <span class="tile">${icon(type.icon, 14)}</span>
         <div style="min-width:0">
-          <div class="tn">${esc(entry.name)}${entry.favorite ? ' ' + icon('starFill', 12) : ''}</div>
+          <div class="tn">${esc(entry.name)}${entry.favorite ? ' ' + icon('starFill', 12) : ''}${badges.join('')}</div>
           <div class="ts">${esc(subtitle)}</div>
         </div>
       </div>

@@ -671,6 +671,24 @@
         "one": "# entry imported",
         "other": "# entries imported"
       }
+    },
+    "health.reused": {
+      "text": "Reused password"
+    },
+    "health.stale": {
+      "text": "Password is stale"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} reused",
+        "other": "{count} reused"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} stale",
+        "other": "{count} stale"
+      }
     }
   }
 }

@@ -673,6 +673,28 @@
         "many": "импортировано # записей",
         "other": "импортировано # записей"
       }
+    },
+    "health.reused": {
+      "text": "Повторяющийся пароль"
+    },
+    "health.stale": {
+      "text": "Устаревший пароль"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} повтор",
+        "few": "{count} повтора",
+        "many": "{count} повторов",
+        "other": "{count} повторов"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} устарел",
+        "few": "{count} устарели",
+        "many": "{count} устарели",
+        "other": "{count} устарели"
+      }
     }
   }
 }

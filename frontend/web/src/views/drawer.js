@@ -10,6 +10,8 @@ import { $, esc, toast, copyWithTimeout, downloadText, guardRender } from '../co
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES, detailFields } from '../data/schema.js';
+import { analyzePasswordHealth, ageLabel } from '../data/health.js';
+import { formatNumber } from '../i18n/index.js';
 import { exportLoginCsv } from '../data/csv.js';
 import { STORAGE_KEYS, SECURITY, TIMING, DATA_EXPORT, APP } from '../config.js';
 import { recordSync } from '../core/records.js';
@@ -109,7 +111,7 @@ function entryHtml(entry) {
         <div class="d-title">${esc(entry.name)}</div>
         <div class="d-meta">${t(`type.${entry.type}`)} · ${t('drawer.meta', {
           date: formatDate(entry.updated), revision: entry.revision,
-        })}${entry.favorite ? ' · ' + t('drawer.favoriteMark') : ''}</div>
+        })}${entry.favorite ? ' · ' + t('drawer.favoriteMark') : ''}${healthBadge(entry)}</div>
       </div>
     </div>
     <div class="d-actions">

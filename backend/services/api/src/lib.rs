@@ -42,6 +42,14 @@ pub struct Config {
     pub auth_mode: AuthMode,
     /// Request body ceiling in bytes (`VEYORA_API_MAX_BODY_BYTES`).
     pub max_body_bytes: usize,
+    /// CORS allowlist (`VEYORA_API_CORS_ORIGINS`, comma-separated; empty
+    /// keeps the permissive `*` for development). Setting any origin
+    /// removes the wildcard, which is required in authenticated
+    /// deployments (OWASP API6:2023).
+    pub cors_origins: Vec<String>,
+    /// Maximum requests per minute per client IP (`VEYORA_API_RATE_LIMIT`).
+    /// Zero disables rate limiting (development default).
+    pub rate_limit_per_minute: usize,
 }
 
 impl Config {
@@ -74,6 +82,25 @@ impl Config {
                 AuthMode::Disabled
             }
         };
+        let cors_origins = std::env::var("VEYORA_API_CORS_ORIGINS")
+            .unwrap_or_default()
+            .split(',')
+            .map(str::trim)
+            .filter(|origin| !origin.is_empty())
+            .map(str::to_string)
+            .collect();
+        let rate_limit_per_minute = match std::env::var("VEYORA_API_RATE_LIMIT") {
+            Ok(raw) => match raw.parse::<usize>() {
+                Ok(n) => n,
+                Err(_) => {
+                    problems.push(format!(
+                        "VEYORA_API_RATE_LIMIT must be a non-negative integer (got {raw:?})"
+                    ));
+                    0
+                }
+            },
+            Err(_) => 0, // Optional: zero disables rate limiting
+        };
         let max_body_bytes = match std::env::var("VEYORA_API_MAX_BODY_BYTES") {
             Ok(raw) => match raw.parse::<usize>() {
                 Ok(n) if n > 0 => n,
@@ -94,6 +121,8 @@ impl Config {
                 bind,
                 auth_mode,
                 max_body_bytes,
+                cors_origins,
+                rate_limit_per_minute,
             })
         } else {
             Err(problems)
@@ -105,6 +134,7 @@ impl Config {
 pub struct AppState {
     store: Arc<dyn OpaqueStore>,
     metrics: Arc<RequestMetrics>,
+    rate_limiter: Arc<RateLimiter>,
     config: Config,
 }
 
@@ -152,6 +182,7 @@ impl AppState {
         Self {
             store,
             metrics: Arc::new(RequestMetrics::new()),
+            rate_limiter: Arc::new(RateLimiter::new(config.rate_limit_per_minute)),
             config,
         }
     }
@@ -198,13 +229,20 @@ pub fn app(state: AppState) -> Router {
             state.clone(),
             request_log_middleware,
         ))
-        .layer(axum::middleware::from_fn(cors_middleware))
+        .layer(axum::middleware::from_fn_with_state(
+            state.clone(),
+            cors_middleware,
+        ))
         .layer(axum::middleware::from_fn_with_state(
             state.clone(),
             auth_middleware,
         ))
-        // Outermost layer: rewrites error envelopes per Accept-Language.
+        // Outermost: rate limiting, then error localization.
         .layer(axum::middleware::from_fn(localize_error_middleware))
+        .layer(axum::middleware::from_fn_with_state(
+            state.clone(),
+            rate_limit_middleware,
+        ))
         .with_state(state)
 }
 
@@ -359,6 +397,7 @@ pub struct BatchResult {
 /// Minimal CORS middleware for development: allows all origins/methods/headers.
 /// Production uses an Envoy gateway that enforces strict CSP/origin policy.
 async fn cors_middleware(
+    State(state): State<AppState>,
     req: axum::extract::Request,
     next: axum::middleware::Next,
 ) -> axum::response::Response {
@@ -372,9 +411,18 @@ async fn cors_middleware(
             .body(axum::body::Body::empty())
             .unwrap();
     }
+    let origin = req
+        .headers()
+        .get(axum::http::header::ORIGIN)
+        .and_then(|v| v.to_str().ok())
+        .map(str::to_string);
+    let allowed = cors_allow_origin(&state.config.cors_origins, origin.as_deref());
     let mut response = next.run(req).await;
     let headers = response.headers_mut();
-    headers.insert("access-control-allow-origin", "*".parse().unwrap());
+    if let Some(value) = allowed {
+        headers.insert("access-control-allow-origin", value.parse().unwrap());
+        headers.insert("vary", "Origin".parse().unwrap());
+    }
     headers.insert(
         "access-control-allow-methods",
         "GET, PUT, DELETE, OPTIONS".parse().unwrap(),
@@ -384,6 +432,20 @@ async fn cors_middleware(
         "content-type".parse().unwrap(),
     );
     response
+}
+
+/// Resolve the `Access-Control-Allow-Origin` header from the configured
+/// allowlist. An empty allowlist keeps the development wildcard `*`.
+fn cors_allow_origin(origins: &[String], request_origin: Option<&str>) -> Option<String> {
+    if origins.is_empty() {
+        return Some("*".to_string());
+    }
+    let request = request_origin?;
+    if origins.iter().any(|allowed| allowed == request) {
+        Some(request.to_string())
+    } else {
+        None
+    }
 }
 
 async fn health() -> StatusCode {
@@ -686,6 +748,82 @@ impl IntoResponse for ApiError {
     }
 }
 
+/// Fixed-window per-IP request counter for rate limiting.
+///
+/// Basis: NIST SP 800-63B §5.2.2 requires throttling on authentication
+/// interfaces; OWASP API4:2023 (Unrestricted Resource Consumption)
+/// recommends per-client quotas. The fixed window is O(1) memory per IP
+/// and resets each minute, which is adequate for API gateways that also
+/// run Envoy-level controls in production.
+struct RateLimiter {
+    limit: usize,
+    windows: std::sync::Mutex<std::collections::HashMap<String, (u64, u64)>>,
+}
+
+impl RateLimiter {
+    fn new(limit: usize) -> Self {
+        Self {
+            limit,
+            windows: std::sync::Mutex::new(std::collections::HashMap::new()),
+        }
+    }
+
+    /// Returns true when the request is allowed; advances the counter.
+    fn allow(&self, key: &str) -> bool {
+        if self.limit == 0 {
+            return true;
+        }
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs();
+        let minute = now / 60;
+        let mut windows = self.windows.lock().unwrap_or_else(|p| p.into_inner());
+        let entry = windows.entry(key.to_string()).or_insert((minute, 0));
+        if entry.0 != minute {
+            *entry = (minute, 0);
+        }
+        entry.1 += 1;
+        entry.1 <= self.limit as u64
+    }
+}
+
+/// Per-IP rate limiting middleware (429 + Retry-After on breach).
+async fn rate_limit_middleware(
+    State(state): State<AppState>,
+    req: axum::extract::Request,
+    next: axum::middleware::Next,
+) -> axum::response::Response {
+    if state.config.rate_limit_per_minute > 0 {
+        let ip = req
+            .headers()
+            .get("x-forwarded-for")
+            .and_then(|v| v.to_str().ok())
+            .and_then(|v| v.split(',').next())
+            .map(str::trim)
+            .map(str::to_string)
+            .or_else(|| {
+                req.headers()
+                    .get("x-real-ip")
+                    .and_then(|v| v.to_str().ok())
+                    .map(str::to_string)
+            })
+            .unwrap_or_else(|| "unknown".to_string());
+        if !state.rate_limiter.allow(&ip) {
+            let mut response = error_response(
+                StatusCode::TOO_MANY_REQUESTS,
+                "PM-API-RATE-LIMITED",
+                error_catalog::FALLBACK_LOCALE,
+            );
+            response
+                .headers_mut()
+                .insert("retry-after", "60".parse().unwrap());
+            return response;
+        }
+    }
+    next.run(req).await
+}
+
 /// Error bodies are at most a few hundred bytes; the guard only bounds the
 /// buffering of bodies this middleware itself produced.
 const ERROR_BODY_BUFFER_LIMIT: usize = 8 * 1024;
@@ -794,6 +932,8 @@ mod tests {
                 bind: "127.0.0.1:0".to_string(),
                 auth_mode: AuthMode::Disabled,
                 max_body_bytes: 256 * 1024,
+                cors_origins: Vec::new(),
+                rate_limit_per_minute: 0,
             },
         ))
     }
@@ -1256,6 +1396,8 @@ mod tests {
                 bind: "127.0.0.1:0".to_string(),
                 auth_mode: AuthMode::BearerToken("test-token".to_string()),
                 max_body_bytes: 256 * 1024,
+                cors_origins: Vec::new(),
+                rate_limit_per_minute: 0,
             },
         ));
         let response = router
@@ -1386,6 +1528,98 @@ mod tests {
             .to_bytes();
         let value: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
         assert!(value[0].get("ciphertext").is_none());
+    }
+
+    #[tokio::test]
+    async fn rate_limit_blocks_after_threshold() {
+        let router = app(AppState::new(
+            Arc::new(InMemoryStore::new()),
+            Config {
+                bind: "127.0.0.1:0".to_string(),
+                auth_mode: AuthMode::Disabled,
+                max_body_bytes: 256 * 1024,
+                cors_origins: Vec::new(),
+                rate_limit_per_minute: 3,
+            },
+        ));
+        // Three requests pass, the fourth is blocked with 429.
+        for i in 0..3 {
+            let response = router
+                .clone()
+                .oneshot(
+                    axum::http::Request::builder()
+                        .uri("/healthz")
+                        .body(axum::body::Body::empty())
+                        .unwrap(),
+                )
+                .await
+                .unwrap();
+            assert_eq!(response.status(), StatusCode::OK, "request {i} should pass");
+        }
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/healthz")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+        assert_eq!(response.headers().get("retry-after").unwrap(), "60");
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(body.error.code, "PM-API-RATE-LIMITED");
+    }
+
+    #[tokio::test]
+    async fn cors_allowlist_restricts_origins() {
+        let router = app(AppState::new(
+            Arc::new(InMemoryStore::new()),
+            Config {
+                bind: "127.0.0.1:0".to_string(),
+                auth_mode: AuthMode::Disabled,
+                max_body_bytes: 256 * 1024,
+                cors_origins: vec!["https://vault.example.com".to_string()],
+                rate_limit_per_minute: 0,
+            },
+        ));
+        // Allowed origin echoes back.
+        let response = router
+            .clone()
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records")
+                    .header("origin", "https://vault.example.com")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(
+            response
+                .headers()
+                .get("access-control-allow-origin")
+                .unwrap(),
+            "https://vault.example.com"
+        );
+        // Unknown origin gets no CORS header at all.
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records")
+                    .header("origin", "https://evil.example.net")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert!(
+            response
+                .headers()
+                .get("access-control-allow-origin")
+                .is_none()
+        );
     }
 
     #[tokio::test]

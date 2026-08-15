@@ -674,6 +674,24 @@
         "many": "تم استيراد # عنصرًا",
         "other": "تم استيراد # عنصر"
       }
+    },
+    "health.reused": {
+      "text": "كلمة مرور معاد استخدامها"
+    },
+    "health.stale": {
+      "text": "كلمة مرور قديمة"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} معاد",
+        "other": "{count} معاد"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} قديم",
+        "other": "{count} قديم"
+      }
     }
   }
 }

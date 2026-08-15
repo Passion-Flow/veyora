@@ -32,6 +32,11 @@
       document.body.appendChild(el);
     });
   </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(function() {});
+    }
+  </script>
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>

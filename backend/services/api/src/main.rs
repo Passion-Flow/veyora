@@ -47,6 +47,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 bind: String::new(),
                 auth_mode: AuthMode::Disabled,
                 max_body_bytes: 0,
+                cors_origins: Vec::new(),
+                rate_limit_per_minute: 0,
             }
         }
     };

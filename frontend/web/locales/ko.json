@@ -670,6 +670,22 @@
       "plural": {
         "other": "항목 #개를 가져왔습니다"
       }
+    },
+    "health.reused": {
+      "text": "비밀번호 재사용"
+    },
+    "health.stale": {
+      "text": "비밀번호가 오래됨"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "other": "{count}개 재사용"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "other": "{count}개 오래됨"
+      }
     }
   }
 }

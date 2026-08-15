@@ -78,6 +78,8 @@ async fn real_kernel_record_round_trips_opaque_through_the_api() {
             bind: "127.0.0.1:0".to_string(),
             auth_mode: AuthMode::Disabled,
             max_body_bytes: 256 * 1024,
+            cors_origins: Vec::new(),
+            rate_limit_per_minute: 0,
         },
     ));
 

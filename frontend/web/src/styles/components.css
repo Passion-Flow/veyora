@@ -500,3 +500,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;background:var(--fi
 [dir="rtl"] .tb-actions{margin-left:0;margin-right:auto}
 [dir="rtl"] .d-copy{margin-left:0;margin-right:6px}
 .hidden{display:none!important}
+
+/* ---------- password health badges ---------- */
+.badge-warn,.badge-stale{display:inline-flex;align-items:center;margin-left:4px}
+.badge-warn{color:var(--ink)}
+.badge-stale{color:var(--ink-3)}

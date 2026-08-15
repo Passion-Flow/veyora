@@ -671,6 +671,24 @@
         "one": "# elemento importado",
         "other": "# elementos importados"
       }
+    },
+    "health.reused": {
+      "text": "Contraseña reutilizada"
+    },
+    "health.stale": {
+      "text": "Contraseña antigua"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} reutilizada",
+        "other": "{count} reutilizadas"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} antigua",
+        "other": "{count} antiguas"
+      }
     }
   }
 }

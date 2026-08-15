@@ -671,6 +671,24 @@
         "one": "# Eintrag importiert",
         "other": "# Einträge importiert"
       }
+    },
+    "health.reused": {
+      "text": "Wiederverwendetes Passwort"
+    },
+    "health.stale": {
+      "text": "Veraltetes Passwort"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} wiederverwendet",
+        "other": "{count} wiederverwendet"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} veraltet",
+        "other": "{count} veraltet"
+      }
     }
   }
 }
