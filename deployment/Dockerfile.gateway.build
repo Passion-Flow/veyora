@@ -9,7 +9,7 @@ EXPOSE 8080 8443
 # TLS mode: when VEYORA_GATEWAY_TLS_CERT_FILE is set, the gateway terminates
 # TLS on VEYORA_GATEWAY_TLS_PORT (default 8443) and redirects HTTP→HTTPS on
 # VEYORA_GATEWAY_HTTP_PORT (default 8080). Without certificates, the gateway
-# falls back to plain HTTP on VEYORA_GATEWAY_HTTP_PORT only (development).
+# runs as a plain HTTP proxy on VEYORA_GATEWAY_HTTP_PORT (no redirect).
 ENTRYPOINT ["/bin/bash", "-c", "\
   : \"${VEYORA_GATEWAY_HTTP_PORT:=8080}\"; \
   : \"${VEYORA_API_UPSTREAM_HOST:?VEYORA_API_UPSTREAM_HOST is required}\"; \
@@ -33,22 +33,7 @@ ENTRYPOINT ["/bin/bash", "-c", "\
            -e \"s/__VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__/${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}/g\" \
            /etc/envoy/envoy.yaml; \
   else \
-    echo \"veyora-gateway: TLS disabled (no certificates), plain HTTP on :${VEYORA_GATEWAY_HTTP_PORT}\" >&2; \
-    sed -i -e \"s/__VEYORA_GATEWAY_TLS_PORT__/${VEYORA_GATEWAY_HTTP_PORT}/g\" \
-           -e \"s/__VEYORA_GATEWAY_HTTP_PORT__/${VEYORA_GATEWAY_HTTP_PORT}/g\" \
-           -e \"s|__VEYORA_GATEWAY_TLS_CERT_FILE|/dev/null|g\" \
-           -e \"s|__VEYORA_GATEWAY_TLS_KEY_FILE|/dev/null|g\" \
-           -e \"s/__VEYORA_API_UPSTREAM_HOST__/${VEYORA_API_UPSTREAM_HOST}/g\" \
-           -e \"s/__VEYORA_API_UPSTREAM_PORT__/${VEYORA_API_UPSTREAM_PORT}/g\" \
-           -e \"s/__VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS__/${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}/g\" \
-           /etc/envoy/envoy.yaml; \
-    # In plain-HTTP mode, strip the TLS listener (keep only the HTTP one). \
-    python3 -c \"\
-import yaml, sys; \
-config = yaml.safe_load(open('/etc/envoy/envoy.yaml')); \
-listeners = [l for l in config['static_resources']['listeners'] if l['name'] == 'veyora_gateway_redirect']; \
-config['static_resources']['listeners'] = listeners; \
-yaml.dump(config, open('/etc/envoy/envoy.yaml','w'), default_flow_style=False); \
-\" 2>/dev/null || sed -i '/veyora_gateway_tls/,/^    # ── HTTP/ { /^    # ── HTTP/!d }' /etc/envoy/envoy.yaml; \
+    echo \"veyora-gateway: TLS disabled, plain HTTP proxy on :${VEYORA_GATEWAY_HTTP_PORT}\" >&2; \
+    printf 'static_resources:\n  listeners:\n    - name: plain_http\n      address:\n        socket_address:\n          address: 0.0.0.0\n          port_value: %s\n      filter_chains:\n        - filters:\n            - name: envoy.filters.network.http_connection_manager\n              typed_config:\n                \"@type\": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager\n                stat_prefix: plain_http\n                route_config:\n                  virtual_hosts:\n                    - name: proxy\n                      domains: [\"*\"]\n                      routes:\n                        - match: { prefix: \"/\" }\n                          route:\n                            cluster: upstream\n                            timeout: %ss\n                http_filters:\n                  - name: envoy.filters.http.router\n                    typed_config:\n                      \"@type\": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router\n  clusters:\n    - name: upstream\n      type: STRICT_DNS\n      lb_policy: ROUND_ROBIN\n      load_assignment:\n        cluster_name: upstream\n        endpoints:\n          - lb_endpoints:\n              - endpoint:\n                  address:\n                    socket_address:\n                      address: %s\n                      port_value: %s\n' \"${VEYORA_GATEWAY_HTTP_PORT}\" \"${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}\" \"${VEYORA_API_UPSTREAM_HOST}\" \"${VEYORA_API_UPSTREAM_PORT}\" > /etc/envoy/envoy.yaml; \
   fi && \
   exec envoy -c /etc/envoy/envoy.yaml --log-level warn"]

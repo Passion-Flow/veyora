@@ -37,3 +37,4 @@ Thumbs.db
 __pycache__/
 *.py[cod]
 backups/
+certs/

@@ -8,3 +8,17 @@ description = "Published deterministic cryptographic known-answer vectors"
 paths = [
   '''^security-kernel/vectors/.*\.json$''',
 ]
+
+[[allowlists]]
+description = "RFC 6238 Appendix B test vectors (public standard test secret)"
+paths = [
+  '''^frontend/web/src/data/totp\.js$''',
+  '''^frontend/web/test/totp\.test\.mjs$''',
+]
+
+[[allowlists]]
+description = "Local build artifacts (not tracked by git)"
+paths = [
+  '''^security-kernel/target/.*''',
+  '''^certs/.*''',
+]
