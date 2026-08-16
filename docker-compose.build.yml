@@ -35,5 +35,5 @@ services:
   web:
     image: veyora-web:local
     build:
-      context: deployment/web
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: deployment/web/Dockerfile
