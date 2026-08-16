@@ -15,29 +15,7 @@
 <body>
   <div id="root"></div>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script>
-    // Development error surface: surfaces module/boot failures that would
-    // otherwise render as a blank page. No-ops when everything loads.
-    window.addEventListener('error', function (event) {
-      var el = document.createElement('pre');
-      el.id = 'boot-error';
-      el.textContent = 'BOOT ERROR: ' + (event.message || event.error) +
-        ' @ ' + (event.filename || '') + ':' + event.lineno;
-      document.body.appendChild(el);
-    });
-    window.addEventListener('unhandledrejection', function (event) {
-      var el = document.createElement('pre');
-      el.id = 'boot-rejection';
-      el.textContent = 'BOOT REJECTION: ' +
-        (event.reason && (event.reason.stack || event.reason.message) || event.reason);
-      document.body.appendChild(el);
-    });
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(function() {});
-    }
-  </script>
+  <script src="./src/boot.js"></script>
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>

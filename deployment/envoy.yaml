@@ -123,7 +123,7 @@ static_resources:
 
   clusters:
     - name: veyora_api
-      type: STRICT_DNS
+      type: LOGICAL_DNS
       lb_policy: ROUND_ROBIN
       # Health-check the API so we stop routing when it is down.
       health_checks:
