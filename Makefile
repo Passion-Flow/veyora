@@ -15,7 +15,7 @@ check-locales: ## Validate frontend locale catalog integrity
 	cd frontend/web && node tools/check-locales.mjs
 
 test-web-client: ## Run the web client unit tests (i18n, kernel, sync)
-	cd frontend/web && node --test test/
+	cd frontend/web && node --test "test/*.test.mjs"
 
 check-desktop: ## Validate the desktop capability spike TypeScript
 	cd frontend/spikes/m0-desktop && npm run check

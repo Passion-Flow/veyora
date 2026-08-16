@@ -30,7 +30,7 @@ jobs:
       - name: Validate locale catalogs
         run: node frontend/web/tools/check-locales.mjs
       - name: Unit-test the web client
-        run: cd frontend/web && node --test test/
+        run: node --test "frontend/web/test/*.test.mjs"
       - name: Validate the desktop capability spike
         run: npm run check
         working-directory: frontend/spikes/m0-desktop

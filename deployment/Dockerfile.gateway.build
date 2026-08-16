@@ -35,13 +35,5 @@ ENTRYPOINT ["/bin/bash", "-c", "\
   else \
     echo \"veyora-gateway: TLS disabled, plain HTTP proxy on :${VEYORA_GATEWAY_HTTP_PORT}\" >&2; \
     printf 'static_resources:\n  listeners:\n    - name: plain_http\n      address:\n        socket_address:\n          address: 0.0.0.0\n          port_value: %s\n      filter_chains:\n        - filters:\n            - name: envoy.filters.network.http_connection_manager\n              typed_config:\n                \"@type\": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager\n                stat_prefix: plain_http
-                internal_address_config:
-                  cidr_ranges:
-                    - address_prefix: 10.0.0.0
-                      prefix_len: 8
-                    - address_prefix: 172.16.0.0
-                      prefix_len: 12
-                    - address_prefix: 192.168.0.0
-                      prefix_len: 16\n                route_config:\n                  virtual_hosts:\n                    - name: proxy\n                      domains: [\"*\"]\n                      routes:\n                        - match: { prefix: \"/\" }\n                          route:\n                            cluster: upstream\n                            timeout: %ss\n                http_filters:\n                  - name: envoy.filters.http.router\n                    typed_config:\n                      \"@type\": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router\n  clusters:\n    - name: upstream\n      type: LOGICAL_DNS\n      lb_policy: ROUND_ROBIN\n      load_assignment:\n        cluster_name: upstream\n        endpoints:\n          - lb_endpoints:\n              - endpoint:\n                  address:\n                    socket_address:\n                      address: %s\n                      port_value: %s\n' \"${VEYORA_GATEWAY_HTTP_PORT}\" \"${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS}\" \"${VEYORA_API_UPSTREAM_HOST}\" \"${VEYORA_API_UPSTREAM_PORT}\" > /etc/envoy/envoy.yaml; \
   fi && \
   exec envoy -c /etc/envoy/envoy.yaml --log-level error"]
