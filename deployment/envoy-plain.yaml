@@ -13,6 +13,14 @@ static_resources:
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
                 stat_prefix: plain_proxy
+                internal_address_config:
+                  cidr_ranges:
+                    - address_prefix: 10.0.0.0
+                      prefix_len: 8
+                    - address_prefix: 172.16.0.0
+                      prefix_len: 12
+                    - address_prefix: 192.168.0.0
+                      prefix_len: 16
                 route_config:
                   virtual_hosts:
                     - name: proxy
