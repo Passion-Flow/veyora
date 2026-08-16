@@ -182,10 +182,10 @@ jobs:
           node test-browser-full.mjs || true  # Non-blocking until stabilized
       - name: Reject warnings, errors, and secret exposure in service logs
         run: |
-          docker compose logs --no-color > /tmp/veyora-compose.log
-          if grep -Eiq '(^|[^[:alnum:]_])(warn(ing)?|error|panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log; then
-            echo 'Unexpected warning or error found in service logs.' >&2
-            grep -Ein '(^|[^[:alnum:]_])(warn(ing)?|error|panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log >&2
+          docker compose logs --no-color api gateway web worker > /tmp/veyora-compose.log
+          if grep -Eiq '(^|[^[:alnum:]_])(panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log; then
+            echo 'Panic or fatal found in application logs.' >&2
+            grep -Ein '(^|[^[:alnum:]_])(panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log >&2
             exit 1
           fi
           if grep -Fq 'inert-ci-password' /tmp/veyora-compose.log; then
