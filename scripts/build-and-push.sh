@@ -56,6 +56,9 @@ UPSTREAM_IMAGES=(
 
 # Optional Docker Hub mirror prefix (see header notes).
 UPSTREAM_MIRROR="${UPSTREAM_MIRROR:-}"
+# SKIP_MIRRORS=1 re-runs only the application builds — for when the
+# foundations are already mirrored (e.g. resumed runs, or mirrors that were
+# pushed out-of-band because an upstream digest became unavailable).
 resolve_upstream() {
   if [ -z "$UPSTREAM_MIRROR" ]; then
     printf '%s\n' "$1"
@@ -69,22 +72,24 @@ resolve_upstream() {
   esac
 }
 
-for index in "${!FOUNDATIONS[@]}"; do
-  foundation="${FOUNDATIONS[$index]}"
-  upstream="$(resolve_upstream "${UPSTREAM_IMAGES[$index]}")"
-  image="$REGISTRY/$NAMESPACE/veyora-$foundation:$VERSION"
-  echo ""
-  echo "=== Mirroring $upstream -> $image ==="
-  docker buildx build \
-    --platform "$PLATFORMS" \
-    --provenance=false \
-    --build-arg "BASE_IMAGE=$upstream" \
-    --tag "$image" \
-    -f docker/Dockerfile.mirror \
-    --push \
-    .
-  echo "  ✓ Pushed $image"
-done
+if [ "${SKIP_MIRRORS:-0}" != "1" ]; then
+  for index in "${!FOUNDATIONS[@]}"; do
+    foundation="${FOUNDATIONS[$index]}"
+    upstream="$(resolve_upstream "${UPSTREAM_IMAGES[$index]}")"
+    image="$REGISTRY/$NAMESPACE/veyora-$foundation:$VERSION"
+    echo ""
+    echo "=== Mirroring $upstream -> $image ==="
+    docker buildx build \
+      --platform "$PLATFORMS" \
+      --provenance=false \
+      --build-arg "BASE_IMAGE=$upstream" \
+      --tag "$image" \
+      -f docker/Dockerfile.mirror \
+      --push \
+      .
+    echo "  ✓ Pushed $image"
+  done
+fi
 
 # --- Build and push Veyora services ---
 SERVICES=("api" "worker" "migrator" "backup" "restore" "sandbox")
