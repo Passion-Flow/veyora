@@ -265,8 +265,8 @@ impl OpaqueStore for PostgresStore {
         Ok(rows
             .iter()
             .map(|row| GenericEncryptedRecordV1 {
-                protocol_version: row.get::<_, i16>("protocol_version") as u16,
-                suite_id: row.get::<_, i16>("suite_id") as u16,
+                protocol_version: row.get::<_, i32>("protocol_version") as u16,
+                suite_id: row.get::<_, i32>("suite_id") as u16,
                 deployment_id: row.get("deployment_id"),
                 vault_id: row.get("vault_id"),
                 record_id: row.get("record_id"),

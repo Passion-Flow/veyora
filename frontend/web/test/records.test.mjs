@@ -220,3 +220,33 @@ test('fetchAll and fetchTrash scope to this vault on a shared store', async () =
   assert.equal(trash.length, 1);
   assert.equal(trash[0].name, 'Old');
 });
+
+test('summaries fallback scopes vault after full-record GETs', async () => {
+  // Mirrors the real RecordSummaryDto shape: no vault_id, no ciphertext.
+  const ownSalt = 'cc'.repeat(16);
+  const foreignSalt = 'dd'.repeat(16);
+  vault.meta = { created: true, salt: ownSalt, vaultId: 'ab'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('own-password', ownSalt);
+
+  const ownVerifier = await recordSync.sealAsDto('veyora-verifier-v1', '{}', 1);
+  const ownEntry = await recordSync.sealAsDto('acme', JSON.stringify({ name: 'Acme', secret: 's' }), 1);
+  vault.meta = { created: true, salt: foreignSalt, vaultId: 'cd'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('other-password', foreignSalt);
+  const foreignVerifier = await recordSync.sealAsDto('veyora-verifier-v1', '{}', 1);
+  const foreignEntry = await recordSync.sealAsDto('beta', '{}', 1);
+  vault.meta = { created: true, salt: ownSalt, vaultId: 'ab'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('own-password', ownSalt);
+
+  const summary = record => ({ record_id: record.record_id, revision: record.revision, tombstone: false, ciphertext_hash: record.ciphertext_hash });
+  stubFetch([
+    { body: [summary(foreignVerifier)] },                              // embed probe: summaries-shaped
+    { body: [summary(foreignVerifier), summary(ownVerifier), summary(foreignEntry), summary(ownEntry)] }, // listing
+    { body: foreignVerifier },                                         // verify candidate 1 (foreign → skipped)
+    { body: ownVerifier },                                             // verify candidate 2 (own → decrypt ok)
+    { body: foreignEntry },                                            // entry GET (foreign → dropped)
+    { body: ownEntry },                                                // entry GET (own → decrypted)
+  ]);
+  const entries = await recordSync.fetchAll();
+  assert.equal(entries.length, 1);
+  assert.equal(entries[0].name, 'Acme');
+});

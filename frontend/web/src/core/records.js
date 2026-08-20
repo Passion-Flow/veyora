@@ -93,26 +93,35 @@ export const recordSync = {
         .filter(dto => !dto.tombstone && !isReservedId(dto.record_id))
         .map(dto => this.decrypt(dto));
     }
-    const summaries = ownVaultRecords(await apiFetch(API.paths.records));
+    const summaries = await apiFetch(API.paths.records);
     await this.verifyRootKey(summaries);
     const live = summaries.filter(summary => !summary.tombstone && !isReservedId(summary.record_id));
     const dtos = await Promise.all(
       live.map(summary => apiFetch(`${API.paths.records}/${encodeURIComponent(summary.record_id)}`)),
     );
-    return dtos.map(dto => this.decrypt(dto));
+    // Summaries carry no vault_id — scope once the full DTOs are in hand.
+    return ownVaultRecords(dtos).map(dto => this.decrypt(dto));
   },
 
   /**
    * Decrypt the verifier record; throws when the master password is wrong.
    * Vaults from before the verifier existed fall back to their first live
    * record; a vault with neither accepts any key (nothing to check against).
+   * Candidates whose full DTO belongs to a foreign vault are skipped, so a
+   * leftover foreign verifier can never lock this vault out.
    */
   async verifyRootKey(summaries) {
-    const target = summaries.find(summary => summary.record_id === VERIFIER_ID && !summary.tombstone)
-      || summaries.find(summary => !summary.tombstone && !isReservedId(summary.record_id));
-    if (!target) return true;
-    const dto = await apiFetch(`${API.paths.records}/${encodeURIComponent(target.record_id)}`);
-    this.decrypt(dto);
+    const salt = vault.meta && vault.meta.salt;
+    const candidates = [
+      ...summaries.filter(summary => summary.record_id === VERIFIER_ID && !summary.tombstone),
+      ...summaries.filter(summary => !summary.tombstone && !isReservedId(summary.record_id)),
+    ];
+    for (const candidate of candidates) {
+      const dto = await apiFetch(`${API.paths.records}/${encodeURIComponent(candidate.record_id)}`);
+      if (salt && dto.vault_id !== salt) continue;
+      this.decrypt(dto);
+      return true;
+    }
     return true;
   },
 
