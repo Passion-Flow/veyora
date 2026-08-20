@@ -102,8 +102,17 @@
 }
 .lock-brand{
   position:absolute;top:28px;left:var(--space-7);
+  display:flex;align-items:center;gap:10px;
   font-family:var(--font-mono);font-size:var(--type-scale-5);font-weight:600;
   letter-spacing:var(--tracking-brand);text-transform:uppercase;color:var(--ink);
+}
+/* Brand mark — the shield glyph as a mask so it tints with currentColor
+   and inverts with the theme. Aspect ratio 713:585. */
+.brand-mark{
+  display:inline-block;flex:none;
+  width:20px;height:16px;background:currentColor;
+  -webkit-mask:url("../../assets/brand/mark.png") center/contain no-repeat;
+  mask:url("../../assets/brand/mark.png") center/contain no-repeat;
 }
 .lock-theme{
   position:fixed;top:var(--space-5);right:var(--space-5);
@@ -201,6 +210,7 @@ input[type="password"]::-ms-clear{display:none}
   padding:0 var(--page-pad);background:var(--surface);border-bottom:var(--border-hairline);
 }
 .tb-brand{
+  display:flex;align-items:center;gap:10px;
   font-family:var(--font-mono);font-size:var(--type-scale-5);font-weight:600;
   letter-spacing:.3em;text-transform:uppercase;flex:none;
 }
@@ -284,6 +294,22 @@ input[type="password"]::-ms-clear{display:none}
 .trow.on .ttype{color:var(--fill-ink);border-color:var(--fill-ink)}
 .table-empty{padding:72px var(--space-5);text-align:center;color:var(--ink-3)}
 .table-empty .big{font-size:var(--type-scale-4);color:var(--ink-2);margin-bottom:6px}
+/* Row action dropdown — opened by the kebab button in .col-actions. */
+.row-menu{
+  position:fixed;z-index:var(--z-modal);min-width:168px;
+  background:var(--surface);border:var(--border-control);
+  box-shadow:var(--shadow-overlay);padding:4px;
+  display:flex;flex-direction:column;
+  animation:menu-in var(--motion-fast) var(--ease-out);
+}
+@keyframes menu-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.row-menu-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border:0;background:none;cursor:pointer;
+  font-family:inherit;font-size:var(--type-scale-5);text-align:start;color:var(--ink);
+}
+.row-menu-item:hover{background:var(--hover)}
+.row-menu-item.armed{background:var(--fill);color:var(--fill-ink)}
 
 /* ---------- drawer ---------- */
 .backdrop{

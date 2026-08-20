@@ -267,6 +267,9 @@
     "action.favorite": {
       "text": "즐겨찾기"
     },
+    "action.more": {
+      "text": "더 보기"
+    },
     "sort.name": {
       "text": "이름 A–Z"
     },

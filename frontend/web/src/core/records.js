@@ -24,6 +24,19 @@ export function isReservedId(id) {
   return typeof id === 'string' && id.startsWith('veyora-');
 }
 
+/**
+ * Restrict a server listing to this device's vault. Every sealed record
+ * carries `vault_id` (= the vault salt); records left over from another
+ * vault on the same store — e.g. after a vault reset that did not purge
+ * the server — must never reach verification or decryption, or unlock
+ * would fail against a foreign verifier.
+ */
+function ownVaultRecords(list) {
+  const salt = vault.meta && vault.meta.salt;
+  if (!salt) return list;
+  return list.filter(dto => dto.vault_id === salt);
+}
+
 /** Fetch helper that normalizes API errors into Error objects with codes. */
 async function apiFetch(path, options = {}) {
   let response;
@@ -74,12 +87,13 @@ export const recordSync = {
   async fetchAll() {
     const bodies = await apiFetch(`${API.paths.records}?embed=bodies`).catch(() => null);
     if (Array.isArray(bodies) && bodies.length > 0 && bodies[0].ciphertext !== undefined) {
-      await this.verifyRootKey(bodies);
-      return bodies
+      const own = ownVaultRecords(bodies);
+      await this.verifyRootKey(own);
+      return own
         .filter(dto => !dto.tombstone && !isReservedId(dto.record_id))
         .map(dto => this.decrypt(dto));
     }
-    const summaries = await apiFetch(API.paths.records);
+    const summaries = ownVaultRecords(await apiFetch(API.paths.records));
     await this.verifyRootKey(summaries);
     const live = summaries.filter(summary => !summary.tombstone && !isReservedId(summary.record_id));
     const dtos = await Promise.all(
@@ -224,7 +238,7 @@ export const recordSync = {
   async fetchTrash() {
     const bodies = await apiFetch(`${API.paths.records}?embed=bodies`).catch(() => null);
     if (!Array.isArray(bodies)) return [];
-    return bodies
+    return ownVaultRecords(bodies)
       .filter(dto => dto.tombstone && !isReservedId(dto.record_id))
       .map(dto => {
         try {

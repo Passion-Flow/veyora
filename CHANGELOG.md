@@ -9,6 +9,17 @@ process is established.
 
 ### Added
 
+- Row action menu: every record row has a kebab (⋯) overflow menu with
+  edit and delete; delete uses the same armed two-step confirmation as the
+  drawer and tombstones into the trash. Dismisses on outside press,
+  Escape, scroll, and re-render; the trigger toggles and reports
+  `aria-expanded`/`role="menu"` semantics. New `action.more` catalog key
+  in all 10 locales; browser smoke test covers open/dismiss, prefilled
+  edit, and armed delete
+- Brand identity: the shield mark now drives favicons (light/dark scheme),
+  the Apple touch icon, PWA `any`/`maskable` icons, and the login and
+  topbar wordmarks (CSS-mask tinted, theme-adaptive); Service Worker
+  cache rotated to v3
 - Initial public source preview with a clean repository history
 - English-first project documentation and multilingual translation gateway
 - Public repository integrity checks and simplified continuous integration
@@ -58,6 +69,11 @@ process is established.
 
 ### Fixed
 
+- Vault scoping on shared stores: `fetchAll`/`fetchTrash` now filter
+  server listings by the device's `vault_id` before verifier lookup, so
+  records left over from another vault (e.g. a reset that did not purge
+  the server) can no longer fail unlock with a spurious wrong-password
+  error or leak into listings
 - Unlock distinguishes connectivity failures from wrong-password failures
 - Editing or favoriting an entry refreshes its updated timestamp
 - Render failures keep the last good DOM instead of a blank screen

@@ -267,6 +267,9 @@
     "action.favorite": {
       "text": "Favorit"
     },
+    "action.more": {
+      "text": "Weitere Aktionen"
+    },
     "sort.name": {
       "text": "Name A–Z"
     },

@@ -267,6 +267,9 @@
     "action.favorite": {
       "text": "В избранное"
     },
+    "action.more": {
+      "text": "Другие действия"
+    },
     "sort.name": {
       "text": "Имя A–Z"
     },

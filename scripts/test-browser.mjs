@@ -6,7 +6,8 @@
  * vault (Argon2id derivation in WASM), read the one-time recovery kit,
  * create an entry (client-side XChaCha20-Poly1305 sealing, server stores
  * ciphertext only), reload and decrypt with the master password, reject a
- * wrong password, reveal, tombstone-delete, and lock.
+ * wrong password, reveal, row kebab menu (edit + armed delete), drawer
+ * delete, and lock.
  *
  * Environment:
  *   VEYORA_WEB_URL          base URL of the web client (default :3000)
@@ -23,7 +24,14 @@ const webUrl = process.env.VEYORA_WEB_URL || 'http://127.0.0.1:3000';
 const screenshotPath = process.env.VEYORA_SCREENSHOT_PATH;
 const masterPassword = 'inert-browser-password';
 
-const browser = await chromium.launch({ headless: true });
+const browser = await (async () => {
+  try {
+    return await chromium.launch({ headless: true });
+  } catch {
+    // No bundled Playwright browser on this machine — fall back to Edge.
+    return await chromium.launch({ headless: true, channel: 'msedge' });
+  }
+})();
 const context = await browser.newContext({
   permissions: ['clipboard-read', 'clipboard-write'],
   viewport: { width: 1440, height: 1100 },
@@ -96,6 +104,45 @@ try {
   const row = page.locator('.trow').filter({ hasText: name });
   await row.waitFor({ timeout: 15000 });
   log(`✓ Entry "${name}" created and encrypted`);
+
+  // Saving auto-opens the entry drawer — close it so rows are clickable.
+  const dismissOverlays = async () => {
+    await page.keyboard.press('Escape').catch(() => {});
+    await page.waitForTimeout(300);
+  };
+  await dismissOverlays();
+
+  // ── Row kebab menu: dismiss on outside click ──
+  await row.locator('[data-menu]').click();
+  await page.locator('.row-menu').waitFor({ timeout: 5000 });
+  await page.mouse.click(700, 700);
+  await page.locator('.row-menu').waitFor({ state: 'detached', timeout: 5000 });
+  log('✓ Row menu opens and dismisses on outside click');
+
+  // ── Row kebab menu: edit opens the modal prefilled ──
+  // Item locators are structural (edit = non-danger item), locale-independent.
+  await row.locator('[data-menu]').click();
+  await page.locator('.row-menu-item:not(.danger)').click();
+  await page.locator('#f-name').waitFor({ timeout: 5000 });
+  assert.equal(await page.locator('#f-name').inputValue(), name, 'modal prefilled');
+  await dismissOverlays();
+  log('✓ Row menu edit opens prefilled modal');
+
+  // ── Row kebab menu: armed two-step delete ──
+  const menuName = `Menu${Date.now()}`;
+  await page.locator('#btn-new').click();
+  await page.locator('#f-name').fill(menuName);
+  await page.locator('#f-secret').fill('row-menu-secret');
+  await page.locator('#btn-save-entry').click();
+  const menuRow = page.locator('.trow').filter({ hasText: menuName });
+  await menuRow.waitFor({ timeout: 15000 });
+  await dismissOverlays();
+  await menuRow.locator('[data-menu]').click();
+  await page.locator('.row-menu-item.danger').click();
+  await page.locator('.row-menu-item.armed').waitFor({ timeout: 5000 });
+  await page.locator('.row-menu-item.armed').click();
+  await menuRow.waitFor({ state: 'detached', timeout: 10000 });
+  log('✓ Row menu delete tombstones after armed confirm');
 
   // ── Wrong password rejection ──
   await page.keyboard.press('Escape').catch(() => {});

@@ -184,3 +184,39 @@ test('changeMasterPassword rejects a wrong current password', async () => {
     error => /PM-KERNEL-/.test(String(error.message)),
   );
 });
+
+test('fetchAll and fetchTrash scope to this vault on a shared store', async () => {
+  const ownSalt = 'aa'.repeat(16);
+  const foreignSalt = 'bb'.repeat(16);
+  vault.meta = { created: true, salt: ownSalt, vaultId: 'ab'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('own-password', ownSalt);
+
+  const ownVerifier = await recordSync.sealAsDto('veyora-verifier-v1', '{}', 1);
+  const ownEntry = await recordSync.sealAsDto('acme', JSON.stringify({ name: 'Acme', secret: 's' }), 1);
+  const ownTrash = await recordSync.sealAsDto('old-one', JSON.stringify({ name: 'Old' }), 3);
+  ownTrash.tombstone = true;
+
+  // Foreign-vault records sealed under an unrelated key. They are listed
+  // FIRST: a naive verifier lookup would decrypt the foreign verifier,
+  // fail, and lock this vault out of its own store.
+  vault.meta = { created: true, salt: foreignSalt, vaultId: 'cd'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('other-password', foreignSalt);
+  const foreignVerifier = await recordSync.sealAsDto('veyora-verifier-v1', '{}', 1);
+  const foreignEntry = await recordSync.sealAsDto('beta', '{}', 1);
+
+  vault.meta = { created: true, salt: ownSalt, vaultId: 'ab'.repeat(4) };
+  recordSync.rootKey = await kernel.deriveRootKey('own-password', ownSalt);
+
+  stubFetch([
+    { body: [foreignVerifier, foreignEntry, ownVerifier, ownEntry] }, // embed list
+    { body: ownVerifier },                                            // verifier GET
+  ]);
+  const entries = await recordSync.fetchAll();
+  assert.equal(entries.length, 1);
+  assert.equal(entries[0].name, 'Acme');
+
+  stubFetch([{ body: [foreignEntry, ownTrash] }]);
+  const trash = await recordSync.fetchTrash();
+  assert.equal(trash.length, 1);
+  assert.equal(trash[0].name, 'Old');
+});

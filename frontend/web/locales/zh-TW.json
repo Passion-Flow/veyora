@@ -267,6 +267,9 @@
     "action.favorite": {
       "text": "收藏"
     },
+    "action.more": {
+      "text": "更多操作"
+    },
     "sort.name": {
       "text": "名稱 A–Z"
     },

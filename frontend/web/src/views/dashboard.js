@@ -4,7 +4,7 @@
  */
 import { t, formatDate } from '../i18n/index.js';
 import { icon } from '../core/icons.js';
-import { $, esc, guardRender } from '../core/ui.js';
+import { $, esc, guardRender, toast } from '../core/ui.js';
 import { state } from '../core/state.js';
 import { vault } from '../core/vault.js';
 import { TYPES } from '../data/schema.js';
@@ -68,7 +68,7 @@ function renderDashboardInner() {
   $('#root').innerHTML = `
     <div id="view-app" class="on">
       <header class="topbar">
-        <span class="tb-brand">${t('app.name')}</span>
+        <span class="tb-brand"><span class="brand-mark" aria-hidden="true"></span>${t('app.name')}</span>
         <div class="searchwrap tb-search">
           ${icon('search', 15)}
           <input id="search" type="text" placeholder="${t('top.searchPh')}" autocomplete="off">
@@ -252,10 +252,10 @@ function onTableClick(event) {
     }
     return;
   }
-  const editId = event.target.closest('[data-edit]')?.dataset.edit;
-  if (editId) {
+  const menuButton = event.target.closest('[data-menu]');
+  if (menuButton) {
     event.stopPropagation();
-    import('./modals.js').then(module => module.openEntryModal(editId));
+    openRowMenu(menuButton, menuButton.dataset.menu);
     return;
   }
   const row = event.target.closest('.trow');
@@ -265,6 +265,114 @@ function onTableClick(event) {
   state.revealed = {};
   renderTable();
   import('./drawer.js').then(module => module.openDrawer());
+}
+
+/* ------------------------------------------------------------------ */
+/* Row action menu (kebab)                                             */
+/* ------------------------------------------------------------------ */
+
+let rowMenu = null;
+let rowMenuTrigger = null;
+
+/** Close the open row menu, if any, and restore its trigger state. */
+export function closeRowMenu() {
+  if (!rowMenu) return;
+  rowMenu.remove();
+  rowMenu = null;
+  if (rowMenuTrigger?.isConnected) rowMenuTrigger.setAttribute('aria-expanded', 'false');
+  rowMenuTrigger = null;
+  document.removeEventListener('keydown', onRowMenuKeydown, true);
+  document.removeEventListener('pointerdown', onRowMenuPointerDown, true);
+  window.removeEventListener('resize', closeRowMenu);
+  window.removeEventListener('scroll', closeRowMenu, true);
+}
+
+function onRowMenuKeydown(event) {
+  if (event.key === 'Escape') {
+    event.stopPropagation();
+    closeRowMenu();
+  }
+}
+
+/** Any pointer press outside the menu dismisses it. Presses on another
+ *  kebab trigger are left to the click handler so the menu toggles. */
+function onRowMenuPointerDown(event) {
+  if (event.target.closest?.('[data-menu]')) return;
+  if (rowMenu && !rowMenu.contains(event.target)) closeRowMenu();
+}
+
+/**
+ * Open the per-row action dropdown anchored below its kebab trigger.
+ * Items: edit (opens the entry modal) and delete (armed two-step confirm,
+ * mirroring the drawer's delete button — tombstones into the trash).
+ */
+function openRowMenu(trigger, entryId) {
+  const wasOpenOnThisTrigger = rowMenuTrigger === trigger; // second press toggles closed
+  closeRowMenu();
+  const entry = vault.entries.find(item => item.id === entryId);
+  if (wasOpenOnThisTrigger || !entry) return;
+  rowMenuTrigger = trigger;
+  trigger.setAttribute('aria-expanded', 'true');
+
+  rowMenu = document.createElement('div');
+  rowMenu.className = 'row-menu';
+  rowMenu.setAttribute('role', 'menu');
+  rowMenu.innerHTML = `
+    <button class="row-menu-item" role="menuitem">${icon('pencil', 14)}${t('common.edit')}</button>
+    <button class="row-menu-item danger" role="menuitem">${icon('trash', 14)}${t('common.delete')}</button>`;
+  document.body.appendChild(rowMenu);
+
+  const rect = trigger.getBoundingClientRect();
+  const width = rowMenu.offsetWidth;
+  const left = Math.max(8, Math.min(rect.right - width, window.innerWidth - width - 8));
+  rowMenu.style.left = `${left}px`;
+  rowMenu.style.top = `${Math.min(rect.bottom + 6, window.innerHeight - rowMenu.offsetHeight - 8)}px`;
+
+  const [editItem, deleteItem] = rowMenu.querySelectorAll('.row-menu-item');
+  editItem.onclick = event => {
+    event.stopPropagation();
+    closeRowMenu();
+    import('./modals.js').then(module => module.openEntryModal(entryId));
+  };
+  wireMenuDelete(deleteItem, entry);
+
+  // The opening interaction's pointerdown has already completed by the time
+  // this runs (we are inside its click dispatch), so a capture-phase
+  // pointerdown listener can never be triggered by the opening event —
+  // no deferred-attach race.
+  document.addEventListener('pointerdown', onRowMenuPointerDown, true);
+  document.addEventListener('keydown', onRowMenuKeydown, true);
+  window.addEventListener('resize', closeRowMenu);
+  window.addEventListener('scroll', closeRowMenu, true);
+}
+
+/** Armed two-step delete inside the row menu — same contract as the drawer. */
+function wireMenuDelete(button, entry) {
+  button.onclick = async () => {
+    if (!button.dataset.armed) {
+      button.dataset.armed = '1';
+      button.classList.add('armed');
+      button.innerHTML = `${icon('alert', 14)}${t('drawer.confirmDelete')}`;
+      setTimeout(() => { if (rowMenu?.contains(button)) closeRowMenu(); }, TIMING.deleteArmMs);
+      return;
+    }
+    closeRowMenu();
+    try {
+      await recordSync.tombstone(entry.id, entry.revision);
+    } catch (error) {
+      toast(error.code === 'PM-STORE-CONFLICT' ? t('toast.conflict') : t('toast.syncFailed'), 'alert');
+      return;
+    }
+    vault.entries = vault.entries.filter(item => item.id !== entry.id);
+    state.trashEntries = null; // trash tab must refetch to show the new tombstone
+    if (state.selectedId === entry.id) {
+      state.selectedId = vault.entries[0]?.id ?? null;
+      state.detailView = null;
+    }
+    renderTabs();
+    renderTable();
+    toast(t('toast.deleted'), 'trash');
+  };
 }
 
 /** Render the type tabs. */
@@ -290,6 +398,7 @@ export function renderTabs() {
 
 /** Render the record table body and the toolbar title. */
 export function renderTable() {
+  closeRowMenu(); // re-render invalidates menu anchor positions
   const list = visibleEntries();
   const health = analyzePasswordHealth(vault.entries);
   const navLabelKey = state.nav === 'all' ? 'nav.all'
@@ -345,7 +454,7 @@ export function renderTable() {
       <div class="col-actions">
         <button class="btn-icon" data-copy="${entry.id}" title="${t('action.copySecret')}">${icon('copy', 13)}</button>
         <button class="btn-icon" data-fav="${entry.id}" title="${t('action.favorite')}">${icon(entry.favorite ? 'starFill' : 'star', 13)}</button>
-        <button class="btn-icon" data-edit="${entry.id}" title="${t('common.edit')}">${icon('pencil', 13)}</button>
+        <button class="btn-icon" data-menu="${entry.id}" title="${t('action.more')}" aria-haspopup="menu" aria-expanded="false">${icon('kebab', 15)}</button>
       </div>
     </div>`;
   }).join('');
