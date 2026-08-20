@@ -1,6 +1,10 @@
 <div align="center">
 
-<img src="docs/assets/veyora-mark.svg" width="128" alt="Veyora vault mark">
+<!-- Brand mark: black stroke on light, white stroke on dark (GitHub theme-aware). -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="frontend/web/assets/brand/mark-white.png">
+  <img src="frontend/web/assets/brand/mark.png" width="128" alt="Veyora vault mark">
+</picture>
 
 <h1>Veyora</h1>
 
