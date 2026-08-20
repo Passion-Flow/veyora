@@ -6,7 +6,7 @@
  * not permitted. Visual values are owned by src/styles/tokens.css.
  */
 
-/** Product identity. The wordmark is text-only per brand guidelines. */
+/** Product identity: wordmark text plus the shield brand mark (assets/brand/). */
 export const APP = Object.freeze({
   id: 'veyora',
   name: 'veyora', // i18n key `app.name` renders the display wordmark

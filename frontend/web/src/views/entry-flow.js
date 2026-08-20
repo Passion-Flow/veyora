@@ -34,7 +34,7 @@ function renderEntryFlowInner(targetView) {
   const view = targetView || (vault.hasVault() ? 'lock-unlock' : 'lock-welcome');
   $('#root').innerHTML = `
     <div id="view-lock">
-      <div class="lock-brand">${t('app.name')}</div>
+      <div class="lock-brand"><span class="brand-mark" aria-hidden="true"></span><span>${t('app.name')}</span></div>
       <button class="lock-theme" id="lock-theme" title="${t('common.themeToggle')}"></button>
       <div class="lock-card">
         ${welcomeHtml()}

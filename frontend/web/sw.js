@@ -11,13 +11,14 @@
  * shell revalidates so deploys are picked up on the next visit.
  */
 
-const CACHE_NAME = 'veyora-v2';
+const CACHE_NAME = 'veyora-v3';
 const PRECACHE = [
   '/',
   '/index.html',
   '/veyora-config.js',
   '/manifest.json',
   '/assets/fonts/fonts.css',
+  '/assets/brand/mark.png',
   '/src/styles/tokens.css',
   '/src/styles/base.css',
   '/src/styles/components.css',
