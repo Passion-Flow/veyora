@@ -225,7 +225,7 @@ formats may change before a supported release.
 - [Threat model](docs/security/threat-model.md)
 - [Plaintext and metadata inventory](docs/security/plaintext-metadata-inventory.md)
 - [Changelog](CHANGELOG.md)
-- [Brand and trademark guidelines](BRAND_GUIDELINES.md)
+- [Brand and trademark guidelines](docs/brand/BRAND_GUIDELINES.md)
 
 ## License
 
@@ -236,7 +236,7 @@ noncommercial uses are permitted subject to the exact license terms;
 commercial use is not granted by this repository.
 
 The Veyora name and brand are governed separately by the
-[trademark policy](TRADEMARK.md). Third-party components remain subject to their
+[trademark policy](docs/legal/TRADEMARK.md). Third-party components remain subject to their
 respective licenses.
 
 <div align="center">

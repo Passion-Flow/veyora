@@ -46,5 +46,5 @@ Eligible first-party source uses the exact SPDX identifier. Strict data formats
 that cannot contain comments inherit the declaration from their owning manifest.
 The software license does not relicense dependencies, images, fonts,
 translations, copied documents, fixtures, or brand assets; see the
-[third-party policy](third-party-policy.md), [trademark policy](../../TRADEMARK.md),
-[brand guidelines](../../BRAND_GUIDELINES.md), and [copyright policy](../../COPYRIGHT.md).
+[third-party policy](third-party-policy.md), [trademark policy](TRADEMARK.md),
+[brand guidelines](../brand/BRAND_GUIDELINES.md), and [copyright policy](COPYRIGHT.md).

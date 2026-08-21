@@ -1,0 +1,1 @@
+{"name":"veyora-scripts","version":"1.0.0","private":true,"description":"Local tooling dependencies for the scripts/ directory (browser smoke tests).","type":"module","devDependencies":{"playwright-core":"^1.62.1"}}

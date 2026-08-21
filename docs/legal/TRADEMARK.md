@@ -11,7 +11,7 @@ commercial_license.status: not-offered
 
 This policy is separate from the source-code license. It governs use of the
 Veyora name and current text-only wordmark as source identifiers. It does not
-change rights granted by [LICENSE](LICENSE), applicable law, or fair and
+change rights granted by [LICENSE](../../LICENSE), applicable law, or fair and
 nominative use.
 
 ## Ownership and current status
@@ -24,7 +24,7 @@ product name, or a visual asset is cleared or available in every jurisdiction.
 The `®` symbol is not used.
 
 The only current mark is the typographic `Veyora` wordmark. No logo or icon has
-been approved. The separate [brand guidelines](BRAND_GUIDELINES.md) describe the
+been approved. The separate [brand guidelines](../brand/BRAND_GUIDELINES.md) describe the
 current visual system without creating rights in an unapproved asset.
 
 ## Allowed references
@@ -55,7 +55,7 @@ Do not:
 
 ## Fork rules
 
-Forking and noncommercial modification remain subject to [LICENSE](LICENSE).
+Forking and noncommercial modification remain subject to [LICENSE](../../LICENSE).
 Renamed noncommercial forks may be distributed or hosted to the extent permitted by LICENSE when they are accurately attributed and do not imply sponsorship or endorsement.
 Modified public versions must use a different primary name and branding and must clearly state that they are unofficial and modified.
 They must also preserve required notices and provenance. `ExampleVault, based on
@@ -71,6 +71,6 @@ an authorized owner or counsel must record a dated clearance review for `Veyora`
 and `vee-OR-uh` across the relevant goods, services, territories, and similar
 marks. This internal official-brand gate does not restrict accurately attributed,
 renamed noncommercial fork distribution or hosting to the extent permitted by
-[LICENSE](LICENSE) and applicable law. No clearance or commercial permission is
+[LICENSE](../../LICENSE) and applicable law. No clearance or commercial permission is
 offered through this release, and no enforcement or commercial-contact channel
 is published.

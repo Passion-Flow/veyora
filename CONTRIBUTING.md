@@ -60,6 +60,6 @@ submitting a contribution, you must have the right to provide it and understand
 that acceptance is not guaranteed. No contributor license agreement or
 Developer Certificate of Origin process has been adopted.
 
-The [trademark policy](TRADEMARK.md) and
-[brand guidelines](BRAND_GUIDELINES.md) govern representations of official
+The [trademark policy](docs/legal/TRADEMARK.md) and
+[brand guidelines](docs/brand/BRAND_GUIDELINES.md) govern representations of official
 Veyora work independently of the software license.

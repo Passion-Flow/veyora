@@ -2,7 +2,7 @@
 
 These guidelines protect a calm, private, modern, and reliable product identity
 while keeping the current asset status honest. They do not replace
-[TRADEMARK.md](TRADEMARK.md), grant a commercial license, or limit rights provided
+[TRADEMARK.md](../legal/TRADEMARK.md), grant a commercial license, or limit rights provided
 by applicable law.
 
 ## Current asset status
@@ -37,7 +37,7 @@ inventory. Production fallbacks must cover every released writing system.
 ## Marketing and product materials
 
 Official release, website, screenshot, tutorial, and marketing material must use
-the evidence-bounded product language in [README.md](README.md), identify the
+the evidence-bounded product language in [README.md](../../README.md), identify the
 exact released version and capability state, and avoid fear, guarantees,
 certification-like badges, or implied partnership. Apple, Proton, 1Password, and
 Notion are mood references only; their assets, wording, layouts, interactions,
