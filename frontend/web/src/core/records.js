@@ -37,11 +37,28 @@ function ownVaultRecords(list) {
   return list.filter(dto => dto.vault_id === salt);
 }
 
+/**
+ * Optional bearer token for token-auth deployments. Mirrors the
+ * `veyora-api-url` override in config.js: an explicit localStorage value
+ * (set by the desktop shell or power users) wins; absent means the
+ * deployment runs without API authentication.
+ */
+function readApiToken() {
+  try {
+    return globalThis.localStorage?.getItem('veyora-api-token') ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /** Fetch helper that normalizes API errors into Error objects with codes. */
 async function apiFetch(path, options = {}) {
+  const headers = new Headers(options.headers || {});
+  const token = readApiToken();
+  if (token) headers.set('Authorization', `Bearer ${token}`);
   let response;
   try {
-    response = await fetch(API.baseUrl + path, options);
+    response = await fetch(API.baseUrl + path, { ...options, headers });
   } catch (cause) {
     const error = new Error('PM-NETWORK-UNREACHABLE', { cause });
     error.code = 'PM-NETWORK-UNREACHABLE';

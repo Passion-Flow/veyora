@@ -9,6 +9,43 @@ process is established.
 
 ### Added
 
+- Desktop client (`frontend/desktop`): a Tauri 2 shell around the static
+  web client for Windows (NSIS `.exe`/MSI) and macOS (DMG). First-run
+  connect screen stores the gateway URL and optional API token in the
+  same localStorage keys the web client resolves; Connection menu with
+  Change Server. Release workflow builds both platforms on `v*` tags
+- Optional bearer-token support in the web client (`veyora-api-token`
+  localStorage override) so browser and desktop clients work against
+  token-auth deployments
+- English-only source guard: the repository checker rejects Han, Kana,
+  and Hangul text outside the i18n allowlist (locale catalogs, i18n
+  docs, the localized error catalog, its assertions, README badges)
+- `desktop-dev`, `desktop-build`, and `desktop-check` Makefile targets;
+  desktop client guide (`docs/DESKTOP.md`)
+
+### Changed
+
+- Single Docker deployment entry: the four root Compose files and the
+  `deployment/` directory are consolidated into `docker/` with one
+  canonical `docker-compose.yaml` (image pulls by default, inline
+  source builds, `backup` profile, TLS, loopback database port),
+  an annotated `.env.example`, and a deployment README
+- Governance documents moved under `docs/` (brand guidelines, code of
+  conduct, copyright and trademark policies); the unreferenced
+  `TRADEMARKS.md` alias is removed
+- `scripts/build-and-push.sh` defaults to the public GHCR namespace;
+  the browser-test dependency (playwright-core) moved from the root
+  `package.json` to `scripts/`
+- Repository checker iterates tracked files only, so local `target/`
+  and `node_modules/` trees no longer trip it
+
+### Fixed
+
+- `publish-images.yml` built the web image with the wrong context
+  (`deployment/web` instead of the repository root)
+- The Compose file now passes `VEYORA_API_CORS_ORIGINS` and
+  `VEYORA_API_RATE_LIMIT` through to the API service
+
 - Row action menu: every record row has a kebab (⋯) overflow menu with
   edit and delete; delete uses the same armed two-step confirmation as the
   drawer and tombstones into the trash. Dismisses on outside press,

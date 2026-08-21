@@ -1,5 +1,5 @@
 # Veyora common operations
-.PHONY: help check check-web check-locales test-web-client check-desktop check-tooling build build-wasm test test-kernel test-backend test-wasm-runtime test-browser run run-web run-db migrate worker backup restore sandbox docker-build docker-up docker-down clean
+.PHONY: help check check-web check-locales test-web-client check-desktop check-tooling build build-wasm test test-kernel test-backend test-wasm-runtime test-browser desktop-dev desktop-build desktop-check run run-web run-db migrate worker backup restore sandbox docker-build docker-up docker-down clean
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
@@ -50,6 +50,16 @@ test-wasm-runtime: ## Execute a freshly generated WASM binding in Node.js
 
 test-browser: ## Exercise the running web client with Playwright
 	node scripts/test-browser.mjs
+
+desktop-dev: ## Run the Tauri desktop client against a live server
+	cd frontend/desktop && npm install --no-audit --no-fund && npm run dev
+
+desktop-build: ## Build the desktop client installers (NSIS on Windows, DMG on macOS)
+	cd frontend/desktop && npm install --no-audit --no-fund && npm run build
+
+desktop-check: ## Lint the desktop client Rust shell
+	cd frontend/desktop/src-tauri && cargo fmt --all -- --check
+	cd frontend/desktop/src-tauri && cargo clippy --locked --all-targets -- -D warnings
 
 test: check check-web check-locales test-web-client check-desktop check-tooling test-kernel test-backend ## Run all dependency-free source checks
 

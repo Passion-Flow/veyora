@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Veyora",
+  "version": "1.0.0",
+  "identifier": "com.veyora.desktop",
+  "build": {
+    "frontendDist": "../../web"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "app", "dmg"],
+    "category": "Utility",
+    "shortDescription": "Client-encrypted credential vault",
+    "longDescription": "Veyora desktop client. Connects to a self-hosted Veyora server; vault records are encrypted end to end by the Rust security kernel inside the app.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}
