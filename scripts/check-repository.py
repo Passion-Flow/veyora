@@ -112,6 +112,48 @@ def check_text(paths: list[Path]) -> list[str]:
     return errors
 
 
+# Han, Hiragana, Katakana, Hangul, and compatibility ideographs. English is
+# the repository language; these scripts may appear only in the intentional
+# localization surfaces listed below.
+CJK_SCRIPT = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af\uf900-\ufaff]")
+
+# Locale catalogs, the i18n documentation and registries, the localized API
+# error catalog, its browser-side assertions, and the README language badges
+# are the only permitted CJK locations.
+CJK_ALLOWED_PARTS = {
+    ("frontend", "web", "locales"),
+    ("frontend", "web", "src", "i18n"),
+    ("docs", "i18n"),
+}
+CJK_ALLOWED_FILES = {
+    ("backend", "services", "api", "src", "error_catalog.rs"),
+    ("scripts", "test-browser-full.mjs"),
+    ("README.md",),
+}
+
+
+def check_cjk(paths: list[Path]) -> list[str]:
+    errors: list[str] = []
+    allowed_files = {"/".join(entry) for entry in CJK_ALLOWED_FILES}
+    for path in paths:
+        text = read_text(path)
+        if text is None:
+            continue
+        relative = path.relative_to(ROOT)
+        posix = relative.as_posix()
+        parts = relative.parts
+        if posix in allowed_files:
+            continue
+        if any(
+            len(parts) > len(prefix) and parts[: len(prefix)] == prefix
+            for prefix in CJK_ALLOWED_PARTS
+        ):
+            continue
+        if CJK_SCRIPT.search(text):
+            errors.append(f"CJK text outside the i18n allowlist in {relative}")
+    return errors
+
+
 def check_json(paths: list[Path]) -> list[str]:
     errors: list[str] = []
     for path in paths:
@@ -159,6 +201,7 @@ def main() -> int:
         *check_text(paths),
         *check_json(paths),
         *check_markdown_links(paths),
+        *check_cjk(paths),
     ]
     if errors:
         for error in sorted(set(errors)):

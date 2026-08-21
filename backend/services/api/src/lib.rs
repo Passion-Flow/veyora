@@ -1367,7 +1367,10 @@ mod tests {
         let bytes = response.into_body().collect().await.unwrap().to_bytes();
         let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
         assert_eq!(body.error.code, "PM-STORE-NOT-FOUND");
-        assert_eq!(body.error.message, "记录不存在。");
+        assert_eq!(
+            body.error.message,
+            error_catalog::localized_message("PM-STORE-NOT-FOUND", "zh-CN")
+        );
     }
 
     #[tokio::test]
@@ -1440,7 +1443,10 @@ mod tests {
         let bytes = response.into_body().collect().await.unwrap().to_bytes();
         let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
         assert_eq!(body.error.code, "PM-API-BODY-TOO-LARGE");
-        assert_eq!(body.error.message, "リクエスト本体が上限を超えています。");
+        assert_eq!(
+            body.error.message,
+            error_catalog::localized_message("PM-API-BODY-TOO-LARGE", "ja")
+        );
     }
 
     #[tokio::test]
