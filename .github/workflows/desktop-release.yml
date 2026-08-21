@@ -51,16 +51,16 @@ jobs:
       - name: Collect the bundle artifacts
         shell: bash
         run: |
-          mkdir -p /tmp/veyora-desktop
+          mkdir -p bundle-out
           base="frontend/desktop/src-tauri/target/${{ matrix.settings.target }}/release/bundle"
           find "$base" -type f \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' \) \
-            -exec cp {} /tmp/veyora-desktop/ \;
-          ls -la /tmp/veyora-desktop
+            -exec cp {} bundle-out/ \;
+          ls -la bundle-out
       - name: Upload the bundle artifacts
         uses: actions/upload-artifact@v4
         with:
           name: veyora-desktop-${{ matrix.settings.label }}
-          path: /tmp/veyora-desktop/*
+          path: bundle-out/
           if-no-files-found: error
       - name: Attach the bundles to the release
         if: startsWith(github.ref, 'refs/tags/')
@@ -70,4 +70,4 @@ jobs:
         run: |
           tag="${GITHUB_REF_NAME}"
           gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" --generate-notes --verify-tag
-          gh release upload "$tag" /tmp/veyora-desktop/* --clobber
+          gh release upload "$tag" bundle-out/* --clobber
