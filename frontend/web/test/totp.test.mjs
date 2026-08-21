@@ -41,9 +41,12 @@ test('codes are 6 digits and change across time steps', async () => {
 });
 
 test('same time window yields the same code', async () => {
+  // Anchor to the current 30s window start so the two probes can never
+  // straddle a boundary (a naive now/now+5000 pair flakes 1 run in 6).
   const now = Date.now();
-  const a = await generateTotp(SECRET, now);
-  const b = await generateTotp(SECRET, now + 5000); // same 30s window
+  const windowStart = now - (now % 30000);
+  const a = await generateTotp(SECRET, windowStart + 1000);
+  const b = await generateTotp(SECRET, windowStart + 25000); // same 30s window
   assert.equal(a, b);
 });
 
