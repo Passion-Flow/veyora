@@ -65,7 +65,8 @@ jobs:
         run: |
           docker run --rm -v "$PWD:/repo:ro" -w /repo rhysd/actionlint:1.7.12 \
             .github/workflows/ci.yml \
-            .github/workflows/publish-images.yml
+            .github/workflows/publish-images.yml \
+            .github/workflows/desktop-release.yml
 
   kernel:
     name: Security kernel

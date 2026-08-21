@@ -1,0 +1,74 @@
+name: Desktop release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desktop-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build / ${{ matrix.settings.label }}
+    runs-on: ${{ matrix.settings.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - label: windows-x64
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - label: macos-universal
+            os: macos-latest
+            target: universal-apple-darwin
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+          targets: ${{ matrix.settings.target }}
+      - name: Install the universal Rust targets
+        if: matrix.settings.target == 'universal-apple-darwin'
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - name: Cache the Rust build
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: frontend/desktop/src-tauri
+      - name: Install the desktop tooling
+        run: npm install --no-audit --no-fund
+        working-directory: frontend/desktop
+      - name: Build the installers
+        run: npx tauri build --target ${{ matrix.settings.target }}
+        working-directory: frontend/desktop
+      - name: Collect the bundle artifacts
+        shell: bash
+        run: |
+          mkdir -p /tmp/veyora-desktop
+          base="frontend/desktop/src-tauri/target/${{ matrix.settings.target }}/release/bundle"
+          find "$base" -type f \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' \) \
+            -exec cp {} /tmp/veyora-desktop/ \;
+          ls -la /tmp/veyora-desktop
+      - name: Upload the bundle artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: veyora-desktop-${{ matrix.settings.label }}
+          path: /tmp/veyora-desktop/*
+          if-no-files-found: error
+      - name: Attach the bundles to the release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          gh release view "$tag" >/dev/null 2>&1 || gh release create "$tag" --generate-notes --verify-tag
+          gh release upload "$tag" /tmp/veyora-desktop/* --clobber
