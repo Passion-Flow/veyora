@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from urllib.parse import unquote
@@ -55,11 +56,17 @@ MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 
 
 def iter_files() -> list[Path]:
-    return sorted(
-        path
-        for path in ROOT.rglob("*")
-        if path.is_file() and ".git" not in path.relative_to(ROOT).parts
+    """Yield tracked files only, so local build output and dependency trees
+    (node_modules, target/, .env, untracked notes) never trip the checks."""
+    listing = subprocess.run(
+        ["git", "ls-files"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=True,
+        timeout=60,
     )
+    return sorted(ROOT / line for line in listing.stdout.splitlines() if line)
 
 
 def check_paths(paths: list[Path]) -> list[str]:

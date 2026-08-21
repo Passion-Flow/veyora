@@ -1,7 +1,7 @@
 # Static web client image — packages the frontend/web client.
 # Build context must be the repository root so both the client sources and
 # the deployment-owned nginx configuration are available:
-#   docker build -f deployment/web/Dockerfile .
+#   docker build -f docker/web/Dockerfile .
 ARG NGINX_IMAGE=nginx:1.29.5-alpine
 FROM ${NGINX_IMAGE}
 COPY frontend/web/index.html /usr/share/nginx/html/
@@ -10,13 +10,13 @@ COPY frontend/web/manifest.json /usr/share/nginx/html/
 COPY frontend/web/assets/ /usr/share/nginx/html/assets/
 COPY frontend/web/src/ /usr/share/nginx/html/src/
 COPY frontend/web/locales/ /usr/share/nginx/html/locales/
-COPY deployment/web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/web/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 # Configuration is rendered from environment variables at container start and
 # every variable is REQUIRED (fail fast, no defaults). VEYORA_API_BASE_URL is
 # written into /veyora-config.js so the web client targets an explicit,
 # operator-chosen API origin instead of guessing by port. The full documented
-# set lives in .env.example.
+# set lives in docker/.env.example.
 CMD ["/bin/sh", "-c", "\
   : \"${VEYORA_WEB_LISTEN_PORT:?VEYORA_WEB_LISTEN_PORT is required}\"; \
   : \"${VEYORA_API_UPSTREAM_HOST:?VEYORA_API_UPSTREAM_HOST is required}\"; \

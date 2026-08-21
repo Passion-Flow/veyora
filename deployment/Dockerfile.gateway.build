@@ -1,8 +1,0 @@
-ARG ENVOY_IMAGE=envoyproxy/envoy:v1.31.10
-FROM ${ENVOY_IMAGE}
-COPY deployment/envoy.yaml /etc/envoy/envoy-tls.yaml
-COPY deployment/envoy-plain.yaml /etc/envoy/envoy-plain.yaml
-COPY deployment/gateway-entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-EXPOSE 8080 8443
-ENTRYPOINT ["/entrypoint.sh"]

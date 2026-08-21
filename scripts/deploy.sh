@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Veyora one-command production deployment.
 #
-# Usage:
+# Usage (from the repository root):
 #   ./scripts/deploy.sh                          # Interactive setup
 #   ./scripts/deploy.sh --domain vault.example.com  # Non-interactive
 #
@@ -9,9 +9,17 @@
 #   - Docker Engine + Docker Compose
 #   - OpenSSL (for password generation)
 #   - TLS certificates (Let's Encrypt or your CA)
+#   - docker/.env created from docker/.env.example
 set -euo pipefail
 
-set -a; source .env; set +a
+ENV_FILE="docker/.env"
+if [ ! -f "$ENV_FILE" ]; then
+  echo "Missing $ENV_FILE — create it first:" >&2
+  echo "  cp docker/.env.example docker/.env" >&2
+  exit 1
+fi
+
+set -a; source "$ENV_FILE"; set +a
 REGISTRY="${REGISTRY:-ghcr.io}"
 NAMESPACE="${NAMESPACE:-passion-flow}"
 VERSION="${VERSION:-v1.0.0}"
@@ -35,13 +43,14 @@ echo ""
 # Step 1: Generate secrets if not set
 if [ -z "${VEYORA_DB_PASSWORD:-}" ]; then
   VEYORA_DB_PASSWORD=$(openssl rand -hex 32)
-  echo "VEYORA_DB_PASSWORD=$VEYORA_DB_PASSWORD" >> .env
+  echo "VEYORA_DB_PASSWORD=$VEYORA_DB_PASSWORD" >> "$ENV_FILE"
   echo "✓ Generated database password"
 fi
 if [ -z "${VEYORA_API_TOKEN:-}" ] && [ "${VEYORA_API_AUTH:-}" = "token" ]; then
   VEYORA_API_TOKEN=$(openssl rand -hex 32)
-  echo "VEYORA_API_TOKEN=$VEYORA_API_TOKEN" >> .env
+  echo "VEYORA_API_TOKEN=$VEYORA_API_TOKEN" >> "$ENV_FILE"
   echo "✓ Generated API token"
+  export VEYORA_API_TOKEN
 fi
 
 # Step 2: Check TLS certificates
@@ -67,17 +76,18 @@ export VEYORA_API_RATE_LIMIT="${VEYORA_API_RATE_LIMIT:-120}"
 
 # Step 4: Pull latest images
 echo "── Pulling images ──"
-docker compose -f docker-compose.yml -f docker-compose.prod.yml pull 2>&1 | grep "Pulled" | head -6
+cd docker
+docker compose pull 2>&1 | grep "Pulled" | head -6 || true
 
 # Step 5: Start the stack
 echo "── Starting services ──"
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker compose up -d
 
 # Step 6: Wait for health
 echo "── Waiting for services ──"
 for service in postgres api gateway web; do
   for i in $(seq 1 30); do
-    STATUS=$(docker compose -f docker-compose.yml -f docker-compose.prod.yml ps --format json 2>/dev/null | \
+    STATUS=$(docker compose ps --format json 2>/dev/null | \
       python3 -c "import json,sys; [print(s.get('Health','')) for s in json.load(sys.stdin) if s.get('Service')=='$service']" 2>/dev/null || echo "")
     [ "$STATUS" = "healthy" ] && break
     sleep 2
@@ -112,8 +122,8 @@ if [ "$HEALTH" = "200" ] && [ "$WEB" = "200" ]; then
   echo "    2. Save the recovery kit offline"
   echo "    3. Set up DNS pointing to this server"
   echo "    4. Configure automated backups:"
-  echo "       docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile backup up -d backup"
+  echo "       cd docker && docker compose --profile backup up -d backup"
 else
   echo "⚠ Some services may not be ready. Check logs:"
-  echo "  docker compose -f docker-compose.yml -f docker-compose.prod.yml logs"
+  echo "  cd docker && docker compose logs"
 fi

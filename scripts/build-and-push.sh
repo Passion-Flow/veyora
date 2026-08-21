@@ -7,8 +7,8 @@
 # Usage (the defaults publish the official Veyora images):
 #   ./scripts/build-and-push.sh
 #
-# Registry-neutral override:
-#   REGISTRY=ghcr.io NAMESPACE=your-account VERSION=v1.0.0 ./scripts/build-and-push.sh
+# Publish to a different registry or account:
+#   REGISTRY=your-registry.example.com NAMESPACE=your-account VERSION=v1.0.0 ./scripts/build-and-push.sh
 #
 # Networks without direct Docker Hub access can route the pinned upstream
 # foundations through a trustworthy mirror. Digests are content-addressed,
@@ -21,8 +21,8 @@
 
 set -euo pipefail
 
-REGISTRY="${REGISTRY:-crpi-ew8juv9423tvogc4.cn-hongkong.personal.cr.aliyuncs.com}"
-NAMESPACE="${NAMESPACE:-passion_project}"
+REGISTRY="${REGISTRY:-ghcr.io}"
+NAMESPACE="${NAMESPACE:-passion-flow}"
 VERSION="${VERSION:-v1.0.0}"
 PLATFORMS="linux/amd64,linux/arm64"
 
@@ -119,7 +119,7 @@ docker buildx build \
   --provenance=false \
   --build-arg "NGINX_IMAGE=$REGISTRY/$NAMESPACE/veyora-nginx:$VERSION" \
   --tag "$WEB_IMAGE" \
-  -f deployment/web/Dockerfile \
+    -f docker/web/Dockerfile \
   --push \
   .
 echo "  ✓ Pushed $WEB_IMAGE"
@@ -133,7 +133,7 @@ docker buildx build \
   --provenance=false \
   --build-arg "ENVOY_IMAGE=$REGISTRY/$NAMESPACE/veyora-envoy:$VERSION" \
   --tag "$GW_IMAGE" \
-  -f deployment/Dockerfile.gateway.build \
+    -f docker/gateway/Dockerfile \
   --push \
   .
 echo "  ✓ Pushed $GW_IMAGE"

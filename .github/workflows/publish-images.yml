@@ -132,12 +132,12 @@ jobs:
               RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
               DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
           - image: veyora-web
-            context: deployment/web
-            file: deployment/web/Dockerfile
+            context: .
+            file: docker/web/Dockerfile
             build_args: NGINX_IMAGE=ghcr.io/passion-flow/veyora-nginx:__VERSION__
           - image: veyora-gateway
             context: .
-            file: deployment/Dockerfile.gateway.build
+            file: docker/gateway/Dockerfile
             build_args: ENVOY_IMAGE=ghcr.io/passion-flow/veyora-envoy:__VERSION__
     steps:
       - uses: actions/checkout@v7

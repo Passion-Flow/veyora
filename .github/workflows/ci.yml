@@ -53,8 +53,8 @@ jobs:
             backend/Dockerfile.sandbox \
             backend/Dockerfile.worker \
             docker/Dockerfile.mirror \
-            deployment/Dockerfile.gateway.build \
-            deployment/web/Dockerfile; do
+            docker/gateway/Dockerfile \
+            docker/web/Dockerfile; do
             docker run --rm -i hadolint/hadolint:v2.15.1-alpine < "$dockerfile"
           done
       - name: Scan the public tree for secrets
@@ -134,26 +134,27 @@ jobs:
     name: Compose integration
     runs-on: ubuntu-latest
     env:
-      COMPOSE_FILE: docker-compose.yml:docker-compose.build.yml
       VEYORA_DB_PASSWORD: inert-ci-password
+      VEYORA_API_AUTH: disabled
+      # Build the stack from source without depending on published images.
+      VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-      - name: Validate local topology
-        env:
-          VEYORA_DB_PASSWORD: inert-ci-password
+      - name: Validate the default topology
+        working-directory: docker
         run: docker compose config --quiet
-      - name: Validate production-shaped topology
+      - name: Validate the production-shaped topology
+        working-directory: docker
         env:
-          VEYORA_DB_PASSWORD: inert-ci-password
           VEYORA_API_AUTH: token
           VEYORA_API_TOKEN: inert-ci-token
-        run: docker compose -f docker-compose.prod.yml config --quiet
+        run: docker compose config --quiet
       - name: Build and start the local stack
+        working-directory: docker
         env:
-          VEYORA_DB_PASSWORD: inert-ci-password
           VEYORA_WORKER_POLL_SECONDS: "1"
         run: docker compose up --build --wait --wait-timeout 180
       - name: Exercise the API and web gateway
@@ -181,6 +182,7 @@ jobs:
           cd /tmp/veyora-browser-test
           node test-browser-full.mjs || true  # Non-blocking until stabilized
       - name: Reject warnings, errors, and secret exposure in service logs
+        working-directory: docker
         run: |
           docker compose logs --no-color api gateway web worker > /tmp/veyora-compose.log
           if grep -Eiq '(^|[^[:alnum:]_])(panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log; then
@@ -194,9 +196,9 @@ jobs:
           fi
       - name: Show service logs after a failure
         if: failure()
+        working-directory: docker
         run: docker compose logs --no-color
       - name: Stop the test stack
         if: always()
-        env:
-          VEYORA_DB_PASSWORD: inert-ci-password
+        working-directory: docker
         run: docker compose down --volumes --remove-orphans

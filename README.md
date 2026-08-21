@@ -116,12 +116,14 @@ limited to opaque records and operational metadata. See the
 ```bash
 git clone https://github.com/Passion-Flow/veyora.git
 cd veyora
-cp .env.example .env
+cp docker/.env.example docker/.env
 ```
 
-Set a unique development database password in `.env`, then start the stack:
+Set a unique development database password in `docker/.env`, then start the
+stack:
 
 ```bash
+cd docker
 docker compose up -d
 docker compose ps
 ```
@@ -135,14 +137,14 @@ There are no architecture suffixes to manage.
 Open `http://127.0.0.1:3000`. The API gateway is available on
 `http://127.0.0.1:8080` for local diagnostics.
 
-To exercise the ciphertext API with inert data:
+To exercise the ciphertext API with inert data (from the repository root):
 
 ```bash
 ./scripts/smoke-test.sh http://127.0.0.1:8080
 ```
 
-Stop the preview with `docker compose down`. Add `--volumes` only when you
-intentionally want to delete the local PostgreSQL volume.
+Stop the preview with `docker compose down` (from `docker/`). Add `--volumes`
+only when you intentionally want to delete the local PostgreSQL volume.
 
 ## Develop from source
 
@@ -180,8 +182,8 @@ container workflow.
 veyora/
 ├── backend/           Rust API, persistence, and operational services
 ├── contracts/         Versioned protocol, schema, and policy definitions
-├── deployment/        Gateway and static web-client container sources
-├── frontend/spikes/   Native integration probes used by kernel checks
+├── docker/            Canonical Docker Compose deployment (gateway, web, env)
+├── frontend/          Static web client and native integration probes
 ├── security-kernel/   Rust cryptography core, WASM/FFI bindings, and vectors
 ├── docs/              Architecture, operations, security, and legal guides
 └── scripts/           Smoke testing and multi-architecture image publishing

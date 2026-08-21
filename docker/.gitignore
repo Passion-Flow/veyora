@@ -1,0 +1,11 @@
+# Deployment-local state — never commit.
+.env
+certs/
+backups/
+volumes/
+# Rendered or disposable operator output.
+/rendered/
+/generated/
+/runs/
+# Generated dev API config (make run-web; containers render their own).
+veyora-config.js

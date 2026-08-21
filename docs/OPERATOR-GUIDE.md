@@ -10,8 +10,9 @@ a Veyora instance. It assumes Docker Engine with Docker Compose.
 ```bash
 git clone https://github.com/Passion-Flow/veyora.git
 cd veyora
-cp .env.example .env
-# Edit .env with production values (see below)
+cp docker/.env.example docker/.env
+# Edit docker/.env with production values (see below)
+cd docker
 docker compose up -d
 ```
 
@@ -53,11 +54,13 @@ The web client is available at `http://127.0.0.1:3000` and the API at
 | `gateway` | 8080 | Envoy reverse proxy (TLS termination) |
 | `api` | 8080 (internal) | Rust HTTP API (ciphertext storage) |
 | `web` | 3000 | nginx serving the static client |
-| `db` | 5432 (internal) | PostgreSQL |
+| `postgres` | 5432 (loopback) | PostgreSQL |
 | `worker` | — | Background maintenance |
 | `migrator` | — | One-shot database migrations |
 
 ## Operations
+
+All `docker compose` commands below run from the `docker/` directory.
 
 ### Starting and stopping
 
@@ -90,7 +93,7 @@ docker compose run --rm backup > backup-$(date +%Y%m%d).json
 Schedule daily backups with cron:
 
 ```bash
-echo "0 2 * * * cd /opt/veyora && docker compose run --rm backup > backups/\$(date +\%Y\%m\%d).json && find backups -name '*.json' -mtime +30 -delete" | crontab -
+echo "0 2 * * * cd /opt/veyora/docker && docker compose run --rm backup > backups/\$(date +\%Y\%m\%d).json && find backups -name '*.json' -mtime +30 -delete" | crontab -
 ```
 
 ### Restore
@@ -142,10 +145,9 @@ Recommended alerts:
 
 ## TLS termination
 
-See [DEPLOYMENT-TLS.md](DEPLOYMENT-TLS.md) for the complete guide.
-
 Summary: mount Let's Encrypt certificates into the Envoy gateway
-container and use `docker-compose.prod.yml`.
+container and enable the TLS variables in `docker/.env`
+(see [DEPLOYMENT-TLS.md](DEPLOYMENT-TLS.md) for the complete guide).
 
 ## Troubleshooting
 

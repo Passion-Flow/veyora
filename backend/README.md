@@ -48,7 +48,7 @@ requires `DATABASE_URL`. API binding, authentication mode, and the request-body
 limit are always explicit; token mode additionally requires a non-empty
 `VEYORA_API_TOKEN`.
 
-See the root [.env.example](../.env.example) for the Compose-facing values.
+See [docker/.env.example](../docker/.env.example) for the Compose-facing values.
 
 ## Security boundary
 

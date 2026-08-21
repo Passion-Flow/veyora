@@ -22,10 +22,11 @@ make test
 For container work:
 
 ```bash
-cp .env.example .env
-# Set a unique VEYORA_DB_PASSWORD in .env.
+cp docker/.env.example docker/.env
+# Set a unique VEYORA_DB_PASSWORD in docker/.env.
+cd docker
 docker compose config --quiet
-docker compose -f docker-compose.yml -f docker-compose.build.yml up --build -d
+docker compose up --build -d
 ```
 
 ## Change guidelines

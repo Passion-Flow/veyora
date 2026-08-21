@@ -1,6 +1,0 @@
-# Deployment-local rendered and disposable operator output.
-/rendered/
-/generated/
-/runs/
-# Generated dev API config (make run-web; containers render their own).
-/web/veyora-config.js

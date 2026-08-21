@@ -30,10 +30,10 @@ Certificates land in `/etc/letsencrypt/live/vault.example.com/`.
 ## 3. Configure environment
 
 ```bash
-cp .env.example .env
+cp docker/.env.example docker/.env
 ```
 
-Edit `.env` with production values:
+Edit `docker/.env` with production values:
 
 ```bash
 # REQUIRED: strong database password
@@ -47,18 +47,21 @@ VEYORA_API_TOKEN=<generate-with: openssl rand -hex 32>
 VEYORA_API_CORS_ORIGINS=https://vault.example.com
 VEYORA_API_RATE_LIMIT=120
 
-# TLS certificate paths (mounted into the gateway container)
-VEYORA_TLS_CERT=/etc/letsencrypt/live/vault.example.com/fullchain.pem
-VEYORA_TLS_KEY=/etc/letsencrypt/live/vault.example.com/privkey.pem
+# TLS termination (gateway) — uncomment in .env and set the host
+# certificate directory plus the in-container paths
+VEYORA_TLS_CERT_DIR=/etc/letsencrypt/live/vault.example.com
+VEYORA_GATEWAY_TLS_CERT_FILE=/certs/fullchain.pem
+VEYORA_GATEWAY_TLS_KEY_FILE=/certs/privkey.pem
+VEYORA_GATEWAY_TLS_PORT=443
 ```
 
 ## 4. Envoy TLS listener
 
-The gateway's Envoy configuration (`deployment/envoy.yaml`) terminates
-TLS. Mount the certificates and use the production Compose file:
+The gateway's Envoy configuration (`docker/gateway/envoy.yaml`) terminates
+TLS. Mount the certificates and start the stack:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+cd docker && docker compose up -d
 ```
 
 Verify TLS:
@@ -73,7 +76,7 @@ curl -v https://vault.example.com/ -o /dev/null -w "%{ssl_verify_result}\n"
 Add a cron job to renew certificates and reload Envoy:
 
 ```bash
-echo "0 3 * * * certbot renew --quiet && docker compose exec gateway kill -HUP 1" | sudo crontab -
+echo "0 3 * * * certbot renew --quiet && cd /path/to/veyora/docker && docker compose exec gateway kill -HUP 1" | sudo crontab -
 ```
 
 ## 6. Security checklist
@@ -91,23 +94,14 @@ Before exposing to the public internet:
 
 ## 7. Automated backups
 
-Add a scheduled backup container to your Compose stack:
+The Compose topology ships an optional backup profile. From the `docker/`
+directory:
 
-```yaml
-  backup:
-    image: ${REGISTRY}/${NAMESPACE}/veyora-backup:${VERSION}
-    environment:
-      DATABASE_URL: postgres://veyora:${VEYORA_DB_PASSWORD}@db:5432/veyora
-    volumes:
-      - ./backups:/backups
-    entrypoint: ["/bin/sh", "-c",
-      "while true; do sleep 86400; \
-       ./backup > /backups/veyora-$(date +%Y%m%d).json; \
-       find /backups -name '*.json' -mtime +7 -delete; done"]
-    restart: unless-stopped
+```bash
+docker compose --profile backup up -d backup
 ```
 
-This runs a full backup daily and retains 7 days.
+This runs a full opaque snapshot daily and retains 7 days under `backups/`.
 
 ## 8. Monitoring
 

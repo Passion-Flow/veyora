@@ -62,7 +62,7 @@ run-web: ## Serve the web client on 127.0.0.1:3000
 	cd frontend/web && python3 -m http.server 3000 --bind 127.0.0.1
 
 run-db: ## Start PostgreSQL for source development
-	docker compose -f docker-compose.yml -f docker-compose.dev.yml up postgres
+	cd docker && docker compose up postgres
 
 migrate: ## Apply database migrations using DATABASE_URL
 	cd backend && cargo build --locked -p migrator
@@ -84,13 +84,13 @@ sandbox: ## Validate an inert record supplied through RECORD
 	echo '$(RECORD)' | backend/target/debug/sandbox
 
 docker-build: ## Build the local Compose images
-	docker compose -f docker-compose.yml -f docker-compose.build.yml build
+	cd docker && docker compose build
 
 docker-up: ## Start the local preview in the background
-	docker compose up -d
+	cd docker && docker compose up -d
 
 docker-down: ## Stop the local preview without deleting its data volume
-	docker compose down
+	cd docker && docker compose down
 
 clean: ## Remove Rust build artifacts
 	cd security-kernel && cargo clean

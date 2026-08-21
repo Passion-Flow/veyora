@@ -38,3 +38,4 @@ __pycache__/
 *.py[cod]
 backups/
 certs/
+.zcode/

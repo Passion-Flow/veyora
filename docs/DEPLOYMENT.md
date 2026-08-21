@@ -18,16 +18,17 @@ have received independent review.
 ```bash
 git clone https://github.com/Passion-Flow/veyora.git
 cd veyora
-cp .env.example .env
+cp docker/.env.example docker/.env
 ```
 
-Set `VEYORA_DB_PASSWORD` in `.env` to a unique development-only value. The
-checked-in example intentionally leaves it blank so Compose fails closed until
-you choose one.
+Set `VEYORA_DB_PASSWORD` in `docker/.env` to a unique development-only value.
+The checked-in example intentionally leaves it blank so Compose fails closed
+until you choose one.
 
 ### Start
 
 ```bash
+cd docker
 docker compose config --quiet
 docker compose up -d
 docker compose ps
@@ -42,15 +43,18 @@ for the host automatically.
 | --- | --- | --- |
 | Web client | `http://127.0.0.1:3000` | Browser UI and same-origin `/api` proxy |
 | Gateway | `http://127.0.0.1:8080` | Local API diagnostics and smoke testing |
+| PostgreSQL | `127.0.0.1:5432` | Loopback-only publication for source development |
 
-PostgreSQL and the Rust API are not published to the host by the base topology.
-The worker and migrator use the private Compose network.
+The Rust API itself is not published to the host. The worker and migrator use
+the private Compose network.
 
 ### Verify
 
+From the repository root:
+
 ```bash
 ./scripts/smoke-test.sh http://127.0.0.1:8080
-docker compose logs --tail=100 api gateway web worker
+cd docker && docker compose logs --tail=100 api gateway web worker
 ```
 
 The smoke test writes and tombstones an explicitly inert ciphertext fixture.
@@ -71,7 +75,7 @@ stored there.
 Start only PostgreSQL:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up postgres
+cd docker && docker compose up postgres
 ```
 
 Then run the API in another terminal:
@@ -119,41 +123,45 @@ internet exposure.
 
 Every application and foundation is published under one architecture-neutral
 release tag. The public GitHub Container Registry packages are the default for
-open-source deployments. An authenticated Alibaba Cloud Container Registry
-mirror is maintained for operators who need that distribution path.
+open-source deployments:
 
-| Image | Public default | Authenticated mirror |
-| --- | --- | --- |
-| `veyora-<component>:v1.0.0` | `ghcr.io/passion-flow` | `crpi-ew8juv9423tvogc4.cn-hongkong.personal.cr.aliyuncs.com/passion_project` |
+| Image | Public default |
+| --- | --- |
+| `veyora-<component>:v1.0.0` | `ghcr.io/passion-flow` |
 
 The component set is `postgres`, `nginx`, `envoy`, `rust`, `debian`, `api`,
 `worker`, `migrator`, `backup`, `restore`, `sandbox`, `web`, and `gateway`.
-Both registries use exactly the same component names and version tag.
 
-To use the authenticated mirror, log in according to your registry access
-policy and set these values in `.env`:
+To pull from another registry (a private mirror, for example), log in according
+to your registry access policy and set these values in `docker/.env`:
 
 ```dotenv
-REGISTRY=crpi-ew8juv9423tvogc4.cn-hongkong.personal.cr.aliyuncs.com
-NAMESPACE=passion_project
+REGISTRY=your-registry.example.com
+NAMESPACE=your-namespace
 VERSION=v1.0.0
 ```
 
-Do not store registry passwords or tokens in `.env`, Compose files, shell
-history, or the repository.
+Do not store registry passwords or tokens in `docker/.env`, Compose files,
+shell history, or the repository.
 
-## Build and publish the Alibaba Cloud mirror
+## Build and publish images
 
 The publishing script is registry-neutral and builds Veyora images for
-`linux/amd64` and `linux/arm64`. Its defaults target the official Alibaba Cloud
-namespace and the `v1.0.0` release tag. Authenticate through a secure credential
-flow before running it:
+`linux/amd64` and `linux/arm64`. Its defaults target the official GitHub
+Container Registry namespace and the `v1.0.0` release tag. Authenticate
+through a secure credential flow before running it:
 
 ```bash
-docker login --username=Passion-Flow \
-  crpi-ew8juv9423tvogc4.cn-hongkong.personal.cr.aliyuncs.com
+docker login ghcr.io
 
 ./scripts/build-and-push.sh
+```
+
+Publish to a different registry by overriding the variables:
+
+```bash
+REGISTRY=your-registry.example.com NAMESPACE=your-namespace \
+  ./scripts/build-and-push.sh
 ```
 
 The script first mirrors the pinned PostgreSQL, nginx, Envoy, Rust, and Debian
@@ -179,21 +187,25 @@ For contributor builds that must use the current source tree instead of the
 published images:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.build.yml \
-  up --build -d
+cd docker
+docker compose build
+docker compose up -d
 ```
 
-## Production-shaped topology
+## Production-shaped configuration
 
-Provide explicit settings and validate the production-shaped file:
+The single Compose file carries both the local preview and the
+production-shaped settings. Provide explicit values and validate:
 
 ```bash
+cd docker
 VEYORA_DB_PASSWORD='replace-me' \
-VEYORA_API_AUTH=disabled \
-docker compose -f docker-compose.prod.yml config --quiet
+VEYORA_API_AUTH=token \
+VEYORA_API_TOKEN='replace-me' \
+docker compose config --quiet
 ```
 
-The production-shaped file still binds host ports to `127.0.0.1`. Put a
+The topology still binds the plain-HTTP host ports to `127.0.0.1`. Put a
 reviewed, owner-controlled TLS and authentication layer in front of those
 ports. Do not change the bind address to a public interface without reviewing
 the full threat model and access-control design.
