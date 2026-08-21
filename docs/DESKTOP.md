@@ -17,7 +17,7 @@ against the same server.
 | Platform | Artifact | Produced by |
 | --- | --- | --- |
 | Windows | `Veyora_<version>_x64-setup.exe` (NSIS) | `make desktop-build` on Windows |
-| macOS | `Veyora.app`, `Veyora_<version>_aarch64.dmg` | `make desktop-build` on macOS |
+| macOS | `Veyora.app`, `Veyora_<version>_universal.dmg` | `make desktop-build` on macOS |
 
 Release builds are also attached to GitHub Releases by the desktop
 release workflow on every `v*` tag.
