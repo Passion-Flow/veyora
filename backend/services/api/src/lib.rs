@@ -90,6 +90,9 @@ impl Config {
             .map(str::to_string)
             .collect();
         let rate_limit_per_minute = match std::env::var("VEYORA_API_RATE_LIMIT") {
+            // Empty and unset behave the same: deployment templates pass
+            // the variable through as an empty string when it is unset.
+            Ok(raw) if raw.trim().is_empty() => 0,
             Ok(raw) => match raw.parse::<usize>() {
                 Ok(n) => n,
                 Err(_) => {
