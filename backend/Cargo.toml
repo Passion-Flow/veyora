@@ -13,6 +13,7 @@ members = [
     "crates/contracts-generated",
     "crates/persistence",
     "crates/postgres",
+    "crates/sqlite",
     "services/api",
     "services/worker",
     "services/sandbox",

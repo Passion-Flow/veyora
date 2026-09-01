@@ -1,16 +1,15 @@
-# Veyora desktop client
+# Veyora desktop app
 
-The desktop client packages the static web client as a native
-application for Windows and macOS using Tauri 2. It follows the
-thin-client model: the server keeps running as a Docker deployment on
-your own infrastructure, and the desktop app connects to it. All vault
-UI, the WebAssembly security kernel, and end-to-end encryption run
-inside the app's system WebView (WebView2 on Windows, WKWebView on
-macOS); the server only ever receives ciphertext.
+The desktop app is a complete standalone vault for Windows and macOS,
+packaged with Tauri 2. Everything runs inside the app: the vault UI and the
+WebAssembly security kernel execute in the system WebView (WebView2 on
+Windows, WKWebView on macOS), while the full encrypted-records API and its
+SQLite storage run in-process behind a loopback port. No server deployment,
+account, or network connection is required — install it and use it.
 
-An iPhone client is on the roadmap. Until it ships, iPhone and iPad
-users can install the web client as a PWA (Share → Add to Home Screen)
-against the same server.
+The local database holds only opaque ciphertext. Records are encrypted
+end-to-end inside the app by the Rust security kernel and stay locked
+without your master password.
 
 ## Installers
 
@@ -22,48 +21,74 @@ against the same server.
 Release builds are also attached to GitHub Releases by the desktop
 release workflow on every `v*` tag.
 
+## Storage location
+
+The first thing the app asks on first launch is **where to store the
+vault**. The chosen folder holds:
+
+```text
+<your folder>/vault.db          the encrypted vault (ciphertext only)
+<your folder>/backups/          rolling startup snapshots (vault-<ms>.db)
+```
+
+- Pick any folder you control — including external or network drives.
+- Pointing the first-run picker at a folder that already contains a
+  `vault.db` opens that vault, so copying the folder to another computer
+  carries the vault with it.
+- The OS app-data directory keeps only a small `settings.json` pointer to
+  your chosen folder plus backup preferences.
+
+### Vault menu
+
+| Action | What it does |
+| --- | --- |
+| Change Storage Location… | Moves `vault.db` and the backup history to a newly picked folder (the old folder is kept until you delete it), then restarts the app |
+| Storage Info… | Shows the current location, record count, database size, and backup count |
+| Open Storage Folder | Reveals the vault folder in Finder / Explorer |
+| Export Backup… | Writes all records to a JSON file — the same format as the server `backup` tool |
+| Import Backup… | Loads records from such a JSON file (already-present records are skipped), including exports from a self-hosted server deployment |
+
+### Startup snapshots
+
+By default every launch first copies the (checkpointed) database into
+`backups/`, keeping the last 10 snapshots. These preferences live in
+`settings.json` next to the app data directory.
+
 ## Build from source
 
 Prerequisites:
 
-- Rust (the pinned toolchain from `rust-toolchain.toml`)
+- Rust (the pinned toolchain from `src-tauri/rust-toolchain.toml`)
 - Node.js 22 or newer
 - Windows: WebView2 runtime (preinstalled on Windows 10/11)
 - macOS: Xcode command-line tools
 
 ```bash
-make desktop-dev     # run against a live server (connect screen appears)
+make desktop-dev     # run the standalone app from source
 make desktop-build   # produce installers under frontend/desktop/src-tauri/target/release/bundle/
 ```
 
-## Connect to a server
+The embedded SQLite store compiles from source (rusqlite "bundled"); no
+system SQLite is required.
 
-On first launch the app shows a connect screen:
+## Moving data between the desktop app and a server deployment
 
-- **Server URL** — the gateway address that serves `/healthz`, for
-  example `https://vault.example.com` or `http://192.168.1.10:8080`.
-  Entering the plain-HTTP web port (default 3000) fails the health
-  check; use the gateway instead.
-- **API token** — only when the server runs `VEYORA_API_AUTH=token`.
+The desktop app and the Docker server deployment share the same record
+format. Export from one side (desktop: Vault → Export Backup…; server: the
+`backup` service) and import on the other (desktop: Vault → Import
+Backup…; server: the `restore` service). Records stay ciphertext the whole
+way; both sides decrypt with the same master password.
 
-The values are stored in the WebView's localStorage under the same keys
-the web client reads (`veyora-api-url`, `veyora-api-token`). Use
-**Connection → Change Server…** (Ctrl/Cmd+Shift+L) to reset them.
+## Security notes
 
-## Server-side notes
-
-- **CORS**: with `VEYORA_API_CORS_ORIGINS` set, the allowlist must
-  include the desktop origins `http://tauri.localhost` (Windows) and
-  `tauri://localhost` (macOS). An empty allowlist permits all origins.
-- **Plain HTTP on macOS**: WKWebView may refuse plain-`http` LAN
-  addresses. Prefer HTTPS (see [DEPLOYMENT-TLS.md](DEPLOYMENT-TLS.md))
-  when connecting a macOS client.
-- **Authentication**: the client sends `Authorization: Bearer <token>`
-  on every API request once a token is stored.
-- **Certificates**: the WebView only trusts standard CA chains.
-  Self-signed certificates (typical for local TLS experiments) are
-  rejected with a connection error — use a Let's Encrypt certificate
-  or an internal CA installed into the OS trust store.
+- The embedded API binds `127.0.0.1` on a random free port and only ever
+  sees ciphertext; authentication to the vault is the master password
+  itself (Argon2id inside the WebView), not the local API.
+- If the WASM kernel fails to load, the desktop app refuses to start the
+  vault instead of silently falling back to a non-cryptographic demo mode.
+- The app is a single-user local trust boundary: other local processes can
+  reach the loopback API, but only ever obtain ciphertext. A per-launch
+  token is a possible future hardening.
 
 ## Unsigned builds
 

@@ -7,13 +7,23 @@ process is established.
 
 ## [Unreleased]
 
+## [0.0.1] - 2026-09-01
+
+First tagged desktop release: the desktop app becomes a complete
+standalone vault (embedded records API + local SQLite storage) for
+Windows and macOS.
+
 ### Added
 
-- Desktop client (`frontend/desktop`): a Tauri 2 shell around the static
-  web client for Windows (NSIS `.exe`/MSI) and macOS (DMG). First-run
-  connect screen stores the gateway URL and optional API token in the
-  same localStorage keys the web client resolves; Connection menu with
-  Change Server. Release workflow builds both platforms on `v*` tags
+- Desktop app (`frontend/desktop`): a Tauri 2 **standalone** vault for
+  Windows (NSIS `.exe`/MSI) and macOS (DMG) — the encrypted-records API
+  and a SQLite store (`backend/crates/sqlite`) run in-process behind a
+  loopback port, so the app works with no server deployment. First-run
+  screen makes choosing the storage location the first action; Vault
+  menu exposes change-location (with migration), storage info, open
+  folder, and JSON export/import compatible with the server
+  `backup`/`restore` tools; rolling startup snapshots in the chosen
+  folder. Release workflow builds both platforms on `v*` tags
 - Optional bearer-token support in the web client (`veyora-api-token`
   localStorage override) so browser and desktop clients work against
   token-auth deployments
@@ -25,6 +35,12 @@ process is established.
 
 ### Changed
 
+- API CORS allow-methods now includes `POST`, so browser-side clients on
+  other origins (the desktop WebView) can reach `POST /records/batch`;
+  request IDs are generated from a per-process counter instead of reading
+  `/dev/urandom`, which silently failed on Windows
+- Backend architecture test recognizes `backend-sqlite` (store-adapter
+  crate location, migrations directory, dependency edge)
 - Single Docker deployment entry: the four root Compose files and the
   `deployment/` directory are consolidated into `docker/` with one
   canonical `docker-compose.yaml` (image pulls by default, inline

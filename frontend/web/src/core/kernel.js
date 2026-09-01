@@ -242,8 +242,47 @@ export async function loadKernel() {
     await module.default();
     kernel = new WasmKernel(module);
     return 'wasm';
-  } catch {
+  } catch (cause) {
+    // In the desktop shell a silently non-cryptographic fallback would put
+    // real credentials behind a fake vault: fail loudly instead.
+    if (window.VEYORA_DESKTOP) {
+      renderFatalKernelError(cause);
+      throw new Error('PM-KERNEL-UNAVAILABLE', { cause });
+    }
     kernel = new DemoKernel();
     return 'demo';
   }
+}
+
+/**
+ * Replace the page with an unmissable error screen when the WASM kernel
+ * cannot be activated in the desktop shell. The vault must never appear to
+ * work without its real cryptography.
+ */
+function renderFatalKernelError(cause) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => renderFatalKernelError(cause));
+    return;
+  }
+  document.title = 'Veyora — kernel unavailable';
+  const screen = document.createElement('div');
+  screen.setAttribute('role', 'alert');
+  screen.style.cssText =
+    'position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;' +
+    'justify-content:center;background:#1a0f13;color:#ffd9d9;' +
+    'font-family:system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;';
+  const card = document.createElement('div');
+  card.style.cssText = 'max-width:520px;padding:32px;';
+  const heading = document.createElement('h1');
+  heading.textContent = 'Security kernel unavailable';
+  heading.style.cssText = 'font-size:20px;margin:0 0 12px;';
+  const body = document.createElement('p');
+  body.textContent =
+    'The Veyora cryptography kernel failed to load, so the vault cannot be ' +
+    'opened. No data has been lost. Please reinstall the app and try again.';
+  body.style.cssText = 'font-size:14px;line-height:1.6;margin:0;';
+  card.appendChild(heading);
+  card.appendChild(body);
+  screen.appendChild(card);
+  document.body.replaceChildren(screen);
 }

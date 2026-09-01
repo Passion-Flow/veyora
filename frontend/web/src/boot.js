@@ -25,8 +25,10 @@
     document.body.appendChild(el);
   });
 
-  // Service Worker registration for offline support.
-  if ('serviceWorker' in navigator) {
+  // Service Worker registration for offline support. Skipped in the desktop
+  // shell: its WebView serves assets from a custom protocol where SW support
+  // is unreliable (and unnecessary — assets are already local).
+  if (!window.VEYORA_DESKTOP && 'serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(function () {
       // SW registration failure is non-fatal.
     });

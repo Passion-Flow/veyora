@@ -74,6 +74,7 @@ expected = {
     "backend-config": ["veyora-contracts-generated"],
     "backend-persistence": ["veyora-contracts-generated"],
     "backend-postgres": ["backend-persistence"],
+    "backend-sqlite": ["backend-persistence"],
     "migrator": [],
     "backup": [],
     "migrator": [],
@@ -319,6 +320,7 @@ fn safety_core_rust_targets_match_the_closed_allowlist() {
     for relative in functional {
         let allowed = relative.starts_with("crates/persistence/")
             || relative.starts_with("crates/postgres/")
+            || relative.starts_with("crates/sqlite/")
             || relative.starts_with("services/")
             || relative == Path::new("src/lib.rs");
         assert!(
@@ -394,9 +396,10 @@ fn production_targets_have_no_file_process_or_network_runtime_surface() {
         let relative = path.strip_prefix(&root).expect("backend relative path");
         // build.rs, Dockerfiles, compose files, and loose example manifests remain
         // forbidden everywhere. SQL migrations are permitted only inside the
-        // functional postgres crate's migrations directory; the safety core and
+        // functional store crates' migrations directories; the safety core and
         // backend root stay SQL-free.
-        let in_functional_migrations = relative.starts_with("crates/postgres/migrations/");
+        let in_functional_migrations = relative.starts_with("crates/postgres/migrations/")
+            || relative.starts_with("crates/sqlite/migrations/");
         assert!(
             name != "build.rs"
                 && name != "Dockerfile"

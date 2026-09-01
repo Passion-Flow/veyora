@@ -146,22 +146,25 @@ To exercise the ciphertext API with inert data (from the repository root):
 Stop the preview with `docker compose down` (from `docker/`). Add `--volumes`
 only when you intentionally want to delete the local PostgreSQL volume.
 
-## Desktop client
+## Desktop app
 
 Veyora also ships as a native desktop application for Windows and
-macOS — the same client-encrypted UI as the web client, packaged with
-[Tauri](https://tauri.app) and connecting to your self-hosted server:
+macOS — a complete standalone vault, not a client for a server. The
+client-encrypted UI and WASM kernel run in the system WebView while the
+records API and its SQLite storage run in-process behind a loopback port,
+packaged with [Tauri](https://tauri.app):
 
 ```bash
-make desktop-dev     # run from source against a live server
+make desktop-dev     # run the standalone app from source
 make desktop-build   # produce installers (.exe/.msi on Windows, .dmg on macOS)
 ```
 
 Release installers are attached to every `v*` tag on the GitHub Releases
-page. On first launch the app asks for the server address (and an API
-token when the server enforces token auth). An iPhone client is on the
-roadmap; until then the installable PWA covers iOS. See the
-[desktop client guide](docs/DESKTOP.md) for details.
+page. On first launch the app asks where to store the vault database;
+every storage concern stays under your control afterwards (change
+location, rolling backups, JSON export/import) from the Vault menu. An
+iPhone client is on the roadmap; until then the installable PWA covers
+iOS. See the [desktop app guide](docs/DESKTOP.md) for details.
 
 ## Develop from source
 

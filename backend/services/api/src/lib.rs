@@ -274,6 +274,9 @@ async fn cors_ok() -> StatusCode {
     StatusCode::NO_CONTENT
 }
 
+/// Monotonic per-process request-ID source for [`request_log_middleware`].
+static REQUEST_ID_COUNTER: AtomicU64 = AtomicU64::new(0);
+
 /// Simple request logger with per-request ID: prints method, path, status,
 /// duration, and a short hex request ID to stderr. The ID is also returned
 /// in the X-Request-Id response header for client-side correlation.
@@ -285,13 +288,13 @@ async fn request_log_middleware(
     let method = req.method().clone();
     let path = req.uri().path().to_string();
     state.metrics.record(method.as_str());
-    // Generate a short request ID (8 random bytes as hex).
-    let mut id_bytes = [0u8; 8];
-    let _ = std::fs::File::open("/dev/urandom").and_then(|mut f| {
-        use std::io::Read;
-        f.read_exact(&mut id_bytes)
-    });
-    let req_id: String = id_bytes.iter().map(|b| format!("{b:02x}")).collect();
+    // Short unique request ID: a monotonic per-process counter. Uniqueness (not
+    // unpredictability) is the requirement, and a counter works on every
+    // platform — unlike a /dev/urandom read, which silently failed on Windows.
+    let req_id: String = format!(
+        "{:016x}",
+        REQUEST_ID_COUNTER.fetch_add(1, Ordering::Relaxed)
+    );
     let start = std::time::Instant::now();
     let mut response = next.run(req).await;
     let status = response.status();
@@ -409,7 +412,10 @@ async fn cors_middleware(
         return axum::response::Response::builder()
             .status(axum::http::StatusCode::NO_CONTENT)
             .header("access-control-allow-origin", "*")
-            .header("access-control-allow-methods", "GET, PUT, DELETE, OPTIONS")
+            .header(
+                "access-control-allow-methods",
+                "GET, PUT, POST, DELETE, OPTIONS",
+            )
             .header("access-control-allow-headers", "content-type")
             .body(axum::body::Body::empty())
             .unwrap();
@@ -428,7 +434,7 @@ async fn cors_middleware(
     }
     headers.insert(
         "access-control-allow-methods",
-        "GET, PUT, DELETE, OPTIONS".parse().unwrap(),
+        "GET, PUT, POST, DELETE, OPTIONS".parse().unwrap(),
     );
     headers.insert(
         "access-control-allow-headers",
@@ -636,7 +642,8 @@ pub struct RecordDto {
 }
 
 impl RecordDto {
-    fn from_record(record: GenericEncryptedRecordV1) -> Self {
+    /// Convert a stored record into its wire DTO shape (no CAS expectation).
+    pub fn from_record(record: GenericEncryptedRecordV1) -> Self {
         Self {
             protocol_version: record.protocol_version,
             suite_id: record.suite_id,
@@ -654,7 +661,9 @@ impl RecordDto {
         }
     }
 
-    fn into_record(self) -> GenericEncryptedRecordV1 {
+    /// Convert a wire DTO into the storage record shape, dropping the CAS
+    /// expectation (callers pass it separately to `put`).
+    pub fn into_record(self) -> GenericEncryptedRecordV1 {
         GenericEncryptedRecordV1 {
             protocol_version: self.protocol_version,
             suite_id: self.suite_id,

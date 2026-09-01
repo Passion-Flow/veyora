@@ -1,10 +1,12 @@
-# Veyora desktop client
+# Veyora desktop app
 
-Tauri 2 shell that packages the static web client (`frontend/web`) as a
-native desktop application for Windows and macOS. The vault UI, the
-WebAssembly security kernel, and all encryption run inside the system
-WebView; the shell only adds the first-run "connect to your server"
-flow and a Connection menu.
+Tauri 2 shell that packages a complete standalone vault for Windows and
+macOS. The vault UI, the WebAssembly security kernel, and all encryption
+run inside the system WebView; the encrypted-records API and its SQLite
+storage run in-process behind a loopback port. The first-run screen makes
+choosing the storage location the first action, and the Vault menu exposes
+storage controls (change location, storage info, open folder, JSON
+export/import).
 
-See [docs/DESKTOP.md](../../docs/DESKTOP.md) for building, packaging,
-and connecting to a Veyora server.
+See [docs/DESKTOP.md](../../docs/DESKTOP.md) for building, packaging, and
+storage details.

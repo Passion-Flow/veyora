@@ -1,6 +1,6 @@
 {
   "name": "@veyora/desktop",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Veyora desktop client — Tauri shell around the static web client.",
   "type": "module",

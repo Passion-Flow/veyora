@@ -1,12 +1,13 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Veyora",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "identifier": "com.veyora.desktop",
   "build": {
     "frontendDist": "../../web"
   },
   "app": {
+    "withGlobalTauri": true,
     "windows": [],
     "security": {
       "csp": null
@@ -16,8 +17,8 @@
     "active": true,
     "targets": ["nsis", "app", "dmg"],
     "category": "Utility",
-    "shortDescription": "Client-encrypted credential vault",
-    "longDescription": "Veyora desktop client. Connects to a self-hosted Veyora server; vault records are encrypted end to end by the Rust security kernel inside the app.",
+    "shortDescription": "Standalone client-encrypted credential vault",
+    "longDescription": "Veyora desktop vault. A complete standalone app: the encrypted records API and its SQLite storage run inside it, in a storage location you choose. Vault records are encrypted end to end by the Rust security kernel; the local database only ever holds ciphertext.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
