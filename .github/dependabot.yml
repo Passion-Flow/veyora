@@ -12,6 +12,21 @@ updates:
       interval: weekly
     labels: [dependencies, rust]
 
+  - package-ecosystem: cargo
+    directory: /frontend/desktop/src-tauri
+    schedule:
+      interval: weekly
+    labels: [dependencies, rust]
+    ignore:
+      # glib is a Linux-only transitive dependency of the Tauri WebView
+      # stack (tauri 2.11 -> wry 0.55 -> gtk 0.18 -> glib 0.18). The
+      # advisory affecting glib < 0.20.0 is not remediable until Tauri
+      # adopts the gtk 0.20 stack, and the shipped Windows (.exe) and
+      # macOS (.dmg) installers do not compile glib at all. Revisit when
+      # a Tauri release moves to gtk >= 0.20.
+      - dependency-name: glib
+        versions: ["< 0.20.0"]
+
   - package-ecosystem: github-actions
     directory: /
     schedule:
