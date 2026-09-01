@@ -106,9 +106,26 @@ try {
   log(`✓ Entry "${name}" created and encrypted`);
 
   // Saving auto-opens the entry drawer — close it so rows are clickable.
+  // Deterministic, not sleep-based: the drawer opens asynchronously after
+  // the save round-trip, so an Escape pressed too early is swallowed, and
+  // one Escape closes one layer (overlay first, drawer second). Press and
+  // verify instead of assuming a fixed delay.
   const dismissOverlays = async () => {
-    await page.keyboard.press('Escape').catch(() => {});
-    await page.waitForTimeout(300);
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.keyboard.press('Escape').catch(() => {});
+      const settled = await page
+        .waitForFunction(
+          () =>
+            !document.querySelector('#drawer.on') &&
+            !document.querySelector('#backdrop.on') &&
+            !document.querySelector('.overlay.on'),
+          { timeout: 2000 }
+        )
+        .then(() => true)
+        .catch(() => false);
+      if (settled) return;
+    }
+    throw new Error('overlays did not close after Escape');
   };
   await dismissOverlays();
 
