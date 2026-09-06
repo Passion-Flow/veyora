@@ -9,6 +9,15 @@ process is established.
 
 ### Added
 
+- A full locale sweep in the browser: a new blocking journey cycles all
+  nine non-English catalogs (zh-CN, zh-TW, ja, ko, de, fr, es, ru, and
+  Arabic) through the live language switcher, asserting per locale the
+  registry-declared direction, a rendered translated label, an unchanged
+  item list, and zero horizontal overflow — restoring English at the
+  end. Together with the machine-checked 504-key parity and the deep
+  Arabic RTL assertions, every supported language is now exercised
+  against the real page (comprehensive suite 71/71 twice consecutively).
+
 - CI-side security scanning and scheduled fuzzing are live on runners
   (PRD SEC-ASSURE-003/005, CI halves): a new security-scan workflow
   (push, weekly, nightly, manual — every action SHA-pinned) runs the

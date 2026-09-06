@@ -66,7 +66,8 @@ language switch without state loss, opt-in-only telemetry silence, per-view
 console-error surveillance (every full-suite test runs under a console
 watchdog), reduced-motion emulation proving every animation and transition
 duration collapses to effectively zero, Arabic RTL rendering (mirrored
-chrome, no horizontal overflow, Arabic tab copy),
+chrome, no horizontal overflow, Arabic tab copy), a live sweep of all nine
+non-English locales with per-locale direction/state/overflow assertions,
 CSP/security-header contract via `tests/smoke/headers.sh`, real
 service 429 (PM-API-RATE-LIMITED with Retry-After) and store-down 503
 (PM-STORE-UNAVAILABLE) surfacing in the save banner with preserved input

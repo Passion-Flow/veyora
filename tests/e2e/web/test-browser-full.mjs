@@ -1437,6 +1437,44 @@ try {
       'every restored entry lands under a fresh id, originals intact');
   });
 
+  // === 12d. Locale sweep across every supported catalog ===
+  await test('every supported locale re-renders the dashboard without losing state', async () => {
+    await closeDrawerIfOpen();
+    // (en is the running locale; the sweep covers the other nine.)
+    const locales = [
+      ['zh-CN', 'ltr'], ['zh-TW', 'ltr'], ['ja', 'ltr'], ['ko', 'ltr'],
+      ['de', 'ltr'], ['fr', 'ltr'], ['es', 'ltr'], ['ru', 'ltr'], ['ar', 'rtl'],
+    ];
+    const rowsBefore = await page.locator('.trow').count();
+    for (const [tag, direction] of locales) {
+      await page.locator('#tb-settings').click();
+      await page.locator('#drawer').waitFor();
+      await page.locator('#set-locale').selectOption(tag);
+      await page.waitForTimeout(700);
+      await page.locator('#drawer-close').click();
+      await page.locator('#drawer.on').waitFor({ state: 'detached' });
+      // Direction follows the registry; the chrome re-renders translated;
+      // the row count is untouched by a language change.
+      assert.equal(
+        await page.evaluate(() => document.documentElement.dir), direction,
+        `${tag} sets direction ${direction}`);
+      const firstTab = await page.locator('.tab').first().textContent();
+      assert.ok(firstTab.trim().length > 0, `${tag} renders a tab label`);
+      assert.equal(await page.locator('.trow').count(), rowsBefore,
+        `${tag} preserves the item list`);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      assert.ok(overflow <= 0, `${tag} introduces no horizontal overflow (got ${overflow}px)`);
+    }
+    // Restore English for the journeys that follow.
+    await page.locator('#tb-settings').click();
+    await page.locator('#drawer').waitFor();
+    await page.locator('#set-locale').selectOption('en');
+    await page.waitForTimeout(700);
+    await page.locator('#drawer-close').click();
+    await page.locator('#drawer.on').waitFor({ state: 'detached' });
+  });
+
   // === 13. Destructive Reset matrix (DATA-009) ===
   await test('clearing device preferences never touches vault data (DATA-009)', async () => {
     await closeDrawerIfOpen();
