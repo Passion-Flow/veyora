@@ -43,9 +43,10 @@ def dry_run() -> int:
     authority = VERSION.get("version")
     if not re.fullmatch(r"\d+\.\d+\.\d+", authority or ""):
         problems.append(f"version authority is not a clean semver: {authority!r}")
-    retired = VERSION.get("retired_tags") or {}
-    if not isinstance(retired, dict):
-        problems.append("retired_tags must be a map of tag -> reason")
+    retired = VERSION.get("historical_tag_exceptions") or []
+    if not isinstance(retired, list) or not all(
+            "tag" in entry and "reason" in entry for entry in retired):
+        problems.append("historical_tag_exceptions must list tag+reason entries")
 
     for name, path in WORKFLOWS.items():
         text = path.read_text(encoding="utf-8")
@@ -81,7 +82,9 @@ def live() -> int:
         "{owner}/{repo}", subprocess.run(
             ["gh", "repo", "view", "--json", "nameWithOwner", "-q", ".nameWithOwner"],
             capture_output=True, text=True, check=True).stdout.strip())])
-    retired = VERSION.get("retired_tags") or {}
+    retired = {
+        entry["tag"] for entry in VERSION.get("historical_tag_exceptions") or []
+    }
     for release in releases:
         tag = release["tag_name"]
         if tag in retired:

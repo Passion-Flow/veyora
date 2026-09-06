@@ -9,6 +9,21 @@ process is established.
 
 ### Added
 
+- Sequences 1 and 6 closed with owner-authenticated live evidence: the
+  pushed commit triggered the first real GitHub-runner CI run, and five
+  genuine runner-only defects were fixed on the way to a fully green run
+  (Repository integrity, Compose integration with all browser suites on a
+  live stack, Desktop shell, Rust workspace, Security kernel, and the
+  WebAssembly build) — a cargo-fmt `-p` crash, missing Linux WebView
+  dependencies for the unified workspace, an ESM/CJS clash in the kernel
+  runtime test, stack resets silently dropping the diagnostics build
+  stamp, and a pre-restructure workspace map in the architecture test
+  (plus hadolint's CMD-vs-ENTRYPOINT flag passing and a gitleaks
+  allowlist for the inert E2E fixture passwords). The live release audit
+  then found the retired v0.0.1 preview tag presented as a stable Latest
+  release; it is now a prerelease with honest retired-tag notes and the
+  re-run audit passes against the 1.0.0 version authority.
+
 - Evidence-artifact hygiene is machine-enforced (PRD QA-010, repository
   half) and the mode matrix lands (PRD DOC-006): a new lint in
   `make check` validates every artifact under `release/evidence/` for

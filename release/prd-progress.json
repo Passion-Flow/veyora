@@ -2,7 +2,7 @@
  "schema_version": 1,
  "prd": "PRD.md",
  "product_version": "1.0.0",
- "updated_at": "2026-09-06T19:51:04Z",
+ "updated_at": "2026-09-06T21:42:05Z",
  "status_values": [
   "Complete",
   "Partial",
@@ -23,16 +23,15 @@
     "REL-012",
     "OSS-002"
    ],
-   "status": "Partial",
+   "status": "Complete",
    "completed_scope": [
+    "Repository public surfaces describe the product as a source-available experimental preview; release workflows reject tags differing from the version authority and publish non-stable channels as prereleases.",
     "Repository public surfaces now describe the product as a source-available experimental preview.",
     "Release workflows reject tags that differ from the version authority and publish non-stable channels as prereleases.",
-    "Reproducible release-metadata audit tool (tools/release/audit-releases.py): dry-run mode validates the repository side of the contract — version authority, the workflows' tag/version rejection gates, retired-tag registry, and the claim registry — and passes; --live mode (run by the owner with authenticated gh) audits every published release in one command: tag/authority match, no tag without a complete Release, no draft/prerelease-as-Latest, retired tags never stable, assets present. The blocker is unchanged and precise: live execution needs owner GitHub authorization; the tool makes that audit reproducible instead of a manual checklist."
+    "Reproducible release-metadata audit tool (tools/release/audit-releases.py): dry-run mode validates the repository side of the contract — version authority, the workflows' tag/version rejection gates, retired-tag registry, and the claim registry — and passes; --live mode (run by the owner with authenticated gh) audits every published release in one command: tag/authority match, no tag without a complete Release, no draft/prerelease-as-Latest, retired tags never stable, assets present. The blocker is unchanged and precise: live execution needs owner GitHub authorization; the tool makes that audit reproducible instead of a manual checklist.",
+    "Owner unlock executed — live release audit complete and the published metadata corrected: audit-releases.py --live (run with owner-authenticated gh) audited the one published release (v0.0.1) against the version authority; it found the retired desktop-preview tag presented as a stable Latest release. Corrected on GitHub: v0.0.1 is now a prerelease with notes stating it is a retired unsigned preview tag that must not be a release baseline (matching version.json's historical_tag_exceptions), and the re-run audit passes (live audit PASS over 1 release against authority 1.0.0). The auditor's retired-key lookup was also corrected to the actual version.json schema (historical_tag_exceptions). Public download surfaces re-audited: the README already states no Stable download exists and the packages are unsigned/unnotarized preview artifacts, and the repo description carries no capability claim — both consistent with the corrected release state."
    ],
-   "remaining_scope": [
-    "Verify and correct the metadata/status of every already-published GitHub release, including any release currently marked Latest.",
-    "Re-audit external download surfaces so all public claims match the actual published artifacts."
-   ],
+   "remaining_scope": [],
    "evidence": [
     "README.md",
     "CHANGELOG.md",
@@ -218,7 +217,7 @@
     "QA-001",
     "QA-002"
    ],
-   "status": "Partial",
+   "status": "Complete",
    "completed_scope": [
     "Normalized product versions through release/version.json.",
     "Expanded English-source and repository-integrity enforcement.",
@@ -245,11 +244,10 @@
     "Replaced the CI compose job's ad-hoc browser harness: the two browser suites no longer npm init/npm install playwright into /tmp; CI runs npm ci from the root Node workspace (playwright-core is a workspace dev dependency of tests/e2e/web) and executes the checked-in tests/e2e/web scripts from the repository root, relying on the suites' existing bundled-chromium then chrome/msedge-channel launch fallbacks (GitHub ubuntu runners preinstall Chrome and Edge). Verified locally that npm ci installs the workspace, that the E2E scripts resolve playwright-core and launch a browser from the repository root, and that the edited workflow is valid YAML; the first GitHub-runner execution is still pending the owner's push.",
     "Full-tree verification after the sequence-8 hardening window: every quality gate re-run green on the current tree — make check (repository PASS 420 files, manual-evidence, pairing/foundation-pins/compose-topology gates, 18 contract tests), web integrity/37 modules, locale parity 421 keys x10 catalogs, web unit 85/85, make check-codegen PASS (the new pairing contract files had changed the contracts-inventory digest; bindings regenerated and manifest digests refreshed, and the architecture suite's dependency-edge map and forbidden-literal scan were updated for the shared UTC logging helper — a duplicate key in the expected-edges map was also removed), workspace fmt/clippy -D warnings, desktop 9/9, security-kernel workspace 104 tests, architecture suite 12/12, and the three blocking browser suites each on a pristine store reset (comprehensive 60/60, accessibility 18/18, keyboard 20/20) plus the API smoke — confirming the hardening window introduced no regression anywhere in the tree.",
     "DATA-003 is fixed in the working tree (not just contained): the verifier record id is derived per vault (veyora-verifier-v1-<salt>) with legacy migration on unlock, proven by blocking unit tests and pristine browser regressions — the sequence-5 experimental lane carries the detail; the CI store reset remains as defense in depth.",
-    "CI first-run preflight (tools/release/ci-preflight.sh) executed end-to-end green locally: toolchain versions, make check (all repository gates incl. manual-evidence, pairing, key-lifecycle, recovery terminology), check-codegen, check-web, locale parity, web units, workspace fmt/clippy -D warnings, the security-kernel workspace's own tests, api tests, desktop shell tests, contracts tests, and codegen tooling — every repository-side check the migrated workflows run, in CI order. A clippy -D warnings failure it exposed in the desktop test module was fixed (unused import after the INST-006 path tests). The remaining gap is exactly what the tool names: runner-only verification (owner push) — migrated jobs on real GitHub runners, published-image digest checks on the runner network, and cold-cache desktop toolchain behavior."
+    "CI first-run preflight (tools/release/ci-preflight.sh) executed end-to-end green locally: toolchain versions, make check (all repository gates incl. manual-evidence, pairing, key-lifecycle, recovery terminology), check-codegen, check-web, locale parity, web units, workspace fmt/clippy -D warnings, the security-kernel workspace's own tests, api tests, desktop shell tests, contracts tests, and codegen tooling — every repository-side check the migrated workflows run, in CI order. A clippy -D warnings failure it exposed in the desktop test module was fixed (unused import after the INST-006 path tests). The remaining gap is exactly what the tool names: runner-only verification (owner push) — migrated jobs on real GitHub runners, published-image digest checks on the runner network, and cold-cache desktop toolchain behavior.",
+    "GitHub-runner CI first-run verification COMPLETE (run 34061368314, all six jobs green: Repository integrity, Compose integration incl. comprehensive+a11y+keyboard browser suites against the live stack with pristine resets, Desktop shell, Rust workspace, Security kernel, WebAssembly build). Reaching green required five real fixes surfaced only on runners: (1) cargo fmt has no -p flag — the desktop job's fmt step crashed; (2) the Rust workspace job lacked the Linux WebView build dependencies now that the workspace includes the desktop crate (glib-sys failed); (3) the kernel WASM runtime test is CommonJS under the root workspace's ESM type — renamed .cjs with workflow/registry references and a layout-manifest update; (4) the between-suite stack resets dropped VEYORA_BUILD_COMMIT so the re-rendered web config served 'unknown' — all three reset steps now re-pass the stamp (and the stale DATA-003 workaround comment is corrected to hygiene rationale); also hadolint flags must ride the container command (the image has CMD, not ENTRYPOINT) and the e2e fixture passwords are gitleaks-allowlisted as inert literals; (5) the architecture test's expected workspace map predates the restructure (worker's postgres edge, apps/desktop allowlisting). Every fix was committed and pushed; the final run is green end-to-end on ubuntu-latest runners."
    ],
-   "remaining_scope": [
-    "Verify the migrated repository, desktop, and Rust-workspace CI jobs, the new make check-codegen gate, and the blocking browser E2E (now installed via the root workspace npm ci) on GitHub runners (first run after this migration; requires the owner to commit and push)."
-   ],
+   "remaining_scope": [],
    "evidence": [
     "release/version.json",
     "tools/lint/check-repository.py",
