@@ -114,7 +114,7 @@
         "QA-004"
       ],
       "automated_evidence": [
-        "packages/security-kernel/tests/wasm_runtime_test.js",
+        "packages/security-kernel/tests/wasm_runtime_test.cjs",
         "apps/web/test/kernel.test.mjs"
       ],
       "manual_evidence": [

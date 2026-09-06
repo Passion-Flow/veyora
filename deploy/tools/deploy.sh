@@ -19,7 +19,10 @@ if [ ! -f "$ENV_FILE" ]; then
   exit 1
 fi
 
-set -a; source "$ENV_FILE"; set +a
+set -a
+# shellcheck source=/dev/null
+source "$ENV_FILE"
+set +a
 REGISTRY="${REGISTRY:-ghcr.io}"
 NAMESPACE="${NAMESPACE:-passion-flow}"
 VERSION="${VERSION:-v1.0.0}"
@@ -30,7 +33,7 @@ CERT_DIR="./certs"
 while [[ $# -gt 0 ]]; do
   case $1 in
     --domain) DOMAIN="$2"; shift 2 ;;
-    --cert-dir) CERT_DIR="$2"; shift 2 ;;
+    --cert-dir) export CERT_DIR="$2"; shift 2 ;;
     *) echo "Unknown option: $1"; exit 1 ;;
   esac
 done
@@ -86,7 +89,7 @@ docker compose up -d
 # Step 6: Wait for health
 echo "── Waiting for services ──"
 for service in postgres api gateway web; do
-  for i in $(seq 1 30); do
+  for _attempt in $(seq 1 30); do
     STATUS=$(docker compose ps --format json 2>/dev/null | \
       python3 -c "import json,sys; [print(s.get('Health','')) for s in json.load(sys.stdin) if s.get('Service')=='$service']" 2>/dev/null || echo "")
     [ "$STATUS" = "healthy" ] && break
