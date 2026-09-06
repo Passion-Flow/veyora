@@ -67,7 +67,7 @@ jobs:
             deploy/gateway/Dockerfile \
             deploy/web/Dockerfile; do
             docker run --rm -i hadolint/hadolint:v2.15.1-alpine \
-              --ignore DL3066 < "$dockerfile"
+              hadolint --ignore DL3066 - < "$dockerfile"
           done
       - name: Scan the public tree for secrets
         run: |
