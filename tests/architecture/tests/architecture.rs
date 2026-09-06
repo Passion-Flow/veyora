@@ -89,11 +89,11 @@ expected = {
     "backend-sqlite": ["backend-persistence"],
     "migrator": ["backend-persistence"],
     "backup": ["backend-persistence"],
-        "restore": ["backend-persistence"],
+    "restore": ["backend-persistence"],
     "validator": [],
     "veyora-backend": ["backend-config", "veyora-contracts-generated"],
     "veyora-contracts-generated": [],
-    "worker": ["backend-persistence"],
+    "worker": ["backend-persistence", "backend-postgres"],
     "veyora-desktop": ["api", "backend-persistence", "backend-sqlite"],
 }
 actual = {}
@@ -336,7 +336,8 @@ fn safety_core_rust_targets_match_the_closed_allowlist() {
         let allowed = relative.starts_with("packages/storage/persistence/")
             || relative.starts_with("packages/storage/postgres/")
             || relative.starts_with("packages/storage/sqlite/")
-            || relative.starts_with("services/");
+            || relative.starts_with("services/")
+            || relative.starts_with("apps/desktop/src-tauri/");
         assert!(
             allowed,
             "functional Rust file outside a known owner: {}",

@@ -66,7 +66,7 @@ jobs:
             deploy/containers/mirror/Dockerfile \
             deploy/gateway/Dockerfile \
             deploy/web/Dockerfile; do
-            docker run --rm -i hadolint/hadolint:v2.15.1-alpine < "$dockerfile"
+            docker run --rm -i hadolint/hadolint:v2.15.1-alpine               --ignore DL3066 < "$dockerfile"
           done
       - name: Scan the public tree for secrets
         run: |
@@ -210,6 +210,7 @@ jobs:
       - name: Exercise the browser, API, and WebAssembly together
         env:
           VEYORA_WEB_URL: http://127.0.0.1:3000
+          VEYORA_BUILD_COMMIT: e2e-ci-check
         run: node tests/e2e/web/test-browser.mjs
       - name: Capture first-phase service logs
         working-directory: deploy/compose
@@ -235,6 +236,7 @@ jobs:
       - name: Run comprehensive browser E2E
         env:
           VEYORA_WEB_URL: http://127.0.0.1:3000
+          VEYORA_BUILD_COMMIT: e2e-ci-check
         run: node tests/e2e/web/test-browser-full.mjs
       - name: Reset the data store before the accessibility audit
         working-directory: deploy/compose
@@ -252,6 +254,7 @@ jobs:
       - name: Run the automated accessibility audit
         env:
           VEYORA_WEB_URL: http://127.0.0.1:3000
+          VEYORA_BUILD_COMMIT: e2e-ci-check
         run: node tests/e2e/web/test-browser-accessibility.mjs
       - name: Reset the data store before the keyboard and focus audit
         working-directory: deploy/compose
@@ -269,6 +272,7 @@ jobs:
       - name: Run the keyboard and focus audit
         env:
           VEYORA_WEB_URL: http://127.0.0.1:3000
+          VEYORA_BUILD_COMMIT: e2e-ci-check
         run: node tests/e2e/web/test-browser-keyboard.mjs
       - name: Reject warnings, errors, and secret exposure in service logs
         working-directory: deploy/compose

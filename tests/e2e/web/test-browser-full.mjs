@@ -23,6 +23,9 @@ try {
 }
 
 const webUrl = process.env.VEYORA_WEB_URL || 'http://127.0.0.1:3000';
+// The build stamp the stack was built with (VEYORA_BUILD_COMMIT at image
+// build time); CI stamps its stack differently from local runs.
+const buildStamp = process.env.VEYORA_BUILD_COMMIT || 'e2e-local-check';
 const screenshotPath = process.env.VEYORA_SCREENSHOT_PATH;
 const browser = await (async () => {
   const candidates = [{}, { channel: 'chrome' }, { channel: 'msedge' }];
@@ -1202,7 +1205,7 @@ try {
     await page.locator('#diag-grid').waitFor();
     const text = await page.locator('#diag-grid').textContent();
     assert.match(text, /1\.0\.0/, 'product version is shown');
-    assert.match(text, /e2e-local-check/, 'the image build stamp is shown');
+    assert.ok(text.includes(buildStamp), 'the image build stamp is shown');
     assert.match(text, /Connected vault/, 'mode is shown');
     assert.match(text, /Encrypted records at 127\.0\.0\.1/, 'storage summary names the origin host only');
     assert.match(text, /Last sync/, 'last-sync field is present');
@@ -1228,7 +1231,7 @@ try {
     const bundleText = await page.locator('#bundle-text').textContent();
     assert.match(bundleText, /Veyora support bundle/);
     assert.match(bundleText, /version: 1\.0\.0/);
-    assert.match(bundleText, /build: e2e-local-check/);
+    assert.ok(bundleText.includes(`build: ${buildStamp}`));
     assert.match(bundleText, /service-host: 127\.0\.0\.1/, 'origin host only');
     assert.match(bundleText, /service-health: (ok|unhealthy|unreachable)/);
     // Redaction (DIAG-002 canary): no secrets in the previewed bundle.
