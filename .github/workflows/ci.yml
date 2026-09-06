@@ -289,6 +289,23 @@ jobs:
           VEYORA_WEB_URL: http://127.0.0.1:3000
           VEYORA_BUILD_COMMIT: e2e-ci-check
         run: node tests/e2e/web/test-browser-keyboard.mjs
+      - name: Verify the Connect gate against a real token-auth stack
+        working-directory: deploy/compose
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_API_AUTH: token
+          VEYORA_API_TOKEN: inert-ci-token
+          VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
+          VEYORA_WORKER_POLL_SECONDS: "1"
+          VEYORA_BUILD_COMMIT: e2e-ci-check
+        run: |
+          docker compose down --volumes --remove-orphans
+          docker compose up -d --wait --wait-timeout 180
+      - name: Run the live token-gate verification (UX-ONB-003)
+        env:
+          VEYORA_WEB_URL: http://127.0.0.1:3000
+          VEYORA_CONNECT_TOKEN: inert-ci-token
+        run: node tests/e2e/web/verify-token-gate.mjs
       - name: Reject warnings, errors, and secret exposure in service logs
         working-directory: deploy/compose
         run: |

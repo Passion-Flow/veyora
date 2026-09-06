@@ -9,6 +9,16 @@ process is established.
 
 ### Added
 
+- The live Connect-gate verification runs in CI on every push: the
+  Compose-integration job now restarts the stack in token-auth mode and
+  executes the previously on-demand `verify-token-gate.mjs` (stable 401
+  envelope, fresh-browser gate, wrong-token refusal, real-token entry
+  into the Welcome routes). Wiring it caught a staleness defect — the
+  authorized probe listed `/records` unscoped, which since the
+  vault-scoping change answers 400 on the missing declared scope; the
+  probe carries its scope and the full 4/4 verification passes against
+  the real token stack.
+
 - The backup/wipe/restore drill is now real, machine-run, and CI-wired
   — and executing it for the first time exposed a genuine data-loss
   defect: the restore binary's INSERT used the pre-scoping single-column

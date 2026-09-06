@@ -56,7 +56,9 @@ try {
       const body = await response.json();
       assert.equal(body.error.code, 'PM-API-UNAUTHORIZED');
     }
-    const ok = await fetch(`${apiUrl}/records`, {
+    // The authorized probe carries a declared vault scope (DATA-004):
+    // a bare listing would 400 on the missing scope, not on auth.
+    const ok = await fetch(`${apiUrl}/records?vault=probe`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     assert.equal(ok.status, 200);
