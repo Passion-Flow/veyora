@@ -9,6 +9,17 @@ process is established.
 
 ### Added
 
+- Every browser suite now runs on GitHub runners on every push: the
+  E2E-002..007 acceptance journeys (digest-invariant unlock rejection,
+  clean-device Recovery Key recovery, cross-vault isolation, atomic
+  import, destructive restore + hostile inputs, key regeneration) joined
+  the Compose-integration job with their own pristine stack reset, and a
+  dedicated fault-injection job exercises the genuine 429, dead-store
+  503, and gateway-injected latency legs against a rate-limited,
+  delay-injected disposable stack with teardown. First green run: all
+  seven CI jobs success with `E2E journeys: 6 passed` and `Fault suite:
+  4 passed` in the runner logs.
+
 - The live Connect-gate verification runs in CI on every push: the
   Compose-integration job now restarts the stack in token-auth mode and
   executes the previously on-demand `verify-token-gate.mjs` (stable 401
