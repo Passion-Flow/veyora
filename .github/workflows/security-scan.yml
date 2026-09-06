@@ -46,7 +46,7 @@ jobs:
         run: python3 tools/lint/check-actions-pinned.py
       - name: Upload the license inventory
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # actions/upload-artifact@v7.0.1
         with:
           name: license-inventory
           path: release/license-inventory.json
