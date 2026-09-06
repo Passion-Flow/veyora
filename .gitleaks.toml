@@ -22,3 +22,9 @@ paths = [
   '''^packages/security-kernel/target/.*''',
   '''^certs/.*''',
 ]
+
+[[allowlists]]
+description = "Browser E2E suite fixture passwords (inert literal test data, never a credential)"
+paths = [
+  '''^tests/e2e/web/.*\.mjs$''',
+]
