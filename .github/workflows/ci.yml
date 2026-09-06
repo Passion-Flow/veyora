@@ -66,7 +66,8 @@ jobs:
             deploy/containers/mirror/Dockerfile \
             deploy/gateway/Dockerfile \
             deploy/web/Dockerfile; do
-            docker run --rm -i hadolint/hadolint:v2.15.1-alpine               --ignore DL3066 < "$dockerfile"
+            docker run --rm -i hadolint/hadolint:v2.15.1-alpine \
+              --ignore DL3066 < "$dockerfile"
           done
       - name: Scan the public tree for secrets
         run: |
@@ -215,11 +216,13 @@ jobs:
       - name: Capture first-phase service logs
         working-directory: deploy/compose
         run: docker compose logs --no-color api gateway web worker > /tmp/veyora-compose-phase1.log
-      # Each browser suite must create its vault against a pristine store:
-      # the client reserves one global verifier record id (PRD DATA-003
-      # deficiency), so a second vault on the same store fails with 409.
-      # Isolating the suites keeps both blocking and deterministic without
-      # weakening the product gate.
+      # Each browser suite must create its vault against a pristine store
+      # (suite isolation keeps the gates blocking and deterministic). The
+      # verifier itself is vault-scoped since the DATA-003 fix; isolation
+      # remains hygiene, not a workaround.
+      # The reset must re-pass VEYORA_BUILD_COMMIT: the web container
+      # renders its config at start, and a reset without the stamp would
+      # serve 'unknown' and fail the Diagnostics assertions.
       - name: Reset the data store between browser suites
         working-directory: deploy/compose
         env:
@@ -227,6 +230,7 @@ jobs:
           VEYORA_API_AUTH: disabled
           VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
           VEYORA_WORKER_POLL_SECONDS: "1"
+          VEYORA_BUILD_COMMIT: e2e-ci-check
         run: |
           docker compose down --volumes --remove-orphans
           docker compose up -d --wait --wait-timeout 180
@@ -245,6 +249,7 @@ jobs:
           VEYORA_API_AUTH: disabled
           VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
           VEYORA_WORKER_POLL_SECONDS: "1"
+          VEYORA_BUILD_COMMIT: e2e-ci-check
         run: |
           docker compose down --volumes --remove-orphans
           docker compose up -d --wait --wait-timeout 180
@@ -263,6 +268,7 @@ jobs:
           VEYORA_API_AUTH: disabled
           VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
           VEYORA_WORKER_POLL_SECONDS: "1"
+          VEYORA_BUILD_COMMIT: e2e-ci-check
         run: |
           docker compose down --volumes --remove-orphans
           docker compose up -d --wait --wait-timeout 180
