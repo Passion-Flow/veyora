@@ -9,6 +9,22 @@ process is established.
 
 ### Added
 
+- CI-side security scanning and scheduled fuzzing are live on runners
+  (PRD SEC-ASSURE-003/005, CI halves): a new security-scan workflow
+  (push, weekly, nightly, manual — every action SHA-pinned) runs the
+  secret scan, `cargo audit` (vulnerabilities deny; the 18 current
+  warnings are unmaintained notices for the GTK3 family Tauri's
+  webkit2gtk bindings require plus other no-replacement transitives,
+  each ignored with crate-mapped rationale in `.cargo/audit.toml`), a
+  machine-readable third-party license inventory (new
+  `generate-license-inventory.py`: 544 cargo+npm dependencies,
+  forbidden-license policy, zero NOASSERTION) uploaded as an artifact,
+  and the actions-pinning lint — plus a nightly kernel fuzz-boundary run
+  with a date-derived rotating seed and the full kernel suite as a
+  regression guard. First runner run green end-to-end; the `.cargo`
+  tooling-config directory is declared in the layout manifest so the
+  closed-root gate keeps enforcing.
+
 - Sequences 1 and 6 closed with owner-authenticated live evidence: the
   pushed commit triggered the first real GitHub-runner CI run, and five
   genuine runner-only defects were fixed on the way to a fully green run
