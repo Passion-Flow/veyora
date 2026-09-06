@@ -18,17 +18,17 @@ have received independent review.
 ```bash
 git clone https://github.com/Passion-Flow/veyora.git
 cd veyora
-cp docker/.env.example docker/.env
+cp deploy/compose/.env.example deploy/compose/.env
 ```
 
-Set `VEYORA_DB_PASSWORD` in `docker/.env` to a unique development-only value.
+Set `VEYORA_DB_PASSWORD` in `deploy/compose/.env` to a unique development-only value.
 The checked-in example intentionally leaves it blank so Compose fails closed
 until you choose one.
 
 ### Start
 
 ```bash
-cd docker
+cd deploy/compose
 docker compose config --quiet
 docker compose up -d
 docker compose ps
@@ -53,8 +53,8 @@ the private Compose network.
 From the repository root:
 
 ```bash
-./scripts/smoke-test.sh http://127.0.0.1:8080
-cd docker && docker compose logs --tail=100 api gateway web worker
+./tests/smoke/api.sh http://127.0.0.1:8080
+cd deploy/compose && docker compose logs --tail=100 api gateway web worker
 ```
 
 The smoke test writes and tombstones an explicitly inert ciphertext fixture.
@@ -67,21 +67,22 @@ docker compose down
 ```
 
 This keeps the PostgreSQL volume. To deliberately remove the local database,
-run `docker compose down --volumes` after confirming that no required data is
-stored there.
+run `make purge-data CONFIRM=destroy-veyora-data` (or `docker compose down
+--volumes`): this deletes the named `veyora-pg` volume — every encrypted
+record stored by the deployment. The `./backups` bind-mounted directory and
+anything outside Compose are not touched; there is no undelete.
 
 ## Source development
 
 Start only PostgreSQL:
 
 ```bash
-cd docker && docker compose up postgres
+cd deploy/compose && docker compose up postgres
 ```
 
 Then run the API in another terminal:
 
 ```bash
-cd backend
 DATABASE_URL=postgres://veyora:YOUR_PASSWORD@127.0.0.1:5432/veyora \
 VEYORA_STORE=postgres \
 VEYORA_API_BIND=127.0.0.1:8080 \
@@ -121,19 +122,19 @@ internet exposure.
 
 ## Container distribution
 
-Every application and foundation is published under one architecture-neutral
-release tag. The public GitHub Container Registry packages are the default for
-open-source deployments:
+The Compose file references one architecture-neutral preview tag for each
+application and foundation image. Those references are source-development
+defaults, not proof that every registry asset exists or passed release gates:
 
 | Image | Public default |
 | --- | --- |
 | `veyora-<component>:v1.0.0` | `ghcr.io/passion-flow` |
 
 The component set is `postgres`, `nginx`, `envoy`, `rust`, `debian`, `api`,
-`worker`, `migrator`, `backup`, `restore`, `sandbox`, `web`, and `gateway`.
+`worker`, `migrator`, `backup`, `restore`, `validator`, `web`, and `gateway`.
 
 To pull from another registry (a private mirror, for example), log in according
-to your registry access policy and set these values in `docker/.env`:
+to your registry access policy and set these values in `deploy/compose/.env`:
 
 ```dotenv
 REGISTRY=your-registry.example.com
@@ -141,34 +142,34 @@ NAMESPACE=your-namespace
 VERSION=v1.0.0
 ```
 
-Do not store registry passwords or tokens in `docker/.env`, Compose files,
+Do not store registry passwords or tokens in `deploy/compose/.env`, Compose files,
 shell history, or the repository.
 
 ## Build and publish images
 
-The publishing script is registry-neutral and builds Veyora images for
-`linux/amd64` and `linux/arm64`. Its defaults target the official GitHub
-Container Registry namespace and the `v1.0.0` release tag. Authenticate
-through a secure credential flow before running it:
+The publishing script is intended to build Veyora images for `linux/amd64` and
+`linux/arm64`. Its defaults target the project GitHub Container Registry
+namespace and the `v1.0.0` preview tag. Authenticate through a secure
+credential flow before running it:
 
 ```bash
 docker login ghcr.io
 
-./scripts/build-and-push.sh
+./tools/release/publish-containers.sh
 ```
 
 Publish to a different registry by overriding the variables:
 
 ```bash
 REGISTRY=your-registry.example.com NAMESPACE=your-namespace \
-  ./scripts/build-and-push.sh
+  ./tools/release/publish-containers.sh
 ```
 
 The script first mirrors the pinned PostgreSQL, nginx, Envoy, Rust, and Debian
 foundations as `veyora-postgres`, `veyora-nginx`, `veyora-envoy`,
 `veyora-rust`, and `veyora-debian`. It then publishes `veyora-api`,
 `veyora-worker`, `veyora-migrator`, `veyora-backup`, `veyora-restore`,
-`veyora-sandbox`, `veyora-web`, and `veyora-gateway` from those foundations.
+`veyora-validator`, `veyora-web`, and `veyora-gateway` from those foundations.
 All 13 repositories receive one architecture-neutral `v1.0.0` tag backed by a
 two-platform OCI image index. The script inspects every published index and
 fails unless both target platforms are present. Confirm image digests,
@@ -176,18 +177,18 @@ vulnerability scans, and registry access policy before production use.
 
 ## Publish the public GHCR images
 
-The manual **Publish container images** GitHub Actions workflow accepts a
-`vMAJOR.MINOR.PATCH` version. It uses the repository-scoped `GITHUB_TOKEN`,
-links the packages to this public repository, publishes the same 13
-multi-platform images, and verifies both platforms in every resulting OCI index
-without registry credentials. No long-lived registry token is stored in the
-repository.
+The manual **Publish container images** workflow accepts only the exact tag in
+`release/version.json`. Its source is designed to use the repository-scoped
+`GITHUB_TOKEN`, link packages to this repository, publish the same 13
+multi-platform images, and inspect both target platforms. A successful remote
+run and recorded digests remain required evidence; workflow source alone is
+not publication proof.
 
 For contributor builds that must use the current source tree instead of the
 published images:
 
 ```bash
-cd docker
+cd deploy/compose
 docker compose build
 docker compose up -d
 ```
@@ -198,7 +199,7 @@ The single Compose file carries both the local preview and the
 production-shaped settings. Provide explicit values and validate:
 
 ```bash
-cd docker
+cd deploy/compose
 VEYORA_DB_PASSWORD='replace-me' \
 VEYORA_API_AUTH=token \
 VEYORA_API_TOKEN='replace-me' \

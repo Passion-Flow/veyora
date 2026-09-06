@@ -1,0 +1,89 @@
+; Proposed Veyora V1 key-lifecycle and portable-backup grammar.
+; This contract is not approved for a supported product flow until the
+; qualified review gate in contracts/protocol/key-lifecycle-v1.json passes.
+
+password-wrapper-v1 = [
+  protocol-version: 1,
+  suite-id: 1,
+  source-deployment-id: bytes .size 16,
+  vault-id: bytes .size 16,
+  key-generation: uint,
+  argon2id-salt: bytes .size 16,
+  argon2id-memory-kib: 65536,
+  argon2id-iterations: 3,
+  argon2id-parallelism: 1,
+  nonce: bytes .size 24,
+  wrapped-vault-key: bytes .size 48
+]
+
+recovery-wrapper-v1 = [
+  protocol-version: 1,
+  suite-id: 1,
+  source-deployment-id: bytes .size 16,
+  vault-id: bytes .size 16,
+  key-generation: uint,
+  recovery-id: bytes .size 16,
+  nonce: bytes .size 24,
+  wrapped-vault-key: bytes .size 48
+]
+
+key-confirmation-v1 = [
+  protocol-version: 1,
+  suite-id: 1,
+  source-deployment-id: bytes .size 16,
+  vault-id: bytes .size 16,
+  key-generation: uint,
+  nonce: bytes .size 24,
+  encrypted-confirmation: bytes .size 48
+]
+
+portable-backup-header-v1 = [
+  protocol-version: 1,
+  suite-id: 1,
+  backup-format-version: 1,
+  source-deployment-id: bytes .size 16,
+  vault-id: bytes .size 16,
+  backup-id: bytes .size 16,
+  created-at-unix-ms: uint,
+  key-generation: uint,
+  password-wrapper: password-wrapper-v1,
+  recovery-wrapper: recovery-wrapper-v1,
+  key-confirmation: key-confirmation-v1,
+  manifest-revision: uint,
+  manifest-envelope-sha256: bytes .size 32,
+  account-state-revision: uint,
+  account-state-sha256: bytes .size 32,
+  item-count: uint,
+  tombstone-count: uint,
+  minimum-reader-version: uint,
+  maximum-reader-version: uint,
+  chunk-plaintext-bytes: 4194304,
+  data-chunk-count: uint,
+  logical-size: uint
+]
+
+portable-backup-data-frame-v1 = bytes .size 4194321
+
+portable-backup-final-plaintext-v1 = [
+  header-sha256: bytes .size 32,
+  data-chunk-count: uint,
+  logical-size: uint,
+  padded-plaintext-bytes: uint,
+  logical-snapshot-sha256: bytes .size 32
+]
+
+portable-backup-stream-v1 = [
+  secretstream-header: bytes .size 24,
+  data-frames: [+ portable-backup-data-frame-v1],
+  final-frame: bytes .size (18..4096)
+]
+
+portable-backup-body-v1 = [
+  header: portable-backup-header-v1,
+  encrypted-stream: portable-backup-stream-v1
+]
+
+portable-backup-v1 = [
+  body: portable-backup-body-v1,
+  outer-hmac-sha256: bytes .size 32
+]

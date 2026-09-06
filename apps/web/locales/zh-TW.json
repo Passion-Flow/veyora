@@ -1,0 +1,1531 @@
+{
+  "schema_version": 1,
+  "locale": "zh-TW",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "你的私密數位空間"
+    },
+    "common.cancel": {
+      "text": "取消"
+    },
+    "common.copy": {
+      "text": "複製"
+    },
+    "common.close": {
+      "text": "關閉"
+    },
+    "common.show": {
+      "text": "顯示密碼"
+    },
+    "common.hide": {
+      "text": "隱藏"
+    },
+    "common.edit": {
+      "text": "編輯"
+    },
+    "common.delete": {
+      "text": "刪除"
+    },
+    "common.themeToggle": {
+      "text": "切換主題"
+    },
+    "common.undo": {
+      "text": "復原"
+    },
+    "common.passwordsMatch": {
+      "text": "兩次輸入一致"
+    },
+    "common.passwordsMismatch": {
+      "text": "兩次輸入不一致"
+    },
+    "entry.capsLock": {
+      "text": "大寫鎖定已開啟"
+    },
+    "entry.stage.deriving": {
+      "text": "正在衍生金鑰"
+    },
+    "entry.stage.decrypting": {
+      "text": "正在解密保險庫"
+    },
+    "entry.create.step": {
+      "text": "01 · 建立保險庫"
+    },
+    "entry.create.title": {
+      "text": "設定主密碼。"
+    },
+    "entry.create.passwordLabel": {
+      "text": "主密碼"
+    },
+    "entry.create.passwordPh": {
+      "text": "至少 {min} 個字元"
+    },
+    "entry.create.confirmLabel": {
+      "text": "確認密碼"
+    },
+    "entry.create.confirmPh": {
+      "text": "再輸入一次"
+    },
+    "entry.create.ack": {
+      "text": "我已了解該密碼無法找回——只有復原套件能在沒有密碼的情況下解鎖保險庫。"
+    },
+    "entry.create.btn": {
+      "text": "建立保險庫"
+    },
+    "entry.create.errLength": {
+      "text": "請至少使用 {min} 個字元——這個密碼是保險庫唯一的鑰匙。"
+    },
+    "entry.create.errMismatch": {
+      "text": "兩次輸入不一致。"
+    },
+    "entry.create.errAck": {
+      "text": "請先確認你已了解密碼無法找回，再繼續。"
+    },
+    "entry.kit.step": {
+      "text": "02 · 復原套件"
+    },
+    "entry.kit.title": {
+      "text": "忘了密碼？<br>這串碼就是唯一的入口。"
+    },
+    "entry.kit.sub": {
+      "text": "離線保存它——主密碼遺失時，這是唯一的復原途徑。"
+    },
+    "entry.kit.download": {
+      "text": "下載 .txt"
+    },
+    "entry.kit.open": {
+      "text": "開啟我的保險庫"
+    },
+    "entry.kit.skip": {
+      "text": "暫時跳過——之後可在保險庫中重新產生"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA 復原套件"
+    },
+    "entry.kit.fileTail": {
+      "text": "離線保存。持有此套件的任何人都能存取保險庫。"
+    },
+    "entry.unlock.tag": {
+      "text": "保險庫已鎖定"
+    },
+    "entry.unlock.title": {
+      "text": "歡迎回來。"
+    },
+    "entry.unlock.sub": {
+      "text": "輸入主密碼，在本機衍生金鑰並解密保險庫。"
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "主密碼"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "保險庫 {vault} · {count, plural, other {# 筆記錄}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "鹽值儲存於本機"
+    },
+    "entry.unlock.btn": {
+      "text": "解鎖保險庫"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "請輸入主密碼。"
+    },
+    "entry.unlock.errWrong": {
+      "text": "解密失敗——主密碼錯誤。保險庫保持鎖定。"
+    },
+    "entry.unlock.recoverLink": {
+      "text": "忘記密碼？使用復原套件找回"
+    },
+    "entry.recover.tag": {
+      "text": "復原"
+    },
+    "entry.recover.title": {
+      "text": "使用復原金鑰開啟您的保險庫"
+    },
+    "entry.recover.sub": {
+      "text": "復原金鑰可開啟保險庫的加密金鑰並設定新的主密碼。它可在全新裝置上獨立使用。"
+    },
+    "entry.recover.kitLabel": {
+      "text": "復原金鑰"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · 校驗碼"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "新的主密碼"
+    },
+    "entry.recover.btn": {
+      "text": "復原保險庫"
+    },
+    "entry.recover.back": {
+      "text": "返回解鎖"
+    },
+    "entry.recover.errKit": {
+      "text": "該復原金鑰無法開啟此保險庫 — 未做任何變更。"
+    },
+    "strength.readout": {
+      "text": "{bits} 位元 · {label}"
+    },
+    "strength.weak": {
+      "text": "弱"
+    },
+    "strength.fair": {
+      "text": "一般"
+    },
+    "strength.good": {
+      "text": "良好"
+    },
+    "strength.strong": {
+      "text": "強"
+    },
+    "strength.excellent": {
+      "text": "極強"
+    },
+    "nav.all": {
+      "text": "全部條目"
+    },
+    "nav.favorites": {
+      "text": "收藏"
+    },
+    "type.login": {
+      "text": "登入憑證"
+    },
+    "type.login.plural": {
+      "text": "登入憑證"
+    },
+    "type.note": {
+      "text": "安全筆記"
+    },
+    "type.note.plural": {
+      "text": "安全筆記"
+    },
+    "type.api-token": {
+      "text": "API 權杖"
+    },
+    "type.api-token.plural": {
+      "text": "API 權杖"
+    },
+    "type.ssh": {
+      "text": "SSH 金鑰"
+    },
+    "type.ssh.plural": {
+      "text": "SSH 金鑰"
+    },
+    "type.identity": {
+      "text": "身分資訊"
+    },
+    "type.identity.plural": {
+      "text": "身分資訊"
+    },
+    "top.recovery": {
+      "text": "復原套件"
+    },
+    "top.settings": {
+      "text": "設定"
+    },
+    "top.lock": {
+      "text": "立即鎖定"
+    },
+    "top.newEntry": {
+      "text": "新增條目"
+    },
+    "top.searchScope": {
+      "text": "在{scope}中搜尋"
+    },
+    "top.autolock": {
+      "text": "自動鎖定倒數"
+    },
+    "top.sort": {
+      "text": "排序"
+    },
+    "vault.nameDefault": {
+      "text": "我的 Veyora 密碼庫"
+    },
+    "vault.locationThisDevice": {
+      "text": "儲存在此裝置上"
+    },
+    "vault.locationService": {
+      "text": "位於 {host} 的已連線密碼庫"
+    },
+    "vault.locationUnknown": {
+      "text": "已連線密碼庫"
+    },
+    "table.colItem": {
+      "text": "條目"
+    },
+    "table.colType": {
+      "text": "類型"
+    },
+    "table.colLogin": {
+      "text": "帳號 / 密鑰"
+    },
+    "table.colUpdated": {
+      "text": "更新時間"
+    },
+    "table.count": {
+      "text": "{count, plural, other {# 筆記錄}}"
+    },
+    "table.emptyTitle": {
+      "text": "這裡空無一物"
+    },
+    "table.emptyVaultTitle": {
+      "text": "您的保庫是空的"
+    },
+    "table.emptyVaultBody": {
+      "text": "新增第一個登入項目，或從其他密碼管理器匯入項目。"
+    },
+    "table.addFirstLogin": {
+      "text": "新增第一個登入"
+    },
+    "table.importItems": {
+      "text": "匯入項目"
+    },
+    "table.emptyFiltered": {
+      "text": "此檢視尚無項目。"
+    },
+    "table.noResultsTitle": {
+      "text": "沒有結果"
+    },
+    "table.noResultsBody": {
+      "text": "在{scope}中找不到「{query}」的結果。"
+    },
+    "table.clearSearch": {
+      "text": "清除搜尋"
+    },
+    "table.searchAll": {
+      "text": "搜尋全部項目"
+    },
+    "action.copySecret": {
+      "text": "複製密文"
+    },
+    "action.favorite": {
+      "text": "收藏"
+    },
+    "action.more": {
+      "text": "更多操作"
+    },
+    "action.removeFilter": {
+      "text": "移除篩選：{filter}"
+    },
+    "sort.name": {
+      "text": "名稱 A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "名稱 Z–A"
+    },
+    "sort.updated": {
+      "text": "最近更新"
+    },
+    "sort.type": {
+      "text": "依類型"
+    },
+    "drawer.title.entry": {
+      "text": "條目"
+    },
+    "drawer.title.settings": {
+      "text": "設定"
+    },
+    "drawer.title.recovery": {
+      "text": "復原套件"
+    },
+    "drawer.copyPassword": {
+      "text": "複製密碼"
+    },
+    "drawer.copySecret": {
+      "text": "複製密文"
+    },
+    "drawer.reveal": {
+      "text": "顯示"
+    },
+    "drawer.favorite": {
+      "text": "收藏"
+    },
+    "drawer.unfavorite": {
+      "text": "已收藏"
+    },
+    "drawer.confirmDelete": {
+      "text": "確認刪除"
+    },
+    "drawer.meta": {
+      "text": "更新於 {date} · 版本 {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "已收藏"
+    },
+    "drawer.foot": {
+      "text": "記錄 {id} · 套件 1 · 協定 v1 · 透過 WASM 核心在瀏覽器內解密"
+    },
+    "field.name": {
+      "text": "名稱"
+    },
+    "field.itemName": {
+      "text": "條目名稱"
+    },
+    "field.fullName": {
+      "text": "姓名"
+    },
+    "field.username": {
+      "text": "使用者名稱 / 電子郵件"
+    },
+    "field.website": {
+      "text": "網站"
+    },
+    "field.service": {
+      "text": "服務"
+    },
+    "field.host": {
+      "text": "主機"
+    },
+    "field.password": {
+      "text": "密碼"
+    },
+    "field.token": {
+      "text": "權杖"
+    },
+    "field.passphrase": {
+      "text": "通關密語"
+    },
+    "field.idNumber": {
+      "text": "證件號碼"
+    },
+    "field.content": {
+      "text": "內容"
+    },
+    "field.privateKey": {
+      "text": "私鑰"
+    },
+    "field.notes": {
+      "text": "備註"
+    },
+    "ph.name": {
+      "text": "GitHub - Work"
+    },
+    "ph.noteName": {
+      "text": "例如 伺服器復原手冊"
+    },
+    "ph.tokenName": {
+      "text": "例如 GHCR 發布權杖"
+    },
+    "ph.sshName": {
+      "text": "例如 ed25519 — 工作站"
+    },
+    "ph.itemName": {
+      "text": "例如 護照"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "例如 GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "選填"
+    },
+    "ph.content": {
+      "text": "私密文字——離開本裝置前即已加密"
+    },
+    "ph.generate": {
+      "text": "自動產生"
+    },
+    "modal.newTitle": {
+      "text": "新增條目"
+    },
+    "modal.editTitle": {
+      "text": "編輯條目"
+    },
+    "modal.create": {
+      "text": "建立條目"
+    },
+    "modal.save": {
+      "text": "儲存變更"
+    },
+    "modal.encryptedNote": {
+      "text": "本機加密 · 而後以密文儲存"
+    },
+    "modal.generate": {
+      "text": "產生"
+    },
+    "gen.title": {
+      "text": "密碼產生器"
+    },
+    "gen.entropy": {
+      "text": "預估熵"
+    },
+    "gen.bitsUnit": {
+      "text": "位元"
+    },
+    "gen.length": {
+      "text": "長度"
+    },
+    "gen.upper": {
+      "text": "大寫字母"
+    },
+    "gen.lower": {
+      "text": "小寫字母"
+    },
+    "gen.digits": {
+      "text": "數字"
+    },
+    "gen.symbols": {
+      "text": "符號"
+    },
+    "gen.ambiguous": {
+      "text": "避免易混淆字元"
+    },
+    "gen.regenerate": {
+      "text": "重新產生"
+    },
+    "gen.use": {
+      "text": "使用此密碼"
+    },
+    "gen.poolNote": {
+      "text": "字元池共 {count} 個字元"
+    },
+    "gen.errCharset": {
+      "text": "請至少選擇一種字元集"
+    },
+    "settings.title": {
+      "text": "設定"
+    },
+    "settings.sub": {
+      "text": "本機偏好 · 僅限此裝置"
+    },
+    "settings.appearance": {
+      "text": "外觀"
+    },
+    "settings.theme": {
+      "text": "主題"
+    },
+    "settings.themeSub": {
+      "text": "白底黑字，或黑底白字"
+    },
+    "settings.light": {
+      "text": "淺色"
+    },
+    "settings.dark": {
+      "text": "深色"
+    },
+    "settings.language": {
+      "text": "語言"
+    },
+    "settings.languageSub": {
+      "text": "介面語言，缺失時回退到英文"
+    },
+    "settings.security": {
+      "text": "安全性"
+    },
+    "settings.autolock": {
+      "text": "閒置後自動鎖定"
+    },
+    "settings.autolockSub": {
+      "text": "金鑰材料將從記憶體中清零"
+    },
+    "settings.clipboard": {
+      "text": "複製後清除剪貼簿"
+    },
+    "settings.clipboardSub": {
+      "text": "密文不會殘留在剪貼簿中"
+    },
+    "settings.data": {
+      "text": "資料"
+    },
+    "settings.export": {
+      "text": "匯出明文資料"
+    },
+    "settings.exportSub": {
+      "text": "未加密 — 任何能開啟該檔案的人都能讀取內容"
+    },
+    "settings.exportBtn": {
+      "text": "匯出明文資料"
+    },
+    "settings.import": {
+      "text": "匯入 CSV"
+    },
+    "settings.importSub": {
+      "text": "通用登入 CSV（name, secret）"
+    },
+    "settings.importBtn": {
+      "text": "匯入"
+    },
+    "settings.about": {
+      "text": "關於"
+    },
+    "settings.note": {
+      "text": "Veyora 為實驗性預覽版——並非經過稽核的安全產品。"
+    },
+    "settings.minutes": {
+      "text": "{n} 分鐘"
+    },
+    "settings.seconds": {
+      "text": "{n} 秒"
+    },
+    "about.version": {
+      "text": "版本"
+    },
+    "about.kernel": {
+      "text": "核心"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "金鑰衍生"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "加密演算法"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "簽章演算法"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "伺服器可見"
+    },
+    "about.serverSeesValue": {
+      "text": "僅密文"
+    },
+    "recovery.title": {
+      "text": "復原套件"
+    },
+    "recovery.sub": {
+      "text": "Base32 · 含校驗 · 離線保存"
+    },
+    "recovery.warnHead": {
+      "text": "嚴重警告——請先保存再關閉"
+    },
+    "recovery.warnBody": {
+      "text": "此套件無需主密碼即可解密你的保險庫。任何持有它的人都能取得你的資料。請列印或抄寫，離線妥善保存，絕不要存放於本裝置。"
+    },
+    "recovery.copyKit": {
+      "text": "複製套件"
+    },
+    "recovery.regenerate": {
+      "text": "重新產生"
+    },
+    "recovery.note": {
+      "text": "主密碼與復原套件同時遺失，保險庫依設計將無法復原——不存在重置途徑。"
+    },
+    "toast.copied": {
+      "text": "已複製 · 剪貼簿將於 {seconds} 秒後清除"
+    },
+    "toast.copyFail": {
+      "text": "目前環境下複製失敗"
+    },
+    "toast.locked": {
+      "text": "保險庫已鎖定——金鑰材料已清零"
+    },
+    "toast.created": {
+      "text": "條目已加密並儲存"
+    },
+    "toast.updated": {
+      "text": "條目已重新加密 · 版本 {revision}"
+    },
+    "toast.deleted": {
+      "text": "條目已刪除 · 已記錄墓碑版本"
+    },
+    "toast.kitRegen": {
+      "text": "已產生新套件"
+    },
+    "toast.kitSkip": {
+      "text": "復原套件隨時可在頂欄盾牌圖示中取得"
+    },
+    "toast.exported": {
+      "text": "已匯出 {count} 筆條目"
+    },
+    "toast.importStub": {
+      "text": "演示版本——匯入功能為佔位"
+    },
+    "toast.autolockSet": {
+      "text": "自動鎖定已設為 {n} 分鐘"
+    },
+    "toast.clipSet": {
+      "text": "剪貼簿將於 {n} 秒後清除"
+    },
+    "toast.conflict": {
+      "text": "版本衝突——記錄已在別處被修改"
+    },
+    "toast.syncFailed": {
+      "text": "同步失敗——請檢查 API 連線"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "復原套件無效。"
+    },
+    "settings.resetVault": {
+      "text": "重設本地保險庫"
+    },
+    "settings.resetVaultSub": {
+      "text": "清除本機中繼資料以重新開始——伺服器上的記錄會保留"
+    },
+    "settings.resetVaultBtn": {
+      "text": "重設"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "再點一次確認"
+    },
+    "toast.renderError": {
+      "text": "呈現此檢視時發生問題"
+    },
+    "settings.changePw": {
+      "text": "變更主密碼"
+    },
+    "settings.changePwSub": {
+      "text": "用新金鑰重新加密所有記錄"
+    },
+    "settings.changePwBtn": {
+      "text": "變更"
+    },
+    "settings.changePwCurrent": {
+      "text": "目前的主密碼"
+    },
+    "toast.passwordChanged": {
+      "text": "主密碼已變更——所有記錄已重新加密"
+    },
+    "toast.importBadCsv": {
+      "text": "CSV 檔案格式不符合要求"
+    },
+    "toast.imported": {
+      "plural": {
+        "other": "已匯入 # 筆條目"
+      }
+    },
+    "health.reused": {
+      "text": "密碼已復用"
+    },
+    "health.stale": {
+      "text": "密碼已過期"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "other": "{count} 個復用"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "other": "{count} 個過期"
+      }
+    },
+    "drawer.totp": {
+      "text": "驗證器代碼"
+    },
+    "field.totpSecret": {
+      "text": "TOTP 金鑰（Base32）"
+    },
+    "ph.totpSecret": {
+      "text": "例如 JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "回收桶"
+    },
+    "nav.activeFilters": {
+      "text": "目前的篩選"
+    },
+    "table.trashEmpty": {
+      "text": "回收桶為空"
+    },
+    "action.restore": {
+      "text": "還原"
+    },
+    "toast.restored": {
+      "text": "條目已還原"
+    },
+    "apiError.default": {
+      "text": "出現問題。您剛才的變更可能未儲存。"
+    },
+    "apiError.PM-STORE-NOT-FOUND": {
+      "text": "記錄不存在。"
+    },
+    "apiError.PM-STORE-CONFLICT": {
+      "text": "版本衝突：記錄已在別處被修改。"
+    },
+    "apiError.PM-STORE-INVALID-RECORD": {
+      "text": "記錄格式無效。"
+    },
+    "apiError.PM-STORE-UNAVAILABLE": {
+      "text": "儲存後端不可用。"
+    },
+    "apiError.PM-API-ROUTE-MISMATCH": {
+      "text": "路徑與請求主體中的記錄 ID 不一致。"
+    },
+    "apiError.PM-API-BAD-BODY": {
+      "text": "請求主體無法解析。"
+    },
+    "apiError.PM-API-BAD-QUERY": {
+      "text": "查詢字串無法解析。"
+    },
+    "apiError.PM-API-BODY-TOO-LARGE": {
+      "text": "請求主體超出設定的大小上限。"
+    },
+    "apiError.PM-API-UNAUTHORIZED": {
+      "text": "缺少或無效的 Bearer 權杖。"
+    },
+    "apiError.PM-API-RATE-LIMITED": {
+      "text": "請求過於頻繁，請稍後重試。"
+    },
+    "apiError.PM-NETWORK-UNREACHABLE": {
+      "text": "無法連線伺服器。"
+    },
+    "entry.welcome.what": {
+      "text": "Veyora 將你的密碼與私密筆記保存在由主密碼保護的加密保險庫中。"
+    },
+    "entry.welcome.vault": {
+      "text": "保險庫是存放項目的加密容器。加密與解密都在本應用程式內完成；服務端只儲存密文。"
+    },
+    "entry.welcome.mode": {
+      "text": "模式：連線式保險庫 — 項目在本裝置加密，並與你的 Veyora 服務同步。"
+    },
+    "entry.create.beforeTitle": {
+      "text": "在繼續之前"
+    },
+    "entry.create.explainStorage": {
+      "text": "儲存：項目在本瀏覽器中加密，並以密文形式儲存在所連線的 Veyora 服務上。"
+    },
+    "entry.create.explainPassword": {
+      "text": "密碼：至少使用 {min} 個字元。長度比符號更重要。"
+    },
+    "entry.create.explainScreening": {
+      "text": "常見密碼檢查:Veyora 會在本裝置上與內建的小清單比對,你的密碼不會傳送到任何地方。"
+    },
+    "entry.create.errCommon": {
+      "text": "這個密碼基於一個非常常見的密碼。請用只有你會組合的詞語增加長度。"
+    },
+    "entry.create.explainRecovery": {
+      "text": "復原：此預覽版沒有復原途徑。忘記此密碼後，保險庫將無法重新開啟。"
+    },
+    "entry.create.explainBackup": {
+      "text": "備份：此預覽版尚不提供加密備份。CSV 匯出檔是明文檔案，不屬於備份。"
+    },
+    "modal.savedTitle": {
+      "text": "已儲存"
+    },
+    "modal.savedBody": {
+      "text": "{name} 已加密並儲存。"
+    },
+    "modal.savedBack": {
+      "text": "返回保險庫"
+    },
+    "modal.savedCopy": {
+      "text": "複製機密"
+    },
+    "modal.savedAdd": {
+      "text": "新增另一個項目"
+    },
+    "settings.trashRetention": {
+      "text": "垃圾桶保留時間偏好"
+    },
+    "settings.trashRetentionSub": {
+      "text": "偏好的保留時間；此預覽版尚不提供自動刪除"
+    },
+    "settings.days": {
+      "text": "{n} 天"
+    },
+    "toast.trashSet": {
+      "text": "垃圾桶保留時間偏好已設為 {n} 天"
+    },
+    "help.title": {
+      "text": "說明"
+    },
+    "help.sub": {
+      "text": "你想從哪裡開始？"
+    },
+    "help.getStart": {
+      "text": "開始使用"
+    },
+    "help.getStartSub": {
+      "text": "儲存你的第一個登入項，然後尋找並複製它"
+    },
+    "help.recovery": {
+      "text": "了解復原"
+    },
+    "help.recoverySub": {
+      "text": "此預覽版尚不支援復原；如果遺失主密碼，此保險庫將無法再次開啟"
+    },
+    "help.backup": {
+      "text": "建立加密備份"
+    },
+    "help.backupSub": {
+      "text": "此預覽版尚不提供加密備份；明文 CSV 匯出檔不屬於備份"
+    },
+    "help.restore": {
+      "text": "還原加密備份"
+    },
+    "help.restoreSub": {
+      "text": "此預覽版尚不提供備份還原；CSV 匯入功能只會匯入項目"
+    },
+    "help.connect": {
+      "text": "連線到服務"
+    },
+    "help.connectSub": {
+      "text": "此 Web 預覽版已使用設定的 Veyora 服務；經過審閱的配對流程尚不可用"
+    },
+    "help.troubleshoot": {
+      "text": "疑難排解"
+    },
+    "help.troubleshootSub": {
+      "text": "版本、儲存詳細資訊與偏好設定都在「設定」中"
+    },
+    "help.report": {
+      "text": "回報安全問題"
+    },
+    "help.reportSub": {
+      "text": "請透過 Veyora 儲存庫的安全政策私下回報"
+    },
+    "help.openAction": {
+      "text": "開啟"
+    },
+    "startHere.title": {
+      "text": "從這裡開始"
+    },
+    "startHere.sub": {
+      "text": "幾個快速步驟，讓保管庫準備就緒。"
+    },
+    "startHere.firstItem": {
+      "text": "新增第一個登入項或匯入項目"
+    },
+    "startHere.copyReveal": {
+      "text": "複製或顯示機密"
+    },
+    "startHere.lock": {
+      "text": "離開時鎖定保管庫"
+    },
+    "startHere.recovery": {
+      "text": "驗證復原材料"
+    },
+    "startHere.backup": {
+      "text": "建立加密備份"
+    },
+    "startHere.unavailable": {
+      "text": "此預覽版尚未提供。"
+    },
+    "startHere.done": {
+      "text": "已完成"
+    },
+    "startHere.allDone": {
+      "text": "全部完成。你可以隨時從「說明」重新開啟此清單。"
+    },
+    "startHere.hide": {
+      "text": "隱藏此清單"
+    },
+    "shortcuts.title": {
+      "text": "鍵盤快速鍵"
+    },
+    "shortcuts.sub": {
+      "text": "在欄位中輸入時，快速鍵絕不會觸發。"
+    },
+    "shortcuts.search": {
+      "text": "聚焦搜尋欄位"
+    },
+    "shortcuts.newItem": {
+      "text": "新增項目"
+    },
+    "shortcuts.generator": {
+      "text": "開啟密碼產生器"
+    },
+    "shortcuts.lockAction": {
+      "text": "鎖定保管庫"
+    },
+    "shortcuts.nav": {
+      "text": "在項目清單中上下移動"
+    },
+    "shortcuts.open": {
+      "text": "開啟選取的項目"
+    },
+    "shortcuts.escape": {
+      "text": "清除搜尋或關閉對話框"
+    },
+    "shortcuts.searchNote": {
+      "text": "搜尋僅在本裝置上執行，涵蓋名稱、使用者名稱、網站、服務、主機、備註、機密與項目類型，絕不會將你的查詢傳送至服務端。"
+    },
+    "help.shortcuts": {
+      "text": "使用鍵盤快速鍵"
+    },
+    "help.shortcutsSub": {
+      "text": "在一處查看所有快速鍵。"
+    },
+    "help.startHere": {
+      "text": "開啟「從這裡開始」清單"
+    },
+    "help.startHereSub": {
+      "text": "重新開啟入門清單。"
+    },
+    "settings.backup": {
+      "text": "建立加密備份"
+    },
+    "settings.backupSub": {
+      "text": "可攜且已加密 — 使用主密碼可在任何裝置上還原"
+    },
+    "settings.backupBtn": {
+      "text": "建立備份"
+    },
+    "settings.backupUnavailable": {
+      "text": "加密備份在此預覽版尚未提供"
+    },
+    "export.title": {
+      "text": "匯出明文資料"
+    },
+    "export.notEncrypted": {
+      "text": "未加密"
+    },
+    "export.warning": {
+      "text": "任何能開啟此檔案的人、其他應用程式、備份或雲端同步服務都可以讀取匯出的全部機密。"
+    },
+    "export.passwordLabel": {
+      "text": "主密碼"
+    },
+    "export.passwordHelp": {
+      "text": "重新輸入主密碼以確認此次匯出。"
+    },
+    "export.ack": {
+      "text": "我了解此檔案未加密，任何能存取它的人都可以讀取我的機密。"
+    },
+    "export.btn": {
+      "text": "匯出明文資料"
+    },
+    "export.needAck": {
+      "text": "匯出前請確認你已理解此警告。"
+    },
+    "export.needPassword": {
+      "text": "輸入主密碼以繼續。"
+    },
+    "export.wrongPassword": {
+      "text": "主密碼錯誤。未匯出任何內容。"
+    },
+    "export.failed": {
+      "text": "匯出失敗。未建立任何檔案。"
+    },
+    "export.doneTitle": {
+      "text": "匯出完成"
+    },
+    "export.doneBody": {
+      "text": "{file} 以明文形式包含 {count, plural, other {# 個項目}}。"
+    },
+    "export.includes": {
+      "text": "包含"
+    },
+    "export.includesList": {
+      "text": "名稱、類型、網站、使用者名稱、密碼或機密、備註"
+    },
+    "export.omitted": {
+      "text": "不包含"
+    },
+    "export.omittedList": {
+      "text": "TOTP 種子、收藏、自訂中繼資料"
+    },
+    "export.guidance": {
+      "text": "請將檔案移至安全的儲存位置，或在使用後立即刪除。不要透過電子郵件傳送或上傳到雲端服務。"
+    },
+    "export.doneClose": {
+      "text": "完成"
+    },
+    "field.nameHint": {
+      "text": "名稱僅用於辨認 — 請使用之後容易搜尋到的名字，例如 GitHub - Work。"
+    },
+    "modal.moreFields": {
+      "text": "更多欄位"
+    },
+    "modal.fewerFields": {
+      "text": "收合欄位"
+    },
+    "field.totpHint": {
+      "text": "貼上服務或驗證器應用提供的 otpauth:// URI 或 Base32 金鑰。空格與連字號會被忽略。"
+    },
+    "field.totpErrUri": {
+      "text": "這個 otpauth:// URI 缺少有效的 Base32 金鑰。"
+    },
+    "field.totpErrType": {
+      "text": "驗證器代碼僅支援 otpauth://totp/ URI。"
+    },
+    "field.totpErrBase32": {
+      "text": "TOTP 金鑰只能使用 Base32 字母 A–Z 和數字 2–7。"
+    },
+    "entry.routes.step": {
+      "text": "歡迎"
+    },
+    "entry.routes.title": {
+      "text": "你想如何開始？"
+    },
+    "entry.routes.sub": {
+      "text": "Veyora 把你的密碼保存在加密保險庫中。選擇一種開始方式。"
+    },
+    "entry.routes.create": {
+      "text": "建立新保險庫"
+    },
+    "entry.routes.createSub": {
+      "text": "從空白開始，新增第一個登入項目。"
+    },
+    "entry.routes.open": {
+      "text": "開啟現有保險庫"
+    },
+    "entry.routes.openSub": {
+      "text": "解鎖此裝置已知的保險庫。"
+    },
+    "entry.routes.import": {
+      "text": "從其他密碼管理器匯入"
+    },
+    "entry.routes.importSub": {
+      "text": "建立保險庫並匯入你的 CSV 匯出檔。"
+    },
+    "entry.routes.connect": {
+      "text": "進階：連線自架伺服器"
+    },
+    "entry.routes.connectSub": {
+      "text": "登入你自行維運的 Veyora 服務。"
+    },
+    "entry.routes.openNote": {
+      "text": "此裝置上還沒有已知保險庫。請建立新保險庫、匯入資料或連線服務。"
+    },
+    "entry.routes.importNote": {
+      "text": "請先設定主密碼——保險庫開啟後將立即進入匯入步驟。"
+    },
+    "entry.routes.back": {
+      "text": "返回"
+    },
+    "connect.tag": {
+      "text": "連線模式"
+    },
+    "connect.title": {
+      "text": "連線 / 登入"
+    },
+    "connect.sub": {
+      "text": "此 Veyora 服務要求先建立連線工作階段，才能建立或解鎖保險庫。"
+    },
+    "connect.urlLabel": {
+      "text": "服務位址"
+    },
+    "connect.tokenLabel": {
+      "text": "連線權杖"
+    },
+    "connect.tokenPh": {
+      "text": "貼上營運者提供的權杖"
+    },
+    "connect.tokenHelp": {
+      "text": "輸入服務營運者簽發的連線憑證。完整的裝置配對將隨連線模式提供。"
+    },
+    "connect.btn": {
+      "text": "連線"
+    },
+    "connect.errEmpty": {
+      "text": "請輸入服務位址和連線權杖。"
+    },
+    "connect.errWrong": {
+      "text": "服務拒絕了此連線權杖。"
+    },
+    "connect.errUnreachable": {
+      "text": "無法存取該位址上的服務。"
+    },
+    "field.errNameRequired": {
+      "text": "為這個項目取一個名稱，方便日後辨識——例如 GitHub - Work。"
+    },
+    "field.errSecretRequired": {
+      "text": "儲存前請填寫這個必填欄位，或使用「產生」來建立值。"
+    },
+    "modal.errSummaryTitle": {
+      "text": "儲存前，請先修正標示的欄位："
+    },
+    "toast.clipboardCleared": {
+      "text": "剪貼簿已清除。"
+    },
+    "toast.clipboardClearFailed": {
+      "text": "無法清除剪貼簿——可能正被其他應用程式占用。"
+    },
+    "save.statusTitle": {
+      "text": "尚未儲存"
+    },
+    "save.statusNetwork": {
+      "text": "vault 未被更改——無法連線到服務。你的輸入仍保留在此；恢復連線後可重試儲存。"
+    },
+    "save.statusConflict": {
+      "text": "該項目在你開始編輯後被另一台裝置變更，因此你的編輯未儲存。你的編輯仍保留在此。重新載入最新版本即可從其繼續——重新載入會取代本表單中的編輯。"
+    },
+    "save.statusOther": {
+      "text": "vault 未被更改——儲存被拒絕：{message}。你的輸入仍保留在此；檢查項目後重試。"
+    },
+    "save.statusRetry": {
+      "text": "重試儲存"
+    },
+    "save.statusReload": {
+      "text": "重新載入最新版本"
+    },
+    "modal.savedSync": {
+      "text": "已與服務同步——修訂版 {revision}。"
+    },
+    "modal.savedPending": {
+      "text": "已儲存到本裝置 — 尚未同步到服務。連線恢復後會自動同步。"
+    },
+    "modal.savedPendingDesktop": {
+      "text": "已儲存到本裝置 — 本地保管庫未回應。恢復可用後將自動儲存。"
+    },
+    "modal.syncNow": {
+      "text": "立即同步"
+    },
+    "modal.syncNowDesktop": {
+      "text": "重試儲存"
+    },
+    "table.pendingSync": {
+      "text": "等待同步"
+    },
+    "table.pendingSyncDesktop": {
+      "text": "待儲存"
+    },
+    "settings.diagnostics": {
+      "text": "診斷"
+    },
+    "diag.version": {
+      "text": "版本"
+    },
+    "diag.build": {
+      "text": "建置提交"
+    },
+    "diag.buildNotStamped": {
+      "text": "未標記於本映像檔"
+    },
+    "diag.mode": {
+      "text": "模式"
+    },
+    "diag.modeValue": {
+      "text": "已連線的 vault"
+    },
+    "diag.modeValueDesktop": {
+      "text": "此裝置上的本地保管庫"
+    },
+    "diag.storage": {
+      "text": "儲存"
+    },
+    "diag.storageValue": {
+      "text": "加密記錄位於 {host}"
+    },
+    "diag.storageValueDesktop": {
+      "text": "加密保管庫儲存在此裝置上"
+    },
+    "diag.storageUnknown": {
+      "text": "服務位置無法使用"
+    },
+    "diag.health": {
+      "text": "服務健康"
+    },
+    "diag.healthChecking": {
+      "text": "檢查中…"
+    },
+    "diag.healthOk": {
+      "text": "可連線"
+    },
+    "diag.healthUnhealthy": {
+      "text": "回應錯誤"
+    },
+    "diag.healthUnreachable": {
+      "text": "無法連線"
+    },
+    "diag.lastSync": {
+      "text": "上次同步"
+    },
+    "diag.lastSyncDesktop": {
+      "text": "上次儲存"
+    },
+    "diag.syncNone": {
+      "text": "尚未同步"
+    },
+    "diag.syncNoneDesktop": {
+      "text": "尚未儲存任何內容"
+    },
+    "diag.backup": {
+      "text": "上次已驗證備份"
+    },
+    "diag.backupNone": {
+      "text": "此預覽版暫不可用"
+    },
+    "diag.bundle": {
+      "text": "支援包"
+    },
+    "diag.bundleSub": {
+      "text": "自願產生且已遮蔽：產生一份供你在複製前預覽的診斷摘要。絕不會自動上傳任何內容。"
+    },
+    "diag.bundleBtn": {
+      "text": "產生支援包"
+    },
+    "diag.bundleTitle": {
+      "text": "支援包預覽"
+    },
+    "diag.bundleIntro": {
+      "text": "請查看下面的支援包——它不含任何機密。Veyora 絕不會上傳它；是否複製由你決定。"
+    },
+    "diag.bundleCopy": {
+      "text": "複製支援包文字"
+    },
+    "diag.bundleCopied": {
+      "text": "支援包已複製"
+    },
+    "nav.tags": {
+      "text": "標籤"
+    },
+    "field.tags": {
+      "text": "標籤"
+    },
+    "ph.tags": {
+      "text": "工作, 基礎設施"
+    },
+    "field.tagsHint": {
+      "text": "用逗號分隔標籤；標籤保存在本裝置並用於篩選。"
+    },
+    "tags.filterLabel": {
+      "text": "按標籤篩選："
+    },
+    "tags.none": {
+      "text": "還沒有帶標籤的條目。建立條目時在「更多欄位」中新增標籤。"
+    },
+    "resetMatrix.title": {
+      "text": "重設 — 精確選擇要刪除的內容"
+    },
+    "resetMatrix.prefsTitle": {
+      "text": "裝置偏好設定"
+    },
+    "resetMatrix.prefsSub": {
+      "text": "清除此裝置上儲存的主題、語言、垃圾桶保留期限和檢查清單。您的保險庫及其在服務端的資料不受影響。"
+    },
+    "resetMatrix.prefsBtn": {
+      "text": "清除偏好設定"
+    },
+    "resetMatrix.prefsConfirm": {
+      "text": "清除此裝置上的偏好設定？"
+    },
+    "resetMatrix.prefsDone": {
+      "text": "偏好設定已清除 — 下次載入 Veyora 時將套用預設值"
+    },
+    "resetMatrix.disconnectTitle": {
+      "text": "已儲存的服務連線"
+    },
+    "resetMatrix.disconnectSub": {
+      "text": "忘記此裝置上儲存的服務位址和連線權杖。不會刪除任何保險庫資料。"
+    },
+    "resetMatrix.disconnectBtn": {
+      "text": "忘記連線"
+    },
+    "resetMatrix.disconnectConfirm": {
+      "text": "忘記已儲存的服務連線？"
+    },
+    "resetMatrix.disconnectDone": {
+      "text": "已儲存的連線已清除 — 下次載入 Veyora 時生效"
+    },
+    "resetMatrix.localTitle": {
+      "text": "此裝置上的此保險庫"
+    },
+    "resetMatrix.localSub": {
+      "text": "從此裝置移除此保險庫，包括離線排隊的寫入。服務端的加密副本仍會保留，但此裝置將永遠無法再存取它。"
+    },
+    "resetMatrix.localBtn": {
+      "text": "從此裝置移除"
+    },
+    "resetMatrix.localConfirm": {
+      "text": "從此裝置移除？服務端副本將無法再存取"
+    },
+    "resetMatrix.everywhereTitle": {
+      "text": "刪除所有位置的保險庫"
+    },
+    "resetMatrix.everywhereSub": {
+      "text": "先從服務端刪除此保險庫的所有記錄，然後從此裝置移除保險庫。此操作無法復原。"
+    },
+    "resetMatrix.everywhereBtn": {
+      "text": "刪除所有位置"
+    },
+    "resetMatrix.everywhereConfirm": {
+      "text": "刪除所有位置？此操作無法復原"
+    },
+    "resetMatrix.everywhereDone": {
+      "text": "保險庫已刪除 — 已從服務端和此裝置移除 {count} 筆記錄"
+    },
+    "resetMatrix.everywhereFailed": {
+      "text": "服務端刪除失敗 — 此裝置上未刪除任何內容"
+    },
+    "settings.changePwNew": {
+      "text": "新的主密碼"
+    },
+    "settings.changePwConfirm": {
+      "text": "重複新的主密碼"
+    },
+    "settings.changePwErrLength": {
+      "text": "請至少使用 {min} 個字元。"
+    },
+    "settings.changePwErrCommon": {
+      "text": "此密碼由非常常見的素材構成，已在本地拒絕。"
+    },
+    "settings.changePwErrMismatch": {
+      "text": "兩次輸入的新密碼不一致。"
+    },
+    "settings.changePwErrWrong": {
+      "text": "目前主密碼錯誤 — 未做任何變更。"
+    },
+    "settings.changePwErrPending": {
+      "text": "仍有離線寫入待同步 — 請先與服務同步再變更密碼。"
+    },
+    "settings.changePwDone": {
+      "text": "主密碼已更改 — 每筆記錄都已用新金鑰重新加密。"
+    },
+    "backup.title": {
+      "text": "建立加密備份"
+    },
+    "backup.body": {
+      "text": "此檔案包含此保險庫的所有條目，使用您的主密碼透過專為此備份衍生的金鑰進行加密。它可在任何裝置上還原；沒有主密碼，任何人都無法復原其內容。"
+    },
+    "backup.passwordLabel": {
+      "text": "主密碼"
+    },
+    "backup.passwordHelp": {
+      "text": "重新輸入您的主密碼以密封備份。"
+    },
+    "backup.btn": {
+      "text": "建立備份"
+    },
+    "backup.doneTitle": {
+      "text": "加密備份已儲存"
+    },
+    "backup.doneBody": {
+      "text": "該檔案包含 {count} 個條目，採用端對端加密。"
+    },
+    "backup.doneLocked": {
+      "text": "請將檔案與主密碼一起妥善保存 — 只有該密碼才能開啟它。"
+    },
+    "backup.errEmpty": {
+      "text": "請輸入主密碼。"
+    },
+    "backup.errWrong": {
+      "text": "該密碼無法開啟此保險庫或此備份 — 未建立任何內容。"
+    },
+    "backup.errFailed": {
+      "text": "無法建立備份 — 未下載任何內容。"
+    },
+    "backup.errFormat": {
+      "text": "該檔案不是 Veyora 加密備份。"
+    },
+    "backup.restoreBtn": {
+      "text": "還原備份"
+    },
+    "backup.restoreBody": {
+      "text": "所選備份包含 {count} 個條目。輸入密封它的主密碼以解密並將其合併到此保險庫中。"
+    },
+    "backup.restoreHelp": {
+      "text": "現有條目絕不會被覆寫：已存在的還原 ID 將以新 ID 匯入。"
+    },
+    "backup.restoreDone": {
+      "text": "已在此保險庫中還原 {count} 個條目。"
+    },
+    "settings.restoreBtn": {
+      "text": "還原備份"
+    },
+    "entry.recover.link": {
+      "text": "使用復原金鑰復原"
+    },
+    "entry.recover.kitPlaceholder": {
+      "text": "xxxxx-xxxxx-xxxxx-…（12 組，每組 5 個字元）"
+    },
+    "entry.recover.newLabel": {
+      "text": "新的主密碼"
+    },
+    "entry.recover.confirmLabel": {
+      "text": "重複新的主密碼"
+    },
+    "entry.recover.errFailed": {
+      "text": "復原失敗 — 保險庫未變更。請檢查連線後重試。"
+    },
+    "settings.regenTitle": {
+      "text": "復原金鑰"
+    },
+    "settings.regenSub": {
+      "text": "產生新的復原金鑰；舊金鑰立即失效"
+    },
+    "settings.regenBtn": {
+      "text": "重新產生"
+    },
+    "regen.title": {
+      "text": "重新產生復原金鑰"
+    },
+    "regen.sub": {
+      "text": "將產生新的復原金鑰、撤銷舊金鑰，並在同一歩驟中建立已驗證的加密備份。關閉此對話框前，請務必保存新金鑰。"
+    },
+    "regen.btn": {
+      "text": "重新產生金鑰"
+    },
+    "regen.doneTitle": {
+      "text": "新復原金鑰已生效"
+    },
+    "regen.doneConsequence": {
+      "text": "舊的復原金鑰無法再開啟此保險庫。已隨此金鑰下載了包含所有條目的已驗證加密備份。"
+    },
+    "regen.kitLabel": {
+      "text": "您的新復原金鑰 — 請立即保存"
+    },
+    "regen.verified": {
+      "text": "此對話框回報成功之前，下載的備份已通過端對端驗證。"
+    },
+    "settings.kitBtn": {
+      "text": "檢視 / 驗證"
+    },
+    "kit.title": {
+      "text": "您的復原金鑰"
+    },
+    "kit.sub": {
+      "text": "此金鑰是遺失主密碼後回到保險庫的唯一途徑。請立即保存 — Veyora 無法為您復原它。"
+    },
+    "kit.label": {
+      "text": "復原金鑰（71 個字元）"
+    },
+    "kit.help": {
+      "text": "請抄寫下來或儲存到其他密碼管理器 — 不要存放在此保險庫內。"
+    },
+    "kit.copy": {
+      "text": "複製金鑰"
+    },
+    "kit.copied": {
+      "text": "復原金鑰已複製 — 請存放在安全的地方"
+    },
+    "kit.verifyLabel": {
+      "text": "重新輸入金鑰以證明您已保存"
+    },
+    "kit.verifyBtn": {
+      "text": "驗證已保存的金鑰"
+    },
+    "kit.later": {
+      "text": "稍後驗證"
+    },
+    "kit.errMismatch": {
+      "text": "與此保險庫的復原金鑰不符 — 請檢查您保存的副本後重試。"
+    },
+    "kit.verified": {
+      "text": "復原金鑰已驗證 — 已正確保存"
+    },
+    "trash.purgeBtn": {
+      "text": "永久刪除 {count} 個項目"
+    },
+    "trash.purgeConfirm": {
+      "text": "永久刪除 {count} 個項目？此操作無法復原"
+    },
+    "trash.purgeNote": {
+      "text": "立即從服務端刪除加密副本 — 不等待保留期結束。之後無法復原。"
+    },
+    "trash.purgeDone": {
+      "text": "已永久刪除 {count} 個項目"
+    },
+    "table.showMore": {
+      "text": "再顯示 {count} 筆"
+    },
+    "table.windowedCount": {
+      "text": "正在顯示 {total} 項中的 {shown} 項"
+    }
+  }
+}

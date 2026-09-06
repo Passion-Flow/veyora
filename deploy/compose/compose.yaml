@@ -1,0 +1,283 @@
+# ==================================================================
+# Veyora — canonical Docker Compose deployment topology.
+#
+# Quick start (from this directory):
+#   cp .env.example .env
+#   docker compose up -d
+#
+# Every tunable value is read from deploy/compose/.env (see .env.example for
+# the documented set and defaults). Plain `docker compose up` pulls the
+# published multi-architecture images from the registry configured by
+# REGISTRY / NAMESPACE / VERSION.
+#
+# Source builds (contributors and CI): the same file builds from the
+# repository root — `docker compose build` compiles every application
+# image locally and tags it with the interpolated image name.
+#
+# Optional profiles:
+#   --profile backup   daily encrypted-database snapshot loop
+#
+# Local development: `docker compose up postgres` starts only the
+# database (published on 127.0.0.1:${VEYORA_DB_PORT:-5432}) for running
+# the Rust services from source (see `make run-db`).
+# ==================================================================
+
+name: veyora
+
+# DB-004 least privilege: the migrator connects with the DDL role and the
+# running services connect with the DML-only role. Role-specific passwords
+# (VEYORA_DB_MIGRATOR_PASSWORD / VEYORA_DB_APP_PASSWORD) may override the
+# shared VEYORA_DB_PASSWORD; the roles themselves are created once by
+# deploy/containers/postgres/init-roles.sh on first initialization.
+x-migrator-database-url: &migrator-database-url
+  DATABASE_URL: postgres://veyora_migrator:${VEYORA_DB_MIGRATOR_PASSWORD:-${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in deploy/compose/.env}}@postgres:5432/${VEYORA_DB_NAME:-veyora}
+x-app-database-url: &app-database-url
+  DATABASE_URL: postgres://veyora_app:${VEYORA_DB_APP_PASSWORD:-${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in deploy/compose/.env}}@postgres:5432/${VEYORA_DB_NAME:-veyora}
+
+# DEP-006 container hardening: no Linux capabilities, a read-only root
+# filesystem, and an ephemeral /tmp for every stateless application
+# container. The gateway renders its envoy config into /tmp at start and
+# runs as the image's unprivileged envoy user, so it uses the full profile.
+# Documented exception: postgres (initdb must chown its data volume and the
+# official entrypoint runs as root).
+x-app-hardening: &app-hardening
+  cap_drop: ["ALL"]
+  read_only: true
+  tmpfs:
+    - /tmp
+
+# Web (nginx) documented DEP-006 exception: the stock nginx image's master
+# process starts as root and needs exactly these capabilities to chown its
+# cache directories, drop to the nginx worker user, and bind the (default)
+# privileged HTTP port; everything else is dropped. The root filesystem is
+# read-only: the server config renders into the tmpfs-mounted conf.d and the
+# runtime client config is served from /tmp.
+x-web-hardening: &web-hardening
+  cap_drop: ["ALL"]
+  cap_add: ["CHOWN", "NET_BIND_SERVICE", "SETGID", "SETUID"]
+  read_only: true
+  tmpfs:
+    - /tmp
+    - /etc/nginx/conf.d
+    - /var/cache/nginx
+    - /var/run
+
+services:
+  # PostgreSQL — sole persistent store; holds opaque ciphertext only.
+  postgres:
+    image: ${VEYORA_POSTGRES_IMAGE:-${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-postgres:${VERSION:-v1.0.0}}
+    environment:
+      POSTGRES_DB: ${VEYORA_DB_NAME:-veyora}
+      POSTGRES_USER: ${VEYORA_DB_USER:-veyora}
+      POSTGRES_PASSWORD: ${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in deploy/compose/.env}
+      POSTGRES_INITDB_ARGS: --auth-local=scram-sha-256 --auth-host=scram-sha-256 --locale=C --encoding=UTF8
+      # DB-004 role passwords for init-roles.sh (empty keeps the shared
+      # VEYORA_DB_PASSWORD default inside the script).
+      VEYORA_DB_PASSWORD: ${VEYORA_DB_PASSWORD:?Set VEYORA_DB_PASSWORD in deploy/compose/.env}
+      VEYORA_DB_APP_PASSWORD: ${VEYORA_DB_APP_PASSWORD:-}
+      VEYORA_DB_MIGRATOR_PASSWORD: ${VEYORA_DB_MIGRATOR_PASSWORD:-}
+    # Loopback-only publication so local Rust development can reach the
+    # database (`make run-db`); not reachable from other machines.
+    ports:
+      - "127.0.0.1:${VEYORA_DB_PORT:-5432}:5432"
+    volumes:
+      - veyora-pg:/var/lib/postgresql/data
+      - ../containers/postgres/init-roles.sh:/docker-entrypoint-initdb.d/20-veyora-roles.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${VEYORA_DB_USER:-veyora} -d ${VEYORA_DB_NAME:-veyora}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    # DEP-007: bounded memory; PostgreSQL tuning stays operator-controlled.
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    restart: unless-stopped
+
+  # Migrator — applies schema migrations once, then exits.
+  migrator:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-migrator:${VERSION:-v1.0.0}
+    build:
+      context: ../..
+      dockerfile: deploy/containers/migrator/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      <<: *migrator-database-url
+      VEYORA_DB_TLS_MODE: disabled-insecure
+      VEYORA_MIGRATIONS_DIR: /app/migrations
+    <<: *app-hardening
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    restart: "no"
+
+  # API — serves the vault record protocol; stores ciphertext only.
+  api:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-api:${VERSION:-v1.0.0}
+    build:
+      context: ../..
+      dockerfile: deploy/containers/api/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
+    environment:
+      <<: *app-database-url
+      VEYORA_DB_TLS_MODE: disabled-insecure
+      VEYORA_STORE: postgres
+      VEYORA_API_BIND: 0.0.0.0:8080
+      VEYORA_API_AUTH: ${VEYORA_API_AUTH:?Set VEYORA_API_AUTH (disabled for local preview, token for any reviewed deployment)}
+      VEYORA_API_TOKEN: ${VEYORA_API_TOKEN:-}
+      VEYORA_API_MAX_BODY_BYTES: ${VEYORA_API_MAX_BODY_BYTES:-262144}
+      # Hardening (see docs/OPERATOR-GUIDE.md); empty values keep the
+      # permissive development behavior.
+      VEYORA_API_CORS_ORIGINS: ${VEYORA_API_CORS_ORIGINS:-}
+      VEYORA_API_RATE_LIMIT: ${VEYORA_API_RATE_LIMIT:-}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+    <<: *app-hardening
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+    restart: unless-stopped
+
+  # Worker — background maintenance over the ciphertext store.
+  worker:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-worker:${VERSION:-v1.0.0}
+    build:
+      context: ../..
+      dockerfile: deploy/containers/worker/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
+    environment:
+      <<: *app-database-url
+      VEYORA_DB_TLS_MODE: disabled-insecure
+      VEYORA_WORKER_POLL_SECONDS: ${VEYORA_WORKER_POLL_SECONDS:-60}
+      # DATA-008/ITEM-009 Trash retention: tombstones older than this many
+      # days are purged by the worker's sweep (0 disables purging).
+      VEYORA_TRASH_RETENTION_DAYS: ${VEYORA_TRASH_RETENTION_DAYS:-30}
+    <<: *app-hardening
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    restart: unless-stopped
+
+  # Gateway (Envoy) — terminates TLS when certificates are provided;
+  # proxies to the API. Bind is loopback-only for plain HTTP; the TLS
+  # port is published on all interfaces for public deployments.
+  gateway:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-gateway:${VERSION:-v1.0.0}
+    build:
+      context: ../..
+      dockerfile: deploy/gateway/Dockerfile
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      VEYORA_GATEWAY_HTTP_PORT: 8080
+      VEYORA_API_UPSTREAM_HOST: api
+      VEYORA_API_UPSTREAM_PORT: 8080
+      VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS: ${VEYORA_GATEWAY_ROUTE_TIMEOUT_SECONDS:-30}
+      VEYORA_GATEWAY_TLS_CERT_FILE: ${VEYORA_GATEWAY_TLS_CERT_FILE:-}
+      VEYORA_GATEWAY_TLS_KEY_FILE: ${VEYORA_GATEWAY_TLS_KEY_FILE:-}
+      VEYORA_GATEWAY_TLS_PORT: 8443
+      # Fault-drill latency on record writes (unset/0 keeps the gateway
+      # delay-free; only test stacks set this).
+      VEYORA_GATEWAY_DELAY_MS: ${VEYORA_GATEWAY_DELAY_MS:-}
+    volumes:
+      - ${VEYORA_TLS_CERT_DIR:-./certs}:/certs:ro
+    ports:
+      - "127.0.0.1:${VEYORA_GATEWAY_PORT:-8080}:8080"
+      - "${VEYORA_GATEWAY_TLS_PORT:-8443}:8443"
+    <<: *app-hardening
+    # DEP-007: process liveness — the envoy image ships no HTTP probe
+    # tool, so the check proves the data-path listener accepts TCP.
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    restart: unless-stopped
+
+  # Web — static browser client; same-origin /api proxy to the gateway.
+  web:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-web:${VERSION:-v1.0.0}
+    build:
+      context: ../..
+      dockerfile: deploy/web/Dockerfile
+      args:
+        # Build identity shown in Diagnostics (DIAG-001); CI passes the
+        # commit SHA, local builds keep the honest 'unknown' default.
+        VEYORA_BUILD_COMMIT: ${VEYORA_BUILD_COMMIT:-unknown}
+    depends_on:
+      gateway:
+        condition: service_started
+    environment:
+      VEYORA_WEB_LISTEN_PORT: 80
+      VEYORA_API_UPSTREAM_HOST: gateway
+      VEYORA_API_UPSTREAM_PORT: 8080
+      VEYORA_WEB_PROXY_TIMEOUT_SECONDS: ${VEYORA_WEB_PROXY_TIMEOUT_SECONDS:-30}
+      VEYORA_API_BASE_URL: /api
+      # Rendered into veyora-config.js at container start (Diagnostics, DIAG-001).
+      VEYORA_BUILD_COMMIT: ${VEYORA_BUILD_COMMIT:-unknown}
+    ports:
+      - "127.0.0.1:${VEYORA_WEB_PORT:-3000}:80"
+    <<: *web-hardening
+    # DEP-007: the listener port is fixed at 80 inside the container.
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:80/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+    deploy:
+      resources:
+        limits:
+          memory: 128m
+    restart: unless-stopped
+
+  # Backup — daily opaque snapshot to ./backups, one-week retention.
+  # Optional: docker compose --profile backup up -d backup
+  backup:
+    image: ${REGISTRY:-ghcr.io}/${NAMESPACE:-passion-flow}/veyora-backup:${VERSION:-v1.0.0}
+    build:
+      context: ../..
+      dockerfile: deploy/containers/backup/Dockerfile
+    profiles: ["backup"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      <<: *app-database-url
+      VEYORA_DB_TLS_MODE: disabled-insecure
+    volumes:
+      # Host bind mount: Docker creates it root-owned while the container
+      # runs as uid 10001 (DEP-006), so make it writable once:
+      #   install -d -o 10001 -g 10001 ./backups
+      - ./backups:/backups
+    entrypoint: ["/bin/sh", "-c", "while true; do sleep 86400; veyora-backup > /backups/veyora-$(date +%Y%m%d).json; find /backups -name '*.json' -mtime +7 -delete; done"]
+    <<: *app-hardening
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    restart: unless-stopped
+
+volumes:
+  veyora-pg:

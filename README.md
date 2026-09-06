@@ -2,8 +2,8 @@
 
 <!-- Brand mark: black stroke on light, white stroke on dark (GitHub theme-aware). -->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="frontend/web/assets/brand/mark-white.png">
-  <img src="frontend/web/assets/brand/mark.png" width="128" alt="Veyora vault mark">
+  <source media="(prefers-color-scheme: dark)" srcset="apps/web/assets/brand/mark-white.png">
+  <img src="apps/web/assets/brand/mark.png" width="128" alt="Veyora vault mark">
 </picture>
 
 <h1>Veyora</h1>
@@ -11,7 +11,7 @@
 <p><strong>Your private digital space.</strong></p>
 
 <p>
-  A self-hosted, client-encrypted credential vault built around a portable Rust security kernel.
+  Veyora is being built to help you save, find, and back up passwords and other private information in an encrypted vault you control.
 </p>
 
 <p>
@@ -24,35 +24,26 @@
   <img alt="Project status: preview" src="https://img.shields.io/badge/status-preview-f59e0b?style=flat-square">
 </p>
 
-<p>
-  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-0969DA?style=flat-square"></a>
-  <a href="https://translate.google.com/translate?sl=en&amp;tl=zh-CN&amp;u=https%3A%2F%2Fgithub.com%2FPassion-Flow%2Fveyora"><img alt="简体中文" src="https://img.shields.io/badge/简体中文-0969DA?style=flat-square"></a>
-  <a href="https://translate.google.com/translate?sl=en&amp;tl=zh-TW&amp;u=https%3A%2F%2Fgithub.com%2FPassion-Flow%2Fveyora"><img alt="繁體中文" src="https://img.shields.io/badge/繁體中文-0969DA?style=flat-square"></a>
-  <a href="https://translate.google.com/translate?sl=en&amp;tl=es&amp;u=https%3A%2F%2Fgithub.com%2FPassion-Flow%2Fveyora"><img alt="Español" src="https://img.shields.io/badge/Español-0969DA?style=flat-square"></a>
-  <a href="https://translate.google.com/translate?sl=en&amp;tl=fr&amp;u=https%3A%2F%2Fgithub.com%2FPassion-Flow%2Fveyora"><img alt="Français" src="https://img.shields.io/badge/Français-0969DA?style=flat-square"></a>
-  <a href="https://translate.google.com/translate?sl=en&amp;tl=de&amp;u=https%3A%2F%2Fgithub.com%2FPassion-Flow%2Fveyora"><img alt="Deutsch" src="https://img.shields.io/badge/Deutsch-0969DA?style=flat-square"></a>
-  <a href="https://translate.google.com/translate?sl=en&amp;tl=ja&amp;u=https%3A%2F%2Fgithub.com%2FPassion-Flow%2Fveyora"><img alt="日本語" src="https://img.shields.io/badge/日本語-0969DA?style=flat-square"></a>
-  <a href="https://translate.google.com/translate?sl=en&amp;tl=ko&amp;u=https%3A%2F%2Fgithub.com%2FPassion-Flow%2Fveyora"><img alt="한국어" src="https://img.shields.io/badge/한국어-0969DA?style=flat-square"></a>
-  <a href="docs/i18n/README.md"><img alt="More languages" src="https://img.shields.io/badge/🌐_more_languages-0969DA?style=flat-square"></a>
-</p>
-
-<sub>English is the canonical documentation. Language badges open machine-translated views; technical commands and security notices should always be verified against this file.</sub>
+<sub>English is the canonical engineering and documentation language.</sub>
 
 </div>
 
 ---
 
-Veyora is an experimental credential vault for people who want to keep the
-meaning of their data on their own devices. The browser encrypts and decrypts
-vault records through a WebAssembly build of the Rust security kernel. The
-server stores opaque ciphertext, revisions, and synchronization metadata—it is
-not entrusted with plaintext vault contents or root keys.
+Veyora's target product is a desktop-first local Vault for one person whose
+default path requires no account or server. That supported product path is not
+complete yet. An advanced connected mode is also being developed for people
+who operate their own Veyora service.
 
 > [!CAUTION]
 > Veyora is a preview, not an audited security product. Do not store real
 > credentials or expose it to the public internet without an independent
 > cryptographic and deployment review. Start only with inert test data and read
 > the [security policy](SECURITY.md).
+
+No Stable download is currently available. Existing packages are unsigned,
+unnotarized preview artifacts and have not passed the required four-native
+installation matrix.
 
 ## What makes Veyora different
 
@@ -62,22 +53,23 @@ not entrusted with plaintext vault contents or root keys.
 | **Opaque infrastructure** | The API, worker, database, backups, and operational telemetry are designed around ciphertext-only records. |
 | **Portable cryptography** | One Rust kernel provides the protocol implementation, deterministic vectors, WASM bindings, and native FFI surfaces. |
 | **Explicit operations** | Services fail fast when required configuration is absent; development and production-shaped Compose files are separate. |
-| **Recovery-aware design** | Recovery kits, encrypted backups, revision control, and manifest integrity are part of the protocol model rather than afterthoughts. |
+| **Evidence before claims** | Capability status comes from a versioned registry; incomplete recovery, packaging, and deployment work is labeled explicitly. |
 
-## Highlights
+## Capability status
 
-- Encrypted record creation, retrieval, update, deletion, and batch operations
-- Login, secure-note, API-token, SSH-credential, and digital-identity templates
-- Local search, sorting, favorites, clipboard timeout, and automatic vault lock
-- Argon2id key derivation, HKDF-SHA-256 domain separation, and
-  XChaCha20-Poly1305 authenticated encryption
-- Ed25519 authorization, canonical CBOR profiles, and chunked Merkle manifests
-- Password generation using OS-backed randomness and rejection sampling
-- Recovery-kit encoding with Base32 and checksum validation
-- PostgreSQL and in-memory storage adapters with compare-and-set revisions
-- Dedicated API, worker, migrator, backup, restore, and sandbox binaries
-- Docker Compose topology with Envoy, nginx, PostgreSQL, and a static WASM client
-- Corpus-bound known-answer vectors and offline-friendly Rust test suites
+| Capability | Status | Current boundary |
+| --- | --- | --- |
+| Rust/WASM record cryptography | Experimental | Fails closed when the real kernel is missing or fails self-test; independent review and release-asset verification remain incomplete |
+| Desktop Local Vault | Experimental | Source-development use with inert data only; native packages and recovery are not verified |
+| Web Connected Vault | Experimental | Local preview only; production authentication and HTTPS topology are incomplete |
+| Login and Secure Note | Experimental | Core create/read/update flows exist; lifecycle, backup, import/export, and accessibility evidence is incomplete |
+| Recovery Key | Protocol-only | Current UI material does not recover an existing non-empty Vault in a clean environment |
+| Portable encrypted backup | Planned | Existing opaque snapshots are not the promised portable encrypted backup format |
+| Four-native signed installers | Unsupported | Signing, notarization, Windows ARM64 packaging, and final-asset validation are incomplete |
+
+The machine-readable source for these statements is
+[`release/features.json`](release/features.json). Product version and channel
+come from [`release/version.json`](release/version.json).
 
 ## Architecture
 
@@ -103,7 +95,7 @@ limited to opaque records and operational metadata. See the
 [architecture guide](docs/ARCHITECTURE.md) and
 [threat model](docs/security/threat-model.md) for the detailed boundaries.
 
-## Quick start
+## Self-host the experimental connected preview
 
 ### Requirements
 
@@ -116,23 +108,23 @@ limited to opaque records and operational metadata. See the
 ```bash
 git clone https://github.com/Passion-Flow/veyora.git
 cd veyora
-cp docker/.env.example docker/.env
+cp deploy/compose/.env.example deploy/compose/.env
 ```
 
-Set a unique development database password in `docker/.env`, then start the
+Set a unique development database password in `deploy/compose/.env`, then start the
 stack:
 
 ```bash
-cd docker
+cd deploy/compose
 docker compose up -d
 docker compose ps
 ```
 
-The default Compose topology pulls public `v1.0.0` application and
-runtime-foundation images from GitHub Container Registry—no registry login or
-local build is required. Every version tag is a multi-platform OCI image index,
-so Docker automatically selects `linux/amd64` or `linux/arm64` for the host.
-There are no architecture suffixes to manage.
+The default Compose topology references preview `v1.0.0` application and
+runtime-foundation images in GitHub Container Registry. Image availability,
+digest, and `linux/amd64`/`linux/arm64` coverage must be verified before relying
+on those tags; the current repository does not treat every tag as release
+evidence.
 
 Open `http://127.0.0.1:3000`. The API gateway is available on
 `http://127.0.0.1:8080` for local diagnostics.
@@ -140,31 +132,31 @@ Open `http://127.0.0.1:3000`. The API gateway is available on
 To exercise the ciphertext API with inert data (from the repository root):
 
 ```bash
-./scripts/smoke-test.sh http://127.0.0.1:8080
+./tests/smoke/api.sh http://127.0.0.1:8080
 ```
 
 Stop the preview with `docker compose down` (from `docker/`). Add `--volumes`
 only when you intentionally want to delete the local PostgreSQL volume.
 
-## Desktop app
+## Desktop development preview
 
-Veyora also ships as a native desktop application for Windows and
-macOS — a complete standalone vault, not a client for a server. The
+Veyora includes a Tauri desktop implementation for Windows and macOS. It is
+the intended default local mode, but it is not a supported Stable package. The
 client-encrypted UI and WASM kernel run in the system WebView while the
 records API and its SQLite storage run in-process behind a loopback port,
 packaged with [Tauri](https://tauri.app):
 
 ```bash
 make desktop-dev     # run the standalone app from source
-make desktop-build   # produce installers (.exe/.msi on Windows, .dmg on macOS)
+make desktop-build   # produce unsigned preview bundles for the current host
 ```
 
-Release installers are attached to every `v*` tag on the GitHub Releases
-page. On first launch the app asks where to store the vault database;
-every storage concern stays under your control afterwards (change
-location, rolling backups, JSON export/import) from the Vault menu. An
-iPhone client is on the roadmap; until then the installable PWA covers
-iOS. See the [desktop app guide](docs/DESKTOP.md) for details.
+On first launch the app asks where to store the Vault database. The Vault menu
+exposes prototype controls for changing that location, rolling snapshots, and
+JSON export/import. An
+opaque JSON snapshot is not yet the portable encrypted backup required by the
+PRD. Recovery, signing, installation, update, and uninstall evidence remain
+incomplete. See the [desktop app guide](docs/DESKTOP.md) for current details.
 
 ## Develop from source
 
@@ -175,7 +167,7 @@ WASM runtime check requires the `wasm32-unknown-unknown` Rust target and
 
 ```bash
 # Security kernel
-cd security-kernel
+cd packages/security-kernel
 cargo test --locked --workspace --all-targets
 
 # Backend
@@ -200,13 +192,17 @@ container workflow.
 
 ```text
 veyora/
-├── backend/           Rust API, persistence, and operational services
+├── apps/              Shipping applications: web client and desktop client
+├── services/          Deployable Rust services: api, worker, migrator, backup, restore, validator
+├── packages/          Shared packages: config, contracts-rust, storage adapters
 ├── contracts/         Versioned protocol, schema, and policy definitions
-├── docker/            Canonical Docker Compose deployment (gateway, web, env)
-├── frontend/          Web client, desktop client, and native integration probes
-├── security-kernel/   Rust cryptography core, WASM/FFI bindings, and vectors
+├── deploy/            Deployment: compose topology, containers, gateway, web, tools
+├── experiments/       Archived capability spikes that must not gate releases
+├── packages/security-kernel/   Rust cryptography core, WASM/FFI bindings, and vectors
 ├── docs/              Architecture, operations, security, and legal guides
-└── scripts/           Smoke testing and multi-architecture image publishing
+├── tests/             Browser E2E, smoke, integration, and architecture tests
+├── tools/             Repository, web, codegen, and release tooling
+└── release/           Version, capability, and progress truth sources
 ```
 
 ## Security model

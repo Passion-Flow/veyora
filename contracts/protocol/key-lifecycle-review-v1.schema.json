@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/key-lifecycle-review-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "reviewer_key_id",
+    "reviewer_identity",
+    "reviewer_qualification",
+    "reviewer_scope",
+    "decision",
+    "reviewed_at",
+    "subjects",
+    "reviewed_requirements",
+    "unresolved_findings",
+    "notes",
+    "approval_preimage_hex",
+    "approval_signature_hex"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_type": {"const": "veyora-key-lifecycle-security-review-v1"},
+    "reviewer_key_id": {"type": "string", "pattern": "^reviewer-[a-z0-9][a-z0-9-]{0,126}$"},
+    "reviewer_identity": {"type": "string", "minLength": 1, "maxLength": 256},
+    "reviewer_qualification": {"const": "independent-cryptography-evidence-reviewer"},
+    "reviewer_scope": {"const": "key-lifecycle-v1"},
+    "decision": {"const": "approved-for-sequence-4"},
+    "reviewed_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "subjects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adr", "contract", "binary_grammar", "project_crypto_corpus", "backup_corpus"],
+      "properties": {
+        "adr": {"$ref": "#/$defs/subject"},
+        "contract": {"$ref": "#/$defs/subject"},
+        "binary_grammar": {"$ref": "#/$defs/subject"},
+        "project_crypto_corpus": {"$ref": "#/$defs/subject"},
+        "backup_corpus": {"$ref": "#/$defs/subject"}
+      }
+    },
+    "reviewed_requirements": {
+      "type": "array",
+      "minItems": 20,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(REC|BAK|SEC-KEY|MIG)-[0-9]{3}$"}
+    },
+    "unresolved_findings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["critical", "high", "medium", "low"],
+      "properties": {
+        "critical": {"const": 0},
+        "high": {"const": 0},
+        "medium": {"type": "integer", "minimum": 0},
+        "low": {"type": "integer", "minimum": 0}
+      }
+    },
+    "notes": {"type": "string", "minLength": 1, "maxLength": 8192},
+    "approval_preimage_hex": {"type": "string", "pattern": "^(?:[0-9a-f]{2})+$"},
+    "approval_signature_hex": {"type": "string", "pattern": "^(?!0{128}$)[0-9a-f]{128}$"}
+  },
+  "$defs": {
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^(?!0{64}$)[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

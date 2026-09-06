@@ -1,0 +1,1534 @@
+{
+  "schema_version": 1,
+  "locale": "fr",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "Votre espace numérique privé"
+    },
+    "common.cancel": {
+      "text": "Annuler"
+    },
+    "common.copy": {
+      "text": "Copier"
+    },
+    "common.close": {
+      "text": "Fermer"
+    },
+    "common.show": {
+      "text": "Afficher le mot de passe"
+    },
+    "common.hide": {
+      "text": "Masquer"
+    },
+    "common.edit": {
+      "text": "Modifier"
+    },
+    "common.delete": {
+      "text": "Supprimer"
+    },
+    "common.themeToggle": {
+      "text": "Changer de thème"
+    },
+    "common.undo": {
+      "text": "Annuler"
+    },
+    "common.passwordsMatch": {
+      "text": "Les mots de passe correspondent"
+    },
+    "common.passwordsMismatch": {
+      "text": "Les mots de passe ne correspondent pas"
+    },
+    "entry.capsLock": {
+      "text": "Verrouillage majuscules activé"
+    },
+    "entry.stage.deriving": {
+      "text": "Dérivation de la clé"
+    },
+    "entry.stage.decrypting": {
+      "text": "Déchiffrement du coffre"
+    },
+    "entry.create.step": {
+      "text": "01 · Créer votre coffre"
+    },
+    "entry.create.title": {
+      "text": "Définissez un mot de passe maître."
+    },
+    "entry.create.passwordLabel": {
+      "text": "Mot de passe maître"
+    },
+    "entry.create.passwordPh": {
+      "text": "Au moins {min} caractères"
+    },
+    "entry.create.confirmLabel": {
+      "text": "Confirmer le mot de passe"
+    },
+    "entry.create.confirmPh": {
+      "text": "Saisissez-le à nouveau"
+    },
+    "entry.create.ack": {
+      "text": "Je comprends que ce mot de passe est irrécupérable — seul le kit de récupération peut ouvrir le coffre sans lui."
+    },
+    "entry.create.btn": {
+      "text": "Créer le coffre"
+    },
+    "entry.create.errLength": {
+      "text": "Utilisez au moins {min} caractères — ce mot de passe est la seule clé du coffre."
+    },
+    "entry.create.errMismatch": {
+      "text": "Les mots de passe ne correspondent pas."
+    },
+    "entry.create.errAck": {
+      "text": "Confirmez que le mot de passe est irrécupérable avant de continuer."
+    },
+    "entry.kit.step": {
+      "text": "02 · Kit de récupération"
+    },
+    "entry.kit.title": {
+      "text": "Mot de passe oublié ?<br>Ce code est le seul retour possible."
+    },
+    "entry.kit.sub": {
+      "text": "Enregistrez-le hors ligne — c'est la seule voie de récupération si le mot de passe maître est perdu."
+    },
+    "entry.kit.download": {
+      "text": "Télécharger .txt"
+    },
+    "entry.kit.open": {
+      "text": "Ouvrir mon coffre"
+    },
+    "entry.kit.skip": {
+      "text": "Passer pour l'instant — régénérez-le plus tard dans le coffre"
+    },
+    "entry.kit.fileHead": {
+      "text": "KIT DE RÉCUPÉRATION VEYORA"
+    },
+    "entry.kit.fileTail": {
+      "text": "Conservez hors ligne. Toute personne détenant ce kit peut accéder au coffre."
+    },
+    "entry.unlock.tag": {
+      "text": "Coffre verrouillé"
+    },
+    "entry.unlock.title": {
+      "text": "Bon retour."
+    },
+    "entry.unlock.sub": {
+      "text": "Saisissez le mot de passe maître pour dériver la clé et déchiffrer le coffre sur cet appareil."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "Mot de passe maître"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "Coffre {vault} · {count, plural, one {# enregistrement} other {# enregistrements}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "sel sur cet appareil"
+    },
+    "entry.unlock.btn": {
+      "text": "Déverrouiller le coffre"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "Saisissez le mot de passe maître."
+    },
+    "entry.unlock.errWrong": {
+      "text": "Échec du déchiffrement — mauvais mot de passe maître. Le coffre reste verrouillé."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "Mot de passe perdu ? Récupérer avec le kit"
+    },
+    "entry.recover.tag": {
+      "text": "Récupération"
+    },
+    "entry.recover.title": {
+      "text": "Ouvrez votre coffre avec la clé de récupération"
+    },
+    "entry.recover.sub": {
+      "text": "La clé de récupération ouvre la clé chiffrée du coffre et définit un nouveau mot de passe maître. Elle fonctionne sur un appareil neuf, sans rien d'autre."
+    },
+    "entry.recover.kitLabel": {
+      "text": "Clé de récupération"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · somme de contrôle"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "Nouveau mot de passe maître"
+    },
+    "entry.recover.btn": {
+      "text": "Récupérer le coffre"
+    },
+    "entry.recover.back": {
+      "text": "Retour au déverrouillage"
+    },
+    "entry.recover.errKit": {
+      "text": "Cette clé de récupération n'ouvre pas ce coffre — rien n'a été modifié."
+    },
+    "strength.readout": {
+      "text": "{bits} bits · {label}"
+    },
+    "strength.weak": {
+      "text": "Faible"
+    },
+    "strength.fair": {
+      "text": "Moyen"
+    },
+    "strength.good": {
+      "text": "Bon"
+    },
+    "strength.strong": {
+      "text": "Fort"
+    },
+    "strength.excellent": {
+      "text": "Excellent"
+    },
+    "nav.all": {
+      "text": "Tous les éléments"
+    },
+    "nav.favorites": {
+      "text": "Favoris"
+    },
+    "type.login": {
+      "text": "Identifiant"
+    },
+    "type.login.plural": {
+      "text": "Identifiants"
+    },
+    "type.note": {
+      "text": "Note sécurisée"
+    },
+    "type.note.plural": {
+      "text": "Notes sécurisées"
+    },
+    "type.api-token": {
+      "text": "Jeton API"
+    },
+    "type.api-token.plural": {
+      "text": "Jetons API"
+    },
+    "type.ssh": {
+      "text": "Clé SSH"
+    },
+    "type.ssh.plural": {
+      "text": "Clés SSH"
+    },
+    "type.identity": {
+      "text": "Identité"
+    },
+    "type.identity.plural": {
+      "text": "Identités"
+    },
+    "top.recovery": {
+      "text": "Kit de récupération"
+    },
+    "top.settings": {
+      "text": "Paramètres"
+    },
+    "top.lock": {
+      "text": "Verrouiller maintenant"
+    },
+    "top.newEntry": {
+      "text": "Nouvel élément"
+    },
+    "top.searchScope": {
+      "text": "Rechercher dans {scope}"
+    },
+    "top.autolock": {
+      "text": "Verrouillage auto dans"
+    },
+    "top.sort": {
+      "text": "Trier"
+    },
+    "vault.nameDefault": {
+      "text": "Mon coffre Veyora"
+    },
+    "vault.locationThisDevice": {
+      "text": "Sur cet appareil"
+    },
+    "vault.locationService": {
+      "text": "Coffre connecté sur {host}"
+    },
+    "vault.locationUnknown": {
+      "text": "Coffre connecté"
+    },
+    "table.colItem": {
+      "text": "Élément"
+    },
+    "table.colType": {
+      "text": "Type"
+    },
+    "table.colLogin": {
+      "text": "Identifiant / secret"
+    },
+    "table.colUpdated": {
+      "text": "Mis à jour"
+    },
+    "table.count": {
+      "text": "{count, plural, one {# enregistrement} other {# enregistrements}}"
+    },
+    "table.emptyTitle": {
+      "text": "Rien ici"
+    },
+    "table.emptyVaultTitle": {
+      "text": "Votre coffre est vide"
+    },
+    "table.emptyVaultBody": {
+      "text": "Ajoutez votre premier identifiant ou importez des éléments depuis un autre gestionnaire de mots de passe."
+    },
+    "table.addFirstLogin": {
+      "text": "Ajouter le premier identifiant"
+    },
+    "table.importItems": {
+      "text": "Importer des éléments"
+    },
+    "table.emptyFiltered": {
+      "text": "Aucun élément dans cette vue pour le moment."
+    },
+    "table.noResultsTitle": {
+      "text": "Aucun résultat"
+    },
+    "table.noResultsBody": {
+      "text": "Aucun résultat pour « {query} » dans {scope}."
+    },
+    "table.clearSearch": {
+      "text": "Effacer la recherche"
+    },
+    "table.searchAll": {
+      "text": "Rechercher dans tous les éléments"
+    },
+    "action.copySecret": {
+      "text": "Copier le secret"
+    },
+    "action.favorite": {
+      "text": "Favori"
+    },
+    "action.more": {
+      "text": "Plus d’actions"
+    },
+    "action.removeFilter": {
+      "text": "Retirer le filtre : {filter}"
+    },
+    "sort.name": {
+      "text": "Nom A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "Nom Z–A"
+    },
+    "sort.updated": {
+      "text": "Récemment mis à jour"
+    },
+    "sort.type": {
+      "text": "Type"
+    },
+    "drawer.title.entry": {
+      "text": "Élément"
+    },
+    "drawer.title.settings": {
+      "text": "Paramètres"
+    },
+    "drawer.title.recovery": {
+      "text": "Kit de récupération"
+    },
+    "drawer.copyPassword": {
+      "text": "Copier le mot de passe"
+    },
+    "drawer.copySecret": {
+      "text": "Copier le secret"
+    },
+    "drawer.reveal": {
+      "text": "Révéler"
+    },
+    "drawer.favorite": {
+      "text": "Favori"
+    },
+    "drawer.unfavorite": {
+      "text": "Favori"
+    },
+    "drawer.confirmDelete": {
+      "text": "Confirmer la suppression"
+    },
+    "drawer.meta": {
+      "text": "mis à jour le {date} · révision {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "favori"
+    },
+    "drawer.foot": {
+      "text": "enregistrement {id} · suite 1 · protocole v1 · déchiffré dans le navigateur via le noyau WASM"
+    },
+    "field.name": {
+      "text": "Nom"
+    },
+    "field.itemName": {
+      "text": "Nom de l'élément"
+    },
+    "field.fullName": {
+      "text": "Nom complet"
+    },
+    "field.username": {
+      "text": "Nom d'utilisateur / e-mail"
+    },
+    "field.website": {
+      "text": "Site web"
+    },
+    "field.service": {
+      "text": "Service"
+    },
+    "field.host": {
+      "text": "Hôte"
+    },
+    "field.password": {
+      "text": "Mot de passe"
+    },
+    "field.token": {
+      "text": "Jeton"
+    },
+    "field.passphrase": {
+      "text": "Phrase secrète"
+    },
+    "field.idNumber": {
+      "text": "Numéro de pièce d'identité"
+    },
+    "field.content": {
+      "text": "Contenu"
+    },
+    "field.privateKey": {
+      "text": "Clé privée"
+    },
+    "field.notes": {
+      "text": "Notes"
+    },
+    "ph.name": {
+      "text": "GitHub - Work"
+    },
+    "ph.noteName": {
+      "text": "ex. Procédure de reprise serveur"
+    },
+    "ph.tokenName": {
+      "text": "ex. Jeton de publication GHCR"
+    },
+    "ph.sshName": {
+      "text": "ex. ed25519 — station de travail"
+    },
+    "ph.itemName": {
+      "text": "ex. Passeport"
+    },
+    "ph.username": {
+      "text": "vous@exemple.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "ex. GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "Facultatif"
+    },
+    "ph.content": {
+      "text": "Texte privé — chiffré avant de quitter cet appareil"
+    },
+    "ph.generate": {
+      "text": "Générer automatiquement"
+    },
+    "modal.newTitle": {
+      "text": "Nouvel élément"
+    },
+    "modal.editTitle": {
+      "text": "Modifier l'élément"
+    },
+    "modal.create": {
+      "text": "Créer l'élément"
+    },
+    "modal.save": {
+      "text": "Enregistrer les modifications"
+    },
+    "modal.encryptedNote": {
+      "text": "Chiffré localement · puis stocké sous forme chiffrée"
+    },
+    "modal.generate": {
+      "text": "Générer"
+    },
+    "gen.title": {
+      "text": "Générateur de mot de passe"
+    },
+    "gen.entropy": {
+      "text": "entropie estimée"
+    },
+    "gen.bitsUnit": {
+      "text": "BITS"
+    },
+    "gen.length": {
+      "text": "Longueur"
+    },
+    "gen.upper": {
+      "text": "Majuscules"
+    },
+    "gen.lower": {
+      "text": "Minuscules"
+    },
+    "gen.digits": {
+      "text": "Chiffres"
+    },
+    "gen.symbols": {
+      "text": "Symboles"
+    },
+    "gen.ambiguous": {
+      "text": "Éviter les caractères ambigus"
+    },
+    "gen.regenerate": {
+      "text": "Régénérer"
+    },
+    "gen.use": {
+      "text": "Utiliser ce mot de passe"
+    },
+    "gen.poolNote": {
+      "text": "{count} caractères dans le jeu"
+    },
+    "gen.errCharset": {
+      "text": "Sélectionnez au moins un jeu de caractères"
+    },
+    "settings.title": {
+      "text": "Paramètres"
+    },
+    "settings.sub": {
+      "text": "Préférences locales · cet appareil uniquement"
+    },
+    "settings.appearance": {
+      "text": "Apparence"
+    },
+    "settings.theme": {
+      "text": "Thème"
+    },
+    "settings.themeSub": {
+      "text": "Noir sur blanc, ou blanc sur noir"
+    },
+    "settings.light": {
+      "text": "Clair"
+    },
+    "settings.dark": {
+      "text": "Sombre"
+    },
+    "settings.language": {
+      "text": "Langue"
+    },
+    "settings.languageSub": {
+      "text": "Langue de l'interface, repli en anglais"
+    },
+    "settings.security": {
+      "text": "Sécurité"
+    },
+    "settings.autolock": {
+      "text": "Verrouillage automatique après inactivité"
+    },
+    "settings.autolockSub": {
+      "text": "Le matériel de clé est mis à zéro en mémoire"
+    },
+    "settings.clipboard": {
+      "text": "Vider le presse-papiers après copie"
+    },
+    "settings.clipboardSub": {
+      "text": "Les secrets ne restent pas dans le presse-papiers"
+    },
+    "settings.data": {
+      "text": "Données"
+    },
+    "settings.export": {
+      "text": "Exporter les données en clair"
+    },
+    "settings.exportSub": {
+      "text": "Non chiffré — toute personne pouvant ouvrir le fichier peut le lire"
+    },
+    "settings.exportBtn": {
+      "text": "Exporter les données en clair"
+    },
+    "settings.import": {
+      "text": "Importer un CSV"
+    },
+    "settings.importSub": {
+      "text": "CSV de connexion générique (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "Importer"
+    },
+    "settings.about": {
+      "text": "À propos"
+    },
+    "settings.note": {
+      "text": "Veyora est un aperçu expérimental — pas un produit de sécurité audité."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {# minute} other {# minutes}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {# seconde} other {# secondes}}"
+    },
+    "about.version": {
+      "text": "Version"
+    },
+    "about.kernel": {
+      "text": "Noyau"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "Dérivation de clé"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "Chiffrement"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "Signatures"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "Le serveur voit"
+    },
+    "about.serverSeesValue": {
+      "text": "du chiffré uniquement"
+    },
+    "recovery.title": {
+      "text": "Kit de récupération"
+    },
+    "recovery.sub": {
+      "text": "Base32 · avec somme de contrôle · hors ligne"
+    },
+    "recovery.warnHead": {
+      "text": "Critique — enregistrez avant de fermer"
+    },
+    "recovery.warnBody": {
+      "text": "Ce kit peut déchiffrer votre coffre sans le mot de passe maître. Quiconque le détient détient vos données. Imprimez-le ou recopiez-le, conservez-le hors ligne en lieu sûr, et ne le stockez jamais sur cet appareil."
+    },
+    "recovery.copyKit": {
+      "text": "Copier le kit"
+    },
+    "recovery.regenerate": {
+      "text": "Générer un nouveau"
+    },
+    "recovery.note": {
+      "text": "Perdre à la fois le mot de passe maître et ce kit rend le coffre irrécupérable par conception — il n'existe aucune voie de réinitialisation."
+    },
+    "toast.copied": {
+      "text": "Copié · le presse-papiers sera vidé dans {seconds}s"
+    },
+    "toast.copyFail": {
+      "text": "Échec de la copie dans ce contexte"
+    },
+    "toast.locked": {
+      "text": "Coffre verrouillé — matériel de clé mis à zéro"
+    },
+    "toast.created": {
+      "text": "Élément chiffré et stocké"
+    },
+    "toast.updated": {
+      "text": "Élément rechiffré · révision {revision}"
+    },
+    "toast.deleted": {
+      "text": "Élément supprimé · révision d'effacement enregistrée"
+    },
+    "toast.kitRegen": {
+      "text": "Nouveau kit généré"
+    },
+    "toast.kitSkip": {
+      "text": "Le kit reste disponible via l'icône bouclier de la barre supérieure"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {# élément exporté} other {# éléments exportés}}"
+    },
+    "toast.importStub": {
+      "text": "Version démo — l'import est un stub"
+    },
+    "toast.autolockSet": {
+      "text": "Verrouillage auto réglé sur {n} min"
+    },
+    "toast.clipSet": {
+      "text": "Le presse-papiers sera vidé après {n}s"
+    },
+    "toast.conflict": {
+      "text": "Conflit de révision — l'enregistrement a été modifié ailleurs"
+    },
+    "toast.syncFailed": {
+      "text": "Échec de synchronisation — vérifiez la connexion API"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "Ce kit de récupération n'est pas valide."
+    },
+    "settings.resetVault": {
+      "text": "Réinitialiser le coffre local"
+    },
+    "settings.resetVaultSub": {
+      "text": "Efface les métadonnées de l'appareil — les enregistrements serveur sont conservés"
+    },
+    "settings.resetVaultBtn": {
+      "text": "Réinitialiser"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "Touchez à nouveau pour confirmer"
+    },
+    "toast.renderError": {
+      "text": "Un problème est survenu lors de l'affichage de cette vue"
+    },
+    "settings.changePw": {
+      "text": "Changer le mot de passe maître"
+    },
+    "settings.changePwSub": {
+      "text": "Rechiffre chaque enregistrement sous une nouvelle clé"
+    },
+    "settings.changePwBtn": {
+      "text": "Changer"
+    },
+    "settings.changePwCurrent": {
+      "text": "Mot de passe maître actuel"
+    },
+    "toast.passwordChanged": {
+      "text": "Mot de passe maître modifié — tous les enregistrements rechiffrés"
+    },
+    "toast.importBadCsv": {
+      "text": "Le fichier CSV ne correspond pas au format attendu"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "# élément importé",
+        "other": "# éléments importés"
+      }
+    },
+    "health.reused": {
+      "text": "Mot de passe réutilisé"
+    },
+    "health.stale": {
+      "text": "Mot de passe périmé"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} réutilisé",
+        "other": "{count} réutilisés"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} périmé",
+        "other": "{count} périmés"
+      }
+    },
+    "drawer.totp": {
+      "text": "Code d'authentification"
+    },
+    "field.totpSecret": {
+      "text": "Secret TOTP (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "p. ex. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Corbeille"
+    },
+    "nav.activeFilters": {
+      "text": "Filtres actifs"
+    },
+    "table.trashEmpty": {
+      "text": "La corbeille est vide"
+    },
+    "action.restore": {
+      "text": "Restaurer"
+    },
+    "toast.restored": {
+      "text": "Entrée restaurée"
+    },
+    "apiError.default": {
+      "text": "Un problème est survenu. Votre dernière modification n'est peut-être pas enregistrée."
+    },
+    "apiError.PM-STORE-NOT-FOUND": {
+      "text": "Enregistrement introuvable."
+    },
+    "apiError.PM-STORE-CONFLICT": {
+      "text": "Conflit de révision : l'enregistrement a été modifié ailleurs."
+    },
+    "apiError.PM-STORE-INVALID-RECORD": {
+      "text": "Enregistrement malformé."
+    },
+    "apiError.PM-STORE-UNAVAILABLE": {
+      "text": "Backend de stockage indisponible."
+    },
+    "apiError.PM-API-ROUTE-MISMATCH": {
+      "text": "Les identifiants d'enregistrement du chemin et du corps diffèrent."
+    },
+    "apiError.PM-API-BAD-BODY": {
+      "text": "Le corps de la requête n'a pas pu être analysé."
+    },
+    "apiError.PM-API-BAD-QUERY": {
+      "text": "La chaîne de requête n'a pas pu être analysée."
+    },
+    "apiError.PM-API-BODY-TOO-LARGE": {
+      "text": "Le corps de la requête dépasse la limite configurée."
+    },
+    "apiError.PM-API-UNAUTHORIZED": {
+      "text": "Jeton Bearer manquant ou invalide."
+    },
+    "apiError.PM-API-RATE-LIMITED": {
+      "text": "Trop de requêtes ; réessayez plus tard."
+    },
+    "apiError.PM-NETWORK-UNREACHABLE": {
+      "text": "Impossible de contacter le serveur."
+    },
+    "entry.welcome.what": {
+      "text": "Veyora enregistre vos mots de passe et notes privées dans un coffre chiffré protégé par votre mot de passe maître."
+    },
+    "entry.welcome.vault": {
+      "text": "Un coffre est le conteneur chiffré de vos éléments. Le chiffrement et le déchiffrement ont lieu dans cette application ; le service ne stocke que du texte chiffré."
+    },
+    "entry.welcome.mode": {
+      "text": "Mode : coffre connecté — les éléments sont chiffrés sur cet appareil et synchronisés avec votre service Veyora."
+    },
+    "entry.create.beforeTitle": {
+      "text": "Avant de continuer"
+    },
+    "entry.create.explainStorage": {
+      "text": "Stockage : les éléments sont chiffrés dans ce navigateur et stockés sous forme de texte chiffré sur le service Veyora connecté."
+    },
+    "entry.create.explainPassword": {
+      "text": "Mot de passe : au moins {min} caractères. La longueur compte plus que les symboles."
+    },
+    "entry.create.explainScreening": {
+      "text": "Vérification des mots de passe courants : Veyora compare votre mot de passe à une petite liste intégrée, sur cet appareil. Il n'est jamais envoyé."
+    },
+    "entry.create.errCommon": {
+      "text": "Ce mot de passe est construit sur un mot de passe très courant. Allongez-le avec des mots que vous seul associeriez."
+    },
+    "entry.create.explainRecovery": {
+      "text": "Récupération : aucune voie de récupération dans cette préversion. Si vous oubliez ce mot de passe, le coffre ne peut plus être rouvert."
+    },
+    "entry.create.explainBackup": {
+      "text": "Sauvegardes : les sauvegardes chiffrées ne sont pas disponibles dans cette version préliminaire. Les exports CSV sont en clair et ne sont pas des sauvegardes."
+    },
+    "modal.savedTitle": {
+      "text": "Enregistré"
+    },
+    "modal.savedBody": {
+      "text": "{name} est chiffré et enregistré."
+    },
+    "modal.savedBack": {
+      "text": "Retour au coffre"
+    },
+    "modal.savedCopy": {
+      "text": "Copier le secret"
+    },
+    "modal.savedAdd": {
+      "text": "Ajouter un autre élément"
+    },
+    "settings.trashRetention": {
+      "text": "Préférence de conservation de la corbeille"
+    },
+    "settings.trashRetentionSub": {
+      "text": "Durée de conservation souhaitée ; la suppression automatique n’est pas disponible dans cette version préliminaire"
+    },
+    "settings.days": {
+      "text": "{n, plural, one {# jour} other {# jours}}"
+    },
+    "toast.trashSet": {
+      "text": "Préférence de conservation de la corbeille définie sur {n} jours"
+    },
+    "help.title": {
+      "text": "Aide"
+    },
+    "help.sub": {
+      "text": "Par où voulez-vous commencer ?"
+    },
+    "help.getStart": {
+      "text": "Premiers pas"
+    },
+    "help.getStartSub": {
+      "text": "Enregistrez votre premier identifiant, retrouvez-le et copiez-le"
+    },
+    "help.recovery": {
+      "text": "Comprendre la récupération"
+    },
+    "help.recoverySub": {
+      "text": "La récupération n’est pas disponible dans cette version préliminaire ; si vous perdez le mot de passe maître, ce coffre ne pourra plus être ouvert"
+    },
+    "help.backup": {
+      "text": "Créer une sauvegarde chiffrée"
+    },
+    "help.backupSub": {
+      "text": "La sauvegarde chiffrée n’est pas disponible dans cette version préliminaire ; l’export CSV en clair n’est pas une sauvegarde"
+    },
+    "help.restore": {
+      "text": "Restaurer une sauvegarde chiffrée"
+    },
+    "help.restoreSub": {
+      "text": "La restauration n’est pas disponible dans cette version préliminaire ; l’import CSV importe seulement des éléments"
+    },
+    "help.connect": {
+      "text": "Se connecter à un service"
+    },
+    "help.connectSub": {
+      "text": "Cette version Web utilise déjà le service Veyora configuré ; l’appairage vérifié n’est pas encore disponible"
+    },
+    "help.troubleshoot": {
+      "text": "Résoudre un problème"
+    },
+    "help.troubleshootSub": {
+      "text": "Version, détails de stockage et préférences se trouvent dans Paramètres"
+    },
+    "help.report": {
+      "text": "Signaler un problème de sécurité"
+    },
+    "help.reportSub": {
+      "text": "Signalez en privé via la politique de sécurité du dépôt Veyora"
+    },
+    "help.openAction": {
+      "text": "Ouvrir"
+    },
+    "startHere.title": {
+      "text": "Commencez ici"
+    },
+    "startHere.sub": {
+      "text": "Quelques étapes rapides pour préparer votre coffre."
+    },
+    "startHere.firstItem": {
+      "text": "Ajoutez votre premier identifiant ou importez des éléments"
+    },
+    "startHere.copyReveal": {
+      "text": "Copiez ou révélez un secret"
+    },
+    "startHere.lock": {
+      "text": "Verrouillez le coffre quand vous vous absentez"
+    },
+    "startHere.recovery": {
+      "text": "Vérifiez votre matériel de récupération"
+    },
+    "startHere.backup": {
+      "text": "Créez une sauvegarde chiffrée"
+    },
+    "startHere.unavailable": {
+      "text": "Pas encore disponible dans cet aperçu."
+    },
+    "startHere.done": {
+      "text": "Terminé"
+    },
+    "startHere.allDone": {
+      "text": "Tout est prêt. Vous pouvez rouvrir cette liste depuis l’aide à tout moment."
+    },
+    "startHere.hide": {
+      "text": "Masquer cette liste"
+    },
+    "shortcuts.title": {
+      "text": "Raccourcis clavier"
+    },
+    "shortcuts.sub": {
+      "text": "Les raccourcis ne se déclenchent jamais pendant que vous tapez dans un champ."
+    },
+    "shortcuts.search": {
+      "text": "Activer le champ de recherche"
+    },
+    "shortcuts.newItem": {
+      "text": "Créer un nouvel élément"
+    },
+    "shortcuts.generator": {
+      "text": "Ouvrir le générateur de mots de passe"
+    },
+    "shortcuts.lockAction": {
+      "text": "Verrouiller le coffre"
+    },
+    "shortcuts.nav": {
+      "text": "Se déplacer haut et bas dans la liste des éléments"
+    },
+    "shortcuts.open": {
+      "text": "Ouvrir l’élément sélectionné"
+    },
+    "shortcuts.escape": {
+      "text": "Effacer la recherche ou fermer les dialogues"
+    },
+    "shortcuts.searchNote": {
+      "text": "La recherche s’exécute uniquement sur cet appareil. Elle couvre le nom, l’identifiant, le site web, le service, l’hôte, les notes, le secret et le type d’élément, et n’envoie jamais votre requête au service."
+    },
+    "help.shortcuts": {
+      "text": "Utiliser les raccourcis clavier"
+    },
+    "help.shortcutsSub": {
+      "text": "Voir tous les raccourcis au même endroit."
+    },
+    "help.startHere": {
+      "text": "Ouvrir la liste Commencez ici"
+    },
+    "help.startHereSub": {
+      "text": "Rouvrir la liste de démarrage."
+    },
+    "settings.backup": {
+      "text": "Créer une sauvegarde chiffrée"
+    },
+    "settings.backupSub": {
+      "text": "Portable et chiffré — se restaure sur tout appareil avec votre mot de passe maître"
+    },
+    "settings.backupBtn": {
+      "text": "Créer une sauvegarde"
+    },
+    "settings.backupUnavailable": {
+      "text": "La sauvegarde chiffrée n'est pas encore disponible dans cet aperçu"
+    },
+    "export.title": {
+      "text": "Exporter les données en clair"
+    },
+    "export.notEncrypted": {
+      "text": "Non chiffré"
+    },
+    "export.warning": {
+      "text": "Toute personne pouvant ouvrir ce fichier — personnes, autres applications, sauvegardes ou synchronisation cloud — peut lire tous les secrets exportés."
+    },
+    "export.passwordLabel": {
+      "text": "Mot de passe maître"
+    },
+    "export.passwordHelp": {
+      "text": "Saisissez à nouveau votre mot de passe maître pour confirmer cette exportation."
+    },
+    "export.ack": {
+      "text": "Je comprends que ce fichier n'est pas chiffré et que toute personne y ayant accès peut lire mes secrets."
+    },
+    "export.btn": {
+      "text": "Exporter en clair"
+    },
+    "export.needAck": {
+      "text": "Confirmez que vous avez compris l'avertissement avant d'exporter."
+    },
+    "export.needPassword": {
+      "text": "Saisissez votre mot de passe maître pour continuer."
+    },
+    "export.wrongPassword": {
+      "text": "Mot de passe maître incorrect. Rien n'a été exporté."
+    },
+    "export.failed": {
+      "text": "Échec de l'exportation. Aucun fichier n'a été créé."
+    },
+    "export.doneTitle": {
+      "text": "Exportation terminée"
+    },
+    "export.doneBody": {
+      "text": "{file} contient {count, plural, one {# élément} other {# éléments}} en clair."
+    },
+    "export.includes": {
+      "text": "Inclus"
+    },
+    "export.includesList": {
+      "text": "Nom, type, site web, nom d'utilisateur, mot de passe ou secret, notes"
+    },
+    "export.omitted": {
+      "text": "Non inclus"
+    },
+    "export.omittedList": {
+      "text": "Graines TOTP, favoris, métadonnées personnalisées"
+    },
+    "export.guidance": {
+      "text": "Déplacez le fichier vers un stockage sûr ou supprimez-le dès que vous avez terminé. Ne l'envoyez pas par e-mail et ne le téléversez pas sur un service cloud."
+    },
+    "export.doneClose": {
+      "text": "Terminé"
+    },
+    "field.nameHint": {
+      "text": "Le nom sert uniquement à le reconnaître — quelque chose que vous chercherez plus tard, comme GitHub - Work."
+    },
+    "modal.moreFields": {
+      "text": "Champs supplémentaires"
+    },
+    "modal.fewerFields": {
+      "text": "Moins de champs"
+    },
+    "field.totpHint": {
+      "text": "Collez l’URI otpauth:// ou le secret Base32 de votre service ou de votre application d’authentification. Les espaces et tirets sont ignorés."
+    },
+    "field.totpErrUri": {
+      "text": "Cette URI otpauth:// ne contient pas de secret Base32 valide."
+    },
+    "field.totpErrType": {
+      "text": "Seules les URI otpauth://totp/ sont prises en charge pour les codes d’authentification."
+    },
+    "field.totpErrBase32": {
+      "text": "Les secrets TOTP n’utilisent que les lettres Base32 A–Z et les chiffres 2–7."
+    },
+    "entry.routes.step": {
+      "text": "Bienvenue"
+    },
+    "entry.routes.title": {
+      "text": "Comment souhaitez-vous commencer ?"
+    },
+    "entry.routes.sub": {
+      "text": "Veyora conserve vos mots de passe dans un coffre chiffré. Choisissez comment démarrer."
+    },
+    "entry.routes.create": {
+      "text": "Créer un nouveau coffre"
+    },
+    "entry.routes.createSub": {
+      "text": "Commencer vide et ajouter votre premier identifiant."
+    },
+    "entry.routes.open": {
+      "text": "Ouvrir un coffre existant"
+    },
+    "entry.routes.openSub": {
+      "text": "Déverrouiller un coffre déjà connu de cet appareil."
+    },
+    "entry.routes.import": {
+      "text": "Importer depuis un autre gestionnaire de mots de passe"
+    },
+    "entry.routes.importSub": {
+      "text": "Créer un coffre puis importer votre export CSV."
+    },
+    "entry.routes.connect": {
+      "text": "Avancé : se connecter à un serveur auto-hébergé"
+    },
+    "entry.routes.connectSub": {
+      "text": "Se connecter à un service Veyora que vous exploitez."
+    },
+    "entry.routes.openNote": {
+      "text": "Aucun coffre n'est encore connu de cet appareil. Créez un coffre, importez vos données ou connectez-vous à un service."
+    },
+    "entry.routes.importNote": {
+      "text": "Définissez d'abord votre mot de passe maître — l'importation suit juste après l'ouverture du coffre."
+    },
+    "entry.routes.back": {
+      "text": "Retour"
+    },
+    "connect.tag": {
+      "text": "Mode connecté"
+    },
+    "connect.title": {
+      "text": "Se connecter / S'identifier"
+    },
+    "connect.sub": {
+      "text": "Ce service Veyora exige une session connectée avant de créer ou déverrouiller un coffre."
+    },
+    "connect.urlLabel": {
+      "text": "URL du service"
+    },
+    "connect.tokenLabel": {
+      "text": "Jeton de connexion"
+    },
+    "connect.tokenPh": {
+      "text": "Collez le jeton de votre opérateur"
+    },
+    "connect.tokenHelp": {
+      "text": "Saisissez l'identifiant de connexion fourni par votre opérateur. L'appairage complet des appareils arrivera avec le mode connecté."
+    },
+    "connect.btn": {
+      "text": "Se connecter"
+    },
+    "connect.errEmpty": {
+      "text": "Saisissez l'URL du service et le jeton de connexion."
+    },
+    "connect.errWrong": {
+      "text": "Le service a refusé ce jeton de connexion."
+    },
+    "connect.errUnreachable": {
+      "text": "Le service est injoignable à cette adresse."
+    },
+    "field.errNameRequired": {
+      "text": "Donnez un nom à cet élément pour le reconnaître plus tard — par exemple GitHub - Work."
+    },
+    "field.errSecretRequired": {
+      "text": "Remplissez ce champ obligatoire avant d’enregistrer, ou utilisez Générer pour créer une valeur."
+    },
+    "modal.errSummaryTitle": {
+      "text": "Avant d’enregistrer, corrigez les champs signalés :"
+    },
+    "toast.clipboardCleared": {
+      "text": "Presse-papiers effacé."
+    },
+    "toast.clipboardClearFailed": {
+      "text": "Impossible d’effacer le presse-papiers — une autre application l’utilise peut-être."
+    },
+    "save.statusTitle": {
+      "text": "Pas encore enregistré"
+    },
+    "save.statusNetwork": {
+      "text": "Le coffre n’a pas été modifié — le service est injoignable. Votre saisie est conservée ici ; réessayez l’enregistrement une fois de nouveau en ligne."
+    },
+    "save.statusConflict": {
+      "text": "Cet élément a été modifié sur un autre appareil après le début de votre édition ; votre modification n’a donc pas été enregistrée. Vos modifications sont conservées ici. Rechargez la dernière version pour repartir d’elle — le rechargement remplace les modifications de ce formulaire."
+    },
+    "save.statusOther": {
+      "text": "Le coffre n’a pas été modifié — l’enregistrement a été refusé : {message}. Votre saisie est conservée ici ; vérifiez l’élément puis réessayez."
+    },
+    "save.statusRetry": {
+      "text": "Réessayer l’enregistrement"
+    },
+    "save.statusReload": {
+      "text": "Recharger la dernière version"
+    },
+    "modal.savedSync": {
+      "text": "Synchronisé avec le service — révision {revision}."
+    },
+    "modal.savedPending": {
+      "text": "Enregistré sur cet appareil — pas encore sur le service. La synchronisation se fera automatiquement dès que la connexion refonctionnera."
+    },
+    "modal.savedPendingDesktop": {
+      "text": "Enregistré sur cet appareil — le coffre local n'a pas répondu. Il sera enregistré automatiquement dès qu'il sera de nouveau accessible."
+    },
+    "modal.syncNow": {
+      "text": "Synchroniser maintenant"
+    },
+    "modal.syncNowDesktop": {
+      "text": "Réessayer l'enregistrement"
+    },
+    "table.pendingSync": {
+      "text": "Synchronisation en attente"
+    },
+    "table.pendingSyncDesktop": {
+      "text": "Enregistrement en attente"
+    },
+    "settings.diagnostics": {
+      "text": "Diagnostics"
+    },
+    "diag.version": {
+      "text": "Version"
+    },
+    "diag.build": {
+      "text": "Commit de build"
+    },
+    "diag.buildNotStamped": {
+      "text": "Non incorporé à cette image"
+    },
+    "diag.mode": {
+      "text": "Mode"
+    },
+    "diag.modeValue": {
+      "text": "Coffre connecté"
+    },
+    "diag.modeValueDesktop": {
+      "text": "Coffre-fort local sur cet appareil"
+    },
+    "diag.storage": {
+      "text": "Stockage"
+    },
+    "diag.storageValue": {
+      "text": "Enregistrements chiffrés sur {host}"
+    },
+    "diag.storageValueDesktop": {
+      "text": "Coffre-fort chiffré stocké sur cet appareil"
+    },
+    "diag.storageUnknown": {
+      "text": "Emplacement du service indisponible"
+    },
+    "diag.health": {
+      "text": "État du service"
+    },
+    "diag.healthChecking": {
+      "text": "Vérification…"
+    },
+    "diag.healthOk": {
+      "text": "Joignable"
+    },
+    "diag.healthUnhealthy": {
+      "text": "Répond avec une erreur"
+    },
+    "diag.healthUnreachable": {
+      "text": "Injoignable"
+    },
+    "diag.lastSync": {
+      "text": "Dernière synchronisation"
+    },
+    "diag.lastSyncDesktop": {
+      "text": "Dernier enregistrement"
+    },
+    "diag.syncNone": {
+      "text": "Pas encore synchronisé"
+    },
+    "diag.syncNoneDesktop": {
+      "text": "Rien d'enregistré pour l'instant"
+    },
+    "diag.backup": {
+      "text": "Dernière sauvegarde vérifiée"
+    },
+    "diag.backupNone": {
+      "text": "Indisponible dans cet aperçu"
+    },
+    "diag.bundle": {
+      "text": "Dossier d'assistance"
+    },
+    "diag.bundleSub": {
+      "text": "Sur demande et expurgé : génère un résumé de diagnostic que vous relisez avant de le copier. Rien n'est jamais téléversé automatiquement."
+    },
+    "diag.bundleBtn": {
+      "text": "Préparer le dossier d'assistance"
+    },
+    "diag.bundleTitle": {
+      "text": "Aperçu du dossier d'assistance"
+    },
+    "diag.bundleIntro": {
+      "text": "Relisez le dossier ci-dessous — il ne contient aucun secret. Veyora ne le téléverse jamais ; le copier reste votre décision."
+    },
+    "diag.bundleCopy": {
+      "text": "Copier le texte du dossier"
+    },
+    "diag.bundleCopied": {
+      "text": "Dossier d'assistance copié"
+    },
+    "nav.tags": {
+      "text": "Étiquettes"
+    },
+    "field.tags": {
+      "text": "Étiquettes"
+    },
+    "ph.tags": {
+      "text": "travail, infrastructure"
+    },
+    "field.tagsHint": {
+      "text": "Séparez les étiquettes par des virgules ; elles restent sur cet appareil et servent au filtrage."
+    },
+    "tags.filterLabel": {
+      "text": "Filtrer par étiquette :"
+    },
+    "tags.none": {
+      "text": "Aucun élément étiqueté pour l'instant. Ajoutez des étiquettes via « Plus de champs » à la création."
+    },
+    "resetMatrix.title": {
+      "text": "Réinitialisation — choisissez exactement quoi supprimer"
+    },
+    "resetMatrix.prefsTitle": {
+      "text": "Préférences de l'appareil"
+    },
+    "resetMatrix.prefsSub": {
+      "text": "Efface le thème, la langue, la rétention de la corbeille et la liste de contrôle enregistrés sur cet appareil. Votre coffre et ses données sur le service restent intacts."
+    },
+    "resetMatrix.prefsBtn": {
+      "text": "Effacer les préférences"
+    },
+    "resetMatrix.prefsConfirm": {
+      "text": "Effacer les préférences de cet appareil ?"
+    },
+    "resetMatrix.prefsDone": {
+      "text": "Préférences effacées — les valeurs par défaut s'appliqueront au prochain chargement de Veyora"
+    },
+    "resetMatrix.disconnectTitle": {
+      "text": "Connexion au service enregistrée"
+    },
+    "resetMatrix.disconnectSub": {
+      "text": "Oublie l'adresse du service et le jeton de connexion enregistrés sur cet appareil. Aucune donnée du coffre n'est supprimée."
+    },
+    "resetMatrix.disconnectBtn": {
+      "text": "Oublier la connexion"
+    },
+    "resetMatrix.disconnectConfirm": {
+      "text": "Oublier la connexion au service enregistrée ?"
+    },
+    "resetMatrix.disconnectDone": {
+      "text": "Connexion enregistrée effacée — prend effet au prochain chargement de Veyora"
+    },
+    "resetMatrix.localTitle": {
+      "text": "Ce coffre sur cet appareil"
+    },
+    "resetMatrix.localSub": {
+      "text": "Supprime ce coffre de cet appareil, y compris les écritures en attente hors ligne. La copie chiffrée sur le service reste, mais ne pourra plus jamais être atteinte depuis cet appareil."
+    },
+    "resetMatrix.localBtn": {
+      "text": "Supprimer de cet appareil"
+    },
+    "resetMatrix.localConfirm": {
+      "text": "Supprimer de cet appareil ? La copie sur le service devient inaccessible"
+    },
+    "resetMatrix.everywhereTitle": {
+      "text": "Coffre partout"
+    },
+    "resetMatrix.everywhereSub": {
+      "text": "Supprime d'abord chaque enregistrement de ce coffre du service, puis retire le coffre de cet appareil. Cette action est irréversible."
+    },
+    "resetMatrix.everywhereBtn": {
+      "text": "Supprimer partout"
+    },
+    "resetMatrix.everywhereConfirm": {
+      "text": "Supprimer partout ? Irréversible"
+    },
+    "resetMatrix.everywhereDone": {
+      "text": "Coffre supprimé — {count} enregistrement(s) supprimé(s) du service et de cet appareil"
+    },
+    "resetMatrix.everywhereFailed": {
+      "text": "La suppression sur le service a échoué — rien n'a été supprimé sur cet appareil"
+    },
+    "settings.changePwNew": {
+      "text": "Nouveau mot de passe maître"
+    },
+    "settings.changePwConfirm": {
+      "text": "Répétez le nouveau mot de passe maître"
+    },
+    "settings.changePwErrLength": {
+      "text": "Utilisez au moins {min} caractères."
+    },
+    "settings.changePwErrCommon": {
+      "text": "Ce mot de passe est composé d'éléments très courants et est rejeté localement."
+    },
+    "settings.changePwErrMismatch": {
+      "text": "Les nouveaux mots de passe ne correspondent pas."
+    },
+    "settings.changePwErrWrong": {
+      "text": "Le mot de passe maître actuel est erroné — rien n'a été modifié."
+    },
+    "settings.changePwErrPending": {
+      "text": "Des écritures hors ligne sont en attente — synchronisez avec le service avant de changer le mot de passe."
+    },
+    "settings.changePwDone": {
+      "text": "Mot de passe maître changé — chaque enregistrement a été rechiffré avec la nouvelle clé."
+    },
+    "backup.title": {
+      "text": "Créer une sauvegarde chiffrée"
+    },
+    "backup.body": {
+      "text": "Le fichier contient chaque entrée de ce coffre, chiffrée avec votre mot de passe maître via une clé dérivée uniquement pour cette sauvegarde. Il se restaure sur tout appareil ; sans le mot de passe maître, son contenu est irrécupérable par quiconque."
+    },
+    "backup.passwordLabel": {
+      "text": "Mot de passe maître"
+    },
+    "backup.passwordHelp": {
+      "text": "Saisissez à nouveau votre mot de passe maître pour sceller la sauvegarde."
+    },
+    "backup.btn": {
+      "text": "Créer la sauvegarde"
+    },
+    "backup.doneTitle": {
+      "text": "Sauvegarde chiffrée enregistrée"
+    },
+    "backup.doneBody": {
+      "text": "Le fichier contient {count} entrée(s), chiffrée(s) de bout en bout."
+    },
+    "backup.doneLocked": {
+      "text": "Conservez le fichier et le mot de passe maître ensemble en sécurité — seul ce mot de passe peut l'ouvrir."
+    },
+    "backup.errEmpty": {
+      "text": "Saisissez le mot de passe maître."
+    },
+    "backup.errWrong": {
+      "text": "Ce mot de passe n'ouvre ni ce coffre ni cette sauvegarde — rien n'a été créé."
+    },
+    "backup.errFailed": {
+      "text": "La sauvegarde n'a pas pu être créée — rien n'a été téléchargé."
+    },
+    "backup.errFormat": {
+      "text": "Ce fichier n'est pas une sauvegarde Veyora chiffrée."
+    },
+    "backup.restoreBtn": {
+      "text": "Restaurer la sauvegarde"
+    },
+    "backup.restoreBody": {
+      "text": "La sauvegarde sélectionnée annonce {count} entrée(s). Saisissez le mot de passe maître qui l'a scellée pour les déchiffrer et les fusionner dans ce coffre."
+    },
+    "backup.restoreHelp": {
+      "text": "Les entrées existantes ne sont jamais écrasées : un identifiant restauré déjà présent est importé sous un nouvel identifiant."
+    },
+    "backup.restoreDone": {
+      "text": "{count} entrée(s) restaurée(s) dans ce coffre."
+    },
+    "settings.restoreBtn": {
+      "text": "Restaurer la sauvegarde"
+    },
+    "entry.recover.link": {
+      "text": "Récupérer avec la clé de récupération"
+    },
+    "entry.recover.kitPlaceholder": {
+      "text": "xxxxx-xxxxx-xxxxx-… (12 groupes de 5)"
+    },
+    "entry.recover.newLabel": {
+      "text": "Nouveau mot de passe maître"
+    },
+    "entry.recover.confirmLabel": {
+      "text": "Répétez le nouveau mot de passe maître"
+    },
+    "entry.recover.errFailed": {
+      "text": "La récupération a échoué — le coffre n'a pas été modifié. Vérifiez votre connexion et réessayez."
+    },
+    "settings.regenTitle": {
+      "text": "Clé de récupération"
+    },
+    "settings.regenSub": {
+      "text": "Génère une nouvelle clé de récupération ; la précédente cesse immédiatement de fonctionner"
+    },
+    "settings.regenBtn": {
+      "text": "Régénérer"
+    },
+    "regen.title": {
+      "text": "Régénérer la clé de récupération"
+    },
+    "regen.sub": {
+      "text": "Une nouvelle clé de récupération est générée, la précédente est révoquée, et une sauvegarde chiffrée vérifiée est créée dans la même étape. Vous devez conserver la nouvelle clé avant de fermer cette fenêtre."
+    },
+    "regen.btn": {
+      "text": "Régénérer la clé"
+    },
+    "regen.doneTitle": {
+      "text": "Nouvelle clé de récupération active"
+    },
+    "regen.doneConsequence": {
+      "text": "La clé de récupération précédente n'ouvre plus ce coffre. Une sauvegarde chiffrée et vérifiée de chaque entrée a été téléchargée avec cette clé."
+    },
+    "regen.kitLabel": {
+      "text": "Votre nouvelle clé de récupération — conservez-la maintenant"
+    },
+    "regen.verified": {
+      "text": "La sauvegarde téléchargée a été vérifiée de bout en bout avant que cette fenêtre ne signale le succès."
+    },
+    "settings.kitBtn": {
+      "text": "Voir / vérifier"
+    },
+    "kit.title": {
+      "text": "Votre clé de récupération"
+    },
+    "kit.sub": {
+      "text": "Cette clé est le seul moyen de retrouver votre coffre si le mot de passe maître est perdu. Enregistrez-la maintenant — Veyora ne peut pas la récupérer pour vous."
+    },
+    "kit.label": {
+      "text": "Clé de récupération (71 caractères)"
+    },
+    "kit.help": {
+      "text": "Écrivez-la ou stockez-la dans un autre gestionnaire de mots de passe — pas dans ce coffre."
+    },
+    "kit.copy": {
+      "text": "Copier la clé"
+    },
+    "kit.copied": {
+      "text": "Clé de récupération copiée — stockez-la en lieu sûr"
+    },
+    "kit.verifyLabel": {
+      "text": "Saisissez à nouveau la clé pour prouver que vous l'avez enregistrée"
+    },
+    "kit.verifyBtn": {
+      "text": "Vérifier la clé enregistrée"
+    },
+    "kit.later": {
+      "text": "Vérifier plus tard"
+    },
+    "kit.errMismatch": {
+      "text": "Cela ne correspond pas à la clé de récupération de ce coffre — vérifiez votre copie et réessayez."
+    },
+    "kit.verified": {
+      "text": "Clé de récupération vérifiée — elle est correctement enregistrée"
+    },
+    "trash.purgeBtn": {
+      "text": "Supprimer {count} élément(s) définitivement"
+    },
+    "trash.purgeConfirm": {
+      "text": "Supprimer définitivement {count} élément(s) ? Irréversible"
+    },
+    "trash.purgeNote": {
+      "text": "Supprime immédiatement les copies chiffrées du service — avant la fin de la période de rétention. Leur restauration est ensuite impossible."
+    },
+    "trash.purgeDone": {
+      "text": "{count} élément(s) supprimé(s) définitivement"
+    },
+    "table.showMore": {
+      "text": "Afficher {count} de plus"
+    },
+    "table.windowedCount": {
+      "text": "Affichage de {shown} sur {total} éléments"
+    }
+  }
+}

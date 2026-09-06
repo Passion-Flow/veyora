@@ -1,0 +1,339 @@
+{
+  "$schema": "key-lifecycle-v1.schema.json",
+  "schema_version": 1,
+  "contract_id": "veyora-key-lifecycle-v1",
+  "status": "proposed-security-review-required",
+  "design_document": "docs/adr/0004-key-recovery-backup-lifecycle.md",
+  "binary_grammar": "contracts/cddl/key-lifecycle-v1.cddl",
+  "requirements": [
+    "REC-001",
+    "REC-002",
+    "REC-003",
+    "REC-004",
+    "REC-005",
+    "REC-006",
+    "REC-007",
+    "BAK-001",
+    "BAK-002",
+    "BAK-003",
+    "BAK-004",
+    "BAK-005",
+    "BAK-006",
+    "SEC-KEY-001",
+    "SEC-KEY-002",
+    "SEC-KEY-003",
+    "SEC-KEY-004",
+    "SEC-KEY-005",
+    "SEC-KEY-006",
+    "MIG-001"
+  ],
+  "versions": {
+    "protocol": 1,
+    "suite": 1,
+    "password_wrapper": 1,
+    "recovery_wrapper": 1,
+    "key_confirmation": 1,
+    "portable_backup": 1
+  },
+  "primitives": {
+    "vault_key": {
+      "bytes": 32,
+      "source": "operating-system-csprng",
+      "legacy_code_alias": "root_key",
+      "human_derived": false
+    },
+    "recovery_key": {
+      "entropy_bytes": 32,
+      "source": "operating-system-csprng",
+      "encoding": "rfc4648-base32-lowercase-unpadded-with-40-bit-sha256-checksum"
+    },
+    "password_kdf": {
+      "algorithm": "Argon2id",
+      "version": 19,
+      "memory_kib": 65536,
+      "iterations": 3,
+      "parallelism": 1,
+      "salt_bytes": 16,
+      "output_bytes": 32,
+      "password_encoding": "exact-utf8-no-normalization"
+    },
+    "subkey_kdf": {
+      "algorithm": "HKDF-SHA-256",
+      "extract_salt": "32-zero-bytes-v1",
+      "output_bytes": 32,
+      "info_encoding": "ascii-domain-nul-deterministic-cbor-context"
+    },
+    "wrapper_aead": {
+      "algorithm": "XChaCha20-Poly1305",
+      "key_bytes": 32,
+      "nonce_bytes": 24,
+      "tag_bytes": 16,
+      "nonce_source": "fresh-operating-system-csprng-per-attempt"
+    },
+    "backup_stream": {
+      "algorithm": "crypto_secretstream_xchacha20poly1305",
+      "key_bytes": 32,
+      "header_bytes": 24,
+      "frame_overhead_bytes": 17,
+      "chunk_plaintext_bytes": 4194304,
+      "data_tag": "MESSAGE",
+      "final_tag": "FINAL",
+      "trailing_bytes": "reject"
+    }
+  },
+  "domains": {
+    "password_wrap_key": "pm-v1/unlock-wrap-key",
+    "password_wrap_aad": "pm-v1/unlock-wrap",
+    "recovery_wrap_key": "pm-v1/recovery-wrap-key",
+    "recovery_wrap_aad": "pm-v1/recovery-wrap",
+    "key_confirmation_key": "pm-v1/key-confirmation-key",
+    "key_confirmation_aad": "pm-v1/key-confirmation",
+    "backup_encryption_key": "pm-v1/portable-backup-key",
+    "backup_authentication_key": "pm-v1/portable-backup-auth-key",
+    "backup_outer_authentication": "pm-v1/portable-backup",
+    "backup_frame_aad": "pm-v1/backup-frame"
+  },
+  "wrappers": {
+    "password": {
+      "secret_input": "master_password_exact_utf8",
+      "kdf_context": [
+        "protocol_version",
+        "suite_id",
+        "source_deployment_id",
+        "vault_id",
+        "key_generation",
+        "purpose=password-wrapper"
+      ],
+      "aad_fields": [
+        "protocol_version",
+        "suite_id",
+        "source_deployment_id",
+        "vault_id",
+        "key_generation",
+        "argon2id_salt",
+        "argon2id_memory_kib",
+        "argon2id_iterations",
+        "argon2id_parallelism",
+        "nonce"
+      ],
+      "plaintext": "vault_key",
+      "plaintext_bytes": 32
+    },
+    "recovery": {
+      "secret_input": "decoded_recovery_key_entropy",
+      "kdf_context": [
+        "protocol_version",
+        "suite_id",
+        "source_deployment_id",
+        "vault_id",
+        "key_generation",
+        "recovery_id",
+        "purpose=recovery-wrapper"
+      ],
+      "aad_fields": [
+        "protocol_version",
+        "suite_id",
+        "source_deployment_id",
+        "vault_id",
+        "key_generation",
+        "recovery_id",
+        "nonce"
+      ],
+      "plaintext": "vault_key",
+      "plaintext_bytes": 32
+    }
+  },
+  "key_confirmation": {
+    "required": true,
+    "cardinality_per_active_generation": 1,
+    "storage_identity": [
+      "principal_id",
+      "vault_id",
+      "veyora-key-confirmation-v1"
+    ],
+    "key_context": [
+      "protocol_version",
+      "suite_id",
+      "source_deployment_id",
+      "vault_id",
+      "key_generation"
+    ],
+    "plaintext": "sha256(domain-preimage-of-key-context)",
+    "plaintext_bytes": 32,
+    "comparison": "constant-time",
+    "missing_or_invalid": "fail-repair-safe-without-mutation"
+  },
+  "transactions": {
+    "password_change": {
+      "vault_key": "unchanged",
+      "item_ciphertext": "unchanged",
+      "recovery_wrapper": "unchanged",
+      "steps": [
+        "read-metadata-revision",
+        "open-current-password-wrapper",
+        "verify-key-confirmation",
+        "create-candidate-password-wrapper-with-fresh-salt-and-nonce",
+        "open-and-verify-candidate-wrapper",
+        "atomic-cas-replace-password-wrapper-only",
+        "read-back-and-verify-commit"
+      ],
+      "failure_invariant": "old-wrapper-and-all-items-remain-usable-unless-atomic-commit-succeeded",
+      "uncertain_result": "read-authoritative-revision-and-verify-old-or-new-wrapper"
+    },
+    "recovery": {
+      "vault_key": "unchanged",
+      "requires_prior_local_state": false,
+      "destination": "empty-staging",
+      "steps": [
+        "parse-and-authenticate-source-without-mutation",
+        "unwrap-existing-vault-key-with-recovery-key",
+        "verify-key-confirmation-and-complete-manifest",
+        "create-and-verify-new-password-wrapper",
+        "restore-and-verify-canonical-fixture-in-empty-staging",
+        "atomic-attach-staging",
+        "verify-new-password-recovery-key-and-post-recovery-crud"
+      ],
+      "failure_invariant": "destination-bytes-unchanged"
+    },
+    "recovery_key_regeneration": {
+      "vault_key": "unchanged",
+      "preconditions": [
+        "master-password-reauthentication",
+        "verified-portable-encrypted-backup"
+      ],
+      "steps": [
+        "create-new-recovery-key-id-nonce-and-wrapper",
+        "open-and-verify-candidate-wrapper",
+        "atomic-cas-replace-recovery-wrapper-only",
+        "verify-old-recovery-key-fails-and-new-key-succeeds"
+      ],
+      "failure_invariant": "old-recovery-wrapper-remains-usable-unless-atomic-commit-succeeded"
+    },
+    "vault_key_rotation": {
+      "separate_from_password_change": true,
+      "preconditions": [
+        "verified-portable-encrypted-backup"
+      ],
+      "steps": [
+        "allocate-new-random-vault-key-and-generation",
+        "stage-reencrypted-items-and-tombstones-with-durable-progress",
+        "stage-new-wrappers-confirmation-and-manifest",
+        "verify-complete-successor-generation",
+        "atomic-switch-active-generation",
+        "retain-or-purge-old-generation-by-reviewed-policy"
+      ],
+      "resume": "idempotent",
+      "rollback": "discard-successor-never-best-effort-reverse-writes"
+    }
+  },
+  "portable_backup": {
+    "media_type": "application/vnd.veyora.portable-encrypted-backup-v1+cbor",
+    "key_context": [
+      "protocol_version",
+      "suite_id",
+      "vault_id",
+      "backup_id",
+      "key_generation",
+      "backup_format_version"
+    ],
+    "required_header_fields": [
+      "protocol_version",
+      "suite_id",
+      "backup_format_version",
+      "source_deployment_id",
+      "vault_id",
+      "backup_id",
+      "created_at_unix_ms",
+      "key_generation",
+      "password_wrapper",
+      "recovery_wrapper",
+      "key_confirmation",
+      "manifest_revision",
+      "manifest_envelope_sha256",
+      "account_state_revision",
+      "account_state_sha256",
+      "item_count",
+      "tombstone_count",
+      "minimum_reader_version",
+      "maximum_reader_version",
+      "chunk_plaintext_bytes",
+      "data_chunk_count",
+      "logical_size"
+    ],
+    "final_plaintext_fields": [
+      "header_sha256",
+      "data_chunk_count",
+      "logical_size",
+      "padded_plaintext_bytes",
+      "logical_snapshot_sha256"
+    ],
+    "outer_authentication": "hmac-sha256-over-domain-separated-deterministic-cbor-body",
+    "write_protocol": [
+      "create-exclusive-temporary-file-in-destination-directory",
+      "write-and-flush-file",
+      "close-reopen-and-fully-verify",
+      "atomic-rename-over-destination",
+      "flush-destination-directory-where-supported"
+    ],
+    "restore_protocol": [
+      "bounded-parse-and-version-check",
+      "verify-outer-authentication-stream-final-tag-and-logical-digest",
+      "verify-wrappers-key-confirmation-and-manifest",
+      "restore-into-empty-staging",
+      "compare-canonical-fixture-manifest",
+      "atomic-attach-staging",
+      "perform-post-restore-create-edit-delete-and-backup"
+    ],
+    "failure_invariant": "prior-backup-and-destination-bytes-unchanged"
+  },
+  "compatibility": {
+    "unknown_mandatory_fields": "reject",
+    "unsupported_future_versions": "reject-without-mutation",
+    "writer_policy": "emit-current-declared-version-only",
+    "migration_protocol": [
+      "parse",
+      "verify",
+      "create-and-verify-pre-migration-backup",
+      "stage",
+      "verify-staged-state",
+      "atomic-commit"
+    ],
+    "rollback": "allowed-only-when-reader-range-covers-committed-data-version"
+  },
+  "evidence": {
+    "project_crypto_corpus": "packages/security-kernel/vectors/v1.json",
+    "project_crypto_generator": "packages/security-kernel/oracles/project-crypto-v1.py",
+    "required_project_vector_ids": [
+      "recovery-human-form",
+      "unlock-wrap-buckets",
+      "native-web-bootstrap",
+      "root-rotation"
+    ],
+    "backup_corpus": "packages/security-kernel/vectors/backup-v1.json",
+    "backup_generator": "packages/security-kernel/oracles/secretstream-v1.c",
+    "required_backup_fixture_ids": [
+      "empty",
+      "one-byte",
+      "exact-chunk",
+      "multi-chunk"
+    ],
+    "current_review_disposition": "ai-non-human-reviewed-not-security-approval"
+  },
+  "security_review": {
+    "state": "required-not-recorded",
+    "review_schema": "contracts/protocol/key-lifecycle-review-v1.schema.json",
+    "reviewer_registry": "contracts/protocol/approved-evidence-reviewers-v1.json",
+    "required_scope": "key-lifecycle-v1",
+    "review_records": []
+  },
+  "implementation_gate": {
+    "supported_product_flow": false,
+    "required_before_enablement": [
+      "qualified-independent-security-approval",
+      "implemented-versioned-parsers-and-writers",
+      "fault-injected-transaction-tests",
+      "destructive-clean-state-recovery-and-restore-e2e",
+      "updated-threat-model-and-compatibility-contract"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+# Veyora repository ownership (PRD REPO-015).
+#
+# Areas below require their named owner's review. The security kernel,
+# versioned contracts, release workflows, security model, and the layout
+# manifest are specialist-review areas: changes there must not be merged on
+# general code review alone (SEC-CRYPTO-011, DOC-002). Until a specialist
+# security reviewer is registered for sequence 4, the maintainer account is
+# the sole owner and must apply the PRD review gates explicitly.
+
+* @Passion-Flow
+
+# Specialist-review areas (security and release trust).
+/packages/security-kernel/        @Passion-Flow
+/contracts/              @Passion-Flow
+/release/                @Passion-Flow
+/repository-layout.toml  @Passion-Flow
+/.github/workflows/desktop-release.yml  @Passion-Flow
+/.github/workflows/publish-images.yml   @Passion-Flow
+/docs/security/          @Passion-Flow
+
+# Area owners.
+/apps/        @Passion-Flow
+/services/    @Passion-Flow
+/packages/    @Passion-Flow
+/deploy/      @Passion-Flow
+/docs/        @Passion-Flow
+/tests/       @Passion-Flow
+/tools/       @Passion-Flow

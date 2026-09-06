@@ -25,8 +25,19 @@ veyora_uptime_seconds 3600
 
 ## Records
 
+Every records read, listing, deletion, and purge takes a required `vault`
+query parameter (`?vault=<vault_id>`) naming the vault scope: the server
+returns and mutates only that vault's rows, and identical record IDs in
+different vaults never collide (DATA-001/DATA-002). Writes (`PUT`,
+`POST /records/batch`) carry the vault in the record envelope instead; a
+request without a declared scope fails with `PM-API-BAD-QUERY`. Until
+authenticated pairing principals ship (ADR 0005, Proposed), the scope is
+client-declared — but it is enforced on every query rather than returning
+global rows.
+
 ### `GET /records`
-List all record summaries (opaque metadata only, no ciphertext).
+List record summaries for the declared vault (opaque metadata only, no
+ciphertext).
 ```json
 [
   {"record_id": "github", "revision": 1, "tombstone": false, "ciphertext_hash": "abc..."}
@@ -60,7 +71,13 @@ Create or update an opaque encrypted record. Server assigns the revision via CAS
 - Returns `400 Bad Request` if the path ID differs from the body.
 
 ### `POST /records/batch`
-Batch PUT multiple records. Each record is processed independently.
+Atomic import (DATA-007): every record in the body commits in one
+database transaction; a single invalid or conflicting row rolls the
+whole batch back. All records must declare the same vault scope (the
+envelope's `vault_id`). The response reports exact counts (API-010):
+`requested` is the input row count, `committed` is what the
+transaction applied — for an all-or-nothing batch that is every row
+or none (failures return the error envelope with nothing applied).
 ```json
 // Request: array of record DTOs
 [{"record_id": "a", ...}, {"record_id": "b", ...}]
@@ -81,9 +98,11 @@ Returns `200 OK` with `{"revision": 2}` on success.
 
 ## Error Codes
 
-Error responses share one JSON envelope. The `code` is the stable contract;
-`message` is localized presentation negotiated from `Accept-Language`
-(`en` fallback), and the response carries `Content-Language` / `Vary` headers.
+Error responses share one JSON envelope. The ASCII `code` is the stable
+contract; `message` is a fixed English debugging aid and is never localized
+(LANG-003). Clients render localized prose from their own locale catalogs
+keyed by the code; the web client ships `apiError.*` keys in
+`apps/web/locales/`.
 
 ```json
 {"error": {"code": "PM-STORE-CONFLICT", "message": "Revision conflict: the record changed elsewhere."}}
@@ -94,11 +113,21 @@ Error responses share one JSON envelope. The `code` is the stable contract;
 | 400 | `PM-STORE-INVALID-RECORD` | Malformed record |
 | 400 | `PM-API-ROUTE-MISMATCH` | Path/body record_id differ |
 | 400 | `PM-API-BAD-BODY` | Request body could not be parsed |
+| 400 | `PM-API-BAD-QUERY` | Query string could not be parsed |
 | 401 | `PM-API-UNAUTHORIZED` | Missing/invalid bearer token (auth mode `token`) |
 | 404 | `PM-STORE-NOT-FOUND` | Record doesn't exist |
 | 409 | `PM-STORE-CONFLICT` | CAS revision mismatch |
 | 413 | `PM-API-BODY-TOO-LARGE` | Body exceeds `VEYORA_API_MAX_BODY_BYTES` |
+| 429 | `PM-API-RATE-LIMITED` | Too many requests; retry after the `Retry-After` window |
 | 503 | `PM-STORE-UNAVAILABLE` | Database unreachable |
+
+The catalog is closed: this table and the code catalog in
+`services/api/src/error_catalog.rs` are kept in sync by a blocking test
+(`documentation_and_catalog_are_in_sync`), and every `PM-*` literal used in
+the API sources must appear in the catalog
+(`every_source_code_literal_is_cataloged`). Malformed request bodies and
+query strings are rejected through the same JSON envelope, never through
+the framework's default plain-text error.
 
 ## CORS
 All responses include `Access-Control-Allow-Origin: *`.

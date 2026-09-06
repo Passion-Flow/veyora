@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "description": "Generated-artifact manifest (PRD REPO-006/007/008 and section 25.3). Every tracked generated output declares its generator, canonical inputs, consumers, digests, regeneration command, and a deterministic check enforced by tools/codegen/check_codegen.py in CI.",
+  "artifacts": [
+    {
+      "artifact_id": "backend-registry-projection",
+      "description": "Backend-owned settings projection of the canonical owner-shared registry.",
+      "owner": "backend",
+      "consumers": [
+        "packages/config",
+        "tools/codegen/backend/generate_backend_projection.py"
+      ],
+      "generator": "tools/codegen/backend/generate_registry_projection.py",
+      "generator_sha256": "6846afe24c49fab8a0b5050856ce49d795dfbb445ce1f2b1947320e7627454bc",
+      "inputs": {
+        "contracts/registry/settings.json": "18d9bed314293a16e953cbb7d4236b610fa42c0c361d3200756f8c0b30e708e3"
+      },
+      "outputs": {
+        "packages/config/registry.generated.json": "76938009515bd78cb0d723c1bf315df6acc40516ab342316109759b71ae4e11c"
+      },
+      "tracked": true,
+      "determinism": "Byte-identical for identical canonical input bytes; digests inside _generated are recomputed by the generator.",
+      "regenerate_command": "python3 tools/codegen/backend/generate_registry_projection.py --write",
+      "check_mode": "generator-check",
+      "check_command": [
+        "python3",
+        "tools/codegen/backend/generate_registry_projection.py",
+        "--check"
+      ]
+    },
+    {
+      "artifact_id": "backend-rust-projection",
+      "description": "Rust settings/capability projection consumed by the backend-config crate. The canonical pipeline formats the generator output with rustfmt (edition 2024), so the check regenerates, formats, and compares bytes.",
+      "owner": "backend",
+      "consumers": [
+        "packages/config"
+      ],
+      "generator": "tools/codegen/backend/generate_backend_projection.py",
+      "generator_sha256": "31d089ec0b73bdd2697a440f2aa87b02c3dc0ff044fbd50effbdb53113b4545e",
+      "inputs": {
+        "packages/config/registry.generated.json": "76938009515bd78cb0d723c1bf315df6acc40516ab342316109759b71ae4e11c",
+        "contracts/authorization/service-capabilities-v1.json": "2ae3a2030132cadf62bc59e5f705391c9eee82ed59cef7ad95c0dd4aa3f2db90"
+      },
+      "outputs": {
+        "packages/config/src/generated.rs": "d8b58fd402f065b5995869b9d488bab11a652d3f5cabd17e7e5e071e63479897"
+      },
+      "tracked": true,
+      "determinism": "Byte-identical after rustfmt for identical input bytes.",
+      "regenerate_command": "make codegen",
+      "check_mode": "rustfmt-pipeline-check",
+      "check_command": [
+        "python3",
+        "tools/codegen/backend/generate_backend_projection.py",
+        "--registry",
+        "packages/config/registry.generated.json",
+        "--capabilities",
+        "contracts/authorization/service-capabilities-v1.json",
+        "--output",
+        "packages/config/src/generated.rs",
+        "--write"
+      ]
+    },
+    {
+      "artifact_id": "contracts-rust-bindings",
+      "description": "Data-type contract bindings projected from the canonical contracts tree for the root workspace and the security kernel (the kernel keeps an independent workspace, so the binding is duplicated verbatim).",
+      "owner": "contracts",
+      "consumers": [
+        "packages/contracts-rust",
+        "packages/security-kernel/crates/kernel-core"
+      ],
+      "generator": "tools/codegen/contracts/generate_bindings.py",
+      "generator_sha256": "b88bbd8252fdb64080011165760c603df33f8658423f0e9f1922e71486b224ad",
+      "inputs": {
+        "tools/codegen/contracts/contracts_types_template.rs": "042a8124cf529c5e934e42ceddd070cf0066418f7788380507fe9f6aac6a73bf"
+      },
+      "outputs": {
+        "packages/contracts-rust/src/lib.rs": "6d9180864f5b367618a5457f2ddf4b1239a34490ed7ab96f0afbecde67b470b5",
+        "packages/security-kernel/crates/kernel-core/src/contracts_generated/mod.rs": "e159d1395dfa071538b58820e5916995e9bd221244721accef62327ea76f74c9"
+      },
+      "tracked": true,
+      "determinism": "Byte-identical for identical contracts inventory and template; CONTRACT_SOURCE_DIGEST covers every contracts/ json/cddl/yaml/md file and CONTRACT_PROJECTION_DIGEST binds each output's own bytes.",
+      "regenerate_command": "python3 tools/codegen/contracts/generate_bindings.py --write",
+      "check_mode": "generator-check",
+      "check_command": [
+        "python3",
+        "tools/codegen/contracts/generate_bindings.py",
+        "--check"
+      ]
+    },
+    {
+      "artifact_id": "web-wasm-kernel-assets",
+      "description": "Browser binding and WebAssembly module for the web client. The single generation command is `make build-wasm` (cargo wasm32 release build plus wasm-bindgen 0.2.127); there is no second output path. The tracked bytes are digest-pinned in release/kernel-assets.json and verified at runtime by apps/web/src/config.js.",
+      "owner": "security",
+      "consumers": [
+        "apps/web"
+      ],
+      "generator": "packages/security-kernel/scripts/build-wasm.sh",
+      "generator_sha256": "4b6f3f8fa5d2abbaef240b3f0551285893c78445869183ef12894130ed943770",
+      "inputs": {
+        "packages/security-kernel/Cargo.toml": "ef5c33a674e3e6b92987955675d4670ce46afdc238fe2aacc11f70842eae4748",
+        "packages/security-kernel/Cargo.lock": "abdafae549f01972b491f267b303e4c644269770d9e9cb4949f79fb231a0fdb7"
+      },
+      "outputs": {
+        "apps/web/src/wasm/veyora_kernel.js": "c7e8fd719702c82b93ba2734632c8fa37757aa3022eaec3a7cd1ea14080c62a4",
+        "apps/web/src/wasm/veyora_kernel_bg.wasm": "ed814096da32cf25434a297511a9ff35ba860c3df9fdf08bdad25be558cfeee8"
+      },
+      "tracked": true,
+      "determinism": "WASM bytes require the pinned toolchain and wasm-bindgen 0.2.127; tracked drift is rejected by the digest pinning in release/kernel-assets.json (enforced by tools/lint/check-repository.py and the runtime loader).",
+      "regenerate_command": "make build-wasm",
+      "check_mode": "generator-check",
+      "check_command": [
+        "python3",
+        "tools/lint/check-repository.py"
+      ]
+    }
+  ]
+}

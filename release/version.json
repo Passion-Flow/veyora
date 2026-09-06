@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "product": "Veyora",
+  "version": "1.0.0",
+  "tag": "v1.0.0",
+  "channel": "preview",
+  "github_prerelease": true,
+  "latest_allowed": false,
+  "license_classification": "source-available",
+  "historical_tag_exceptions": [
+    {
+      "tag": "v0.0.1",
+      "reason": "The desktop preview tag was created after v1.0.0 before a single product version authority existed. It remains historical evidence and must not be reused as a release baseline."
+    }
+  ]
+}

@@ -1,19 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: cargo
-    directory: /backend
-    schedule:
-      interval: weekly
-    labels: [dependencies, rust]
-
-  - package-ecosystem: cargo
-    directory: /security-kernel
-    schedule:
-      interval: weekly
-    labels: [dependencies, rust]
-
-  - package-ecosystem: cargo
-    directory: /frontend/desktop/src-tauri
+    directory: /
     schedule:
       interval: weekly
     labels: [dependencies, rust]
@@ -26,6 +14,18 @@ updates:
       # a Tauri release moves to gtk >= 0.20.
       - dependency-name: glib
         versions: ["< 0.20.0"]
+
+  - package-ecosystem: cargo
+    directory: /packages/security-kernel
+    schedule:
+      interval: weekly
+    labels: [dependencies, rust]
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    labels: [dependencies, javascript]
 
   - package-ecosystem: github-actions
     directory: /

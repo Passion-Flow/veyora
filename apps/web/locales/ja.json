@@ -1,0 +1,1531 @@
+{
+  "schema_version": 1,
+  "locale": "ja",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "あなたのプライベートな空間"
+    },
+    "common.cancel": {
+      "text": "キャンセル"
+    },
+    "common.copy": {
+      "text": "コピー"
+    },
+    "common.close": {
+      "text": "閉じる"
+    },
+    "common.show": {
+      "text": "パスワードを表示"
+    },
+    "common.hide": {
+      "text": "隠す"
+    },
+    "common.edit": {
+      "text": "編集"
+    },
+    "common.delete": {
+      "text": "削除"
+    },
+    "common.themeToggle": {
+      "text": "テーマ切替"
+    },
+    "common.undo": {
+      "text": "元に戻す"
+    },
+    "common.passwordsMatch": {
+      "text": "パスワードが一致しています"
+    },
+    "common.passwordsMismatch": {
+      "text": "パスワードが一致しません"
+    },
+    "entry.capsLock": {
+      "text": "Caps Lock がオンです"
+    },
+    "entry.stage.deriving": {
+      "text": "鍵を導出中"
+    },
+    "entry.stage.decrypting": {
+      "text": "金庫を復号中"
+    },
+    "entry.create.step": {
+      "text": "01 · 金庫を作成"
+    },
+    "entry.create.title": {
+      "text": "マスターパスワードを設定。"
+    },
+    "entry.create.passwordLabel": {
+      "text": "マスターパスワード"
+    },
+    "entry.create.passwordPh": {
+      "text": "{min} 文字以上"
+    },
+    "entry.create.confirmLabel": {
+      "text": "パスワードの確認"
+    },
+    "entry.create.confirmPh": {
+      "text": "もう一度入力"
+    },
+    "entry.create.ack": {
+      "text": "このパスワードは復元できないことを理解しました——パスワードなしで金庫を開けるにはリカバリーキットのみが使えます。"
+    },
+    "entry.create.btn": {
+      "text": "金庫を作成"
+    },
+    "entry.create.errLength": {
+      "text": "{min} 文字以上にしてください——このパスワードが金庫の唯一の鍵です。"
+    },
+    "entry.create.errMismatch": {
+      "text": "パスワードが一致しません。"
+    },
+    "entry.create.errAck": {
+      "text": "パスワードが復元できないことを確認してから続行してください。"
+    },
+    "entry.kit.step": {
+      "text": "02 · リカバリーキット"
+    },
+    "entry.kit.title": {
+      "text": "パスワードを忘れたら？<br>このコードが唯一の入口です。"
+    },
+    "entry.kit.sub": {
+      "text": "オフラインで保存してください——マスターパスワードを失ったときの唯一の復元手段です。"
+    },
+    "entry.kit.download": {
+      "text": ".txt をダウンロード"
+    },
+    "entry.kit.open": {
+      "text": "金庫を開く"
+    },
+    "entry.kit.skip": {
+      "text": "今はスキップ——後で金庫内から再生成できます"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA リカバリーキット"
+    },
+    "entry.kit.fileTail": {
+      "text": "オフラインで保管してください。このキットを持つ人は誰でも金庫にアクセスできます。"
+    },
+    "entry.unlock.tag": {
+      "text": "金庫はロック中"
+    },
+    "entry.unlock.title": {
+      "text": "おかえりなさい。"
+    },
+    "entry.unlock.sub": {
+      "text": "マスターパスワードを入力し、この端末上で鍵を導出して金庫を復号します。"
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "マスターパスワード"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "金庫 {vault} · {count, plural, other {# 件のレコード}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "ソルトはこの端末に保存"
+    },
+    "entry.unlock.btn": {
+      "text": "金庫を解錠"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "マスターパスワードを入力してください。"
+    },
+    "entry.unlock.errWrong": {
+      "text": "復号に失敗しました——マスターパスワードが違います。金庫はロックされたままです。"
+    },
+    "entry.unlock.recoverLink": {
+      "text": "パスワードを忘れた？リカバリーキットで復元"
+    },
+    "entry.recover.tag": {
+      "text": "復元"
+    },
+    "entry.recover.title": {
+      "text": "リカバリーキーで Vault を開く"
+    },
+    "entry.recover.sub": {
+      "text": "リカバリーキーは Vault の暗号化鍵を開き、新しいマスターパスワードを設定します。他に何もなくても新しい端末で機能します。"
+    },
+    "entry.recover.kitLabel": {
+      "text": "リカバリーキー"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · チェックサム"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "新しいマスターパスワード"
+    },
+    "entry.recover.btn": {
+      "text": "Vault を復元"
+    },
+    "entry.recover.back": {
+      "text": "解錠に戻る"
+    },
+    "entry.recover.errKit": {
+      "text": "そのリカバリーキーではこの Vault を開けません — 何も変更されていません。"
+    },
+    "strength.readout": {
+      "text": "{bits} ビット · {label}"
+    },
+    "strength.weak": {
+      "text": "弱い"
+    },
+    "strength.fair": {
+      "text": "普通"
+    },
+    "strength.good": {
+      "text": "良好"
+    },
+    "strength.strong": {
+      "text": "強い"
+    },
+    "strength.excellent": {
+      "text": "非常に強い"
+    },
+    "nav.all": {
+      "text": "すべての項目"
+    },
+    "nav.favorites": {
+      "text": "お気に入り"
+    },
+    "type.login": {
+      "text": "ログイン"
+    },
+    "type.login.plural": {
+      "text": "ログイン"
+    },
+    "type.note": {
+      "text": "セキュアノート"
+    },
+    "type.note.plural": {
+      "text": "セキュアノート"
+    },
+    "type.api-token": {
+      "text": "API トークン"
+    },
+    "type.api-token.plural": {
+      "text": "API トークン"
+    },
+    "type.ssh": {
+      "text": "SSH 鍵"
+    },
+    "type.ssh.plural": {
+      "text": "SSH 鍵"
+    },
+    "type.identity": {
+      "text": "本人情報"
+    },
+    "type.identity.plural": {
+      "text": "本人情報"
+    },
+    "top.recovery": {
+      "text": "リカバリーキット"
+    },
+    "top.settings": {
+      "text": "設定"
+    },
+    "top.lock": {
+      "text": "今すぐロック"
+    },
+    "top.newEntry": {
+      "text": "新規項目"
+    },
+    "top.searchScope": {
+      "text": "{scope}を検索"
+    },
+    "top.autolock": {
+      "text": "自動ロックまで"
+    },
+    "top.sort": {
+      "text": "並べ替え"
+    },
+    "vault.nameDefault": {
+      "text": "私の Veyora ボールト"
+    },
+    "vault.locationThisDevice": {
+      "text": "このデバイス上"
+    },
+    "vault.locationService": {
+      "text": "{host} の接続ボールト"
+    },
+    "vault.locationUnknown": {
+      "text": "接続ボールト"
+    },
+    "table.colItem": {
+      "text": "項目"
+    },
+    "table.colType": {
+      "text": "種類"
+    },
+    "table.colLogin": {
+      "text": "ログイン / シークレット"
+    },
+    "table.colUpdated": {
+      "text": "更新"
+    },
+    "table.count": {
+      "text": "{count, plural, other {# 件のレコード}}"
+    },
+    "table.emptyTitle": {
+      "text": "何もありません"
+    },
+    "table.emptyVaultTitle": {
+      "text": "ボールトは空です"
+    },
+    "table.emptyVaultBody": {
+      "text": "最初のログインを追加するか、他のパスワードマネージャーから項目をインポートしてください。"
+    },
+    "table.addFirstLogin": {
+      "text": "最初のログインを追加"
+    },
+    "table.importItems": {
+      "text": "項目をインポート"
+    },
+    "table.emptyFiltered": {
+      "text": "このビューにはまだ項目がありません。"
+    },
+    "table.noResultsTitle": {
+      "text": "検索結果なし"
+    },
+    "table.noResultsBody": {
+      "text": "「{query}」の検索結果は{scope}にありません。"
+    },
+    "table.clearSearch": {
+      "text": "検索をクリア"
+    },
+    "table.searchAll": {
+      "text": "す〹ての項目を検索"
+    },
+    "action.copySecret": {
+      "text": "シークレットをコピー"
+    },
+    "action.favorite": {
+      "text": "お気に入り"
+    },
+    "action.more": {
+      "text": "その他の操作"
+    },
+    "action.removeFilter": {
+      "text": "フィルターを削除: {filter}"
+    },
+    "sort.name": {
+      "text": "名前 A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "名前 Z–A"
+    },
+    "sort.updated": {
+      "text": "更新が新しい順"
+    },
+    "sort.type": {
+      "text": "種類順"
+    },
+    "drawer.title.entry": {
+      "text": "項目"
+    },
+    "drawer.title.settings": {
+      "text": "設定"
+    },
+    "drawer.title.recovery": {
+      "text": "リカバリーキット"
+    },
+    "drawer.copyPassword": {
+      "text": "パスワードをコピー"
+    },
+    "drawer.copySecret": {
+      "text": "シークレットをコピー"
+    },
+    "drawer.reveal": {
+      "text": "表示"
+    },
+    "drawer.favorite": {
+      "text": "お気に入り"
+    },
+    "drawer.unfavorite": {
+      "text": "お気に入り済み"
+    },
+    "drawer.confirmDelete": {
+      "text": "削除を確認"
+    },
+    "drawer.meta": {
+      "text": "{date} 更新 · リビジョン {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "お気に入り"
+    },
+    "drawer.foot": {
+      "text": "レコード {id} · スイート 1 · プロトコル v1 · WASM カーネルによりブラウザ内で復号"
+    },
+    "field.name": {
+      "text": "名前"
+    },
+    "field.itemName": {
+      "text": "項目名"
+    },
+    "field.fullName": {
+      "text": "氏名"
+    },
+    "field.username": {
+      "text": "ユーザー名 / メール"
+    },
+    "field.website": {
+      "text": "ウェブサイト"
+    },
+    "field.service": {
+      "text": "サービス"
+    },
+    "field.host": {
+      "text": "ホスト"
+    },
+    "field.password": {
+      "text": "パスワード"
+    },
+    "field.token": {
+      "text": "トークン"
+    },
+    "field.passphrase": {
+      "text": "パスフレーズ"
+    },
+    "field.idNumber": {
+      "text": "ID 番号"
+    },
+    "field.content": {
+      "text": "内容"
+    },
+    "field.privateKey": {
+      "text": "秘密鍵"
+    },
+    "field.notes": {
+      "text": "メモ"
+    },
+    "ph.name": {
+      "text": "GitHub - Work"
+    },
+    "ph.noteName": {
+      "text": "例: サーバー復旧手順書"
+    },
+    "ph.tokenName": {
+      "text": "例: GHCR 公開トークン"
+    },
+    "ph.sshName": {
+      "text": "例: ed25519 — ワークステーション"
+    },
+    "ph.itemName": {
+      "text": "例: パスポート"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "例: GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "任意"
+    },
+    "ph.content": {
+      "text": "非公開テキスト——端末から出る前に暗号化されます"
+    },
+    "ph.generate": {
+      "text": "自動生成"
+    },
+    "modal.newTitle": {
+      "text": "新規項目"
+    },
+    "modal.editTitle": {
+      "text": "項目を編集"
+    },
+    "modal.create": {
+      "text": "項目を作成"
+    },
+    "modal.save": {
+      "text": "変更を保存"
+    },
+    "modal.encryptedNote": {
+      "text": "端末内で暗号化 · 暗号文として保存"
+    },
+    "modal.generate": {
+      "text": "生成"
+    },
+    "gen.title": {
+      "text": "パスワード生成"
+    },
+    "gen.entropy": {
+      "text": "推定エントロピー"
+    },
+    "gen.bitsUnit": {
+      "text": "ビット"
+    },
+    "gen.length": {
+      "text": "長さ"
+    },
+    "gen.upper": {
+      "text": "大文字"
+    },
+    "gen.lower": {
+      "text": "小文字"
+    },
+    "gen.digits": {
+      "text": "数字"
+    },
+    "gen.symbols": {
+      "text": "記号"
+    },
+    "gen.ambiguous": {
+      "text": "紛らわしい文字を避ける"
+    },
+    "gen.regenerate": {
+      "text": "再生成"
+    },
+    "gen.use": {
+      "text": "このパスワードを使う"
+    },
+    "gen.poolNote": {
+      "text": "プールは {count} 文字"
+    },
+    "gen.errCharset": {
+      "text": "少なくとも 1 つの文字セットを選択してください"
+    },
+    "settings.title": {
+      "text": "設定"
+    },
+    "settings.sub": {
+      "text": "端末ローカルの設定 · この端末のみ"
+    },
+    "settings.appearance": {
+      "text": "外観"
+    },
+    "settings.theme": {
+      "text": "テーマ"
+    },
+    "settings.themeSub": {
+      "text": "白地に黒、または黒地に白"
+    },
+    "settings.light": {
+      "text": "ライト"
+    },
+    "settings.dark": {
+      "text": "ダーク"
+    },
+    "settings.language": {
+      "text": "言語"
+    },
+    "settings.languageSub": {
+      "text": "表示言語。欠落時は英語にフォールバック"
+    },
+    "settings.security": {
+      "text": "セキュリティ"
+    },
+    "settings.autolock": {
+      "text": "無操作後に自動ロック"
+    },
+    "settings.autolockSub": {
+      "text": "鍵情報はメモリからゼロ化されます"
+    },
+    "settings.clipboard": {
+      "text": "コピー後にクリップボードを消去"
+    },
+    "settings.clipboardSub": {
+      "text": "シークレットがクリップボードに残りません"
+    },
+    "settings.data": {
+      "text": "データ"
+    },
+    "settings.export": {
+      "text": "平文データの書き出し"
+    },
+    "settings.exportSub": {
+      "text": "暗号化されていません — ファイルを開ける人は誰でも読めます"
+    },
+    "settings.exportBtn": {
+      "text": "平文データを書き出す"
+    },
+    "settings.import": {
+      "text": "CSV をインポート"
+    },
+    "settings.importSub": {
+      "text": "汎用ログイン CSV（name, secret）"
+    },
+    "settings.importBtn": {
+      "text": "インポート"
+    },
+    "settings.about": {
+      "text": "情報"
+    },
+    "settings.note": {
+      "text": "Veyora は実験的なプレビュー版です——監査済みのセキュリティ製品ではありません。"
+    },
+    "settings.minutes": {
+      "text": "{n} 分"
+    },
+    "settings.seconds": {
+      "text": "{n} 秒"
+    },
+    "about.version": {
+      "text": "バージョン"
+    },
+    "about.kernel": {
+      "text": "カーネル"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "鍵導出"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "暗号方式"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "署名方式"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "サーバーが見るもの"
+    },
+    "about.serverSeesValue": {
+      "text": "暗号文のみ"
+    },
+    "recovery.title": {
+      "text": "リカバリーキット"
+    },
+    "recovery.sub": {
+      "text": "Base32 · チェックサム付き · オフライン保管"
+    },
+    "recovery.warnHead": {
+      "text": "重要——閉じる前に保存してください"
+    },
+    "recovery.warnBody": {
+      "text": "このキットはマスターパスワードなしで金庫を復号できます。持っている人は誰でもあなたのデータにアクセスできます。印刷するか書き写し、オフラインで安全に保管し、この端末には絶対に保存しないでください。"
+    },
+    "recovery.copyKit": {
+      "text": "キットをコピー"
+    },
+    "recovery.regenerate": {
+      "text": "新しく生成"
+    },
+    "recovery.note": {
+      "text": "マスターパスワードとキットの両方を失うと、設計上金庫は復元できません——リセット手段はありません。"
+    },
+    "toast.copied": {
+      "text": "コピーしました · クリップボードは {seconds} 秒後に消去されます"
+    },
+    "toast.copyFail": {
+      "text": "この環境ではコピーに失敗しました"
+    },
+    "toast.locked": {
+      "text": "金庫をロックしました——鍵情報はゼロ化済み"
+    },
+    "toast.created": {
+      "text": "項目を暗号化して保存しました"
+    },
+    "toast.updated": {
+      "text": "項目を再暗号化 · リビジョン {revision}"
+    },
+    "toast.deleted": {
+      "text": "項目を削除 · 削除リビジョンを記録"
+    },
+    "toast.kitRegen": {
+      "text": "新しいキットを生成しました"
+    },
+    "toast.kitSkip": {
+      "text": "キットはトップバーの盾アイコンからいつでも利用できます"
+    },
+    "toast.exported": {
+      "text": "{count, plural, other {# 件の項目をエクスポートしました}}"
+    },
+    "toast.importStub": {
+      "text": "デモ版——インポートはスタブです"
+    },
+    "toast.autolockSet": {
+      "text": "自動ロックを {n} 分に設定しました"
+    },
+    "toast.clipSet": {
+      "text": "クリップボードは {n} 秒後に消去されます"
+    },
+    "toast.conflict": {
+      "text": "リビジョン競合 — レコードは別の場所で更新されています"
+    },
+    "toast.syncFailed": {
+      "text": "同期に失敗しました — API 接続を確認してください"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "このリカバリーキットは無効です。"
+    },
+    "settings.resetVault": {
+      "text": "ローカルの金庫をリセット"
+    },
+    "settings.resetVaultSub": {
+      "text": "端末のメタデータを消去してやり直します — サーバーのレコードは保持されます"
+    },
+    "settings.resetVaultBtn": {
+      "text": "リセット"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "もう一度タップして確認"
+    },
+    "toast.renderError": {
+      "text": "このビューの描画中に問題が発生しました"
+    },
+    "settings.changePw": {
+      "text": "マスターパスワードの変更"
+    },
+    "settings.changePwSub": {
+      "text": "すべてのレコードを新しい鍵で再暗号化します"
+    },
+    "settings.changePwBtn": {
+      "text": "変更"
+    },
+    "settings.changePwCurrent": {
+      "text": "現在のマスターパスワード"
+    },
+    "toast.passwordChanged": {
+      "text": "マスターパスワードを変更しました — すべてのレコードを再暗号化しました"
+    },
+    "toast.importBadCsv": {
+      "text": "CSV ファイルが期待する形式ではありません"
+    },
+    "toast.imported": {
+      "plural": {
+        "other": "# 件の項目をインポートしました"
+      }
+    },
+    "health.reused": {
+      "text": "パスワード再利用"
+    },
+    "health.stale": {
+      "text": "パスワードが古い"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "other": "{count} 件再利用"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "other": "{count} 件古い"
+      }
+    },
+    "drawer.totp": {
+      "text": "認証コード"
+    },
+    "field.totpSecret": {
+      "text": "TOTPシークレット（Base32）"
+    },
+    "ph.totpSecret": {
+      "text": "例: JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "ごみ箱"
+    },
+    "nav.activeFilters": {
+      "text": "適用中のフィルター"
+    },
+    "table.trashEmpty": {
+      "text": "ごみ箱は空です"
+    },
+    "action.restore": {
+      "text": "復元"
+    },
+    "toast.restored": {
+      "text": "エントリを復元しました"
+    },
+    "apiError.default": {
+      "text": "問題が発生しました。直前の変更は保存されていない可能性があります。"
+    },
+    "apiError.PM-STORE-NOT-FOUND": {
+      "text": "レコードが見つかりません。"
+    },
+    "apiError.PM-STORE-CONFLICT": {
+      "text": "リビジョン競合：レコードは別の場所で更新されています。"
+    },
+    "apiError.PM-STORE-INVALID-RECORD": {
+      "text": "レコードの形式が不正です。"
+    },
+    "apiError.PM-STORE-UNAVAILABLE": {
+      "text": "ストレージバックエンドが利用できません。"
+    },
+    "apiError.PM-API-ROUTE-MISMATCH": {
+      "text": "パスとリクエスト本体のレコード ID が一致しません。"
+    },
+    "apiError.PM-API-BAD-BODY": {
+      "text": "リクエスト本体を解析できませんでした。"
+    },
+    "apiError.PM-API-BAD-QUERY": {
+      "text": "クエリ文字列を解析できませんでした。"
+    },
+    "apiError.PM-API-BODY-TOO-LARGE": {
+      "text": "リクエスト本体が上限を超えています。"
+    },
+    "apiError.PM-API-UNAUTHORIZED": {
+      "text": "Bearer トークンが不在または無効です。"
+    },
+    "apiError.PM-API-RATE-LIMITED": {
+      "text": "リクエストが多すぎます。後でもう一度お試しください。"
+    },
+    "apiError.PM-NETWORK-UNREACHABLE": {
+      "text": "サーバーに接続できません。"
+    },
+    "entry.welcome.what": {
+      "text": "Veyora はパスワードとプライベートなメモを、マスターパスワードで保護された暗号化金庫に保存します。"
+    },
+    "entry.welcome.vault": {
+      "text": "金庫はアイテムを格納する暗号化コンテナーです。暗号化と復号はこのアプリ内で行われ、サービスが保存するのは暗号文のみです。"
+    },
+    "entry.welcome.mode": {
+      "text": "モード: 接続された金庫 — アイテムはこの端末で暗号化され、Veyora サービスと同期されます。"
+    },
+    "entry.create.beforeTitle": {
+      "text": "続行する前に"
+    },
+    "entry.create.explainStorage": {
+      "text": "保存先: アイテムはこのブラウザーで暗号化され、接続先の Veyora サービスに暗号文として保存されます。"
+    },
+    "entry.create.explainPassword": {
+      "text": "パスワード: {min} 文字以上にしてください。長さは記号よりも重要です。"
+    },
+    "entry.create.explainScreening": {
+      "text": "よくあるパスワードのチェック:Veyora はこの端末上の小さな内蔵リストと照合します。パスワードが送信されることはありません。"
+    },
+    "entry.create.errCommon": {
+      "text": "このパスワードは非常に一般的なものがもとになっています。あなたしか組み合わせない言葉で長くしてください。"
+    },
+    "entry.create.explainRecovery": {
+      "text": "復元: このプレビューには復元手段がありません。このパスワードを忘れると金庫は再び開けません。"
+    },
+    "entry.create.explainBackup": {
+      "text": "バックアップ: このプレビューでは暗号化バックアップを利用できません。CSV エクスポートは平文であり、バックアップではありません。"
+    },
+    "modal.savedTitle": {
+      "text": "保存しました"
+    },
+    "modal.savedBody": {
+      "text": "{name} を暗号化して保存しました。"
+    },
+    "modal.savedBack": {
+      "text": "金庫に戻る"
+    },
+    "modal.savedCopy": {
+      "text": "シークレットをコピー"
+    },
+    "modal.savedAdd": {
+      "text": "別のアイテムを追加"
+    },
+    "settings.trashRetention": {
+      "text": "ゴミ箱の保持期間設定"
+    },
+    "settings.trashRetentionSub": {
+      "text": "希望する保持期間。このプレビューでは自動削除は利用できません"
+    },
+    "settings.days": {
+      "text": "{n} 日"
+    },
+    "toast.trashSet": {
+      "text": "ゴミ箱の保持期間設定を {n} 日にしました"
+    },
+    "help.title": {
+      "text": "ヘルプ"
+    },
+    "help.sub": {
+      "text": "どこから始めますか？"
+    },
+    "help.getStart": {
+      "text": "はじめる"
+    },
+    "help.getStartSub": {
+      "text": "最初のログインを保存して、検索してコピーしてみましょう"
+    },
+    "help.recovery": {
+      "text": "復元について理解する"
+    },
+    "help.recoverySub": {
+      "text": "このプレビューでは復元を利用できません。マスターパスワードを失うと、この金庫を再び開くことはできません"
+    },
+    "help.backup": {
+      "text": "暗号化バックアップを作成"
+    },
+    "help.backupSub": {
+      "text": "このプレビューでは暗号化バックアップを利用できません。平文の CSV エクスポートはバックアップではありません"
+    },
+    "help.restore": {
+      "text": "暗号化バックアップを復元"
+    },
+    "help.restoreSub": {
+      "text": "このプレビューではバックアップ復元を利用できません。CSV インポートはアイテムのみを取り込みます"
+    },
+    "help.connect": {
+      "text": "サービスに接続"
+    },
+    "help.connectSub": {
+      "text": "この Web プレビューは設定済みの Veyora サービスを使用しています。審査済みのペアリングはまだ利用できません"
+    },
+    "help.troubleshoot": {
+      "text": "トラブルシューティング"
+    },
+    "help.troubleshootSub": {
+      "text": "バージョン、ストレージの詳細、設定は「設定」にあります"
+    },
+    "help.report": {
+      "text": "セキュリティ問題を報告"
+    },
+    "help.reportSub": {
+      "text": "Veyora リポジトリのセキュリティポリシーから非公開で報告してください"
+    },
+    "help.openAction": {
+      "text": "開く"
+    },
+    "startHere.title": {
+      "text": "まずはここから"
+    },
+    "startHere.sub": {
+      "text": "保管庫を使い始めるための短い手順です。"
+    },
+    "startHere.firstItem": {
+      "text": "最初のログインを追加するか項目をインポートする"
+    },
+    "startHere.copyReveal": {
+      "text": "シークレットをコピーまたは表示する"
+    },
+    "startHere.lock": {
+      "text": "離席するときは保管庫をロックする"
+    },
+    "startHere.recovery": {
+      "text": "リカバリ情報を確認する"
+    },
+    "startHere.backup": {
+      "text": "暗号化バックアップを作成する"
+    },
+    "startHere.unavailable": {
+      "text": "このプレビューではまだ利用できません。"
+    },
+    "startHere.done": {
+      "text": "完了"
+    },
+    "startHere.allDone": {
+      "text": "準備が整いました。このチェックリストはいつでもヘルプから再び開けます。"
+    },
+    "startHere.hide": {
+      "text": "このチェックリストを隠す"
+    },
+    "shortcuts.title": {
+      "text": "キーボードショートカット"
+    },
+    "shortcuts.sub": {
+      "text": "フィールドに入力中はショートカットは決して動作しません。"
+    },
+    "shortcuts.search": {
+      "text": "検索フィールドにフォーカス"
+    },
+    "shortcuts.newItem": {
+      "text": "新しい項目を作成"
+    },
+    "shortcuts.generator": {
+      "text": "パスワード生成を開く"
+    },
+    "shortcuts.lockAction": {
+      "text": "保管庫をロック"
+    },
+    "shortcuts.nav": {
+      "text": "項目リストを上下に移動"
+    },
+    "shortcuts.open": {
+      "text": "選択した項目を開く"
+    },
+    "shortcuts.escape": {
+      "text": "検索を消去またはダイアログを閉じる"
+    },
+    "shortcuts.searchNote": {
+      "text": "検索はこの端末上でのみ実行されます。名前、ユーザー名、ウェブサイト、サービス、ホスト、メモ、シークレット、項目タイプを対象とし、検索語がサービスに送信されることはありません。"
+    },
+    "help.shortcuts": {
+      "text": "キーボードショートカットを使う"
+    },
+    "help.shortcutsSub": {
+      "text": "すべてのショートカットを一覧で確認できます。"
+    },
+    "help.startHere": {
+      "text": "「まずはここから」チェックリストを開く"
+    },
+    "help.startHereSub": {
+      "text": "はじめの手順リストを再び開きます。"
+    },
+    "settings.backup": {
+      "text": "暗号化バックアップを作成"
+    },
+    "settings.backupSub": {
+      "text": "ポータブルで暗号化 — マスターパスワードがあれば任意の端末で復元できます"
+    },
+    "settings.backupBtn": {
+      "text": "バックアップを作成"
+    },
+    "settings.backupUnavailable": {
+      "text": "暗号化バックアップはこのプレビューではまだ利用できません"
+    },
+    "export.title": {
+      "text": "平文データの書き出し"
+    },
+    "export.notEncrypted": {
+      "text": "暗号化されていません"
+    },
+    "export.warning": {
+      "text": "このファイルを開ける人 — 人、他のアプリ、バックアップ、クラウド同期 — は、書き出されたすべてのシークレットを読むことができます。"
+    },
+    "export.passwordLabel": {
+      "text": "マスターパスワード"
+    },
+    "export.passwordHelp": {
+      "text": "この書き出しを確認するために、マスターパスワードをもう一度入力してください。"
+    },
+    "export.ack": {
+      "text": "このファイルが暗号化されておらず、アクセスできる人は誰でも私のシークレットを読めることを理解しています。"
+    },
+    "export.btn": {
+      "text": "平文で書き出す"
+    },
+    "export.needAck": {
+      "text": "書き出す前に警告を理解したことを確認してください。"
+    },
+    "export.needPassword": {
+      "text": "続行するにはマスターパスワードを入力してください。"
+    },
+    "export.wrongPassword": {
+      "text": "マスターパスワードが間違っています。何も書き出されていません。"
+    },
+    "export.failed": {
+      "text": "書き出しに失敗しました。ファイルは作成されていません。"
+    },
+    "export.doneTitle": {
+      "text": "書き出し完了"
+    },
+    "export.doneBody": {
+      "text": "{file} には {count, plural, other {# 件の項目}} が平文で含まれています。"
+    },
+    "export.includes": {
+      "text": "含まれる"
+    },
+    "export.includesList": {
+      "text": "名前、種類、ウェブサイト、ユーザー名、パスワードまたはシークレット、メモ"
+    },
+    "export.omitted": {
+      "text": "含まれない"
+    },
+    "export.omittedList": {
+      "text": "TOTP シード、お気に入り、カスタムメタデータ"
+    },
+    "export.guidance": {
+      "text": "ファイルを安全な場所に移動するか、使い終わったらすぐに削除してください。メールで送ったりクラウドサービスにアップロードしたりしないでください。"
+    },
+    "export.doneClose": {
+      "text": "完了"
+    },
+    "field.nameHint": {
+      "text": "名前は見分けるためだけのものです。後で検索しやすい名前（例: GitHub - Work）にしてください。"
+    },
+    "modal.moreFields": {
+      "text": "その他のフィールド"
+    },
+    "modal.fewerFields": {
+      "text": "フィールドを閉じる"
+    },
+    "field.totpHint": {
+      "text": "サービスまたは認証アプリの otpauth:// URI か Base32 シークレットを貼り付けてください。空白とハイフンは無視されます。"
+    },
+    "field.totpErrUri": {
+      "text": "この otpauth:// URI には有効な Base32 シークレットがありません。"
+    },
+    "field.totpErrType": {
+      "text": "認証コードでは otpauth://totp/ URI のみをサポートしています。"
+    },
+    "field.totpErrBase32": {
+      "text": "TOTP シークレットで使えるのは Base32 の英字 A–Z と数字 2–7 のみです。"
+    },
+    "entry.routes.step": {
+      "text": "ようこそ"
+    },
+    "entry.routes.title": {
+      "text": "はじめに進む方法を選んでください"
+    },
+    "entry.routes.sub": {
+      "text": "Veyora はパスワードを暗号化された金庫に保存します。始め方を選んでください。"
+    },
+    "entry.routes.create": {
+      "text": "新しい金庫を作成"
+    },
+    "entry.routes.createSub": {
+      "text": "空の状態で始めて最初のログインを追加します。"
+    },
+    "entry.routes.open": {
+      "text": "既存の金庫を開く"
+    },
+    "entry.routes.openSub": {
+      "text": "この端末が既に知っている金庫をロック解除します。"
+    },
+    "entry.routes.import": {
+      "text": "他のパスワードマネージャーからインポート"
+    },
+    "entry.routes.importSub": {
+      "text": "金庫を作成して CSV エクスポートを取り込みます。"
+    },
+    "entry.routes.connect": {
+      "text": "上級：セルフホストサーバーに接続"
+    },
+    "entry.routes.connectSub": {
+      "text": "自分で運用する Veyora サービスにサインインします。"
+    },
+    "entry.routes.openNote": {
+      "text": "この端末にはまだ金庫が登録されていません。新しい金庫を作成するか、データをインポートするか、サービスに接続してください。"
+    },
+    "entry.routes.importNote": {
+      "text": "まずマスターパスワードを設定してください。金庫を開いた直後にインポートの手順が続きます。"
+    },
+    "entry.routes.back": {
+      "text": "戻る"
+    },
+    "connect.tag": {
+      "text": "接続モード"
+    },
+    "connect.title": {
+      "text": "接続 / サインイン"
+    },
+    "connect.sub": {
+      "text": "この Veyora サービスでは、金庫の作成やロック解除の前に接続セッションが必要です。"
+    },
+    "connect.urlLabel": {
+      "text": "サービス URL"
+    },
+    "connect.tokenLabel": {
+      "text": "接続トークン"
+    },
+    "connect.tokenPh": {
+      "text": "運用者のトークンを貼り付け"
+    },
+    "connect.tokenHelp": {
+      "text": "サービス運用者が発行した接続資格情報を入力してください。完全なデバイスペアリングは接続モードで提供されます。"
+    },
+    "connect.btn": {
+      "text": "接続"
+    },
+    "connect.errEmpty": {
+      "text": "サービス URL と接続トークンの両方を入力してください。"
+    },
+    "connect.errWrong": {
+      "text": "サービスがこの接続トークンを拒否しました。"
+    },
+    "connect.errUnreachable": {
+      "text": "このアドレスのサービスに接続できません。"
+    },
+    "field.errNameRequired": {
+      "text": "後で見分けられるように、このアイテムに名前を付けてください（例: GitHub - Work）。"
+    },
+    "field.errSecretRequired": {
+      "text": "保存する前にこの必須項目を入力するか、生成を使って値を作成してください。"
+    },
+    "modal.errSummaryTitle": {
+      "text": "保存する前に、強調表示されたフィールドを修正してください："
+    },
+    "toast.clipboardCleared": {
+      "text": "クリップボードを消去しました。"
+    },
+    "toast.clipboardClearFailed": {
+      "text": "クリップボードを消去できませんでした。別のアプリが使用中の可能性があります。"
+    },
+    "save.statusTitle": {
+      "text": "まだ保存されていません"
+    },
+    "save.statusNetwork": {
+      "text": "金庫は変更されていません — サービスに接続できませんでした。入力はここに残ります。オンラインに戻ったら保存を再試行してください。"
+    },
+    "save.statusConflict": {
+      "text": "このアイテムは編集を始めた後に別のデバイスで変更されたため、編集は保存されませんでした。編集内容はここに残ります。最新版を再読み込みしてそこからやり直せます（再読み込みするとこのフォームの編集内容は置き換えられます）。"
+    },
+    "save.statusOther": {
+      "text": "金庫は変更されていません — 保存が拒否されました：{message}。入力はここに残ります。アイテムを確認して再試行してください。"
+    },
+    "save.statusRetry": {
+      "text": "保存を再試行"
+    },
+    "save.statusReload": {
+      "text": "最新版を再読み込み"
+    },
+    "modal.savedSync": {
+      "text": "サービスと同期済み — リビジョン {revision}。"
+    },
+    "modal.savedPending": {
+      "text": "この端末に保存しました — まだサービスには届いていません。接続が回復すると自動的に同期されます。"
+    },
+    "modal.savedPendingDesktop": {
+      "text": "このデバイスに保存されました — ローカルの保管庫が応答しませんでした。再び利用可能になると自動的に保存されます。"
+    },
+    "modal.syncNow": {
+      "text": "今すぐ同期"
+    },
+    "modal.syncNowDesktop": {
+      "text": "もう一度保存する"
+    },
+    "table.pendingSync": {
+      "text": "同期待ち"
+    },
+    "table.pendingSyncDesktop": {
+      "text": "保存待ち"
+    },
+    "settings.diagnostics": {
+      "text": "診断"
+    },
+    "diag.version": {
+      "text": "バージョン"
+    },
+    "diag.build": {
+      "text": "ビルドコミット"
+    },
+    "diag.buildNotStamped": {
+      "text": "このイメージには刻印されていません"
+    },
+    "diag.mode": {
+      "text": "モード"
+    },
+    "diag.modeValue": {
+      "text": "接続済み金庫"
+    },
+    "diag.modeValueDesktop": {
+      "text": "このデバイス上のローカルvault"
+    },
+    "diag.storage": {
+      "text": "ストレージ"
+    },
+    "diag.storageValue": {
+      "text": "{host} の暗号化レコード"
+    },
+    "diag.storageValueDesktop": {
+      "text": "このデバイスに保存された暗号化vault"
+    },
+    "diag.storageUnknown": {
+      "text": "サービスの場所を利用できません"
+    },
+    "diag.health": {
+      "text": "サービス状態"
+    },
+    "diag.healthChecking": {
+      "text": "確認中…"
+    },
+    "diag.healthOk": {
+      "text": "到達可能"
+    },
+    "diag.healthUnhealthy": {
+      "text": "エラーで応答しています"
+    },
+    "diag.healthUnreachable": {
+      "text": "到達できません"
+    },
+    "diag.lastSync": {
+      "text": "最終同期"
+    },
+    "diag.lastSyncDesktop": {
+      "text": "最終保存"
+    },
+    "diag.syncNone": {
+      "text": "まだ同期していません"
+    },
+    "diag.syncNoneDesktop": {
+      "text": "まだ何も保存されていません"
+    },
+    "diag.backup": {
+      "text": "最終検証済みバックアップ"
+    },
+    "diag.backupNone": {
+      "text": "このプレビューでは利用できません"
+    },
+    "diag.bundle": {
+      "text": "サポートバンドル"
+    },
+    "diag.bundleSub": {
+      "text": "オプトインでマスク済み: コピー前に確認する診断サマリーを生成します。自動的にアップロードされることは一切ありません。"
+    },
+    "diag.bundleBtn": {
+      "text": "サポートバンドルを作成"
+    },
+    "diag.bundleTitle": {
+      "text": "サポートバンドルのプレビュー"
+    },
+    "diag.bundleIntro": {
+      "text": "下のバンドルを確認してください — 秘密情報は含まれません。Veyora がアップロードすることは決してなく、コピーするかはあなた次第です。"
+    },
+    "diag.bundleCopy": {
+      "text": "バンドルのテキストをコピー"
+    },
+    "diag.bundleCopied": {
+      "text": "サポートバンドルをコピーしました"
+    },
+    "nav.tags": {
+      "text": "タグ"
+    },
+    "field.tags": {
+      "text": "タグ"
+    },
+    "ph.tags": {
+      "text": "仕事, インフラ"
+    },
+    "field.tagsHint": {
+      "text": "タグはカンマで区切ります。タグは端末内に保存され、絞り込みに使えます。"
+    },
+    "tags.filterLabel": {
+      "text": "タグで絞り込み："
+    },
+    "tags.none": {
+      "text": "タグ付きの項目はまだありません。作成時に「その他のフィールド」から追加できます。"
+    },
+    "resetMatrix.title": {
+      "text": "リセット — 削除する対象を正確に選択"
+    },
+    "resetMatrix.prefsTitle": {
+      "text": "端末の設定"
+    },
+    "resetMatrix.prefsSub": {
+      "text": "この端末に保存されたテーマ、言語、ゴミ箱の保持期間、チェックリストを消去します。Vault とサービス上のデータは変更されません。"
+    },
+    "resetMatrix.prefsBtn": {
+      "text": "設定を消去"
+    },
+    "resetMatrix.prefsConfirm": {
+      "text": "この端末の設定を消去しますか？"
+    },
+    "resetMatrix.prefsDone": {
+      "text": "設定を消去しました — Veyora の次回読み込み時に既定値が適用されます"
+    },
+    "resetMatrix.disconnectTitle": {
+      "text": "保存されたサービス接続"
+    },
+    "resetMatrix.disconnectSub": {
+      "text": "この端末に保存されたサービスアドレスと接続トークンを破棄します。Vault のデータは削除されません。"
+    },
+    "resetMatrix.disconnectBtn": {
+      "text": "接続を破棄"
+    },
+    "resetMatrix.disconnectConfirm": {
+      "text": "保存されたサービス接続を破棄しますか？"
+    },
+    "resetMatrix.disconnectDone": {
+      "text": "保存された接続を消去しました — Veyora の次回読み込み時に適用されます"
+    },
+    "resetMatrix.localTitle": {
+      "text": "この端末上のこの Vault"
+    },
+    "resetMatrix.localSub": {
+      "text": "オフライン保留中の書き込みを含め、この端末からこの Vault を削除します。サービス上の暗号化されたコピーは残りますが、この端末からは二度とアクセスできません。"
+    },
+    "resetMatrix.localBtn": {
+      "text": "この端末から削除"
+    },
+    "resetMatrix.localConfirm": {
+      "text": "この端末から削除しますか？サービス上のコピーにはアクセスできなくなります"
+    },
+    "resetMatrix.everywhereTitle": {
+      "text": "Vault をすべて削除"
+    },
+    "resetMatrix.everywhereSub": {
+      "text": "まずサービスからこの Vault のすべてのレコードを削除し、その後この端末から Vault を削除します。この操作は取り消せません。"
+    },
+    "resetMatrix.everywhereBtn": {
+      "text": "すべて削除"
+    },
+    "resetMatrix.everywhereConfirm": {
+      "text": "すべて削除しますか？この操作は取り消せません"
+    },
+    "resetMatrix.everywhereDone": {
+      "text": "Vault を削除しました — {count} 件のレコードをサービスとこの端末から削除しました"
+    },
+    "resetMatrix.everywhereFailed": {
+      "text": "サービスでの削除に失敗しました — この端末では何も削除されていません"
+    },
+    "settings.changePwNew": {
+      "text": "新しいマスターパスワード"
+    },
+    "settings.changePwConfirm": {
+      "text": "新しいマスターパスワードを再入力"
+    },
+    "settings.changePwErrLength": {
+      "text": "少なくとも {min} 文字使用してください。"
+    },
+    "settings.changePwErrCommon": {
+      "text": "このパスワードは非常に一般的な素材で構成され、ローカルで拒否されます。"
+    },
+    "settings.changePwErrMismatch": {
+      "text": "新しいパスワードが一致しません。"
+    },
+    "settings.changePwErrWrong": {
+      "text": "現在のマスターパスワードが違います — 何も変更されていません。"
+    },
+    "settings.changePwErrPending": {
+      "text": "オフラインの書き込みが保留中です — パスワードを変更する前にサービスと同期してください。"
+    },
+    "settings.changePwDone": {
+      "text": "マスターパスワードを変更しました — すべてのレコードを新しい鍵で再暗号化しました。"
+    },
+    "backup.title": {
+      "text": "暗号化バックアップを作成"
+    },
+    "backup.body": {
+      "text": "このファイルには Vault のすべてのエントリが含まれ、このバックアップ専用に導出された鍵でマスターパスワードにより暗号化されています。任意の端末で復元できます。マスターパスワードなしでは誰も内容を復元できません。"
+    },
+    "backup.passwordLabel": {
+      "text": "マスターパスワード"
+    },
+    "backup.passwordHelp": {
+      "text": "バックアップを封印するためにマスターパスワードを再入力してください。"
+    },
+    "backup.btn": {
+      "text": "バックアップを作成"
+    },
+    "backup.doneTitle": {
+      "text": "暗号化バックアップを保存しました"
+    },
+    "backup.doneBody": {
+      "text": "ファイルには {count} 件のエントリがエンドツーエンドで暗号化されて含まれています。"
+    },
+    "backup.doneLocked": {
+      "text": "ファイルとマスターパスワードを一緒に安全に保管してください — そのパスワードでのみ開けます。"
+    },
+    "backup.errEmpty": {
+      "text": "マスターパスワードを入力してください。"
+    },
+    "backup.errWrong": {
+      "text": "そのパスワードではこの Vault もこのバックアップも開けません — 何も作成されませんでした。"
+    },
+    "backup.errFailed": {
+      "text": "バックアップを作成できませんでした — 何もダウンロードされていません。"
+    },
+    "backup.errFormat": {
+      "text": "そのファイルは Veyora の暗号化バックアップではありません。"
+    },
+    "backup.restoreBtn": {
+      "text": "バックアップを復元"
+    },
+    "backup.restoreBody": {
+      "text": "選択したバックアップには {count} 件のエントリが含まれています。封印したマスターパスワードを入力して復号し、この Vault に統合します。"
+    },
+    "backup.restoreHelp": {
+      "text": "既存のエントリが上書きされることはありません。既存する ID を持つ復元エントリは新しい ID でインポートされます。"
+    },
+    "backup.restoreDone": {
+      "text": "{count} 件のエントリをこの Vault に復元しました。"
+    },
+    "settings.restoreBtn": {
+      "text": "バックアップを復元"
+    },
+    "entry.recover.link": {
+      "text": "リカバリーキーで復元"
+    },
+    "entry.recover.kitPlaceholder": {
+      "text": "xxxxx-xxxxx-xxxxx-…（5 文字×12 グループ）"
+    },
+    "entry.recover.newLabel": {
+      "text": "新しいマスターパスワード"
+    },
+    "entry.recover.confirmLabel": {
+      "text": "新しいマスターパスワードを再入力"
+    },
+    "entry.recover.errFailed": {
+      "text": "復元に失敗しました — Vault は変更されていません。接続を確認して再試行してください。"
+    },
+    "settings.regenTitle": {
+      "text": "リカバリーキー"
+    },
+    "settings.regenSub": {
+      "text": "新しいリカバリーキーを生成します。以前のキーは直ちに使えなくなります"
+    },
+    "settings.regenBtn": {
+      "text": "再生成"
+    },
+    "regen.title": {
+      "text": "リカバリーキーを再生成"
+    },
+    "regen.sub": {
+      "text": "新しいリカバリーキーを生成し、以前のキーを失効させ、同じ手順で検証済みの暗号化バックアップを作成します。このダイアログを閉じる前に新しいキーを保管してください。"
+    },
+    "regen.btn": {
+      "text": "キーを再生成"
+    },
+    "regen.doneTitle": {
+      "text": "新しいリカバリーキーが有効"
+    },
+    "regen.doneConsequence": {
+      "text": "以前のリカバリーキーではこの Vault を開けなくなりました。このキーとともに、全エントリの検証済み暗号化バックアップがダウンロードされました。"
+    },
+    "regen.kitLabel": {
+      "text": "新しいリカバリーキー — 今すぐ保管してください"
+    },
+    "regen.verified": {
+      "text": "このダイアログが成功を報告する前に、ダウンロードされたバックアップはエンドツーエンドで検証されました。"
+    },
+    "settings.kitBtn": {
+      "text": "表示 / 検証"
+    },
+    "kit.title": {
+      "text": "あなたのリカバリーキー"
+    },
+    "kit.sub": {
+      "text": "このキーは、マスターパスワードを失った場合に Vault へ戻る唯一の方法です。今すぐ保存してください。Veyora があなたのために復元することはできません。"
+    },
+    "kit.label": {
+      "text": "リカバリーキー（71 文字）"
+    },
+    "kit.help": {
+      "text": "書き留めるか、別のパスワードマネージャーに保存してください。この Vault 内には保存しないでください。"
+    },
+    "kit.copy": {
+      "text": "キーをコピー"
+    },
+    "kit.copied": {
+      "text": "リカバリーキーをコピーしました — 安全な場所に保管してください"
+    },
+    "kit.verifyLabel": {
+      "text": "保存したことを証明するためにキーを再入力してください"
+    },
+    "kit.verifyBtn": {
+      "text": "保存したキーを検証"
+    },
+    "kit.later": {
+      "text": "後で検証"
+    },
+    "kit.errMismatch": {
+      "text": "この Vault のリカバリーキーと一致しません — 保存したコピーを確認して再試行してください。"
+    },
+    "kit.verified": {
+      "text": "リカバリーキーが検証されました — 正しく保存されています"
+    },
+    "trash.purgeBtn": {
+      "text": "{count} 件の項目を完全に削除"
+    },
+    "trash.purgeConfirm": {
+      "text": "{count} 件を完全に削除しますか？取り消せません"
+    },
+    "trash.purgeNote": {
+      "text": "保持期間を待たずに、暗号化されたコピーをサービスから直ちに削除します。後から復元することはできません。"
+    },
+    "trash.purgeDone": {
+      "text": "{count} 件を完全に削除しました"
+    },
+    "table.showMore": {
+      "text": "さらに {count} 件表示"
+    },
+    "table.windowedCount": {
+      "text": "{total} 件中 {shown} 件を表示中"
+    }
+  }
+}

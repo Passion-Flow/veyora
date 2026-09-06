@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "product_version": "1.0.0",
+  "generated_from": "PRD.md",
+  "features": [
+    {
+      "feature_id": "desktop-local-vault",
+      "name": "Desktop Local Vault",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Local"
+      ],
+      "platforms": [
+        "macOS ARM64 source build",
+        "macOS Intel unverified",
+        "Windows AMD64 unverified",
+        "Windows ARM64 unsupported"
+      ],
+      "implementation_paths": [
+        "apps/desktop",
+        "packages/storage/sqlite",
+        "apps/web"
+      ],
+      "security_claims": [
+        "Item fields are intended to be encrypted by the Rust security kernel before SQLite persistence."
+      ],
+      "requirement_ids": [
+        "UX-ONB-001",
+        "INST-006",
+        "SEC-CRYPTO-001"
+      ],
+      "automated_evidence": [
+        "apps/web/test/kernel.test.mjs",
+        "packages/storage/sqlite/src/lib.rs"
+      ],
+      "manual_evidence": [
+        "Four-native installation evidence is not complete."
+      ],
+      "owner": "Desktop",
+      "security_approver": "Required before Beta",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Packages are not signed or notarized.",
+        "Windows ARM64 packaging has not been implemented.",
+        "Recovery and portable encrypted backup are not complete."
+      ]
+    },
+    {
+      "feature_id": "web-connected-vault",
+      "name": "Web Connected Vault",
+      "status": "Experimental",
+      "modes": [
+        "Web Connected"
+      ],
+      "platforms": [
+        "Current Chromium source-development path"
+      ],
+      "implementation_paths": [
+        "apps/web",
+        "services/api",
+        "deploy"
+      ],
+      "security_claims": [
+        "Release Web code fails closed when the Rust/WASM security kernel cannot initialize."
+      ],
+      "requirement_ids": [
+        "UX-ONB-003",
+        "SEC-CRYPTO-001",
+        "SEC-CRYPTO-002"
+      ],
+      "automated_evidence": [
+        "apps/web/test/kernel.test.mjs",
+        "tests/e2e/web/test-browser.mjs"
+      ],
+      "manual_evidence": [
+        "Production HTTPS, browser, and accessibility matrices are not complete."
+      ],
+      "owner": "Web",
+      "security_approver": "Required before Beta",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Connected authentication and production same-origin deployment are not stable.",
+        "Offline behavior is not a supported claim."
+      ]
+    },
+    {
+      "feature_id": "wasm-record-cryptography",
+      "name": "Rust/WASM record cryptography",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Local",
+        "Desktop Connected",
+        "Web Connected"
+      ],
+      "platforms": [
+        "Rust native test targets",
+        "wasm32-unknown-unknown"
+      ],
+      "implementation_paths": [
+        "packages/security-kernel",
+        "apps/web/src/core/kernel.js",
+        "release/kernel-assets.json"
+      ],
+      "security_claims": [
+        "Record sealing uses the Rust/WASM kernel and no distributable demonstration fallback is permitted."
+      ],
+      "requirement_ids": [
+        "SEC-CRYPTO-001",
+        "SEC-CRYPTO-002",
+        "SEC-CRYPTO-003",
+        "QA-003",
+        "QA-004"
+      ],
+      "automated_evidence": [
+        "packages/security-kernel/tests/wasm_runtime_test.js",
+        "apps/web/test/kernel.test.mjs"
+      ],
+      "manual_evidence": [
+        "Independent cryptographic review is not complete."
+      ],
+      "owner": "Security",
+      "security_approver": "Required for every release",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Browser kernel assets are digest-pinned, but the complete signed release manifest, provenance, and delivery verification required by SEC-CRYPTO-009 are not implemented."
+      ]
+    },
+    {
+      "feature_id": "primary-item-types",
+      "name": "Login and Secure Note items",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Local",
+        "Desktop Connected",
+        "Web Connected"
+      ],
+      "platforms": [
+        "Source-development builds"
+      ],
+      "implementation_paths": [
+        "apps/web/src/data",
+        "apps/web/src/views",
+        "apps/web/src/core/records.js"
+      ],
+      "security_claims": [],
+      "requirement_ids": [
+        "ITEM-001",
+        "ITEM-004",
+        "ITEM-006"
+      ],
+      "automated_evidence": [
+        "apps/web/test/records.test.mjs",
+        "apps/web/test/units.test.mjs"
+      ],
+      "manual_evidence": [
+        "Complete accessibility, backup, import, and export coverage is not complete."
+      ],
+      "owner": "Product",
+      "security_approver": "Required before Stable",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Save/sync state reporting and Trash semantics do not yet satisfy the PRD."
+      ]
+    },
+    {
+      "feature_id": "secondary-item-types",
+      "name": "API Token, SSH Credential, and Identity items",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Local",
+        "Desktop Connected",
+        "Web Connected"
+      ],
+      "platforms": [
+        "Source-development builds"
+      ],
+      "implementation_paths": [
+        "apps/web/src/data",
+        "apps/web/src/views"
+      ],
+      "security_claims": [],
+      "requirement_ids": [
+        "ITEM-001"
+      ],
+      "automated_evidence": [
+        "apps/web/test/units.test.mjs"
+      ],
+      "manual_evidence": [
+        "Full lifecycle and accessibility evidence is not complete."
+      ],
+      "owner": "Product",
+      "security_approver": "Required before Stable",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "These item types must not be described as Stable."
+      ]
+    },
+    {
+      "feature_id": "recovery-key",
+      "name": "Recovery Key",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Local",
+        "Desktop Connected",
+        "Web Connected"
+      ],
+      "platforms": [
+        "No supported end-to-end recovery platform"
+      ],
+      "implementation_paths": [
+        "packages/security-kernel/crates/kernel-core",
+        "apps/web/src/core/vault.js"
+      ],
+      "security_claims": [],
+      "requirement_ids": [
+        "REC-001",
+        "REC-002",
+        "REC-005"
+      ],
+      "automated_evidence": [
+        "apps/web/test/recovery.test.mjs",
+        "tests/e2e/web/test-browser-e2e.mjs",
+        "apps/web/src/core/recovery.js"
+      ],
+      "manual_evidence": [
+        "E2E-003 has not passed."
+      ],
+      "owner": "Security",
+      "security_approver": "Required before implementation claim",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Accepted status awaits the sequence-4 independent cryptography review of ADR 0004."
+      ]
+    },
+    {
+      "feature_id": "master-password-change",
+      "name": "Change Master Password",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Local",
+        "Desktop Connected",
+        "Web Connected"
+      ],
+      "platforms": [
+        "No supported platform"
+      ],
+      "implementation_paths": [
+        "apps/web/src/core/records.js"
+      ],
+      "security_claims": [],
+      "requirement_ids": [
+        "SEC-KEY-001",
+        "SEC-KEY-002",
+        "SEC-KEY-003"
+      ],
+      "automated_evidence": [
+        "apps/web/test/records.test.mjs",
+        "tests/e2e/web/test-browser-full.mjs",
+        "tests/e2e/web/test-browser-faults.mjs"
+      ],
+      "manual_evidence": [
+        "E2E-004 has not passed."
+      ],
+      "owner": "Security",
+      "security_approver": "Required before implementation",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Wrapper-only replacement on wrapped vaults; scope-rotation rekey exists for legacy hygiene."
+      ]
+    },
+    {
+      "feature_id": "encrypted-portable-backup",
+      "name": "Portable encrypted backup and restore",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Local",
+        "Desktop Connected",
+        "Web Connected"
+      ],
+      "platforms": [
+        "Unsupported"
+      ],
+      "implementation_paths": [
+        "services/backup",
+        "services/restore"
+      ],
+      "security_claims": [],
+      "requirement_ids": [
+        "BAK-001",
+        "BAK-004",
+        "BAK-006"
+      ],
+      "automated_evidence": [
+        "apps/web/test/backup.test.mjs",
+        "tests/e2e/web/test-browser-full.mjs",
+        "tests/e2e/web/test-browser-e2e.mjs"
+      ],
+      "manual_evidence": [
+        "E2E-007 has not passed."
+      ],
+      "owner": "Data",
+      "security_approver": "Required before implementation",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Restore merges with suffixed ids; server-side operator snapshot backup/restore drills remain sequence scope."
+      ]
+    },
+    {
+      "feature_id": "connected-authentication",
+      "name": "Connected service authentication",
+      "status": "Experimental",
+      "modes": [
+        "Desktop Connected",
+        "Web Connected"
+      ],
+      "platforms": [
+        "Local preview only"
+      ],
+      "implementation_paths": [
+        "services/api",
+        "apps/web/src/core/records.js",
+        "deploy"
+      ],
+      "security_claims": [],
+      "requirement_ids": [
+        "UX-AUTH-007",
+        "UX-AUTH-008",
+        "API-002",
+        "DEP-004"
+      ],
+      "automated_evidence": [
+        "services/api/tests/e2e_integration.rs"
+      ],
+      "manual_evidence": [
+        "Provision, rotate, revoke, expire, and cross-Vault evidence is not complete."
+      ],
+      "owner": "Connected Services",
+      "security_approver": "Required before Beta",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "The current token path is not a supported production pairing/session design."
+      ]
+    },
+    {
+      "feature_id": "four-native-installers",
+      "name": "Native desktop installers",
+      "status": "Unsupported",
+      "modes": [
+        "Desktop Local",
+        "Desktop Connected"
+      ],
+      "platforms": [
+        "macOS Intel unverified",
+        "macOS ARM64 unverified",
+        "Windows AMD64 unverified",
+        "Windows ARM64 unavailable"
+      ],
+      "implementation_paths": [
+        "apps/desktop",
+        ".github/workflows/desktop-release.yml"
+      ],
+      "security_claims": [],
+      "requirement_ids": [
+        "REL-001",
+        "REL-003",
+        "REL-005",
+        "REL-006",
+        "INST-002"
+      ],
+      "automated_evidence": [],
+      "manual_evidence": [
+        "E2E-009 has not passed on any complete four-native matrix."
+      ],
+      "owner": "Release Engineering",
+      "security_approver": "Required before release",
+      "last_verified_version": "1.0.0",
+      "last_verified_at": "2026-09-01T00:00:00Z",
+      "known_limitations": [
+        "Current artifacts are unsigned and unnotarized.",
+        "Windows ARM64 packaging is absent."
+      ]
+    }
+  ]
+}

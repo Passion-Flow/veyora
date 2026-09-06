@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/pairing-session-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "status",
+    "design_document",
+    "requirements",
+    "entities",
+    "deployment_token",
+    "connection_credential",
+    "client_storage",
+    "web_session_cookie",
+    "lifecycle",
+    "authorization",
+    "limits",
+    "error_codes",
+    "non_enumeration",
+    "security_review"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "contract_id": {"const": "veyora-pairing-session-v1"},
+    "status": {"enum": ["proposed-security-review-required", "accepted"]},
+    "design_document": {"type": "string", "pattern": "^docs/adr/0005-scoped-pairing-session-lifecycle\\.md$"},
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^(UX-AUTH-00[78]|API-00[123]|DEP-00[45])$"}
+    },
+    "entities": {"type": "object"},
+    "deployment_token": {"type": "object"},
+    "connection_credential": {"type": "object"},
+    "client_storage": {"type": "object"},
+    "web_session_cookie": {"type": "object"},
+    "lifecycle": {"type": "object"},
+    "authorization": {"type": "object"},
+    "limits": {"type": "object"},
+    "error_codes": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^PM-AUTH-[A-Z0-9-]+$"}
+    },
+    "non_enumeration": {"type": "object"},
+    "security_review": {"type": "object"}
+  }
+}

@@ -1,0 +1,12 @@
+[package]
+name = "restore"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+backend-persistence = { path = "../../packages/storage/persistence" }
+postgres = "0.19"
+serde_json = "1"

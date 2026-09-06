@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "product_version": "1.0.0",
+  "generator": "wasm-bindgen-cli 0.2.127",
+  "assets": [
+    {
+      "role": "browser-binding",
+      "path": "apps/web/src/wasm/veyora_kernel.js",
+      "sha256": "c7e8fd719702c82b93ba2734632c8fa37757aa3022eaec3a7cd1ea14080c62a4"
+    },
+    {
+      "role": "browser-wasm",
+      "path": "apps/web/src/wasm/veyora_kernel_bg.wasm",
+      "sha256": "ed814096da32cf25434a297511a9ff35ba860c3df9fdf08bdad25be558cfeee8"
+    }
+  ]
+}

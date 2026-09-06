@@ -1,0 +1,27 @@
+# Root non-kernel Rust workspace (PRD section 12.2, REPO-005). The security
+# kernel keeps its own independent workspace and lockfile inside
+# packages/security-kernel/ as an explicit review boundary.
+[workspace]
+resolver = "3"
+members = [
+    "services/api",
+    "services/worker",
+    "services/validator",
+    "services/migrator",
+    "services/backup",
+    "services/restore",
+    "packages/config",
+    "packages/contracts-rust",
+    "packages/storage/persistence",
+    "packages/storage/postgres",
+    "packages/storage/sqlite",
+    "apps/desktop/src-tauri",
+    "tests/architecture",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.93.1"
+license = "PolyForm-Noncommercial-1.0.0"
+publish = false

@@ -15,16 +15,22 @@ Rust-only work and required for the full local topology.
 ```bash
 git clone https://github.com/Passion-Flow/veyora.git
 cd veyora
+make doctor
 make check
 make test
 ```
 
+Transient build output is written under the ignored `.build/` tree (the root
+workspace uses `.build/cargo`, the security kernel uses `.build/kernel`).
+`make clean` removes that tree; `make clean-all` additionally removes the
+dependency trees and the legacy `target/` directories.
+
 For container work:
 
 ```bash
-cp docker/.env.example docker/.env
-# Set a unique VEYORA_DB_PASSWORD in docker/.env.
-cd docker
+cp deploy/compose/.env.example deploy/compose/.env
+# Set a unique VEYORA_DB_PASSWORD in deploy/compose/.env.
+cd deploy/compose
 docker compose config --quiet
 docker compose up --build -d
 ```

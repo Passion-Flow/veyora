@@ -10,11 +10,11 @@
     "services": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["gateway", "api", "worker", "web", "sandbox", "migrator", "backup", "restore"],
+      "required": ["gateway", "api", "worker", "web", "validator", "migrator", "backup", "restore"],
       "properties": {
         "gateway": {"$ref": "#/$defs/capability"}, "api": {"$ref": "#/$defs/capability"},
         "worker": {"$ref": "#/$defs/capability"}, "web": {"$ref": "#/$defs/capability"},
-        "sandbox": {"$ref": "#/$defs/capability"}, "migrator": {"$ref": "#/$defs/capability"},
+        "validator": {"$ref": "#/$defs/capability"}, "migrator": {"$ref": "#/$defs/capability"},
         "backup": {"$ref": "#/$defs/capability"}, "restore": {"$ref": "#/$defs/capability"}
       }
     }

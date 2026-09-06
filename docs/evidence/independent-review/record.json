@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "Pending",
+  "review_scope": {
+    "adrs": ["docs/adr/0004-key-recovery-backup-lifecycle.md",
+             "docs/adr/0005-scoped-pairing-session-lifecycle.md"],
+    "package_tool": "tools/release/prepare-review-package.py",
+    "package_commit": null,
+    "package_manifest_sha256": null
+  },
+  "reviewer": {
+    "name": null,
+    "affiliation": null,
+    "independence_statement": null,
+    "appointed_by": null,
+    "appointed_at": null
+  },
+  "review": {
+    "performed_at": null,
+    "findings": [],
+    "conclusion": null,
+    "signature": null
+  },
+  "rules": [
+    "A Pending record must leave every completion field null.",
+    "Filling any field requires the named human reviewer's actual activity.",
+    "The record is evidence only when status is Pass or Fail with findings."
+  ]
+}

@@ -1,0 +1,11 @@
+[package]
+name = "veyora-backend"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+backend-config = { path = "../../packages/config" }
+veyora-contracts-generated = { path = "../../packages/contracts-rust" }

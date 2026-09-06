@@ -1,0 +1,1540 @@
+{
+  "schema_version": 1,
+  "locale": "ru",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "Ваше личное цифровое пространство"
+    },
+    "common.cancel": {
+      "text": "Отмена"
+    },
+    "common.copy": {
+      "text": "Копировать"
+    },
+    "common.close": {
+      "text": "Закрыть"
+    },
+    "common.show": {
+      "text": "Показать пароль"
+    },
+    "common.hide": {
+      "text": "Скрыть"
+    },
+    "common.edit": {
+      "text": "Изменить"
+    },
+    "common.delete": {
+      "text": "Удалить"
+    },
+    "common.themeToggle": {
+      "text": "Переключить тему"
+    },
+    "common.undo": {
+      "text": "Отменить"
+    },
+    "common.passwordsMatch": {
+      "text": "Пароли совпадают"
+    },
+    "common.passwordsMismatch": {
+      "text": "Пароли не совпадают"
+    },
+    "entry.capsLock": {
+      "text": "Включён Caps Lock"
+    },
+    "entry.stage.deriving": {
+      "text": "Вывод ключа"
+    },
+    "entry.stage.decrypting": {
+      "text": "Расшифровка хранилища"
+    },
+    "entry.create.step": {
+      "text": "01 · Создание хранилища"
+    },
+    "entry.create.title": {
+      "text": "Задайте мастер-пароль."
+    },
+    "entry.create.passwordLabel": {
+      "text": "Мастер-пароль"
+    },
+    "entry.create.passwordPh": {
+      "text": "Не менее {min} символов"
+    },
+    "entry.create.confirmLabel": {
+      "text": "Подтвердите пароль"
+    },
+    "entry.create.confirmPh": {
+      "text": "Введите ещё раз"
+    },
+    "entry.create.ack": {
+      "text": "Я понимаю, что этот пароль невозможно восстановить — без него хранилище открывается только кодом восстановления."
+    },
+    "entry.create.btn": {
+      "text": "Создать хранилище"
+    },
+    "entry.create.errLength": {
+      "text": "Используйте не менее {min} символов — этот пароль единственный ключ к хранилищу."
+    },
+    "entry.create.errMismatch": {
+      "text": "Пароли не совпадают."
+    },
+    "entry.create.errAck": {
+      "text": "Подтвердите, что пароль невозможно восстановить, прежде чем продолжить."
+    },
+    "entry.kit.step": {
+      "text": "02 · Код восстановления"
+    },
+    "entry.kit.title": {
+      "text": "Забыли пароль?<br>Этот код — единственный путь назад."
+    },
+    "entry.kit.sub": {
+      "text": "Сохраните его офлайн — это единственный способ восстановления при утере мастер-пароля."
+    },
+    "entry.kit.download": {
+      "text": "Скачать .txt"
+    },
+    "entry.kit.open": {
+      "text": "Открыть хранилище"
+    },
+    "entry.kit.skip": {
+      "text": "Пропустить — позже можно создать заново в хранилище"
+    },
+    "entry.kit.fileHead": {
+      "text": "КОД ВОССТАНОВЛЕНИЯ VEYORA"
+    },
+    "entry.kit.fileTail": {
+      "text": "Храните офлайн. Любой, у кого есть этот код, получит доступ к хранилищу."
+    },
+    "entry.unlock.tag": {
+      "text": "Хранилище заблокировано"
+    },
+    "entry.unlock.title": {
+      "text": "С возвращением."
+    },
+    "entry.unlock.sub": {
+      "text": "Введите мастер-пароль, чтобы вывести ключ и расшифровать хранилище на этом устройстве."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "Мастер-пароль"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "Хранилище {vault} · {count, plural, one {# запись} few {# записи} many {# записей} other {# записей}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "соль хранится на устройстве"
+    },
+    "entry.unlock.btn": {
+      "text": "Разблокировать"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "Введите мастер-пароль."
+    },
+    "entry.unlock.errWrong": {
+      "text": "Расшифровка не удалась — неверный мастер-пароль. Хранилище остаётся заблокированным."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "Забыли пароль? Восстановить кодом"
+    },
+    "entry.recover.tag": {
+      "text": "Восстановление"
+    },
+    "entry.recover.title": {
+      "text": "Откройте хранилище ключом восстановления"
+    },
+    "entry.recover.sub": {
+      "text": "Ключ восстановления открывает зашифрованный ключ хранилища и задаёт новый мастер-пароль. Работает на новом устройстве без чего-либо ещё."
+    },
+    "entry.recover.kitLabel": {
+      "text": "Ключ восстановления"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · контрольная сумма"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "Новый мастер-пароль"
+    },
+    "entry.recover.btn": {
+      "text": "Восстановить хранилище"
+    },
+    "entry.recover.back": {
+      "text": "Назад к разблокировке"
+    },
+    "entry.recover.errKit": {
+      "text": "Этот ключ восстановления не открывает это хранилище — ничего не изменено."
+    },
+    "strength.readout": {
+      "text": "{bits} бит · {label}"
+    },
+    "strength.weak": {
+      "text": "Слабый"
+    },
+    "strength.fair": {
+      "text": "Средний"
+    },
+    "strength.good": {
+      "text": "Хороший"
+    },
+    "strength.strong": {
+      "text": "Сильный"
+    },
+    "strength.excellent": {
+      "text": "Отличный"
+    },
+    "nav.all": {
+      "text": "Все записи"
+    },
+    "nav.favorites": {
+      "text": "Избранные"
+    },
+    "type.login": {
+      "text": "Логин"
+    },
+    "type.login.plural": {
+      "text": "Логины"
+    },
+    "type.note": {
+      "text": "Защищённая заметка"
+    },
+    "type.note.plural": {
+      "text": "Защищённые заметки"
+    },
+    "type.api-token": {
+      "text": "API-токен"
+    },
+    "type.api-token.plural": {
+      "text": "API-токены"
+    },
+    "type.ssh": {
+      "text": "SSH-ключ"
+    },
+    "type.ssh.plural": {
+      "text": "SSH-ключи"
+    },
+    "type.identity": {
+      "text": "Удостоверение"
+    },
+    "type.identity.plural": {
+      "text": "Удостоверения"
+    },
+    "top.recovery": {
+      "text": "Код восстановления"
+    },
+    "top.settings": {
+      "text": "Настройки"
+    },
+    "top.lock": {
+      "text": "Заблокировать"
+    },
+    "top.newEntry": {
+      "text": "Новая запись"
+    },
+    "top.searchScope": {
+      "text": "Искать в «{scope}»"
+    },
+    "top.autolock": {
+      "text": "Автоблокировка через"
+    },
+    "top.sort": {
+      "text": "Сортировка"
+    },
+    "vault.nameDefault": {
+      "text": "Моё хранилище Veyora"
+    },
+    "vault.locationThisDevice": {
+      "text": "На этом устройстве"
+    },
+    "vault.locationService": {
+      "text": "Подключённое хранилище на {host}"
+    },
+    "vault.locationUnknown": {
+      "text": "Подключённое хранилище"
+    },
+    "table.colItem": {
+      "text": "Запись"
+    },
+    "table.colType": {
+      "text": "Тип"
+    },
+    "table.colLogin": {
+      "text": "Логин / секрет"
+    },
+    "table.colUpdated": {
+      "text": "Обновлено"
+    },
+    "table.count": {
+      "text": "{count, plural, one {# запись} few {# записи} many {# записей} other {# записей}}"
+    },
+    "table.emptyTitle": {
+      "text": "Здесь пусто"
+    },
+    "table.emptyVaultTitle": {
+      "text": "Ваш сейф пуст"
+    },
+    "table.emptyVaultBody": {
+      "text": "Добавьте первый логин или импортируйте записи из другого менеджера паролей."
+    },
+    "table.addFirstLogin": {
+      "text": "Добавить первый логин"
+    },
+    "table.importItems": {
+      "text": "Импортировать записи"
+    },
+    "table.emptyFiltered": {
+      "text": "В этом разделе пока нет записей."
+    },
+    "table.noResultsTitle": {
+      "text": "Ничего не найдено"
+    },
+    "table.noResultsBody": {
+      "text": "Ничего не найдено по запросу «{query}» в разделе «{scope}»."
+    },
+    "table.clearSearch": {
+      "text": "Очистить поиск"
+    },
+    "table.searchAll": {
+      "text": "Искать во всех записях"
+    },
+    "action.copySecret": {
+      "text": "Копировать секрет"
+    },
+    "action.favorite": {
+      "text": "В избранное"
+    },
+    "action.more": {
+      "text": "Другие действия"
+    },
+    "action.removeFilter": {
+      "text": "Убрать фильтр: {filter}"
+    },
+    "sort.name": {
+      "text": "Имя A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "Имя Z–A"
+    },
+    "sort.updated": {
+      "text": "Недавно обновлённые"
+    },
+    "sort.type": {
+      "text": "Тип"
+    },
+    "drawer.title.entry": {
+      "text": "Запись"
+    },
+    "drawer.title.settings": {
+      "text": "Настройки"
+    },
+    "drawer.title.recovery": {
+      "text": "Код восстановления"
+    },
+    "drawer.copyPassword": {
+      "text": "Копировать пароль"
+    },
+    "drawer.copySecret": {
+      "text": "Копировать секрет"
+    },
+    "drawer.reveal": {
+      "text": "Показать"
+    },
+    "drawer.favorite": {
+      "text": "В избранное"
+    },
+    "drawer.unfavorite": {
+      "text": "В избранном"
+    },
+    "drawer.confirmDelete": {
+      "text": "Подтвердите удаление"
+    },
+    "drawer.meta": {
+      "text": "обновлено {date} · ревизия {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "избранное"
+    },
+    "drawer.foot": {
+      "text": "запись {id} · набор 1 · протокол v1 · расшифровано в браузере через WASM-ядро"
+    },
+    "field.name": {
+      "text": "Название"
+    },
+    "field.itemName": {
+      "text": "Название записи"
+    },
+    "field.fullName": {
+      "text": "Полное имя"
+    },
+    "field.username": {
+      "text": "Имя пользователя / эл. почта"
+    },
+    "field.website": {
+      "text": "Сайт"
+    },
+    "field.service": {
+      "text": "Сервис"
+    },
+    "field.host": {
+      "text": "Хост"
+    },
+    "field.password": {
+      "text": "Пароль"
+    },
+    "field.token": {
+      "text": "Токен"
+    },
+    "field.passphrase": {
+      "text": "Парольная фраза"
+    },
+    "field.idNumber": {
+      "text": "Номер документа"
+    },
+    "field.content": {
+      "text": "Содержимое"
+    },
+    "field.privateKey": {
+      "text": "Приватный ключ"
+    },
+    "field.notes": {
+      "text": "Заметки"
+    },
+    "ph.name": {
+      "text": "GitHub - Work"
+    },
+    "ph.noteName": {
+      "text": "напр. Регламент восстановления сервера"
+    },
+    "ph.tokenName": {
+      "text": "напр. Токен публикации GHCR"
+    },
+    "ph.sshName": {
+      "text": "напр. ed25519 — рабочая станция"
+    },
+    "ph.itemName": {
+      "text": "напр. Паспорт"
+    },
+    "ph.username": {
+      "text": "vy@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "напр. GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "Необязательно"
+    },
+    "ph.content": {
+      "text": "Личный текст — шифруется до отправки с устройства"
+    },
+    "ph.generate": {
+      "text": "Сгенерировать"
+    },
+    "modal.newTitle": {
+      "text": "Новая запись"
+    },
+    "modal.editTitle": {
+      "text": "Изменить запись"
+    },
+    "modal.create": {
+      "text": "Создать запись"
+    },
+    "modal.save": {
+      "text": "Сохранить изменения"
+    },
+    "modal.encryptedNote": {
+      "text": "Шифруется локально · затем хранится как шифртекст"
+    },
+    "modal.generate": {
+      "text": "Создать"
+    },
+    "gen.title": {
+      "text": "Генератор паролей"
+    },
+    "gen.entropy": {
+      "text": "оценка энтропии"
+    },
+    "gen.bitsUnit": {
+      "text": "БИТ"
+    },
+    "gen.length": {
+      "text": "Длина"
+    },
+    "gen.upper": {
+      "text": "Прописные"
+    },
+    "gen.lower": {
+      "text": "Строчные"
+    },
+    "gen.digits": {
+      "text": "Цифры"
+    },
+    "gen.symbols": {
+      "text": "Символы"
+    },
+    "gen.ambiguous": {
+      "text": "Исключить похожие символы"
+    },
+    "gen.regenerate": {
+      "text": "Сгенерировать заново"
+    },
+    "gen.use": {
+      "text": "Использовать пароль"
+    },
+    "gen.poolNote": {
+      "text": "в наборе {count} символов"
+    },
+    "gen.errCharset": {
+      "text": "Выберите хотя бы один набор символов"
+    },
+    "settings.title": {
+      "text": "Настройки"
+    },
+    "settings.sub": {
+      "text": "Локальные настройки · только это устройство"
+    },
+    "settings.appearance": {
+      "text": "Оформление"
+    },
+    "settings.theme": {
+      "text": "Тема"
+    },
+    "settings.themeSub": {
+      "text": "Чёрным по белому или белым по чёрному"
+    },
+    "settings.light": {
+      "text": "Светлая"
+    },
+    "settings.dark": {
+      "text": "Тёмная"
+    },
+    "settings.language": {
+      "text": "Язык"
+    },
+    "settings.languageSub": {
+      "text": "Язык интерфейса, резерв — английский"
+    },
+    "settings.security": {
+      "text": "Безопасность"
+    },
+    "settings.autolock": {
+      "text": "Автоблокировка при простое"
+    },
+    "settings.autolockSub": {
+      "text": "Ключевой материал обнуляется в памяти"
+    },
+    "settings.clipboard": {
+      "text": "Очищать буфер после копирования"
+    },
+    "settings.clipboardSub": {
+      "text": "Секреты не остаются в буфере обмена"
+    },
+    "settings.data": {
+      "text": "Данные"
+    },
+    "settings.export": {
+      "text": "Экспортировать данные в открытом виде"
+    },
+    "settings.exportSub": {
+      "text": "Не зашифровано — любой, кто может открыть файл, сможет его прочитать"
+    },
+    "settings.exportBtn": {
+      "text": "Экспортировать в открытом виде"
+    },
+    "settings.import": {
+      "text": "Импорт CSV"
+    },
+    "settings.importSub": {
+      "text": "Универсальный CSV логинов (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "Импорт"
+    },
+    "settings.about": {
+      "text": "О приложении"
+    },
+    "settings.note": {
+      "text": "Veyora — экспериментальное превью, а не аудитированный продукт безопасности."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {# минута} few {# минуты} many {# минут} other {# минут}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {# секунда} few {# секунды} many {# секунд} other {# секунд}}"
+    },
+    "about.version": {
+      "text": "Версия"
+    },
+    "about.kernel": {
+      "text": "Ядро"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "Вывод ключа"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "Шифр"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "Подписи"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "Сервер видит"
+    },
+    "about.serverSeesValue": {
+      "text": "только шифртекст"
+    },
+    "recovery.title": {
+      "text": "Код восстановления"
+    },
+    "recovery.sub": {
+      "text": "Base32 · с контрольной суммой · храните офлайн"
+    },
+    "recovery.warnHead": {
+      "text": "Критично — сохраните до закрытия"
+    },
+    "recovery.warnBody": {
+      "text": "Этот код расшифровывает хранилище без мастер-пароля. У кого он — у того и ваши данные. Распечатайте или перепишите его, храните офлайн в надёжном месте и никогда не держите на этом устройстве."
+    },
+    "recovery.copyKit": {
+      "text": "Копировать код"
+    },
+    "recovery.regenerate": {
+      "text": "Создать новый"
+    },
+    "recovery.note": {
+      "text": "Утрачивая и мастер-пароль, и этот код, вы теряете хранилище навсегда — механизма сброса не существует."
+    },
+    "toast.copied": {
+      "text": "Скопировано · буфер очистится через {seconds} с"
+    },
+    "toast.copyFail": {
+      "text": "Не удалось скопировать в этом контексте"
+    },
+    "toast.locked": {
+      "text": "Хранилище заблокировано — ключевой материал обнулён"
+    },
+    "toast.created": {
+      "text": "Запись зашифрована и сохранена"
+    },
+    "toast.updated": {
+      "text": "Запись перешифрована · ревизия {revision}"
+    },
+    "toast.deleted": {
+      "text": "Запись удалена · зафиксирована ревизия удаления"
+    },
+    "toast.kitRegen": {
+      "text": "Создан новый код"
+    },
+    "toast.kitSkip": {
+      "text": "Код всегда доступен по значку щита в верхней панели"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {экспортирована # запись} few {экспортировано # записи} many {экспортировано # записей} other {экспортировано # записей}}"
+    },
+    "toast.importStub": {
+      "text": "Демо-сборка — импорт заглушка"
+    },
+    "toast.autolockSet": {
+      "text": "Автоблокировка: {n} мин"
+    },
+    "toast.clipSet": {
+      "text": "Буфер очистится через {n} с"
+    },
+    "toast.conflict": {
+      "text": "Конфликт ревизий — запись изменена в другом месте"
+    },
+    "toast.syncFailed": {
+      "text": "Ошибка синхронизации — проверьте соединение с API"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "Этот код восстановления недействителен."
+    },
+    "settings.resetVault": {
+      "text": "Сбросить локальное хранилище"
+    },
+    "settings.resetVaultSub": {
+      "text": "Очищает метаданные устройства — записи на сервере сохраняются"
+    },
+    "settings.resetVaultBtn": {
+      "text": "Сбросить"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "Нажмите ещё раз для подтверждения"
+    },
+    "toast.renderError": {
+      "text": "Не удалось отобразить это представление"
+    },
+    "settings.changePw": {
+      "text": "Сменить мастер-пароль"
+    },
+    "settings.changePwSub": {
+      "text": "Перешифровывает все записи новым ключом"
+    },
+    "settings.changePwBtn": {
+      "text": "Сменить"
+    },
+    "settings.changePwCurrent": {
+      "text": "Текущий мастер-пароль"
+    },
+    "toast.passwordChanged": {
+      "text": "Мастер-пароль изменён — все записи перешифрованы"
+    },
+    "toast.importBadCsv": {
+      "text": "Файл CSV не соответствует ожидаемому формату"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "импортирована # запись",
+        "few": "импортировано # записи",
+        "many": "импортировано # записей",
+        "other": "импортировано # записей"
+      }
+    },
+    "health.reused": {
+      "text": "Повторяющийся пароль"
+    },
+    "health.stale": {
+      "text": "Устаревший пароль"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} повтор",
+        "few": "{count} повтора",
+        "many": "{count} повторов",
+        "other": "{count} повторов"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} устарел",
+        "few": "{count} устарели",
+        "many": "{count} устарели",
+        "other": "{count} устарели"
+      }
+    },
+    "drawer.totp": {
+      "text": "Код аутентификации"
+    },
+    "field.totpSecret": {
+      "text": "Секрет TOTP (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "напр. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Корзина"
+    },
+    "nav.activeFilters": {
+      "text": "Активные фильтры"
+    },
+    "table.trashEmpty": {
+      "text": "Корзина пуста"
+    },
+    "action.restore": {
+      "text": "Восстановить"
+    },
+    "toast.restored": {
+      "text": "Запись восстановлена"
+    },
+    "apiError.default": {
+      "text": "Произошла ошибка. Последнее изменение могло не сохраниться."
+    },
+    "apiError.PM-STORE-NOT-FOUND": {
+      "text": "Запись не найдена."
+    },
+    "apiError.PM-STORE-CONFLICT": {
+      "text": "Конфликт ревизий: запись изменена в другом месте."
+    },
+    "apiError.PM-STORE-INVALID-RECORD": {
+      "text": "Некорректная запись."
+    },
+    "apiError.PM-STORE-UNAVAILABLE": {
+      "text": "Хранилище недоступно."
+    },
+    "apiError.PM-API-ROUTE-MISMATCH": {
+      "text": "Идентификаторы записи в пути и теле запроса различаются."
+    },
+    "apiError.PM-API-BAD-BODY": {
+      "text": "Не удалось разобрать тело запроса."
+    },
+    "apiError.PM-API-BAD-QUERY": {
+      "text": "Не удалось разобрать строку запроса."
+    },
+    "apiError.PM-API-BODY-TOO-LARGE": {
+      "text": "Тело запроса превышает установленный предел."
+    },
+    "apiError.PM-API-UNAUTHORIZED": {
+      "text": "Отсутствует или недействителен Bearer-токен."
+    },
+    "apiError.PM-API-RATE-LIMITED": {
+      "text": "Слишком много запросов; повторите позже."
+    },
+    "apiError.PM-NETWORK-UNREACHABLE": {
+      "text": "Не удалось связаться с сервером."
+    },
+    "entry.welcome.what": {
+      "text": "Veyora хранит ваши пароли и личные заметки в зашифрованном хранилище, защищённом мастер-паролем."
+    },
+    "entry.welcome.vault": {
+      "text": "Хранилище — это зашифрованный контейнер для ваших записей. Шифрование и расшифровка происходят в этом приложении; сервис хранит только шифротекст."
+    },
+    "entry.welcome.mode": {
+      "text": "Режим: подключённое хранилище — записи шифруются на этом устройстве и синхронизируются с вашим сервисом Veyora."
+    },
+    "entry.create.beforeTitle": {
+      "text": "Прежде чем продолжить"
+    },
+    "entry.create.explainStorage": {
+      "text": "Хранение: записи шифруются в этом браузере и сохраняются как шифротекст на подключённом сервисе Veyora."
+    },
+    "entry.create.explainPassword": {
+      "text": "Пароль: используйте не менее {min} символов. Длина важнее символов."
+    },
+    "entry.create.explainScreening": {
+      "text": "Проверка распространённых паролей: Veyora сверяет пароль с небольшим встроенным списком на этом устройстве и никогда его не отправляет."
+    },
+    "entry.create.errCommon": {
+      "text": "Этот пароль построен на очень распространённом. Удлините его словами, которые сочетаете только вы."
+    },
+    "entry.create.explainRecovery": {
+      "text": "Восстановление: в этой предварительной версии пути восстановления нет. Если вы забудете этот пароль, хранилище нельзя будет открыть снова."
+    },
+    "entry.create.explainBackup": {
+      "text": "Резервные копии: зашифрованные копии недоступны в этой предварительной версии. CSV-экспорт хранится открытым текстом и не является резервной копией."
+    },
+    "modal.savedTitle": {
+      "text": "Сохранено"
+    },
+    "modal.savedBody": {
+      "text": "«{name}» зашифровано и сохранено."
+    },
+    "modal.savedBack": {
+      "text": "Вернуться к хранилищу"
+    },
+    "modal.savedCopy": {
+      "text": "Скопировать секрет"
+    },
+    "modal.savedAdd": {
+      "text": "Добавить ещё одну запись"
+    },
+    "settings.trashRetention": {
+      "text": "Настройка срока хранения корзины"
+    },
+    "settings.trashRetentionSub": {
+      "text": "Предпочтительный срок хранения; автоматическое удаление недоступно в этой предварительной версии"
+    },
+    "settings.days": {
+      "text": "{n, plural, one {# день} few {# дня} many {# дней} other {# дней}}"
+    },
+    "toast.trashSet": {
+      "text": "Срок хранения корзины установлен на {n} дней"
+    },
+    "help.title": {
+      "text": "Справка"
+    },
+    "help.sub": {
+      "text": "С чего хотите начать?"
+    },
+    "help.getStart": {
+      "text": "Начало работы"
+    },
+    "help.getStartSub": {
+      "text": "Сохраните первый логин, найдите его и скопируйте"
+    },
+    "help.recovery": {
+      "text": "Понять восстановление"
+    },
+    "help.recoverySub": {
+      "text": "Восстановление недоступно в этой предварительной версии; если мастер-пароль утерян, это хранилище нельзя открыть снова"
+    },
+    "help.backup": {
+      "text": "Создать зашифрованную резервную копию"
+    },
+    "help.backupSub": {
+      "text": "Зашифрованные копии недоступны в этой предварительной версии; CSV-экспорт открытым текстом не является резервной копией"
+    },
+    "help.restore": {
+      "text": "Восстановить зашифрованную резервную копию"
+    },
+    "help.restoreSub": {
+      "text": "Восстановление недоступно в этой предварительной версии; импорт CSV только импортирует записи"
+    },
+    "help.connect": {
+      "text": "Подключиться к сервису"
+    },
+    "help.connectSub": {
+      "text": "Эта Web-версия уже использует настроенный сервис Veyora; проверенное сопряжение пока недоступно"
+    },
+    "help.troubleshoot": {
+      "text": "Устранение неполадок"
+    },
+    "help.troubleshootSub": {
+      "text": "Версия, сведения о хранении и параметры — в настройках"
+    },
+    "help.report": {
+      "text": "Сообщить об уязвимости"
+    },
+    "help.reportSub": {
+      "text": "Сообщайте конфиденциально через политику безопасности репозитория Veyora"
+    },
+    "help.openAction": {
+      "text": "Открыть"
+    },
+    "startHere.title": {
+      "text": "Начните здесь"
+    },
+    "startHere.sub": {
+      "text": "Несколько быстрых шагов, чтобы подготовить хранилище."
+    },
+    "startHere.firstItem": {
+      "text": "Добавьте первый логин или импортируйте записи"
+    },
+    "startHere.copyReveal": {
+      "text": "Скопируйте или покажите секрет"
+    },
+    "startHere.lock": {
+      "text": "Блокируйте хранилище, отходя от устройства"
+    },
+    "startHere.recovery": {
+      "text": "Проверьте данные восстановления"
+    },
+    "startHere.backup": {
+      "text": "Создайте зашифрованную резервную копию"
+    },
+    "startHere.unavailable": {
+      "text": "Пока недоступно в этой предварительной версии."
+    },
+    "startHere.done": {
+      "text": "Готово"
+    },
+    "startHere.allDone": {
+      "text": "Всё готово. Этот список можно снова открыть из справки в любой момент."
+    },
+    "startHere.hide": {
+      "text": "Скрыть этот список"
+    },
+    "shortcuts.title": {
+      "text": "Горячие клавиши"
+    },
+    "shortcuts.sub": {
+      "text": "Горячие клавиши никогда не срабатывают во время ввода в поле."
+    },
+    "shortcuts.search": {
+      "text": "Перейти к полю поиска"
+    },
+    "shortcuts.newItem": {
+      "text": "Создать новую запись"
+    },
+    "shortcuts.generator": {
+      "text": "Открыть генератор паролей"
+    },
+    "shortcuts.lockAction": {
+      "text": "Заблокировать хранилище"
+    },
+    "shortcuts.nav": {
+      "text": "Двигаться по списку записей вверх и вниз"
+    },
+    "shortcuts.open": {
+      "text": "Открыть выбранную запись"
+    },
+    "shortcuts.escape": {
+      "text": "Очистить поиск или закрыть диалоги"
+    },
+    "shortcuts.searchNote": {
+      "text": "Поиск выполняется только на этом устройстве. Он охватывает название, имя пользователя, веб-сайт, сервис, хост, заметки, секрет и тип записи и никогда не отправляет ваш запрос на сервис."
+    },
+    "help.shortcuts": {
+      "text": "Использовать горячие клавиши"
+    },
+    "help.shortcutsSub": {
+      "text": "Все горячие клавиши в одном месте."
+    },
+    "help.startHere": {
+      "text": "Открыть список «Начните здесь»"
+    },
+    "help.startHereSub": {
+      "text": "Снова открыть список первых шагов."
+    },
+    "settings.backup": {
+      "text": "Создать зашифрованную резервную копию"
+    },
+    "settings.backupSub": {
+      "text": "Переносная и зашифрованная — восстанавливается на любом устройстве с мастер-паролем"
+    },
+    "settings.backupBtn": {
+      "text": "Создать резервную копию"
+    },
+    "settings.backupUnavailable": {
+      "text": "Зашифрованное резервное копирование пока недоступно в этой предварительной версии"
+    },
+    "export.title": {
+      "text": "Экспорт данных в открытом виде"
+    },
+    "export.notEncrypted": {
+      "text": "Не зашифровано"
+    },
+    "export.warning": {
+      "text": "Любой, кто сможет открыть этот файл — люди, другие приложения, резервные копии или облачная синхронизация, — сможет прочитать все экспортированные секреты."
+    },
+    "export.passwordLabel": {
+      "text": "Мастер-пароль"
+    },
+    "export.passwordHelp": {
+      "text": "Введите мастер-пароль ещё раз, чтобы подтвердить этот экспорт."
+    },
+    "export.ack": {
+      "text": "Я понимаю, что этот файл не зашифрован и любой, у кого есть к нему доступ, сможет прочитать мои секреты."
+    },
+    "export.btn": {
+      "text": "Экспортировать в открытом виде"
+    },
+    "export.needAck": {
+      "text": "Подтвердите, что вы поняли предупреждение, прежде чем экспортировать."
+    },
+    "export.needPassword": {
+      "text": "Введите мастер-пароль, чтобы продолжить."
+    },
+    "export.wrongPassword": {
+      "text": "Неверный мастер-пароль. Ничего не было экспортировано."
+    },
+    "export.failed": {
+      "text": "Не удалось экспортировать. Файл не создан."
+    },
+    "export.doneTitle": {
+      "text": "Экспорт завершён"
+    },
+    "export.doneBody": {
+      "text": "{file} содержит {count, plural, one {# запись} few {# записи} many {# записей} other {# записей}} в открытом виде."
+    },
+    "export.includes": {
+      "text": "Включено"
+    },
+    "export.includesList": {
+      "text": "Название, тип, веб-сайт, имя пользователя, пароль или секрет, заметки"
+    },
+    "export.omitted": {
+      "text": "Не включено"
+    },
+    "export.omittedList": {
+      "text": "Семена TOTP, избранное, пользовательские метаданные"
+    },
+    "export.guidance": {
+      "text": "Переместите файл в надёжное хранилище или удалите его, как только закончите. Не отправляйте его по электронной почте и не выгружайте в облачный сервис."
+    },
+    "export.doneClose": {
+      "text": "Готово"
+    },
+    "field.nameHint": {
+      "text": "Имя нужно только для того, чтобы узнать запись — например, GitHub - Work."
+    },
+    "modal.moreFields": {
+      "text": "Дополнительные поля"
+    },
+    "modal.fewerFields": {
+      "text": "Меньше полей"
+    },
+    "field.totpHint": {
+      "text": "Вставьте URI otpauth:// или Base32-секрет из вашего сервиса или приложения-аутентификатора. Пробелы и дефисы игнорируются."
+    },
+    "field.totpErrUri": {
+      "text": "В этом URI otpauth:// нет корректного Base32-секрета."
+    },
+    "field.totpErrType": {
+      "text": "Для кодов аутентификации поддерживаются только URI otpauth://totp/."
+    },
+    "field.totpErrBase32": {
+      "text": "Секреты TOTP используют только буквы Base32 A–Z и цифры 2–7."
+    },
+    "entry.routes.step": {
+      "text": "Добро пожаловать"
+    },
+    "entry.routes.title": {
+      "text": "Как вы хотите начать?"
+    },
+    "entry.routes.sub": {
+      "text": "Veyora хранит ваши пароли в зашифрованном хранилище. Выберите способ начала."
+    },
+    "entry.routes.create": {
+      "text": "Создать новое хранилище"
+    },
+    "entry.routes.createSub": {
+      "text": "Начать с пустого и добавить первый логин."
+    },
+    "entry.routes.open": {
+      "text": "Открыть существующее хранилище"
+    },
+    "entry.routes.openSub": {
+      "text": "Разблокировать хранилище, уже известное этому устройству."
+    },
+    "entry.routes.import": {
+      "text": "Импорт из другого менеджера паролей"
+    },
+    "entry.routes.importSub": {
+      "text": "Создать хранилище и импортировать CSV-экспорт."
+    },
+    "entry.routes.connect": {
+      "text": "Дополнительно: подключиться к своему серверу"
+    },
+    "entry.routes.connectSub": {
+      "text": "Войти в самостоятельно обслуживаемый сервис Veyora."
+    },
+    "entry.routes.openNote": {
+      "text": "На этом устройстве ещё нет известного хранилища. Создайте новое, импортируйте данные или подключитесь к сервису."
+    },
+    "entry.routes.importNote": {
+      "text": "Сначала задайте мастер-пароль — импорт начнётся сразу после открытия хранилища."
+    },
+    "entry.routes.back": {
+      "text": "Назад"
+    },
+    "connect.tag": {
+      "text": "Подключённый режим"
+    },
+    "connect.title": {
+      "text": "Подключение / Вход"
+    },
+    "connect.sub": {
+      "text": "Этот сервис Veyora требует подключённого сеанса перед созданием или разблокировкой хранилища."
+    },
+    "connect.urlLabel": {
+      "text": "Адрес сервиса"
+    },
+    "connect.tokenLabel": {
+      "text": "Токен подключения"
+    },
+    "connect.tokenPh": {
+      "text": "Вставьте токен от оператора"
+    },
+    "connect.tokenHelp": {
+      "text": "Введите учётные данные подключения, выданные оператором сервиса. Полное сопряжение устройств появится в подключённом режиме."
+    },
+    "connect.btn": {
+      "text": "Подключиться"
+    },
+    "connect.errEmpty": {
+      "text": "Введите адрес сервиса и токен подключения."
+    },
+    "connect.errWrong": {
+      "text": "Сервис отклонил этот токен подключения."
+    },
+    "connect.errUnreachable": {
+      "text": "Не удалось связаться с сервисом по этому адресу."
+    },
+    "field.errNameRequired": {
+      "text": "Дайте этому элементу имя, чтобы узнавать его позже — например GitHub - Work."
+    },
+    "field.errSecretRequired": {
+      "text": "Заполните это обязательное поле перед сохранением или создайте значение кнопкой «Сгенерировать»."
+    },
+    "modal.errSummaryTitle": {
+      "text": "Перед сохранением исправьте отмеченные поля:"
+    },
+    "toast.clipboardCleared": {
+      "text": "Буфер обмена очищен."
+    },
+    "toast.clipboardClearFailed": {
+      "text": "Не удалось очистить буфер обмена — возможно, он занят другим приложением."
+    },
+    "save.statusTitle": {
+      "text": "Ещё не сохранено"
+    },
+    "save.statusNetwork": {
+      "text": "Хранилище не изменено — сервис недоступен. Ваш ввод сохранён здесь; повторите сохранение, когда появится соединение."
+    },
+    "save.statusConflict": {
+      "text": "Этот элемент был изменён на другом устройстве после того, как вы начали правку, поэтому правка не сохранена. Ваши правки сохранены здесь. Загрузите последнюю версию, чтобы продолжить с неё — загрузка заменит правки в этой форме."
+    },
+    "save.statusOther": {
+      "text": "Хранилище не изменено — сохранение отклонено: {message}. Ваш ввод сохранён здесь; проверьте элемент и повторите."
+    },
+    "save.statusRetry": {
+      "text": "Повторить сохранение"
+    },
+    "save.statusReload": {
+      "text": "Загрузить последнюю версию"
+    },
+    "modal.savedSync": {
+      "text": "Синхронизировано с сервисом — ревизия {revision}."
+    },
+    "modal.savedPending": {
+      "text": "Сохранено на этом устройстве — сервис ещё не получил запись. Синхронизация выполнится автоматически, когда соединение восстановится."
+    },
+    "modal.savedPendingDesktop": {
+      "text": "Сохранено на этом устройстве — локальное хранилище не ответило. Сохранение произойдёт автоматически, когда оно снова станет доступно."
+    },
+    "modal.syncNow": {
+      "text": "Синхронизировать сейчас"
+    },
+    "modal.syncNowDesktop": {
+      "text": "Повторить сохранение"
+    },
+    "table.pendingSync": {
+      "text": "Ожидает синхронизации"
+    },
+    "table.pendingSyncDesktop": {
+      "text": "Ожидает сохранения"
+    },
+    "settings.diagnostics": {
+      "text": "Диагностика"
+    },
+    "diag.version": {
+      "text": "Версия"
+    },
+    "diag.build": {
+      "text": "Коммит сборки"
+    },
+    "diag.buildNotStamped": {
+      "text": "Не вшит в этот образ"
+    },
+    "diag.mode": {
+      "text": "Режим"
+    },
+    "diag.modeValue": {
+      "text": "Подключённое хранилище"
+    },
+    "diag.modeValueDesktop": {
+      "text": "Локальное хранилище на этом устройстве"
+    },
+    "diag.storage": {
+      "text": "Хранилище"
+    },
+    "diag.storageValue": {
+      "text": "Зашифрованные записи на {host}"
+    },
+    "diag.storageValueDesktop": {
+      "text": "Зашифрованное хранилище на этом устройстве"
+    },
+    "diag.storageUnknown": {
+      "text": "Расположение сервиса недоступно"
+    },
+    "diag.health": {
+      "text": "Состояние сервиса"
+    },
+    "diag.healthChecking": {
+      "text": "Проверка…"
+    },
+    "diag.healthOk": {
+      "text": "Доступен"
+    },
+    "diag.healthUnhealthy": {
+      "text": "Отвечает ошибкой"
+    },
+    "diag.healthUnreachable": {
+      "text": "Недоступен"
+    },
+    "diag.lastSync": {
+      "text": "Последняя синхронизация"
+    },
+    "diag.lastSyncDesktop": {
+      "text": "Последнее сохранение"
+    },
+    "diag.syncNone": {
+      "text": "Ещё не синхронизировано"
+    },
+    "diag.syncNoneDesktop": {
+      "text": "Пока ничего не сохранено"
+    },
+    "diag.backup": {
+      "text": "Последняя проверенная резервная копия"
+    },
+    "diag.backupNone": {
+      "text": "Недоступно в этой предварительной версии"
+    },
+    "diag.bundle": {
+      "text": "Пакет для поддержки"
+    },
+    "diag.bundleSub": {
+      "text": "По запросу и обезличенно: создаёт диагностическую сводку, которую вы просматриваете перед копированием. Ничего никогда не отправляется автоматически."
+    },
+    "diag.bundleBtn": {
+      "text": "Подготовить пакет для поддержки"
+    },
+    "diag.bundleTitle": {
+      "text": "Предпросмотр пакета для поддержки"
+    },
+    "diag.bundleIntro": {
+      "text": "Проверьте пакет ниже — он не содержит секретов. Veyora никогда не отправляет его; копирование — ваше решение."
+    },
+    "diag.bundleCopy": {
+      "text": "Скопировать текст пакета"
+    },
+    "diag.bundleCopied": {
+      "text": "Пакет для поддержки скопирован"
+    },
+    "nav.tags": {
+      "text": "Метки"
+    },
+    "field.tags": {
+      "text": "Метки"
+    },
+    "ph.tags": {
+      "text": "работа, инфраструктура"
+    },
+    "field.tagsHint": {
+      "text": "Разделяйте метки запятыми; они хранятся на этом устройстве и помогают фильтровать."
+    },
+    "tags.filterLabel": {
+      "text": "Фильтр по метке:"
+    },
+    "tags.none": {
+      "text": "Пока нет элементов с метками. Добавьте их в разделе «Больше полей» при создании."
+    },
+    "resetMatrix.title": {
+      "text": "Сброс — выберите точно, что удалить"
+    },
+    "resetMatrix.prefsTitle": {
+      "text": "Настройки устройства"
+    },
+    "resetMatrix.prefsSub": {
+      "text": "Очищает сохранённые на устройстве тему, язык, срок хранения корзины и список задач. Хранилище и его данные в службе не затрагиваются."
+    },
+    "resetMatrix.prefsBtn": {
+      "text": "Очистить настройки"
+    },
+    "resetMatrix.prefsConfirm": {
+      "text": "Очистить настройки на этом устройстве?"
+    },
+    "resetMatrix.prefsDone": {
+      "text": "Настройки очищены — значения по умолчанию применятся при следующей загрузке Veyora"
+    },
+    "resetMatrix.disconnectTitle": {
+      "text": "Сохранённое подключение к службе"
+    },
+    "resetMatrix.disconnectSub": {
+      "text": "Забывает сохранённые на устройстве адрес службы и токен подключения. Данные хранилища не удаляются."
+    },
+    "resetMatrix.disconnectBtn": {
+      "text": "Забыть подключение"
+    },
+    "resetMatrix.disconnectConfirm": {
+      "text": "Забыть сохранённое подключение к службе?"
+    },
+    "resetMatrix.disconnectDone": {
+      "text": "Сохранённое подключение очищено — применится при следующей загрузке Veyora"
+    },
+    "resetMatrix.localTitle": {
+      "text": "Это хранилище на этом устройстве"
+    },
+    "resetMatrix.localSub": {
+      "text": "Удаляет это хранилище с этого устройства, включая офлайн-очередь записи. Зашифрованная копия в службе остаётся, но с этого устройства её больше никогда не открыть."
+    },
+    "resetMatrix.localBtn": {
+      "text": "Удалить с этого устройства"
+    },
+    "resetMatrix.localConfirm": {
+      "text": "Удалить с этого устройства? Копия в службе станет недоступной"
+    },
+    "resetMatrix.everywhereTitle": {
+      "text": "Хранилище везде"
+    },
+    "resetMatrix.everywhereSub": {
+      "text": "Сначала удаляет каждую запись этого хранилища из службы, затем удаляет хранилище с этого устройства. Отменить нельзя."
+    },
+    "resetMatrix.everywhereBtn": {
+      "text": "Удалить везде"
+    },
+    "resetMatrix.everywhereConfirm": {
+      "text": "Удалить везде? Отменить нельзя"
+    },
+    "resetMatrix.everywhereDone": {
+      "text": "Хранилище удалено — записей удалено: {count} (из службы и этого устройства)"
+    },
+    "resetMatrix.everywhereFailed": {
+      "text": "Не удалось удалить в службе — на этом устройстве ничего не удалено"
+    },
+    "settings.changePwNew": {
+      "text": "Новый мастер-пароль"
+    },
+    "settings.changePwConfirm": {
+      "text": "Повторите новый мастер-пароль"
+    },
+    "settings.changePwErrLength": {
+      "text": "Используйте не менее {min} символов."
+    },
+    "settings.changePwErrCommon": {
+      "text": "Этот пароль составлен из очень распространённых фрагментов и отклоняется локально."
+    },
+    "settings.changePwErrMismatch": {
+      "text": "Новые пароли не совпадают."
+    },
+    "settings.changePwErrWrong": {
+      "text": "Текущий мастер-пароль неверен — ничего не изменено."
+    },
+    "settings.changePwErrPending": {
+      "text": "Остались неотправленные офлайн-записи — синхронизируйтесь со службой перед сменой пароля."
+    },
+    "settings.changePwDone": {
+      "text": "Мастер-пароль изменён — каждая запись перешифрована новым ключом."
+    },
+    "backup.title": {
+      "text": "Создать зашифрованную резервную копию"
+    },
+    "backup.body": {
+      "text": "Файл содержит каждую запись этого хранилища, зашифрованную мастер-паролем ключом, выведенным только для этой копии. Он восстанавливается на любом устройстве; без мастер-пароля никто не сможет восстановить содержимое."
+    },
+    "backup.passwordLabel": {
+      "text": "Мастер-пароль"
+    },
+    "backup.passwordHelp": {
+      "text": "Введите мастер-пароль повторно, чтобы запечатать копию."
+    },
+    "backup.btn": {
+      "text": "Создать копию"
+    },
+    "backup.doneTitle": {
+      "text": "Зашифрованная копия сохранена"
+    },
+    "backup.doneBody": {
+      "text": "Файл содержит записи: {count}, зашифрованные сквозным шифрованием."
+    },
+    "backup.doneLocked": {
+      "text": "Храните файл и мастер-пароль вместе в безопасности — открыть его может только этот пароль."
+    },
+    "backup.errEmpty": {
+      "text": "Введите мастер-пароль."
+    },
+    "backup.errWrong": {
+      "text": "Этот пароль не открывает ни это хранилище, ни эту копию — ничего не создано."
+    },
+    "backup.errFailed": {
+      "text": "Не удалось создать копию — ничего не было скачано."
+    },
+    "backup.errFormat": {
+      "text": "Этот файл не является зашифрованной резервной копией Veyora."
+    },
+    "backup.restoreBtn": {
+      "text": "Восстановить копию"
+    },
+    "backup.restoreBody": {
+      "text": "Выбранная копия содержит записей: {count}. Введите мастер-пароль, которым она была запечатана, чтобы расшифровать и объединить их в это хранилище."
+    },
+    "backup.restoreHelp": {
+      "text": "Существующие записи никогда не перезаписываются: восстановленный id, который уже существует, импортируется под новым id."
+    },
+    "backup.restoreDone": {
+      "text": "Восстановлено записей: {count}."
+    },
+    "settings.restoreBtn": {
+      "text": "Восстановить копию"
+    },
+    "entry.recover.link": {
+      "text": "Восстановить с помощью ключа восстановления"
+    },
+    "entry.recover.kitPlaceholder": {
+      "text": "xxxxx-xxxxx-xxxxx-… (12 групп по 5)"
+    },
+    "entry.recover.newLabel": {
+      "text": "Новый мастер-пароль"
+    },
+    "entry.recover.confirmLabel": {
+      "text": "Повторите новый мастер-пароль"
+    },
+    "entry.recover.errFailed": {
+      "text": "Восстановление не удалось — хранилище не изменено. Проверьте соединение и повторите."
+    },
+    "settings.regenTitle": {
+      "text": "Ключ восстановления"
+    },
+    "settings.regenSub": {
+      "text": "Создаёт новый ключ восстановления; прежний немедленно перестаёт работать"
+    },
+    "settings.regenBtn": {
+      "text": "Пересоздать"
+    },
+    "regen.title": {
+      "text": "Пересоздать ключ восстановления"
+    },
+    "regen.sub": {
+      "text": "Создаётся новый ключ восстановления, прежний отзывается, и в том же шаге создаётся проверенная зашифрованная копия. Сохраните новый ключ, прежде чем закрыть этот диалог."
+    },
+    "regen.btn": {
+      "text": "Пересоздать ключ"
+    },
+    "regen.doneTitle": {
+      "text": "Новый ключ восстановления активен"
+    },
+    "regen.doneConsequence": {
+      "text": "Прежний ключ восстановления больше не открывает это хранилище. Вместе с этим ключом скачана проверенная зашифрованная копия всех записей."
+    },
+    "regen.kitLabel": {
+      "text": "Ваш новый ключ восстановления — сохраните его сейчас"
+    },
+    "regen.verified": {
+      "text": "Скачанная копия была проверена сквозным образом до того, как этот диалог сообщил об успехе."
+    },
+    "settings.kitBtn": {
+      "text": "Просмотр / проверка"
+    },
+    "kit.title": {
+      "text": "Ваш ключ восстановления"
+    },
+    "kit.sub": {
+      "text": "Этот ключ — единственный путь обратно в хранилище, если мастер-пароль утерян. Сохраните его сейчас — Veyora не сможет восстановить его для вас."
+    },
+    "kit.label": {
+      "text": "Ключ восстановления (71 символ)"
+    },
+    "kit.help": {
+      "text": "Запишите его или сохраните в другом менеджере паролей — не в этом хранилище."
+    },
+    "kit.copy": {
+      "text": "Копировать ключ"
+    },
+    "kit.copied": {
+      "text": "Ключ восстановления скопирован — храните его в надёжном месте"
+    },
+    "kit.verifyLabel": {
+      "text": "Введите ключ повторно, чтобы подтвердить, что вы его сохранили"
+    },
+    "kit.verifyBtn": {
+      "text": "Проверить сохранённый ключ"
+    },
+    "kit.later": {
+      "text": "Проверить позже"
+    },
+    "kit.errMismatch": {
+      "text": "Это не совпадает с ключом восстановления этого хранилища — проверьте свою копию и попробуйте снова."
+    },
+    "kit.verified": {
+      "text": "Ключ восстановления проверен — он сохранён правильно"
+    },
+    "trash.purgeBtn": {
+      "text": "Удалить безвозвратно: {count}"
+    },
+    "trash.purgeConfirm": {
+      "text": "Безвозвратно удалить ({count})? Отменить нельзя"
+    },
+    "trash.purgeNote": {
+      "text": "Немедленно удаляет зашифрованные копии из службы — до истечения срока хранения. Восстановить их позже невозможно."
+    },
+    "trash.purgeDone": {
+      "text": "Безвозвратно удалено: {count}"
+    },
+    "table.showMore": {
+      "text": "Показать ещё ({count})"
+    },
+    "table.windowedCount": {
+      "text": "Показано {shown} из {total}"
+    }
+  }
+}

@@ -21,7 +21,7 @@
       "properties": {
         "owner": {"const": "independent-reference-oracle"},
         "source_kind": {"const": "committed-file"},
-        "source_ref": {"const": "security-kernel/oracles/project-crypto-v1.py"},
+        "source_ref": {"const": "packages/security-kernel/oracles/project-crypto-v1.py"},
         "source_sha256": {"$ref": "#/$defs/sha256"}
       }
     },

@@ -16,45 +16,56 @@ jobs:
     name: Repository integrity
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # actions/setup-python@v7
         with:
           python-version: "3.13"
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # actions/setup-node@v7
         with:
           node-version: "22"
       - name: Validate repository structure and documentation
-        run: python3 scripts/check-repository.py
+        run: python3 tools/lint/check-repository.py
+      - name: Validate manual-evidence records
+        run: python3 tools/lint/check-manual-evidence.py
+      - name: Validate the pairing/session contract
+        run: python3 tools/lint/check-pairing-session.py
+      - name: Validate foundation image pins
+        run: python3 tools/lint/check-foundation-pins.py
+      - name: Validate the compose network topology
+        run: python3 tools/lint/check-compose-topology.py
+      - name: Contract regression tests
+        run: python3 -B -m unittest discover -s tests/contracts -p 'test_*.py' -v
       - name: Validate the static web client
-        run: node scripts/check-web.mjs
+        run: node tools/lint/check-web.mjs
       - name: Validate locale catalogs
-        run: node frontend/web/tools/check-locales.mjs
+        run: node apps/web/tools/check-locales.mjs
       - name: Unit-test the web client
-        run: node --test "frontend/web/test/*.test.mjs"
-      - name: Validate the desktop capability spike
-        run: npm run check
-        working-directory: frontend/spikes/m0-desktop
+        run: node --test "apps/web/test/*.test.mjs"
       - name: Test the backend projection generator
-        run: python3 -B -m unittest discover -s backend/tooling/tests -p 'test_*.py' -v
+        run: python3 -B -m unittest discover -s tools/codegen/backend/tests -p 'test_*.py' -v
       - name: Lint shell scripts
         run: |
           docker run --rm -v "$PWD:/repo:ro" -w /repo koalaman/shellcheck:v0.11.0 \
-            scripts/build-and-push.sh \
-            scripts/smoke-test.sh \
-            security-kernel/scripts/build-ffi.sh \
-            security-kernel/scripts/build-wasm.sh
+            tools/release/publish-containers.sh \
+            tools/lint/doctor.sh \
+            tests/smoke/api.sh \
+            tests/smoke/headers.sh \
+            tests/integration/backup-restore.sh \
+            deploy/tools/deploy.sh \
+            packages/security-kernel/scripts/build-ffi.sh \
+            packages/security-kernel/scripts/build-wasm.sh
       - name: Lint container definitions
         run: |
           for dockerfile in \
-            backend/Dockerfile.api \
-            backend/Dockerfile.backup \
-            backend/Dockerfile.migrator \
-            backend/Dockerfile.restore \
-            backend/Dockerfile.sandbox \
-            backend/Dockerfile.worker \
-            docker/Dockerfile.mirror \
-            docker/gateway/Dockerfile \
-            docker/web/Dockerfile; do
+            deploy/containers/api/Dockerfile \
+            deploy/containers/backup/Dockerfile \
+            deploy/containers/migrator/Dockerfile \
+            deploy/containers/restore/Dockerfile \
+            deploy/containers/validator/Dockerfile \
+            deploy/containers/worker/Dockerfile \
+            deploy/containers/mirror/Dockerfile \
+            deploy/gateway/Dockerfile \
+            deploy/web/Dockerfile; do
             docker run --rm -i hadolint/hadolint:v2.15.1-alpine < "$dockerfile"
           done
       - name: Scan the public tree for secrets
@@ -72,64 +83,87 @@ jobs:
     name: Security kernel
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # dtolnay/rust-toolchain@stable
         with:
           toolchain: "1.93.1"
           components: rustfmt, clippy
       - run: cargo fmt --all -- --check
-        working-directory: security-kernel
+        working-directory: packages/security-kernel
       - run: cargo clippy --locked --workspace --all-targets -- -D warnings
-        working-directory: security-kernel
+        working-directory: packages/security-kernel
       - run: cargo test --locked --workspace --all-targets
         env:
           RUSTFLAGS: -D warnings
-        working-directory: security-kernel
+        working-directory: packages/security-kernel
 
-  backend:
-    name: Backend
+  rust:
+    name: Rust workspace
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # dtolnay/rust-toolchain@stable
         with:
           toolchain: "1.93.1"
           components: rustfmt, clippy
       - run: cargo fmt --all -- --check
-        working-directory: backend
       - run: cargo clippy --locked --workspace --all-targets -- -D warnings
-        working-directory: backend
+      - name: Check generated artifacts (REPO-006/007/008)
+        run: make check-codegen
       - run: cargo test --locked --workspace --all-targets
         env:
           RUSTFLAGS: -D warnings
-        working-directory: backend
 
   wasm:
     name: WebAssembly build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # dtolnay/rust-toolchain@stable
         with:
           toolchain: "1.93.1"
           targets: wasm32-unknown-unknown
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # actions/setup-node@v7
         with:
           node-version: "22"
       - name: Build the WASM module without warnings
         env:
           RUSTFLAGS: -D warnings
         run: cargo build --locked --target wasm32-unknown-unknown --lib -p kernel-wasm --release
-        working-directory: security-kernel
+        working-directory: packages/security-kernel
       - name: Install the matching binding generator
         run: cargo install wasm-bindgen-cli --version 0.2.127 --locked
       - name: Generate and execute Node.js bindings
         run: |
           wasm-bindgen --target nodejs --out-dir /tmp/veyora-wasm --out-name veyora_kernel \
-            security-kernel/target/wasm32-unknown-unknown/release/kernel_wasm.wasm
-          VEYORA_WASM_OUT=/tmp/veyora-wasm node security-kernel/tests/wasm_runtime_test.js
+            packages/security-kernel/target/wasm32-unknown-unknown/release/kernel_wasm.wasm
+          VEYORA_WASM_OUT=/tmp/veyora-wasm node packages/security-kernel/tests/wasm_runtime_test.js
       - name: Validate the checked-in web client
-        run: node scripts/check-web.mjs
+        run: node tools/lint/check-web.mjs
+
+  desktop:
+    name: Desktop shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - name: Install the Linux WebView build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev \
+            librsvg2-dev libssl-dev libxdo-dev pkg-config
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+          components: rustfmt, clippy
+      - name: Check formatting of the shipping desktop shell
+        run: cargo fmt --all -- --check -p veyora-desktop
+      - name: Lint the shipping desktop shell
+        run: cargo clippy --locked --all-targets -p veyora-desktop -- -D warnings
+      - name: Test the shipping desktop shell
+        run: cargo test --locked --all-targets -p veyora-desktop
+        env:
+          RUSTFLAGS: -D warnings
 
   compose:
     name: Compose integration
@@ -140,52 +174,100 @@ jobs:
       # Build the stack from source without depending on published images.
       VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # actions/setup-node@v7
         with:
           node-version: "22"
       - name: Validate the default topology
-        working-directory: docker
+        working-directory: deploy/compose
         run: docker compose config --quiet
       - name: Validate the production-shaped topology
-        working-directory: docker
+        working-directory: deploy/compose
         env:
           VEYORA_API_AUTH: token
           VEYORA_API_TOKEN: inert-ci-token
         run: docker compose config --quiet
       - name: Build and start the local stack
-        working-directory: docker
+        working-directory: deploy/compose
         env:
           VEYORA_WORKER_POLL_SECONDS: "1"
         run: docker compose up --build --wait --wait-timeout 180
       - name: Exercise the API and web gateway
         run: |
-          ./scripts/smoke-test.sh http://127.0.0.1:8080
+          ./tests/smoke/api.sh http://127.0.0.1:8080
           curl --fail --silent http://127.0.0.1:3000/ >/dev/null
           test "$(curl --silent --output /dev/null --write-out '%{content_type}' http://127.0.0.1:3000/src/wasm/veyora_kernel_bg.wasm)" = "application/wasm"
           curl --fail --silent http://127.0.0.1:3000/api/healthz >/dev/null
+      - name: Install the browser test dependencies from the root workspace
+        run: npm ci --no-audit --no-fund
       - name: Exercise the browser, API, and WebAssembly together
         env:
           VEYORA_WEB_URL: http://127.0.0.1:3000
+        run: node tests/e2e/web/test-browser.mjs
+      - name: Capture first-phase service logs
+        working-directory: deploy/compose
+        run: docker compose logs --no-color api gateway web worker > /tmp/veyora-compose-phase1.log
+      # Each browser suite must create its vault against a pristine store:
+      # the client reserves one global verifier record id (PRD DATA-003
+      # deficiency), so a second vault on the same store fails with 409.
+      # Isolating the suites keeps both blocking and deterministic without
+      # weakening the product gate.
+      - name: Reset the data store between browser suites
+        working-directory: deploy/compose
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_API_AUTH: disabled
+          VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
+          VEYORA_WORKER_POLL_SECONDS: "1"
         run: |
-          mkdir -p /tmp/veyora-browser-test
-          cp scripts/test-browser.mjs /tmp/veyora-browser-test/test-browser.mjs
-          cd /tmp/veyora-browser-test
-          npm init --yes >/dev/null
-          npm install --no-audit --no-fund --silent playwright@1.62.0
-          npx playwright install --with-deps chromium
-          node test-browser.mjs
+          docker compose down --volumes --remove-orphans
+          docker compose up -d --wait --wait-timeout 180
+          curl --fail --silent --output /dev/null --max-time 30 \
+            --retry 10 --retry-delay 2 --retry-connrefused \
+            http://127.0.0.1:3000/api/healthz
       - name: Run comprehensive browser E2E
         env:
           VEYORA_WEB_URL: http://127.0.0.1:3000
+        run: node tests/e2e/web/test-browser-full.mjs
+      - name: Reset the data store before the accessibility audit
+        working-directory: deploy/compose
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_API_AUTH: disabled
+          VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
+          VEYORA_WORKER_POLL_SECONDS: "1"
         run: |
-          cp scripts/test-browser-full.mjs /tmp/veyora-browser-test/test-browser-full.mjs
-          cd /tmp/veyora-browser-test
-          node test-browser-full.mjs || true  # Non-blocking until stabilized
+          docker compose down --volumes --remove-orphans
+          docker compose up -d --wait --wait-timeout 180
+          curl --fail --silent --output /dev/null --max-time 30 \
+            --retry 10 --retry-delay 2 --retry-connrefused \
+            http://127.0.0.1:3000/api/healthz
+      - name: Run the automated accessibility audit
+        env:
+          VEYORA_WEB_URL: http://127.0.0.1:3000
+        run: node tests/e2e/web/test-browser-accessibility.mjs
+      - name: Reset the data store before the keyboard and focus audit
+        working-directory: deploy/compose
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_API_AUTH: disabled
+          VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
+          VEYORA_WORKER_POLL_SECONDS: "1"
+        run: |
+          docker compose down --volumes --remove-orphans
+          docker compose up -d --wait --wait-timeout 180
+          curl --fail --silent --output /dev/null --max-time 30 \
+            --retry 10 --retry-delay 2 --retry-connrefused \
+            http://127.0.0.1:3000/api/healthz
+      - name: Run the keyboard and focus audit
+        env:
+          VEYORA_WEB_URL: http://127.0.0.1:3000
+        run: node tests/e2e/web/test-browser-keyboard.mjs
       - name: Reject warnings, errors, and secret exposure in service logs
-        working-directory: docker
+        working-directory: deploy/compose
         run: |
           docker compose logs --no-color api gateway web worker > /tmp/veyora-compose.log
+          cat /tmp/veyora-compose-phase1.log >> /tmp/veyora-compose.log
           if grep -Eiq '(^|[^[:alnum:]_])(panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log; then
             echo 'Panic or fatal found in application logs.' >&2
             grep -Ein '(^|[^[:alnum:]_])(panic|fatal)([^[:alnum:]_]|$)' /tmp/veyora-compose.log >&2
@@ -197,9 +279,9 @@ jobs:
           fi
       - name: Show service logs after a failure
         if: failure()
-        working-directory: docker
+        working-directory: deploy/compose
         run: docker compose logs --no-color
       - name: Stop the test stack
         if: always()
-        working-directory: docker
+        working-directory: deploy/compose
         run: docker compose down --volumes --remove-orphans

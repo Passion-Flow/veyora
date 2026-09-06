@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://veyora.invalid/contracts/protocol/key-lifecycle-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "contract_id",
+    "status",
+    "design_document",
+    "binary_grammar",
+    "requirements",
+    "versions",
+    "primitives",
+    "domains",
+    "wrappers",
+    "key_confirmation",
+    "transactions",
+    "portable_backup",
+    "compatibility",
+    "evidence",
+    "security_review",
+    "implementation_gate"
+  ],
+  "properties": {
+    "$schema": {"const": "key-lifecycle-v1.schema.json"},
+    "schema_version": {"const": 1},
+    "contract_id": {"const": "veyora-key-lifecycle-v1"},
+    "status": {"enum": ["proposed-security-review-required", "accepted"]},
+    "design_document": {"const": "docs/adr/0004-key-recovery-backup-lifecycle.md"},
+    "binary_grammar": {"const": "contracts/cddl/key-lifecycle-v1.cddl"},
+    "requirements": {
+      "type": "array",
+      "minItems": 20,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(REC|BAK|SEC-KEY|MIG)-[0-9]{3}$"}
+    },
+    "versions": {"$ref": "#/$defs/versions"},
+    "primitives": {"$ref": "#/$defs/primitives"},
+    "domains": {"$ref": "#/$defs/domains"},
+    "wrappers": {"$ref": "#/$defs/wrappers"},
+    "key_confirmation": {"$ref": "#/$defs/keyConfirmation"},
+    "transactions": {"$ref": "#/$defs/transactions"},
+    "portable_backup": {"$ref": "#/$defs/portableBackup"},
+    "compatibility": {"$ref": "#/$defs/compatibility"},
+    "evidence": {"$ref": "#/$defs/evidence"},
+    "security_review": {"$ref": "#/$defs/securityReview"},
+    "implementation_gate": {"$ref": "#/$defs/implementationGate"}
+  },
+  "$defs": {
+    "nonemptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "suite", "password_wrapper", "recovery_wrapper", "key_confirmation", "portable_backup"],
+      "properties": {
+        "protocol": {"const": 1},
+        "suite": {"const": 1},
+        "password_wrapper": {"const": 1},
+        "recovery_wrapper": {"const": 1},
+        "key_confirmation": {"const": 1},
+        "portable_backup": {"const": 1}
+      }
+    },
+    "primitives": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vault_key", "recovery_key", "password_kdf", "subkey_kdf", "wrapper_aead", "backup_stream"],
+      "properties": {
+        "vault_key": {"type": "object"},
+        "recovery_key": {"type": "object"},
+        "password_kdf": {"type": "object"},
+        "subkey_kdf": {"type": "object"},
+        "wrapper_aead": {"type": "object"},
+        "backup_stream": {"type": "object"}
+      }
+    },
+    "domains": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "password_wrap_key",
+        "password_wrap_aad",
+        "recovery_wrap_key",
+        "recovery_wrap_aad",
+        "key_confirmation_key",
+        "key_confirmation_aad",
+        "backup_encryption_key",
+        "backup_authentication_key",
+        "backup_outer_authentication",
+        "backup_frame_aad"
+      ],
+      "patternProperties": {"^[a-z][a-z_]+$": {"type": "string", "pattern": "^pm-v1/[a-z0-9/-]+$"}}
+    },
+    "wrapper": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["secret_input", "kdf_context", "aad_fields", "plaintext", "plaintext_bytes"],
+      "properties": {
+        "secret_input": {"type": "string", "minLength": 1},
+        "kdf_context": {"$ref": "#/$defs/nonemptyStrings"},
+        "aad_fields": {"$ref": "#/$defs/nonemptyStrings"},
+        "plaintext": {"const": "vault_key"},
+        "plaintext_bytes": {"const": 32}
+      }
+    },
+    "wrappers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["password", "recovery"],
+      "properties": {
+        "password": {"$ref": "#/$defs/wrapper"},
+        "recovery": {"$ref": "#/$defs/wrapper"}
+      }
+    },
+    "keyConfirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "cardinality_per_active_generation", "storage_identity", "key_context", "plaintext", "plaintext_bytes", "comparison", "missing_or_invalid"],
+      "properties": {
+        "required": {"const": true},
+        "cardinality_per_active_generation": {"const": 1},
+        "storage_identity": {"$ref": "#/$defs/nonemptyStrings"},
+        "key_context": {"$ref": "#/$defs/nonemptyStrings"},
+        "plaintext": {"const": "sha256(domain-preimage-of-key-context)"},
+        "plaintext_bytes": {"const": 32},
+        "comparison": {"const": "constant-time"},
+        "missing_or_invalid": {"const": "fail-repair-safe-without-mutation"}
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": ["vault_key", "steps"],
+      "properties": {
+        "vault_key": {"type": "string", "minLength": 1},
+        "steps": {"$ref": "#/$defs/nonemptyStrings"},
+        "failure_invariant": {"type": "string", "minLength": 1}
+      }
+    },
+    "transactions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["password_change", "recovery", "recovery_key_regeneration", "vault_key_rotation"],
+      "properties": {
+        "password_change": {"type": "object"},
+        "recovery": {"type": "object"},
+        "recovery_key_regeneration": {"type": "object"},
+        "vault_key_rotation": {"type": "object"}
+      }
+    },
+    "portableBackup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["media_type", "key_context", "required_header_fields", "final_plaintext_fields", "outer_authentication", "write_protocol", "restore_protocol", "failure_invariant"],
+      "properties": {
+        "media_type": {"const": "application/vnd.veyora.portable-encrypted-backup-v1+cbor"},
+        "key_context": {"$ref": "#/$defs/nonemptyStrings"},
+        "required_header_fields": {"$ref": "#/$defs/nonemptyStrings"},
+        "final_plaintext_fields": {"$ref": "#/$defs/nonemptyStrings"},
+        "outer_authentication": {"type": "string", "minLength": 1},
+        "write_protocol": {"$ref": "#/$defs/nonemptyStrings"},
+        "restore_protocol": {"$ref": "#/$defs/nonemptyStrings"},
+        "failure_invariant": {"type": "string", "minLength": 1}
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unknown_mandatory_fields", "unsupported_future_versions", "writer_policy", "migration_protocol", "rollback"],
+      "properties": {
+        "unknown_mandatory_fields": {"const": "reject"},
+        "unsupported_future_versions": {"const": "reject-without-mutation"},
+        "writer_policy": {"const": "emit-current-declared-version-only"},
+        "migration_protocol": {"$ref": "#/$defs/nonemptyStrings"},
+        "rollback": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_crypto_corpus", "project_crypto_generator", "required_project_vector_ids", "backup_corpus", "backup_generator", "required_backup_fixture_ids", "current_review_disposition"],
+      "properties": {
+        "project_crypto_corpus": {"type": "string", "minLength": 1},
+        "project_crypto_generator": {"type": "string", "minLength": 1},
+        "required_project_vector_ids": {"$ref": "#/$defs/nonemptyStrings"},
+        "backup_corpus": {"type": "string", "minLength": 1},
+        "backup_generator": {"type": "string", "minLength": 1},
+        "required_backup_fixture_ids": {"$ref": "#/$defs/nonemptyStrings"},
+        "current_review_disposition": {"enum": ["ai-non-human-reviewed-not-security-approval", "qualified-human-reviewed"]}
+      }
+    },
+    "securityReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "review_schema", "reviewer_registry", "required_scope", "review_records"],
+      "properties": {
+        "state": {"enum": ["required-not-recorded", "qualified-human-approved"]},
+        "review_schema": {"const": "contracts/protocol/key-lifecycle-review-v1.schema.json"},
+        "reviewer_registry": {"const": "contracts/protocol/approved-evidence-reviewers-v1.json"},
+        "required_scope": {"const": "key-lifecycle-v1"},
+        "review_records": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^docs/security/reviews/key-lifecycle-v1/[a-z0-9][a-z0-9-]*\\.review-v1\\.json$"}}
+      }
+    },
+    "implementationGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supported_product_flow", "required_before_enablement"],
+      "properties": {
+        "supported_product_flow": {"type": "boolean"},
+        "required_before_enablement": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    }
+  }
+}

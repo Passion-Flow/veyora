@@ -1,0 +1,1531 @@
+{
+  "schema_version": 1,
+  "locale": "ko",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "당신의 프라이빗 디지털 공간"
+    },
+    "common.cancel": {
+      "text": "취소"
+    },
+    "common.copy": {
+      "text": "복사"
+    },
+    "common.close": {
+      "text": "닫기"
+    },
+    "common.show": {
+      "text": "비밀번호 표시"
+    },
+    "common.hide": {
+      "text": "숨기기"
+    },
+    "common.edit": {
+      "text": "편집"
+    },
+    "common.delete": {
+      "text": "삭제"
+    },
+    "common.themeToggle": {
+      "text": "테마 전환"
+    },
+    "common.undo": {
+      "text": "실행 취소"
+    },
+    "common.passwordsMatch": {
+      "text": "비밀번호가 일치합니다"
+    },
+    "common.passwordsMismatch": {
+      "text": "비밀번호가 일치하지 않습니다"
+    },
+    "entry.capsLock": {
+      "text": "Caps Lock이 켜져 있습니다"
+    },
+    "entry.stage.deriving": {
+      "text": "키 파생 중"
+    },
+    "entry.stage.decrypting": {
+      "text": "금고 복호화 중"
+    },
+    "entry.create.step": {
+      "text": "01 · 금고 만들기"
+    },
+    "entry.create.title": {
+      "text": "마스터 비밀번호를 설정하세요."
+    },
+    "entry.create.passwordLabel": {
+      "text": "마스터 비밀번호"
+    },
+    "entry.create.passwordPh": {
+      "text": "{min}자 이상"
+    },
+    "entry.create.confirmLabel": {
+      "text": "비밀번호 확인"
+    },
+    "entry.create.confirmPh": {
+      "text": "다시 입력"
+    },
+    "entry.create.ack": {
+      "text": "이 비밀번호는 복구할 수 없음을 이해합니다 — 비밀번호 없이 금고를 여는 방법은 복구 키트뿐입니다."
+    },
+    "entry.create.btn": {
+      "text": "금고 만들기"
+    },
+    "entry.create.errLength": {
+      "text": "{min}자 이상 사용하세요 — 이 비밀번호가 금고의 유일한 열쇠입니다."
+    },
+    "entry.create.errMismatch": {
+      "text": "비밀번호가 일치하지 않습니다."
+    },
+    "entry.create.errAck": {
+      "text": "비밀번호를 복구할 수 없음을 확인한 후 계속하세요."
+    },
+    "entry.kit.step": {
+      "text": "02 · 복구 키트"
+    },
+    "entry.kit.title": {
+      "text": "비밀번호를 잊었다면?<br>이 코드가 유일한 입구입니다."
+    },
+    "entry.kit.sub": {
+      "text": "오프라인으로 보관하세요 — 마스터 비밀번호를 잃었을 때 유일한 복구 수단입니다."
+    },
+    "entry.kit.download": {
+      "text": ".txt 다운로드"
+    },
+    "entry.kit.open": {
+      "text": "금고 열기"
+    },
+    "entry.kit.skip": {
+      "text": "지금은 건너뛰기 — 나중에 금고에서 다시 생성할 수 있습니다"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA 복구 키트"
+    },
+    "entry.kit.fileTail": {
+      "text": "오프라인에 보관하세요. 이 키트를 가진 사람은 누구나 금고에 접근할 수 있습니다."
+    },
+    "entry.unlock.tag": {
+      "text": "금고 잠김"
+    },
+    "entry.unlock.title": {
+      "text": "다시 오신 것을 환영합니다."
+    },
+    "entry.unlock.sub": {
+      "text": "마스터 비밀번호를 입력하면 이 기기에서 키를 파생해 금고를 복호화합니다."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "마스터 비밀번호"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "금고 {vault} · {count, plural, other {레코드 #건}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "솔트는 이 기기에 저장"
+    },
+    "entry.unlock.btn": {
+      "text": "금고 잠금 해제"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "마스터 비밀번호를 입력하세요."
+    },
+    "entry.unlock.errWrong": {
+      "text": "복호화 실패 — 마스터 비밀번호가 틀렸습니다. 금고는 잠긴 상태로 유지됩니다."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "비밀번호를 잃으셨나요? 복구 키트로 복원"
+    },
+    "entry.recover.tag": {
+      "text": "복구"
+    },
+    "entry.recover.title": {
+      "text": "복구 키로 금고 열기"
+    },
+    "entry.recover.sub": {
+      "text": "복구 키는 금고의 암호화된 키를 열고 새 마스터 비밀번호를 설정합니다. 다른 것 없이 새 기기에서 작동합니다."
+    },
+    "entry.recover.kitLabel": {
+      "text": "복구 키"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · 체크섬"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "새 마스터 비밀번호"
+    },
+    "entry.recover.btn": {
+      "text": "금고 복구"
+    },
+    "entry.recover.back": {
+      "text": "잠금 해제로 돌아가기"
+    },
+    "entry.recover.errKit": {
+      "text": "이 복구 키로는 이 금고를 열 수 없습니다 — 아무것도 변경되지 않았습니다."
+    },
+    "strength.readout": {
+      "text": "{bits}비트 · {label}"
+    },
+    "strength.weak": {
+      "text": "약함"
+    },
+    "strength.fair": {
+      "text": "보통"
+    },
+    "strength.good": {
+      "text": "좋음"
+    },
+    "strength.strong": {
+      "text": "강함"
+    },
+    "strength.excellent": {
+      "text": "매우 강함"
+    },
+    "nav.all": {
+      "text": "모든 항목"
+    },
+    "nav.favorites": {
+      "text": "즐겨찾기"
+    },
+    "type.login": {
+      "text": "로그인"
+    },
+    "type.login.plural": {
+      "text": "로그인"
+    },
+    "type.note": {
+      "text": "보안 노트"
+    },
+    "type.note.plural": {
+      "text": "보안 노트"
+    },
+    "type.api-token": {
+      "text": "API 토큰"
+    },
+    "type.api-token.plural": {
+      "text": "API 토큰"
+    },
+    "type.ssh": {
+      "text": "SSH 키"
+    },
+    "type.ssh.plural": {
+      "text": "SSH 키"
+    },
+    "type.identity": {
+      "text": "신원 정보"
+    },
+    "type.identity.plural": {
+      "text": "신원 정보"
+    },
+    "top.recovery": {
+      "text": "복구 키트"
+    },
+    "top.settings": {
+      "text": "설정"
+    },
+    "top.lock": {
+      "text": "지금 잠그기"
+    },
+    "top.newEntry": {
+      "text": "새 항목"
+    },
+    "top.searchScope": {
+      "text": "{scope}에서 검색"
+    },
+    "top.autolock": {
+      "text": "자동 잠금 남은 시간"
+    },
+    "top.sort": {
+      "text": "정렬"
+    },
+    "vault.nameDefault": {
+      "text": "내 Veyora 볼트"
+    },
+    "vault.locationThisDevice": {
+      "text": "이 기기에 저장됨"
+    },
+    "vault.locationService": {
+      "text": "{host} 연결 볼트"
+    },
+    "vault.locationUnknown": {
+      "text": "연결 볼트"
+    },
+    "table.colItem": {
+      "text": "항목"
+    },
+    "table.colType": {
+      "text": "유형"
+    },
+    "table.colLogin": {
+      "text": "로그인 / 시크릿"
+    },
+    "table.colUpdated": {
+      "text": "업데이트"
+    },
+    "table.count": {
+      "text": "{count, plural, other {레코드 #건}}"
+    },
+    "table.emptyTitle": {
+      "text": "아무것도 없습니다"
+    },
+    "table.emptyVaultTitle": {
+      "text": "보곴가 비어 있습니다"
+    },
+    "table.emptyVaultBody": {
+      "text": "첫 로그인을 추가하거나 다른 비밀번호 관리자에서 항목을 가져오세요."
+    },
+    "table.addFirstLogin": {
+      "text": "첫 로그인 추가"
+    },
+    "table.importItems": {
+      "text": "항목 가져오기"
+    },
+    "table.emptyFiltered": {
+      "text": "이 보기에는 아직 항목이 없습니다."
+    },
+    "table.noResultsTitle": {
+      "text": "결과 없음"
+    },
+    "table.noResultsBody": {
+      "text": "\"{query}\"에 대한 결과가 {scope}에 없습니다."
+    },
+    "table.clearSearch": {
+      "text": "검색 지우기"
+    },
+    "table.searchAll": {
+      "text": "모든 항목 검색"
+    },
+    "action.copySecret": {
+      "text": "시크릿 복사"
+    },
+    "action.favorite": {
+      "text": "즐겨찾기"
+    },
+    "action.more": {
+      "text": "더 보기"
+    },
+    "action.removeFilter": {
+      "text": "필터 제거: {filter}"
+    },
+    "sort.name": {
+      "text": "이름 A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "이름 Z–A"
+    },
+    "sort.updated": {
+      "text": "최근 업데이트"
+    },
+    "sort.type": {
+      "text": "유형별"
+    },
+    "drawer.title.entry": {
+      "text": "항목"
+    },
+    "drawer.title.settings": {
+      "text": "설정"
+    },
+    "drawer.title.recovery": {
+      "text": "복구 키트"
+    },
+    "drawer.copyPassword": {
+      "text": "비밀번호 복사"
+    },
+    "drawer.copySecret": {
+      "text": "시크릿 복사"
+    },
+    "drawer.reveal": {
+      "text": "표시"
+    },
+    "drawer.favorite": {
+      "text": "즐겨찾기"
+    },
+    "drawer.unfavorite": {
+      "text": "즐겨찾기됨"
+    },
+    "drawer.confirmDelete": {
+      "text": "삭제 확인"
+    },
+    "drawer.meta": {
+      "text": "{date} 업데이트 · 리비전 {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "즐겨찾기"
+    },
+    "drawer.foot": {
+      "text": "레코드 {id} · 스위트 1 · 프로토콜 v1 · WASM 커널로 브라우저에서 복호화"
+    },
+    "field.name": {
+      "text": "이름"
+    },
+    "field.itemName": {
+      "text": "항목 이름"
+    },
+    "field.fullName": {
+      "text": "전체 이름"
+    },
+    "field.username": {
+      "text": "사용자 이름 / 이메일"
+    },
+    "field.website": {
+      "text": "웹사이트"
+    },
+    "field.service": {
+      "text": "서비스"
+    },
+    "field.host": {
+      "text": "호스트"
+    },
+    "field.password": {
+      "text": "비밀번호"
+    },
+    "field.token": {
+      "text": "토큰"
+    },
+    "field.passphrase": {
+      "text": "패스프레이즈"
+    },
+    "field.idNumber": {
+      "text": "ID 번호"
+    },
+    "field.content": {
+      "text": "내용"
+    },
+    "field.privateKey": {
+      "text": "개인 키"
+    },
+    "field.notes": {
+      "text": "메모"
+    },
+    "ph.name": {
+      "text": "GitHub - Work"
+    },
+    "ph.noteName": {
+      "text": "예: 서버 복구 매뉴얼"
+    },
+    "ph.tokenName": {
+      "text": "예: GHCR 게시 토큰"
+    },
+    "ph.sshName": {
+      "text": "예: ed25519 — 워크스테이션"
+    },
+    "ph.itemName": {
+      "text": "예: 여권"
+    },
+    "ph.username": {
+      "text": "you@example.com"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "예: GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "선택"
+    },
+    "ph.content": {
+      "text": "비공개 텍스트 — 이 기기를 떠나기 전에 암호화됩니다"
+    },
+    "ph.generate": {
+      "text": "자동 생성"
+    },
+    "modal.newTitle": {
+      "text": "새 항목"
+    },
+    "modal.editTitle": {
+      "text": "항목 편집"
+    },
+    "modal.create": {
+      "text": "항목 만들기"
+    },
+    "modal.save": {
+      "text": "변경 사항 저장"
+    },
+    "modal.encryptedNote": {
+      "text": "로컬에서 암호화 · 암호문으로 저장"
+    },
+    "modal.generate": {
+      "text": "생성"
+    },
+    "gen.title": {
+      "text": "비밀번호 생성기"
+    },
+    "gen.entropy": {
+      "text": "예상 엔트로피"
+    },
+    "gen.bitsUnit": {
+      "text": "비트"
+    },
+    "gen.length": {
+      "text": "길이"
+    },
+    "gen.upper": {
+      "text": "대문자"
+    },
+    "gen.lower": {
+      "text": "소문자"
+    },
+    "gen.digits": {
+      "text": "숫자"
+    },
+    "gen.symbols": {
+      "text": "기호"
+    },
+    "gen.ambiguous": {
+      "text": "혼동되는 문자 제외"
+    },
+    "gen.regenerate": {
+      "text": "다시 생성"
+    },
+    "gen.use": {
+      "text": "이 비밀번호 사용"
+    },
+    "gen.poolNote": {
+      "text": "풀에 {count}개 문자"
+    },
+    "gen.errCharset": {
+      "text": "문자 집합을 하나 이상 선택하세요"
+    },
+    "settings.title": {
+      "text": "설정"
+    },
+    "settings.sub": {
+      "text": "로컬 환경설정 · 이 기기에만 적용"
+    },
+    "settings.appearance": {
+      "text": "화면"
+    },
+    "settings.theme": {
+      "text": "테마"
+    },
+    "settings.themeSub": {
+      "text": "흰 바탕에 검은 글자, 또는 그 반대"
+    },
+    "settings.light": {
+      "text": "라이트"
+    },
+    "settings.dark": {
+      "text": "다크"
+    },
+    "settings.language": {
+      "text": "언어"
+    },
+    "settings.languageSub": {
+      "text": "인터페이스 언어, 누락 시 영어로 대체"
+    },
+    "settings.security": {
+      "text": "보안"
+    },
+    "settings.autolock": {
+      "text": "미사용 시 자동 잠금"
+    },
+    "settings.autolockSub": {
+      "text": "키 자료가 메모리에서 제거됩니다"
+    },
+    "settings.clipboard": {
+      "text": "복사 후 클립보드 지우기"
+    },
+    "settings.clipboardSub": {
+      "text": "시크릿이 클립보드에 남지 않습니다"
+    },
+    "settings.data": {
+      "text": "데이터"
+    },
+    "settings.export": {
+      "text": "평문 데이터 내보내기"
+    },
+    "settings.exportSub": {
+      "text": "암호화되지 않음 — 파일을 열 수 있는 사람은 누구나 읽을 수 있음"
+    },
+    "settings.exportBtn": {
+      "text": "평문 데이터 내보내기"
+    },
+    "settings.import": {
+      "text": "CSV 가져오기"
+    },
+    "settings.importSub": {
+      "text": "일반 로그인 CSV (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "가져오기"
+    },
+    "settings.about": {
+      "text": "정보"
+    },
+    "settings.note": {
+      "text": "Veyora는 실험적 프리뷰입니다 — 감사를 마친 보안 제품이 아닙니다."
+    },
+    "settings.minutes": {
+      "text": "{n}분"
+    },
+    "settings.seconds": {
+      "text": "{n}초"
+    },
+    "about.version": {
+      "text": "버전"
+    },
+    "about.kernel": {
+      "text": "커널"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "키 파생"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "암호 방식"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "서명 방식"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "서버가 보는 것"
+    },
+    "about.serverSeesValue": {
+      "text": "암호문만"
+    },
+    "recovery.title": {
+      "text": "복구 키트"
+    },
+    "recovery.sub": {
+      "text": "Base32 · 체크섬 포함 · 오프라인 보관"
+    },
+    "recovery.warnHead": {
+      "text": "중요 — 닫기 전에 저장하세요"
+    },
+    "recovery.warnBody": {
+      "text": "이 키트는 마스터 비밀번호 없이 금고를 복호화할 수 있습니다. 이를 가진 사람은 누구나 데이터에 접근할 수 있습니다. 인쇄하거나 필사해 오프라인에 안전하게 보관하고, 절대 이 기기에 저장하지 마세요."
+    },
+    "recovery.copyKit": {
+      "text": "키트 복사"
+    },
+    "recovery.regenerate": {
+      "text": "새로 생성"
+    },
+    "recovery.note": {
+      "text": "마스터 비밀번호와 복구 키트를 모두 잃으면 설계상 금고를 복구할 수 없습니다 — 재설정 방법은 없습니다."
+    },
+    "toast.copied": {
+      "text": "복사됨 · 클립보드는 {seconds}초 후 지워집니다"
+    },
+    "toast.copyFail": {
+      "text": "이 환경에서는 복사에 실패했습니다"
+    },
+    "toast.locked": {
+      "text": "금고 잠김 — 키 자료 제거됨"
+    },
+    "toast.created": {
+      "text": "항목 암호화 및 저장됨"
+    },
+    "toast.updated": {
+      "text": "항목 재암호화 · 리비전 {revision}"
+    },
+    "toast.deleted": {
+      "text": "항목 삭제됨 · 톰스톤 리비전 기록됨"
+    },
+    "toast.kitRegen": {
+      "text": "새 키트가 생성되었습니다"
+    },
+    "toast.kitSkip": {
+      "text": "복구 키트는 언제든 상단 바 방패 아이콘에서 사용할 수 있습니다"
+    },
+    "toast.exported": {
+      "text": "{count, plural, other {항목 #개 내보냈습니다}}"
+    },
+    "toast.importStub": {
+      "text": "데모 빌드 — 가져오기는 스텁입니다"
+    },
+    "toast.autolockSet": {
+      "text": "자동 잠금이 {n}분으로 설정되었습니다"
+    },
+    "toast.clipSet": {
+      "text": "클립보드가 {n}초 후 지워집니다"
+    },
+    "toast.conflict": {
+      "text": "리비전 충돌 — 레코드가 다른 곳에서 변경되었습니다"
+    },
+    "toast.syncFailed": {
+      "text": "동기화 실패 — API 연결을 확인하세요"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "이 복구 키트는 유효하지 않습니다."
+    },
+    "settings.resetVault": {
+      "text": "로컬 금고 재설정"
+    },
+    "settings.resetVaultSub": {
+      "text": "기기 메타데이터를 지우고 다시 시작합니다 — 서버 레코드는 유지됩니다"
+    },
+    "settings.resetVaultBtn": {
+      "text": "재설정"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "다시 눌러 확인"
+    },
+    "toast.renderError": {
+      "text": "이 뷰를 렌더링하는 중 문제가 발생했습니다"
+    },
+    "settings.changePw": {
+      "text": "마스터 비밀번호 변경"
+    },
+    "settings.changePwSub": {
+      "text": "모든 레코드를 새 키로 다시 암호화합니다"
+    },
+    "settings.changePwBtn": {
+      "text": "변경"
+    },
+    "settings.changePwCurrent": {
+      "text": "현재 마스터 비밀번호"
+    },
+    "toast.passwordChanged": {
+      "text": "마스터 비밀번호가 변경되었습니다 — 모든 레코드가 다시 암호화되었습니다"
+    },
+    "toast.importBadCsv": {
+      "text": "CSV 파일이 예상 형식과 다릅니다"
+    },
+    "toast.imported": {
+      "plural": {
+        "other": "항목 #개를 가져왔습니다"
+      }
+    },
+    "health.reused": {
+      "text": "비밀번호 재사용"
+    },
+    "health.stale": {
+      "text": "비밀번호가 오래됨"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "other": "{count}개 재사용"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "other": "{count}개 오래됨"
+      }
+    },
+    "drawer.totp": {
+      "text": "인증 코드"
+    },
+    "field.totpSecret": {
+      "text": "TOTP 시크릿(Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "예: JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "휴지통"
+    },
+    "nav.activeFilters": {
+      "text": "적용된 필터"
+    },
+    "table.trashEmpty": {
+      "text": "휴지통이 비어 있습니다"
+    },
+    "action.restore": {
+      "text": "복원"
+    },
+    "toast.restored": {
+      "text": "항목이 복원되었습니다"
+    },
+    "apiError.default": {
+      "text": "문제가 발생했습니다. 방금 변경한 내용이 저장되지 않았을 수 있습니다."
+    },
+    "apiError.PM-STORE-NOT-FOUND": {
+      "text": "레코드를 찾을 수 없습니다。"
+    },
+    "apiError.PM-STORE-CONFLICT": {
+      "text": "리비전 충돌: 레코드가 다른 곳에서 변경되었습니다."
+    },
+    "apiError.PM-STORE-INVALID-RECORD": {
+      "text": "레코드 형식이 잘못되었습니다."
+    },
+    "apiError.PM-STORE-UNAVAILABLE": {
+      "text": "스토리지 백엔드를 사용할 수 없습니다."
+    },
+    "apiError.PM-API-ROUTE-MISMATCH": {
+      "text": "경로와 본문의 레코드 ID가 일치하지 않습니다."
+    },
+    "apiError.PM-API-BAD-BODY": {
+      "text": "요청 본문을 구문 분석할 수 없습니다."
+    },
+    "apiError.PM-API-BAD-QUERY": {
+      "text": "쿼리 문자열을 구문 분석할 수 없습니다."
+    },
+    "apiError.PM-API-BODY-TOO-LARGE": {
+      "text": "요청 본문이 설정된 한도를 초과했습니다."
+    },
+    "apiError.PM-API-UNAUTHORIZED": {
+      "text": "Bearer 토큰이 없거나 유효하지 않습니다."
+    },
+    "apiError.PM-API-RATE-LIMITED": {
+      "text": "요청이 너무 많습니다. 잠시 후 다시 시도하세요."
+    },
+    "apiError.PM-NETWORK-UNREACHABLE": {
+      "text": "서버에 연결할 수 없습니다."
+    },
+    "entry.welcome.what": {
+      "text": "Veyora는 비밀번호와 개인 메모를 마스터 비밀번호로 보호되는 암호화된 금고에 저장합니다."
+    },
+    "entry.welcome.vault": {
+      "text": "금고는 항목을 담는 암호화된 컨테이너입니다. 암호화와 복호화는 이 앱에서 이루어지며 서비스는 암호문만 저장합니다."
+    },
+    "entry.welcome.mode": {
+      "text": "모드: 연결된 금고 — 항목은 이 기기에서 암호화되어 Veyora 서비스와 동기화됩니다."
+    },
+    "entry.create.beforeTitle": {
+      "text": "계속하기 전에"
+    },
+    "entry.create.explainStorage": {
+      "text": "저장: 항목은 이 브라우저에서 암호화되어 연결된 Veyora 서비스에 암호문으로 저장됩니다."
+    },
+    "entry.create.explainPassword": {
+      "text": "비밀번호: 최소 {min}자 이상 사용하세요. 길이가 기호보다 중요합니다."
+    },
+    "entry.create.explainScreening": {
+      "text": "흔한 비밀번호 검사: Veyora는 이 기기의 작은 내장 목록과 비교합니다. 비밀번호는 어디로도 전송되지 않습니다."
+    },
+    "entry.create.errCommon": {
+      "text": "이 비밀번호는 매우 흔한 비밀번호에 기반합니다. 당신만이 조합할 단어로 길게 만드세요."
+    },
+    "entry.create.explainRecovery": {
+      "text": "복구: 이 미리 보기에는 복구 방법이 없습니다. 이 비밀번호를 잊으면 금고를 다시 열 수 없습니다."
+    },
+    "entry.create.explainBackup": {
+      "text": "백업: 이 미리보기에서는 암호화된 백업을 사용할 수 없습니다. CSV 내보내기는 평문이며 백업이 아닙니다."
+    },
+    "modal.savedTitle": {
+      "text": "저장됨"
+    },
+    "modal.savedBody": {
+      "text": "{name}이(가) 암호화되어 저장되었습니다."
+    },
+    "modal.savedBack": {
+      "text": "금고로 돌아가기"
+    },
+    "modal.savedCopy": {
+      "text": "비밀 복사"
+    },
+    "modal.savedAdd": {
+      "text": "다른 항목 추가"
+    },
+    "settings.trashRetention": {
+      "text": "휴지통 보관 기간 설정"
+    },
+    "settings.trashRetentionSub": {
+      "text": "선호하는 보관 기간입니다. 이 미리보기에서는 자동 삭제를 사용할 수 없습니다"
+    },
+    "settings.days": {
+      "text": "{n}일"
+    },
+    "toast.trashSet": {
+      "text": "휴지통 보관 기간 설정을 {n}일로 변경했습니다"
+    },
+    "help.title": {
+      "text": "도움말"
+    },
+    "help.sub": {
+      "text": "어디서 시작할까요?"
+    },
+    "help.getStart": {
+      "text": "시작하기"
+    },
+    "help.getStartSub": {
+      "text": "첫 로그인을 저장하고 찾아서 복사해 보세요"
+    },
+    "help.recovery": {
+      "text": "복구 이해하기"
+    },
+    "help.recoverySub": {
+      "text": "이 미리보기에서는 복구를 사용할 수 없습니다. 마스터 비밀번호를 잃으면 이 금고를 다시 열 수 없습니다"
+    },
+    "help.backup": {
+      "text": "암호화된 백업 만들기"
+    },
+    "help.backupSub": {
+      "text": "이 미리보기에서는 암호화된 백업을 사용할 수 없습니다. 평문 CSV 내보내기는 백업이 아닙니다"
+    },
+    "help.restore": {
+      "text": "암호화된 백업 복원"
+    },
+    "help.restoreSub": {
+      "text": "이 미리보기에서는 백업 복원을 사용할 수 없습니다. CSV 가져오기는 항목만 가져옵니다"
+    },
+    "help.connect": {
+      "text": "서비스에 연결"
+    },
+    "help.connectSub": {
+      "text": "이 Web 미리보기는 구성된 Veyora 서비스를 이미 사용합니다. 검토된 페어링은 아직 사용할 수 없습니다"
+    },
+    "help.troubleshoot": {
+      "text": "문제 해결"
+    },
+    "help.troubleshootSub": {
+      "text": "버전, 저장소 정보, 환경설정은 설정에 있습니다"
+    },
+    "help.report": {
+      "text": "보안 문제 신고"
+    },
+    "help.reportSub": {
+      "text": "Veyora 저장소의 보안 정책을 통해 비공개로 신고하세요"
+    },
+    "help.openAction": {
+      "text": "열기"
+    },
+    "startHere.title": {
+      "text": "여기서 시작하세요"
+    },
+    "startHere.sub": {
+      "text": "금고를 준비하는 몇 가지 빠른 단계입니다."
+    },
+    "startHere.firstItem": {
+      "text": "첫 로그인을 추가하거나 항목 가져오기"
+    },
+    "startHere.copyReveal": {
+      "text": "비밀 복사 또는 표시"
+    },
+    "startHere.lock": {
+      "text": "자리를 비울 때 금고 잠그기"
+    },
+    "startHere.recovery": {
+      "text": "복구 자료 확인"
+    },
+    "startHere.backup": {
+      "text": "암호화된 백업 만들기"
+    },
+    "startHere.unavailable": {
+      "text": "이 미리 보기에서는 아직 제공되지 않습니다."
+    },
+    "startHere.done": {
+      "text": "완료"
+    },
+    "startHere.allDone": {
+      "text": "모두 준비되었습니다. 이 체크리스트는 언제든 도움말에서 다시 열 수 있습니다."
+    },
+    "startHere.hide": {
+      "text": "이 체크리스트 숨기기"
+    },
+    "shortcuts.title": {
+      "text": "키보드 단축키"
+    },
+    "shortcuts.sub": {
+      "text": "필드에 입력하는 동안에는 단축키가 작동하지 않습니다."
+    },
+    "shortcuts.search": {
+      "text": "검색 필드 포커스"
+    },
+    "shortcuts.newItem": {
+      "text": "새 항목 만들기"
+    },
+    "shortcuts.generator": {
+      "text": "암호 생성기 열기"
+    },
+    "shortcuts.lockAction": {
+      "text": "금고 잠그기"
+    },
+    "shortcuts.nav": {
+      "text": "항목 목록에서 위아래로 이동"
+    },
+    "shortcuts.open": {
+      "text": "선택한 항목 열기"
+    },
+    "shortcuts.escape": {
+      "text": "검색 지우기 또는 대화상자 닫기"
+    },
+    "shortcuts.searchNote": {
+      "text": "검색은 이 기기에서만 실행됩니다. 이름, 사용자 이름, 웹사이트, 서비스, 호스트, 메모, 비밀, 항목 유형을 대상으로 하며 검색어는 서비스로 전송되지 않습니다."
+    },
+    "help.shortcuts": {
+      "text": "키보드 단축키 사용"
+    },
+    "help.shortcutsSub": {
+      "text": "모든 단축키를 한곳에서 확인하세요."
+    },
+    "help.startHere": {
+      "text": "'여기서 시작하세요' 체크리스트 열기"
+    },
+    "help.startHereSub": {
+      "text": "시작 체크리스트를 다시 엽니다."
+    },
+    "settings.backup": {
+      "text": "암호화 백업 만들기"
+    },
+    "settings.backupSub": {
+      "text": "휴대 가능하고 암호화됨 — 마스터 비밀번호로 모든 기기에서 복원됩니다"
+    },
+    "settings.backupBtn": {
+      "text": "백업 만들기"
+    },
+    "settings.backupUnavailable": {
+      "text": "암호화 백업은 이 미리보기에서 아직 제공되지 않습니다"
+    },
+    "export.title": {
+      "text": "평문 데이터 내보내기"
+    },
+    "export.notEncrypted": {
+      "text": "암호화되지 않음"
+    },
+    "export.warning": {
+      "text": "이 파일을 열 수 있는 사람 — 사람, 다른 앱, 백업, 클라우드 동기화 — 은 내보낸 모든 비밀을 읽을 수 있습니다."
+    },
+    "export.passwordLabel": {
+      "text": "마스터 비밀번호"
+    },
+    "export.passwordHelp": {
+      "text": "이 내보내기를 확인하려면 마스터 비밀번호를 다시 입력하세요."
+    },
+    "export.ack": {
+      "text": "이 파일이 암호화되지 않았으며 접근 권한이 있는 사람은 누구나 내 비밀을 읽을 수 있음을 이해합니다."
+    },
+    "export.btn": {
+      "text": "평문으로 내보내기"
+    },
+    "export.needAck": {
+      "text": "내보내기 전에 경고를 이해했는지 확인하세요."
+    },
+    "export.needPassword": {
+      "text": "계속하려면 마스터 비밀번호를 입력하세요."
+    },
+    "export.wrongPassword": {
+      "text": "마스터 비밀번호가 틀렸습니다. 아무것도 내보내지 않았습니다."
+    },
+    "export.failed": {
+      "text": "내보내기 실패. 파일이 생성되지 않았습니다."
+    },
+    "export.doneTitle": {
+      "text": "내보내기 완료"
+    },
+    "export.doneBody": {
+      "text": "{file}에 {count, plural, other {#개 항목}} 이(가) 평문으로 포함되어 있습니다."
+    },
+    "export.includes": {
+      "text": "포함됨"
+    },
+    "export.includesList": {
+      "text": "이름, 유형, 웹사이트, 사용자 이름, 비밀번호 또는 비밀, 메모"
+    },
+    "export.omitted": {
+      "text": "포함되지 않음"
+    },
+    "export.omittedList": {
+      "text": "TOTP 시드, 즐겨찾기, 사용자 지정 메타데이터"
+    },
+    "export.guidance": {
+      "text": "파일을 안전한 저장소로 옮기거나 다 사용한 후 즉시 삭제하세요. 이메일로 보내거나 클라우드 서비스에 업로드하지 마세요."
+    },
+    "export.doneClose": {
+      "text": "완료"
+    },
+    "field.nameHint": {
+      "text": "이름은 찾아보기 위한 것일 뿐입니다. 나중에 검색할 때 알아볼 수 있는 이름(예: GitHub - Work)을 사용하세요."
+    },
+    "modal.moreFields": {
+      "text": "추가 필드"
+    },
+    "modal.fewerFields": {
+      "text": "필드 접기"
+    },
+    "field.totpHint": {
+      "text": "서비스 또는 인증 앱의 otpauth:// URI나 Base32 시크릿을 붙여넣으세요. 공백과 하이픈은 무시됩니다."
+    },
+    "field.totpErrUri": {
+      "text": "이 otpauth:// URI에 유효한 Base32 시크릿이 없습니다."
+    },
+    "field.totpErrType": {
+      "text": "인증 코드는 otpauth://totp/ URI만 지원합니다."
+    },
+    "field.totpErrBase32": {
+      "text": "TOTP 시크릿은 Base32 문자 A–Z와 숫자 2–7만 사용할 수 있습니다."
+    },
+    "entry.routes.step": {
+      "text": "환영합니다"
+    },
+    "entry.routes.title": {
+      "text": "어떻게 시작하시겠어요?"
+    },
+    "entry.routes.sub": {
+      "text": "Veyora는 비밀번호를 암호화된 금고에 보관합니다. 시작 방법을 선택하세요."
+    },
+    "entry.routes.create": {
+      "text": "새 금고 만들기"
+    },
+    "entry.routes.createSub": {
+      "text": "빈 상태로 시작해 첫 로그인을 추가합니다."
+    },
+    "entry.routes.open": {
+      "text": "기존 금고 열기"
+    },
+    "entry.routes.openSub": {
+      "text": "이 기기에 이미 알려진 금고의 잠금을 해제합니다."
+    },
+    "entry.routes.import": {
+      "text": "다른 비밀번호 관리자에서 가져오기"
+    },
+    "entry.routes.importSub": {
+      "text": "금고를 만들고 CSV 내보내기를 가져옵니다."
+    },
+    "entry.routes.connect": {
+      "text": "고급: 자체 호스팅 서버에 연결"
+    },
+    "entry.routes.connectSub": {
+      "text": "직접 운영하는 Veyora 서비스에 로그인합니다."
+    },
+    "entry.routes.openNote": {
+      "text": "이 기기에는 아직 알려진 금고가 없습니다. 새 금고를 만들거나 데이터를 가져오거나 서비스에 연결하세요."
+    },
+    "entry.routes.importNote": {
+      "text": "먼저 마스터 비밀번호를 설정하세요. 금고가 열리자마자 가져오기 단계가 이어집니다."
+    },
+    "entry.routes.back": {
+      "text": "뒤로"
+    },
+    "connect.tag": {
+      "text": "연결 모드"
+    },
+    "connect.title": {
+      "text": "연결 / 로그인"
+    },
+    "connect.sub": {
+      "text": "이 Veyora 서비스는 금고를 만들거나 잠금 해제하기 전에 연결된 세션이 필요합니다."
+    },
+    "connect.urlLabel": {
+      "text": "서비스 URL"
+    },
+    "connect.tokenLabel": {
+      "text": "연결 토큰"
+    },
+    "connect.tokenPh": {
+      "text": "운영자의 토큰을 붙여넣으세요"
+    },
+    "connect.tokenHelp": {
+      "text": "서비스 운영자가 발급한 연결 자격 증명을 입력하세요. 전체 기기 페어링은 연결 모드와 함께 제공됩니다."
+    },
+    "connect.btn": {
+      "text": "연결"
+    },
+    "connect.errEmpty": {
+      "text": "서비스 URL과 연결 토큰을 모두 입력하세요."
+    },
+    "connect.errWrong": {
+      "text": "서비스가 이 연결 토큰을 거부했습니다."
+    },
+    "connect.errUnreachable": {
+      "text": "해당 주소의 서비스에 연결할 수 없습니다."
+    },
+    "field.errNameRequired": {
+      "text": "나중에 알아볼 수 있도록 이 항목에 이름을 지어 주세요(예: GitHub - Work)."
+    },
+    "field.errSecretRequired": {
+      "text": "저장하기 전에 이 필수 항목을 입력하거나 생성을 사용해 값을 만드세요."
+    },
+    "modal.errSummaryTitle": {
+      "text": "저장하기 전에 강조 표시된 필드를 수정하세요:"
+    },
+    "toast.clipboardCleared": {
+      "text": "클립보드를 지웠습니다."
+    },
+    "toast.clipboardClearFailed": {
+      "text": "클립보드를 지우지 못했습니다. 다른 앱이 사용 중일 수 있습니다."
+    },
+    "save.statusTitle": {
+      "text": "아직 저장되지 않았습니다"
+    },
+    "save.statusNetwork": {
+      "text": "금고는 변경되지 않았습니다 — 서비스에 연결할 수 없습니다. 입력 내용은 여기에 보존됩니다. 온라인 상태가 되면 저장을 다시 시도하세요."
+    },
+    "save.statusConflict": {
+      "text": "이 항목은 편집을 시작한 후 다른 기기에서 변경되어 저장되지 않았습니다. 편집 내용은 여기에 보존됩니다. 최신 버전을 다시 불러와 거기서 시작하세요(다시 불러오면 이 양식의 편집 내용은 대체됩니다)."
+    },
+    "save.statusOther": {
+      "text": "금고는 변경되지 않았습니다 — 저장이 거부되었습니다: {message}. 입력 내용은 여기에 보존됩니다. 항목을 확인하고 다시 시도하세요."
+    },
+    "save.statusRetry": {
+      "text": "저장 다시 시도"
+    },
+    "save.statusReload": {
+      "text": "최신 버전 다시 불러오기"
+    },
+    "modal.savedSync": {
+      "text": "서비스와 동기화됨 — 리비전 {revision}."
+    },
+    "modal.savedPending": {
+      "text": "이 기기에 저장됨 — 아직 서비스에는 전송되지 않았습니다. 연결이 복구되면 자동으로 동기화됩니다."
+    },
+    "modal.savedPendingDesktop": {
+      "text": "이 기기에 저장됨 — 로컬 금고가 응답하지 않습니다. 다시 접근할 수 있으면 자동으로 저장됩니다."
+    },
+    "modal.syncNow": {
+      "text": "지금 동기화"
+    },
+    "modal.syncNowDesktop": {
+      "text": "다시 저장 시도"
+    },
+    "table.pendingSync": {
+      "text": "동기화 대기 중"
+    },
+    "table.pendingSyncDesktop": {
+      "text": "저장 보류 중"
+    },
+    "settings.diagnostics": {
+      "text": "진단"
+    },
+    "diag.version": {
+      "text": "버전"
+    },
+    "diag.build": {
+      "text": "빌드 커밋"
+    },
+    "diag.buildNotStamped": {
+      "text": "이 이미지에 새겨져 있지 않습니다"
+    },
+    "diag.mode": {
+      "text": "모드"
+    },
+    "diag.modeValue": {
+      "text": "연결된 금고"
+    },
+    "diag.modeValueDesktop": {
+      "text": "이 기기의 로컬 vault"
+    },
+    "diag.storage": {
+      "text": "저장소"
+    },
+    "diag.storageValue": {
+      "text": "{host}의 암호화된 레코드"
+    },
+    "diag.storageValueDesktop": {
+      "text": "이 기기에 저장된 암호화 vault"
+    },
+    "diag.storageUnknown": {
+      "text": "서비스 위치를 알 수 없습니다"
+    },
+    "diag.health": {
+      "text": "서비스 상태"
+    },
+    "diag.healthChecking": {
+      "text": "확인 중…"
+    },
+    "diag.healthOk": {
+      "text": "접근 가능"
+    },
+    "diag.healthUnhealthy": {
+      "text": "오류로 응답 중"
+    },
+    "diag.healthUnreachable": {
+      "text": "접근할 수 없음"
+    },
+    "diag.lastSync": {
+      "text": "마지막 동기화"
+    },
+    "diag.lastSyncDesktop": {
+      "text": "마지막 저장"
+    },
+    "diag.syncNone": {
+      "text": "아직 동기화되지 않았습니다"
+    },
+    "diag.syncNoneDesktop": {
+      "text": "아직 저장된 항목이 없습니다"
+    },
+    "diag.backup": {
+      "text": "마지막 확인된 백업"
+    },
+    "diag.backupNone": {
+      "text": "이 미리 보기에서는 제공되지 않습니다"
+    },
+    "diag.bundle": {
+      "text": "지원 번들"
+    },
+    "diag.bundleSub": {
+      "text": "옵트인 및 편집됨: 복사하기 전에 검토하는 진단 요약을 만듭니다. 자동으로 업로드되는 일은 없습니다."
+    },
+    "diag.bundleBtn": {
+      "text": "지원 번들 준비"
+    },
+    "diag.bundleTitle": {
+      "text": "지원 번들 미리보기"
+    },
+    "diag.bundleIntro": {
+      "text": "아래 번들을 검토하세요 — 비밀이 포함되어 있지 않습니다. Veyora는 이를 절대 업로드하지 않으며, 복사는 사용자의 결정입니다."
+    },
+    "diag.bundleCopy": {
+      "text": "번들 텍스트 복사"
+    },
+    "diag.bundleCopied": {
+      "text": "지원 번들이 복사되었습니다"
+    },
+    "nav.tags": {
+      "text": "태그"
+    },
+    "field.tags": {
+      "text": "태그"
+    },
+    "ph.tags": {
+      "text": "업무, 인프라"
+    },
+    "field.tagsHint": {
+      "text": "태그는 쉼표로 구분하며 기기에 저장되어 필터에 사용됩니다."
+    },
+    "tags.filterLabel": {
+      "text": "태그로 필터:"
+    },
+    "tags.none": {
+      "text": "태그가 있는 항목이 아직 없습니다. 항목 만들기의 ‘더 보기 필드’에서 추가하세요."
+    },
+    "resetMatrix.title": {
+      "text": "재설정 — 삭제할 항목을 정확히 선택"
+    },
+    "resetMatrix.prefsTitle": {
+      "text": "기기 환경설정"
+    },
+    "resetMatrix.prefsSub": {
+      "text": "이 기기에 저장된 테마, 언어, 휴지통 보관 기간, 체크리스트를 지웁니다. 금고와 서비스의 데이터는 그대로 유지됩니다."
+    },
+    "resetMatrix.prefsBtn": {
+      "text": "환경설정 지우기"
+    },
+    "resetMatrix.prefsConfirm": {
+      "text": "이 기기의 환경설정을 지우시겠습니까?"
+    },
+    "resetMatrix.prefsDone": {
+      "text": "환경설정을 지웠습니다 — Veyora를 다시 로드하면 기본값이 적용됩니다"
+    },
+    "resetMatrix.disconnectTitle": {
+      "text": "저장된 서비스 연결"
+    },
+    "resetMatrix.disconnectSub": {
+      "text": "이 기기에 저장된 서비스 주소와 연결 토큰을 잊습니다. 금고 데이터는 삭제되지 않습니다."
+    },
+    "resetMatrix.disconnectBtn": {
+      "text": "연결 잊기"
+    },
+    "resetMatrix.disconnectConfirm": {
+      "text": "저장된 서비스 연결을 잊으시겠습니까?"
+    },
+    "resetMatrix.disconnectDone": {
+      "text": "저장된 연결을 지웠습니다 — Veyora를 다시 로드하면 적용됩니다"
+    },
+    "resetMatrix.localTitle": {
+      "text": "이 기기의 이 금고"
+    },
+    "resetMatrix.localSub": {
+      "text": "오프라인 대기 중인 쓰기를 포함하여 이 기기에서 이 금고를 제거합니다. 서비스의 암호화 사본은 남지만 이 기기에서는 다시 접근할 수 없습니다."
+    },
+    "resetMatrix.localBtn": {
+      "text": "이 기기에서 제거"
+    },
+    "resetMatrix.localConfirm": {
+      "text": "이 기기에서 제거할까요? 서비스의 사본에 접근할 수 없게 됩니다"
+    },
+    "resetMatrix.everywhereTitle": {
+      "text": "모든 곳의 금고"
+    },
+    "resetMatrix.everywhereSub": {
+      "text": "먼저 서비스에서 이 금고의 모든 레코드를 삭제한 다음 이 기기에서 금고를 제거합니다. 되돌릴 수 없습니다."
+    },
+    "resetMatrix.everywhereBtn": {
+      "text": "모두 삭제"
+    },
+    "resetMatrix.everywhereConfirm": {
+      "text": "모두 삭제할까요? 되돌릴 수 없습니다"
+    },
+    "resetMatrix.everywhereDone": {
+      "text": "금고가 삭제되었습니다 — 서비스와 이 기기에서 {count}개 레코드를 제거했습니다"
+    },
+    "resetMatrix.everywhereFailed": {
+      "text": "서비스에서 삭제하지 못했습니다 — 이 기기에서는 아무것도 제거되지 않았습니다"
+    },
+    "settings.changePwNew": {
+      "text": "새 마스터 비밀번호"
+    },
+    "settings.changePwConfirm": {
+      "text": "새 마스터 비밀번호 확인"
+    },
+    "settings.changePwErrLength": {
+      "text": "최소 {min}자 이상 사용하세요."
+    },
+    "settings.changePwErrCommon": {
+      "text": "이 비밀번호는 매우 흔한 요소로 구성되어 있어 로컬에서 거부됩니다."
+    },
+    "settings.changePwErrMismatch": {
+      "text": "새 비밀번호가 일치하지 않습니다."
+    },
+    "settings.changePwErrWrong": {
+      "text": "현재 마스터 비밀번호가 틀렸습니다 — 아무것도 변경되지 않았습니다."
+    },
+    "settings.changePwErrPending": {
+      "text": "오프라인 쓰기가 아직 대기 중입니다 — 비밀번호를 변경하기 전에 서비스와 동기화하세요."
+    },
+    "settings.changePwDone": {
+      "text": "마스터 비밀번호가 변경되었습니다 — 모든 레코드가 새 키로 다시 암호화되었습니다."
+    },
+    "backup.title": {
+      "text": "암호화 백업 만들기"
+    },
+    "backup.body": {
+      "text": "이 파일에는 이 금고의 모든 항목이 포함되어 있으며, 이 백업에만 파생된 키로 마스터 비밀번호를 통해 암호화됩니다. 모든 기기에서 복원할 수 있습니다. 마스터 비밀번호 없이는 누구도 내용을 복구할 수 없습니다."
+    },
+    "backup.passwordLabel": {
+      "text": "마스터 비밀번호"
+    },
+    "backup.passwordHelp": {
+      "text": "백업을 봉인하려면 마스터 비밀번호를 다시 입력하세요."
+    },
+    "backup.btn": {
+      "text": "백업 만들기"
+    },
+    "backup.doneTitle": {
+      "text": "암호화 백업이 저장되었습니다"
+    },
+    "backup.doneBody": {
+      "text": "파일에는 {count}개 항목이 종단 간 암호화되어 포함되어 있습니다."
+    },
+    "backup.doneLocked": {
+      "text": "파일과 마스터 비밀번호를 함께 안전하게 보관하세요 — 해당 비밀번호로만 열 수 있습니다."
+    },
+    "backup.errEmpty": {
+      "text": "마스터 비밀번호를 입력하세요."
+    },
+    "backup.errWrong": {
+      "text": "이 비밀번호로는 이 금고나 이 백업을 열 수 없습니다 — 아무것도 생성되지 않았습니다."
+    },
+    "backup.errFailed": {
+      "text": "백업을 만들 수 없습니다 — 아무것도 다운로드되지 않았습니다."
+    },
+    "backup.errFormat": {
+      "text": "이 파일은 Veyora 암호화 백업이 아닙니다."
+    },
+    "backup.restoreBtn": {
+      "text": "백업 복원"
+    },
+    "backup.restoreBody": {
+      "text": "선택한 백업에 {count}개 항목이 있습니다. 봉인한 마스터 비밀번호를 입력하여 복호화하고 이 금고에 병합하세요."
+    },
+    "backup.restoreHelp": {
+      "text": "기존 항목은 절대 덮어쓰지 않습니다. 이미 존재하는 복원된 ID는 새 ID로 가져옵니다."
+    },
+    "backup.restoreDone": {
+      "text": "이 금고에 {count}개 항목을 복원했습니다."
+    },
+    "settings.restoreBtn": {
+      "text": "백업 복원"
+    },
+    "entry.recover.link": {
+      "text": "복구 키로 복원"
+    },
+    "entry.recover.kitPlaceholder": {
+      "text": "xxxxx-xxxxx-xxxxx-… (5글자 12그룹)"
+    },
+    "entry.recover.newLabel": {
+      "text": "새 마스터 비밀번호"
+    },
+    "entry.recover.confirmLabel": {
+      "text": "새 마스터 비밀번호 확인"
+    },
+    "entry.recover.errFailed": {
+      "text": "복구에 실패했습니다 — 금고가 변경되지 않았습니다. 연결을 확인하고 다시 시도하세요."
+    },
+    "settings.regenTitle": {
+      "text": "복구 키"
+    },
+    "settings.regenSub": {
+      "text": "새 복구 키를 생성합니다. 이전 키는 즉시 작동하지 않습니다"
+    },
+    "settings.regenBtn": {
+      "text": "재생성"
+    },
+    "regen.title": {
+      "text": "복구 키 재생성"
+    },
+    "regen.sub": {
+      "text": "새 복구 키가 생성되고 이전 키가 폐기되며, 같은 단계에서 검증된 암호화 백업이 생성됩니다. 이 대화 상자를 닫기 전에 새 키를 보관하세요."
+    },
+    "regen.btn": {
+      "text": "키 재생성"
+    },
+    "regen.doneTitle": {
+      "text": "새 복구 키 활성화됨"
+    },
+    "regen.doneConsequence": {
+      "text": "이전 복구 키로는 이 금고를 열 수 없습니다. 이 키와 함께 모든 항목의 검증된 암호화 백업이 다운로드되었습니다."
+    },
+    "regen.kitLabel": {
+      "text": "새 복구 키 — 지금 보관하세요"
+    },
+    "regen.verified": {
+      "text": "이 대화 상자가 성공을 보고하기 전에 다운로드된 백업이 종단 간 검증되었습니다."
+    },
+    "settings.kitBtn": {
+      "text": "보기 / 검증"
+    },
+    "kit.title": {
+      "text": "당신의 복구 키"
+    },
+    "kit.sub": {
+      "text": "이 키는 마스터 비밀번호를 잃었을 때 금고로 돌아갈 유일한 방법입니다. 지금 저장하세요. Veyora가 이를 복구해 드릴 수 없습니다."
+    },
+    "kit.label": {
+      "text": "복구 키(71자)"
+    },
+    "kit.help": {
+      "text": "적어 두거나 다른 비밀번호 관리자에 보관하세요 — 이 금고 안에 두지 마세요."
+    },
+    "kit.copy": {
+      "text": "키 복사"
+    },
+    "kit.copied": {
+      "text": "복구 키가 복사되었습니다 — 안전한 곳에 보관하세요"
+    },
+    "kit.verifyLabel": {
+      "text": "저장했음을 증명하려면 키를 다시 입력하세요"
+    },
+    "kit.verifyBtn": {
+      "text": "저장한 키 검증"
+    },
+    "kit.later": {
+      "text": "나중에 검증"
+    },
+    "kit.errMismatch": {
+      "text": "이 금고의 복구 키와 일치하지 않습니다 — 저장한 사본을 확인하고 다시 시도하세요."
+    },
+    "kit.verified": {
+      "text": "복구 키가 검증되었습니다 — 올바르게 저장되었습니다"
+    },
+    "trash.purgeBtn": {
+      "text": "{count}개 항목 영구 삭제"
+    },
+    "trash.purgeConfirm": {
+      "text": "{count}개 항목을 영구 삭제할까요? 되돌릴 수 없습니다"
+    },
+    "trash.purgeNote": {
+      "text": "보관 기간이 끝나기 전에 암호화된 사본을 서비스에서 즉시 삭제합니다. 이후 복원할 수 없습니다."
+    },
+    "trash.purgeDone": {
+      "text": "{count}개 항목을 영구 삭제했습니다"
+    },
+    "table.showMore": {
+      "text": "{count}개 더 보기"
+    },
+    "table.windowedCount": {
+      "text": "{total}개 중 {shown}개 표시 중"
+    }
+  }
+}

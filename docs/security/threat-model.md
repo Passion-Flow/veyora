@@ -74,9 +74,9 @@ The design considers:
 | Malformed or oversized input | Strict schemas, bounded decoding, request-body limits, and fail-fast configuration | Parser and implementation defects remain possible |
 | Server learns plaintext | Client-side encryption boundary and ciphertext-only backend types | Browser compromise, debug tooling, or accidental logging can violate the boundary |
 | Network interception | Production is expected to use owner-controlled TLS ingress | The repository does not configure or validate public TLS automatically |
-| Unauthorized API access | Optional bearer mode and external ingress controls | The bundled browser does not attach the bearer token; authentication integration needs review |
+| Unauthorized API access | Optional bearer mode and external ingress controls | The browser's manually provisioned local token path is not a reviewed pairing, rotation, revocation, or session design |
 | Supply-chain modification | Lockfiles, pinned toolchains, CI, and deterministic vectors | No complete reproducible-build or signed-release guarantee exists |
-| Recovery-material theft | Recovery artifacts are designed to be encrypted and integrity checked | Copied material cannot be recalled and may enable offline attacks |
+| Recovery-material theft | Recovery encoding primitives exist, but the current product flow is disabled because it does not unwrap the existing Vault Key | Older recovery-looking material is not a supported recovery mechanism; copied future Recovery Keys would be high-authority secrets |
 | Lost or corrupted data | Opaque backup/restore services and revisioned records | Recovery procedures have not been independently validated for production |
 
 ## Malicious server model
@@ -157,14 +157,14 @@ receives only sealed ciphertext via the batch endpoint. Export:
 decryption happens in the browser; the CSV file is generated client-side
 and downloaded directly. No server involvement.
 
-### Master password rotation
+### Unsupported Master Password re-encryption prototype
 
-Re-encryption happens in the browser: derive a new root key from the
-new password over a fresh salt, re-seal every record, CAS-update on the
-server. Mid-flight failure triggers best-effort rollback (re-seal under
-the old key). Documented limitation: a rollback failure may leave some
-records encrypted under the new key while the salt stays old — the user
-would need the new password to access those specific records.
+An earlier browser implementation derives a new root key from a new password,
+re-seals every record, and attempts CAS updates with best-effort rollback. That
+is not the PRD's required atomic Vault-Key rewrap design: a rollback failure can
+leave records and local salt metadata inconsistent. The control is therefore
+not exposed in the product UI and must not be treated as a supported password
+change or recovery path.
 
 ### Password verifier record
 

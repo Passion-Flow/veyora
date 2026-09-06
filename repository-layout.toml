@@ -1,0 +1,194 @@
+# Veyora repository layout authority (PRD REPO-001, REPO-002).
+#
+# Every approved top-level directory is declared below with its path
+# category, owning reviewer, allowed tracked file types, whether tracked
+# content is generated output, and whether ignored runtime/build state may
+# live there. The repository checker enforces this manifest:
+#
+#   - a tracked path whose first component is not declared here fails;
+#   - a tracked file whose name matches no allowed pattern fails;
+#   - entries marked runtime_state must contain no tracked files;
+#   - a working-tree root entry that is neither declared here nor covered
+#     by .gitignore fails (unowned runtime data at the root is rejected).
+#
+# The tree follows the PRD section 12.2 target layout (apps/, services/,
+# packages/, deploy/). The security kernel intentionally keeps its own
+# independent workspace and root directory as a review boundary. Update this
+# manifest in the same change whenever a directory moves or a new file type
+# becomes legitimate.
+
+schema_version = 1
+
+[entry.".github"]
+category = "governance"
+owner = "release-engineering"
+generated = false
+runtime_state = false
+file_types = ["*.yml", "CODEOWNERS", "*.md"]
+
+[entry."contracts"]
+category = "contract"
+owner = "contracts"
+generated = false
+runtime_state = false
+file_types = ["*.json", "*.cddl", "*.yaml", "*.md", ".gitignore"]
+
+[entry."deploy"]
+category = "deployment-operations"
+owner = "deployments"
+generated = false
+runtime_state = false
+file_types = ["*.sh"]
+
+[entry."deploy"]
+category = "deployment-packaging"
+owner = "deployments"
+generated = false
+runtime_state = false
+file_types = [
+  "Dockerfile",
+  "*.yaml",
+  "*.conf",
+  "*.sh",
+  "*.md",
+  ".env.example",
+  ".gitignore",
+]
+
+[entry."docs"]
+category = "documentation"
+owner = "documentation"
+generated = false
+runtime_state = false
+file_types = ["*.md", "*.png", "*.json"]
+
+[entry."experiments"]
+category = "experiment"
+owner = "frontend"
+generated = false
+runtime_state = false
+# Experiments must never satisfy shipping CI or release gates (REPO-003).
+# The repository checker rejects workflow or Makefile references to
+# experiments/ paths.
+file_types = ["*.java", "*.json", "*.kts", "*.ts", "*.xml", "*.yaml"]
+
+[entry."apps"]
+category = "application-source"
+owner = "frontend"
+generated = false
+runtime_state = false
+file_types = [
+  "*.js",
+  "*.mjs",
+  "*.css",
+  "*.html",
+  "*.json",
+  "*.md",
+  "*.rs",
+  "*.toml",
+  "*.ts",
+  "*.wasm",
+  "*.png",
+  "*.ico",
+  "*.icns",
+  "*.woff2",
+  "*.lock",
+  "*.py",
+  ".gitignore",
+]
+
+[entry."services"]
+category = "service-source"
+owner = "backend"
+generated = false
+runtime_state = false
+file_types = ["*.rs", "*.toml", "*.md", ".gitignore"]
+
+[entry."packages"]
+category = "shared-package"
+owner = "backend"
+generated = false
+runtime_state = false
+file_types = ["*.rs", "*.toml", "*.sql", "*.json", "*.md", ".gitignore"]
+
+[entry."release"]
+category = "release-authority"
+owner = "release-engineering"
+generated = false
+runtime_state = false
+file_types = ["*.json", "*.md"]
+
+[entry."packages/security-kernel"]
+category = "security-package"
+owner = "security"
+generated = false
+runtime_state = false
+file_types = [
+  "*.rs",
+  "*.toml",
+  "*.json",
+  "*.md",
+  "*.py",
+  "*.sh",
+  "*.js",
+  "*.c",
+  "*.bin",
+  "*.lock",
+  ".gitignore",
+]
+
+[entry."tests"]
+category = "test"
+owner = "qa"
+generated = false
+runtime_state = false
+file_types = ["*.mjs", "*.js", "*.sh", "*.py", "*.json", "*.md", "*.rs", "Cargo.toml"]
+
+[entry."tools"]
+category = "tooling"
+owner = "developer-experience"
+generated = false
+runtime_state = false
+# The Rust contract-binding template under tools/codegen/contracts/ is a
+# generator input, so the tooling tree may carry *.rs template sources.
+file_types = ["*.py", "*.mjs", "*.sh", "*.md", "*.json", "*.rs"]
+
+# Ignored runtime locations. Content here is never tracked (REPO-012,
+# REPO-014): .build holds transient build output and .local holds inert
+# development runtime state only.
+[entry.".build"]
+category = "build-output"
+owner = "developer-experience"
+generated = false
+runtime_state = true
+file_types = []
+
+[entry.".local"]
+category = "dev-runtime-state"
+owner = "developer-experience"
+generated = false
+runtime_state = true
+file_types = []
+
+# Approved root files. Anything else at the repository root is rejected,
+# tracked or not (unless .gitignore covers it as local tooling state).
+[root]
+approved_files = [
+  ".dockerignore",
+  ".gitignore",
+  ".gitleaks.toml",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "LICENSE",
+  "Makefile",
+  "NOTICE",
+  "PRD.md",
+  "README.md",
+  "SECURITY.md",
+  "Cargo.toml",
+  "Cargo.lock",
+  "rust-toolchain.toml",
+  "package.json",
+  "package-lock.json",
+  "repository-layout.toml",
+]

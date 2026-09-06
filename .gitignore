@@ -15,6 +15,12 @@ build/
 coverage/
 node_modules/
 
+# Ignored repository runtime locations (repository-layout.toml):
+# .build holds transient build output only, .local holds inert development
+# runtime state only. Real user data must live outside the checkout.
+.build/
+.local/
+
 # Runtime data and local artifacts
 *.db
 *.sqlite

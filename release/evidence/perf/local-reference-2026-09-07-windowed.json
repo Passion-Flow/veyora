@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "host": "local-reference",
+  "webUrl": "http://127.0.0.1:3311",
+  "targets": {
+    "PERF-002": {
+      "measurement": "navigation → kernel self-test → interactive Welcome (ms)",
+      "target_p95_ms": 1000,
+      "runs": 20,
+      "min": 137,
+      "median": 143,
+      "p95": 187,
+      "max": 277
+    },
+    "PERF-004": {
+      "measurement": "search pipeline (filter+render) per query over 10000 items, in-page synchronous (ms)",
+      "target_p95_ms": 100,
+      "pipeline": {
+        "runs": 33,
+        "min": 3,
+        "median": 4,
+        "p95": 8,
+        "max": 9
+      },
+      "user_path_incl_debounce": {
+        "runs": 8,
+        "min": 2,
+        "median": 2,
+        "p95": 158,
+        "max": 158
+      },
+      "backlogObserved": false,
+      "p95": 8
+    },
+    "PERF-005": {
+      "measurement": "acknowledgment: save-click → encrypted & acknowledged panel (ms)",
+      "target_p95_ms": 250,
+      "ack": {
+        "runs": 12,
+        "min": 27,
+        "median": 28,
+        "p95": 32,
+        "max": 32
+      },
+      "compose_incl_modal_and_typing": {
+        "runs": 12,
+        "min": 54,
+        "median": 58,
+        "p95": 67,
+        "max": 67
+      },
+      "p95": 32
+    }
+  },
+  "collected_at": "2026-09-06T19:45:55.213Z",
+  "product_version": "1.0.0",
+  "prepared_at_commit": "c3fe0094e1a0916d33523c192bf65d11a7950266 (working tree; images stamped e2e-local-check)"
+}

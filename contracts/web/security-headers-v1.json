@@ -2,13 +2,20 @@
   "$schema": "security-headers-v1.schema.json",
   "schema_version": 1,
   "headers": {
-    "Content-Security-Policy":"default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'",
-    "Cross-Origin-Opener-Policy":"same-origin",
-    "Cross-Origin-Resource-Policy":"same-origin",
-    "Referrer-Policy":"no-referrer",
-    "Permissions-Policy":"camera=(), geolocation=(), microphone=(), payment=(), usb=()",
-    "X-Content-Type-Options":"nosniff",
-    "X-Frame-Options":"DENY"
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Resource-Policy": "same-origin",
+    "Permissions-Policy": "camera=(), geolocation=(), microphone=(), payment=(), usb=()",
+    "Referrer-Policy": "no-referrer",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY"
   },
-  "forbidden": ["unsafe-inline","unsafe-eval","wildcard-origin","third-party-script","service-worker-secret-cache"]
+  "forbidden": [
+    "javascript-unsafe-eval (the narrow 'wasm-unsafe-eval' allowance for the reviewed WASM kernel is the only evaluation permission)",
+    "wildcard-origin-with-credentials",
+    "third-party-script-src",
+    "service-worker-secret-cache",
+    "missing-permissions-policy"
+  ],
+  "rendering_notes": "connect-src is rendered from VEYORA_CSP_CONNECT_SRC at container start (default 'self'); every other directive is fixed. tests/smoke/headers.sh compares the live origin against this contract (DEP-009)."
 }

@@ -27,7 +27,7 @@ flowchart TB
         WORKER[Worker]
         MIGRATOR[Migrator]
         BACKUP[Backup / Restore]
-        SANDBOX[Sandbox validator]
+        VALIDATOR[Record validator]
         API --> DB
         WORKER --> DB
         MIGRATOR --> DB
@@ -46,15 +46,15 @@ opaque protocol records and operational metadata only.
 
 | Component | Location | Responsibility |
 | --- | --- | --- |
-| Security kernel | `security-kernel/` | Cryptographic operations, canonical encoding, IDs, session rules, recovery primitives, WASM, FFI, and test vectors |
+| Security kernel | `packages/security-kernel/` | Cryptographic operations, canonical encoding, IDs, session rules, recovery primitives, WASM, FFI, and test vectors |
 | Web client | `deployment/web/` | Lock/unlock UX, local record rendering and search, encrypted API requests, and static delivery through nginx |
 | Gateway | `deployment/envoy.yaml` and `deployment/Dockerfile.gateway.build` | Explicit API routing and an operator-controlled edge hop; production TLS remains external |
-| API | `backend/services/api/` | Ciphertext CRUD, compare-and-set revisions, batch operations, health, readiness, metrics, and optional bearer authentication |
-| Persistence | `backend/crates/persistence/`, `backend/crates/postgres/` | Opaque-store interface, in-memory adapter, PostgreSQL adapter, and schema migration |
-| Worker | `backend/services/worker/` | Operational polling and tombstone monitoring |
-| Migrator | `backend/services/migrator/` | Ordered, idempotent database migrations |
-| Backup / Restore | `backend/services/backup/`, `backend/services/restore/` | Logical movement of opaque snapshots |
-| Sandbox | `backend/services/sandbox/` | Bounded ciphertext-format validation without database or network access |
+| API | `services/api/` | Ciphertext CRUD, compare-and-set revisions, batch operations, health, readiness, metrics, and optional bearer authentication |
+| Persistence | `packages/storage/persistence/`, `packages/storage/postgres/` | Opaque-store interface, in-memory adapter, PostgreSQL adapter, and schema migration |
+| Worker | `services/worker/` | Operational polling and tombstone monitoring |
+| Migrator | `services/migrator/` | Ordered, idempotent database migrations |
+| Backup / Restore | `services/backup/`, `services/restore/` | Logical movement of opaque snapshots |
+| Validator | `services/validator/` | Bounded ciphertext-format validation without database or network access |
 | Contracts | `contracts/` | Versioned wire, protocol, configuration, authorization, and policy definitions |
 
 ## Record write path

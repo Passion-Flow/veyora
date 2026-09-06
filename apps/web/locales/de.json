@@ -1,0 +1,1534 @@
+{
+  "schema_version": 1,
+  "locale": "de",
+  "direction": "ltr",
+  "messages": {
+    "app.name": {
+      "text": "Veyora"
+    },
+    "app.tagline": {
+      "text": "Ihr privater digitaler Raum"
+    },
+    "common.cancel": {
+      "text": "Abbrechen"
+    },
+    "common.copy": {
+      "text": "Kopieren"
+    },
+    "common.close": {
+      "text": "Schließen"
+    },
+    "common.show": {
+      "text": "Passwort zeigen"
+    },
+    "common.hide": {
+      "text": "Verbergen"
+    },
+    "common.edit": {
+      "text": "Bearbeiten"
+    },
+    "common.delete": {
+      "text": "Löschen"
+    },
+    "common.themeToggle": {
+      "text": "Design umschalten"
+    },
+    "common.undo": {
+      "text": "Rückgängig"
+    },
+    "common.passwordsMatch": {
+      "text": "Passwörter stimmen überein"
+    },
+    "common.passwordsMismatch": {
+      "text": "Passwörter stimmen nicht überein"
+    },
+    "entry.capsLock": {
+      "text": "Feststelltaste ist aktiv"
+    },
+    "entry.stage.deriving": {
+      "text": "Schlüssel wird abgeleitet"
+    },
+    "entry.stage.decrypting": {
+      "text": "Tresor wird entschlüsselt"
+    },
+    "entry.create.step": {
+      "text": "01 · Tresor erstellen"
+    },
+    "entry.create.title": {
+      "text": "Master-Passwort festlegen."
+    },
+    "entry.create.passwordLabel": {
+      "text": "Master-Passwort"
+    },
+    "entry.create.passwordPh": {
+      "text": "Mindestens {min} Zeichen"
+    },
+    "entry.create.confirmLabel": {
+      "text": "Passwort bestätigen"
+    },
+    "entry.create.confirmPh": {
+      "text": "Erneut eingeben"
+    },
+    "entry.create.ack": {
+      "text": "Ich verstehe, dass dieses Passwort nicht wiederherstellbar ist — nur der Wiederherstellungssatz kann den Tresor ohne Passwort öffnen."
+    },
+    "entry.create.btn": {
+      "text": "Tresor erstellen"
+    },
+    "entry.create.errLength": {
+      "text": "Verwenden Sie mindestens {min} Zeichen — dieses Passwort ist der einzige Schlüssel zum Tresor."
+    },
+    "entry.create.errMismatch": {
+      "text": "Passwörter stimmen nicht überein."
+    },
+    "entry.create.errAck": {
+      "text": "Bestätigen Sie, dass das Passwort nicht wiederherstellbar ist, bevor Sie fortfahren."
+    },
+    "entry.kit.step": {
+      "text": "02 · Wiederherstellungssatz"
+    },
+    "entry.kit.title": {
+      "text": "Passwort vergessen?<br>Dieser Code ist der Weg zurück."
+    },
+    "entry.kit.sub": {
+      "text": "Offline speichern — der einzige Wiederherstellungsweg, wenn das Master-Passwort verloren geht."
+    },
+    "entry.kit.download": {
+      "text": ".txt herunterladen"
+    },
+    "entry.kit.open": {
+      "text": "Tresor öffnen"
+    },
+    "entry.kit.skip": {
+      "text": "Vorerst überspringen — später im Tresor neu generieren"
+    },
+    "entry.kit.fileHead": {
+      "text": "VEYORA WIEDERHERSTELLUNGSSATZ"
+    },
+    "entry.kit.fileTail": {
+      "text": "Offline aufbewahren. Jeder mit diesem Satz kann auf den Tresor zugreifen."
+    },
+    "entry.unlock.tag": {
+      "text": "Tresor gesperrt"
+    },
+    "entry.unlock.title": {
+      "text": "Willkommen zurück."
+    },
+    "entry.unlock.sub": {
+      "text": "Master-Passwort eingeben, um den Schlüssel auf diesem Gerät abzuleiten und den Tresor zu entschlüsseln."
+    },
+    "entry.unlock.passwordLabel": {
+      "text": "Master-Passwort"
+    },
+    "entry.unlock.vaultMeta": {
+      "text": "Tresor {vault} · {count, plural, one {# Datensatz} other {# Datensätze}} · {device}"
+    },
+    "entry.unlock.saltNote": {
+      "text": "Salt auf diesem Gerät"
+    },
+    "entry.unlock.btn": {
+      "text": "Tresor entsperren"
+    },
+    "entry.unlock.errEmpty": {
+      "text": "Master-Passwort eingeben."
+    },
+    "entry.unlock.errWrong": {
+      "text": "Entschlüsselung fehlgeschlagen — falsches Master-Passwort. Der Tresor bleibt gesperrt."
+    },
+    "entry.unlock.recoverLink": {
+      "text": "Passwort verloren? Mit dem Satz wiederherstellen"
+    },
+    "entry.recover.tag": {
+      "text": "Wiederherstellung"
+    },
+    "entry.recover.title": {
+      "text": "Öffnen Sie Ihren Tresor mit dem Wiederherstellungsschlüssel"
+    },
+    "entry.recover.sub": {
+      "text": "Der Wiederherstellungsschlüssel öffnet den verschlüsselten Tresorschlüssel und setzt ein neues Master-Passwort. Er funktioniert auf einem neuen Gerät ohne alles Weitere."
+    },
+    "entry.recover.kitLabel": {
+      "text": "Wiederherstellungsschlüssel"
+    },
+    "entry.recover.kitPh": {
+      "text": "XXXX XXXX XXXX XXXX XXXX · Prüfsumme"
+    },
+    "entry.recover.newPwLabel": {
+      "text": "Neues Master-Passwort"
+    },
+    "entry.recover.btn": {
+      "text": "Tresor wiederherstellen"
+    },
+    "entry.recover.back": {
+      "text": "Zurück zum Entsperren"
+    },
+    "entry.recover.errKit": {
+      "text": "Dieser Wiederherstellungsschlüssel öffnet diesen Tresor nicht — nichts wurde geändert."
+    },
+    "strength.readout": {
+      "text": "{bits} Bit · {label}"
+    },
+    "strength.weak": {
+      "text": "Schwach"
+    },
+    "strength.fair": {
+      "text": "Ausreichend"
+    },
+    "strength.good": {
+      "text": "Gut"
+    },
+    "strength.strong": {
+      "text": "Stark"
+    },
+    "strength.excellent": {
+      "text": "Sehr stark"
+    },
+    "nav.all": {
+      "text": "Alle Einträge"
+    },
+    "nav.favorites": {
+      "text": "Favoriten"
+    },
+    "type.login": {
+      "text": "Login"
+    },
+    "type.login.plural": {
+      "text": "Logins"
+    },
+    "type.note": {
+      "text": "Sichere Notiz"
+    },
+    "type.note.plural": {
+      "text": "Sichere Notizen"
+    },
+    "type.api-token": {
+      "text": "API-Token"
+    },
+    "type.api-token.plural": {
+      "text": "API-Tokens"
+    },
+    "type.ssh": {
+      "text": "SSH-Schlüssel"
+    },
+    "type.ssh.plural": {
+      "text": "SSH-Schlüssel"
+    },
+    "type.identity": {
+      "text": "Identität"
+    },
+    "type.identity.plural": {
+      "text": "Identitäten"
+    },
+    "top.recovery": {
+      "text": "Wiederherstellungssatz"
+    },
+    "top.settings": {
+      "text": "Einstellungen"
+    },
+    "top.lock": {
+      "text": "Jetzt sperren"
+    },
+    "top.newEntry": {
+      "text": "Neuer Eintrag"
+    },
+    "top.searchScope": {
+      "text": "{scope} durchsuchen"
+    },
+    "top.autolock": {
+      "text": "Auto-Sperre in"
+    },
+    "top.sort": {
+      "text": "Sortieren"
+    },
+    "vault.nameDefault": {
+      "text": "Mein Veyora-Tresor"
+    },
+    "vault.locationThisDevice": {
+      "text": "Auf diesem Gerät"
+    },
+    "vault.locationService": {
+      "text": "Verbundener Tresor unter {host}"
+    },
+    "vault.locationUnknown": {
+      "text": "Verbundener Tresor"
+    },
+    "table.colItem": {
+      "text": "Eintrag"
+    },
+    "table.colType": {
+      "text": "Typ"
+    },
+    "table.colLogin": {
+      "text": "Login / Geheimnis"
+    },
+    "table.colUpdated": {
+      "text": "Aktualisiert"
+    },
+    "table.count": {
+      "text": "{count, plural, one {# Datensatz} other {# Datensätze}}"
+    },
+    "table.emptyTitle": {
+      "text": "Nichts hier"
+    },
+    "table.emptyVaultTitle": {
+      "text": "Ihr Tresor ist leer"
+    },
+    "table.emptyVaultBody": {
+      "text": "Fügen Sie Ihren ersten Login hinzu oder importieren Sie Einträge aus einem anderen Passwort-Manager."
+    },
+    "table.addFirstLogin": {
+      "text": "Ersten Login hinzufügen"
+    },
+    "table.importItems": {
+      "text": "Einträge importieren"
+    },
+    "table.emptyFiltered": {
+      "text": "Noch keine Einträge in dieser Ansicht."
+    },
+    "table.noResultsTitle": {
+      "text": "Keine Ergebnisse"
+    },
+    "table.noResultsBody": {
+      "text": "Keine Ergebnisse für „{query}“ in {scope}."
+    },
+    "table.clearSearch": {
+      "text": "Suche löschen"
+    },
+    "table.searchAll": {
+      "text": "Alle Einträge durchsuchen"
+    },
+    "action.copySecret": {
+      "text": "Geheimnis kopieren"
+    },
+    "action.favorite": {
+      "text": "Favorit"
+    },
+    "action.more": {
+      "text": "Weitere Aktionen"
+    },
+    "action.removeFilter": {
+      "text": "Filter entfernen: {filter}"
+    },
+    "sort.name": {
+      "text": "Name A–Z"
+    },
+    "sort.nameDesc": {
+      "text": "Name Z–A"
+    },
+    "sort.updated": {
+      "text": "Zuletzt aktualisiert"
+    },
+    "sort.type": {
+      "text": "Typ"
+    },
+    "drawer.title.entry": {
+      "text": "Eintrag"
+    },
+    "drawer.title.settings": {
+      "text": "Einstellungen"
+    },
+    "drawer.title.recovery": {
+      "text": "Wiederherstellungssatz"
+    },
+    "drawer.copyPassword": {
+      "text": "Passwort kopieren"
+    },
+    "drawer.copySecret": {
+      "text": "Geheimnis kopieren"
+    },
+    "drawer.reveal": {
+      "text": "Anzeigen"
+    },
+    "drawer.favorite": {
+      "text": "Favorit"
+    },
+    "drawer.unfavorite": {
+      "text": "Favorisiert"
+    },
+    "drawer.confirmDelete": {
+      "text": "Löschen bestätigen"
+    },
+    "drawer.meta": {
+      "text": "aktualisiert {date} · Revision {revision}"
+    },
+    "drawer.favoriteMark": {
+      "text": "Favorit"
+    },
+    "drawer.foot": {
+      "text": "Datensatz {id} · Suite 1 · Protokoll v1 · im Browser über den WASM-Kernel entschlüsselt"
+    },
+    "field.name": {
+      "text": "Name"
+    },
+    "field.itemName": {
+      "text": "Eintragsname"
+    },
+    "field.fullName": {
+      "text": "Vollständiger Name"
+    },
+    "field.username": {
+      "text": "Benutzername / E-Mail"
+    },
+    "field.website": {
+      "text": "Webseite"
+    },
+    "field.service": {
+      "text": "Dienst"
+    },
+    "field.host": {
+      "text": "Host"
+    },
+    "field.password": {
+      "text": "Passwort"
+    },
+    "field.token": {
+      "text": "Token"
+    },
+    "field.passphrase": {
+      "text": "Passphrase"
+    },
+    "field.idNumber": {
+      "text": "Ausweisnummer"
+    },
+    "field.content": {
+      "text": "Inhalt"
+    },
+    "field.privateKey": {
+      "text": "Privater Schlüssel"
+    },
+    "field.notes": {
+      "text": "Notizen"
+    },
+    "ph.name": {
+      "text": "GitHub - Work"
+    },
+    "ph.noteName": {
+      "text": "z. B. Server-Runbook"
+    },
+    "ph.tokenName": {
+      "text": "z. B. GHCR-Publish-Token"
+    },
+    "ph.sshName": {
+      "text": "z. B. ed25519 — Workstation"
+    },
+    "ph.itemName": {
+      "text": "z. B. Reisepass"
+    },
+    "ph.username": {
+      "text": "sie@beispiel.de"
+    },
+    "ph.website": {
+      "text": "https://…"
+    },
+    "ph.host": {
+      "text": "git@github.com"
+    },
+    "ph.service": {
+      "text": "z. B. GitHub Container Registry"
+    },
+    "ph.privateKey": {
+      "text": "-----BEGIN OPENSSH PRIVATE KEY-----"
+    },
+    "ph.notes": {
+      "text": "Optional"
+    },
+    "ph.content": {
+      "text": "Privater Text — wird verschlüsselt, bevor er dieses Gerät verlässt"
+    },
+    "ph.generate": {
+      "text": "Automatisch generieren"
+    },
+    "modal.newTitle": {
+      "text": "Neuer Eintrag"
+    },
+    "modal.editTitle": {
+      "text": "Eintrag bearbeiten"
+    },
+    "modal.create": {
+      "text": "Eintrag erstellen"
+    },
+    "modal.save": {
+      "text": "Änderungen speichern"
+    },
+    "modal.encryptedNote": {
+      "text": "Lokal verschlüsselt · dann als Chiffretext gespeichert"
+    },
+    "modal.generate": {
+      "text": "Erzeugen"
+    },
+    "gen.title": {
+      "text": "Passwort-Generator"
+    },
+    "gen.entropy": {
+      "text": "geschätzte Entropie"
+    },
+    "gen.bitsUnit": {
+      "text": "BIT"
+    },
+    "gen.length": {
+      "text": "Länge"
+    },
+    "gen.upper": {
+      "text": "Großbuchstaben"
+    },
+    "gen.lower": {
+      "text": "Kleinbuchstaben"
+    },
+    "gen.digits": {
+      "text": "Ziffern"
+    },
+    "gen.symbols": {
+      "text": "Sonderzeichen"
+    },
+    "gen.ambiguous": {
+      "text": "Mehrdeutige Zeichen vermeiden"
+    },
+    "gen.regenerate": {
+      "text": "Neu generieren"
+    },
+    "gen.use": {
+      "text": "Dieses Passwort verwenden"
+    },
+    "gen.poolNote": {
+      "text": "{count} Zeichen im Vorrat"
+    },
+    "gen.errCharset": {
+      "text": "Wählen Sie mindestens einen Zeichensatz"
+    },
+    "settings.title": {
+      "text": "Einstellungen"
+    },
+    "settings.sub": {
+      "text": "Lokale Einstellungen · nur dieses Gerät"
+    },
+    "settings.appearance": {
+      "text": "Erscheinungsbild"
+    },
+    "settings.theme": {
+      "text": "Design"
+    },
+    "settings.themeSub": {
+      "text": "Schwarz auf Weiß oder Weiß auf Schwarz"
+    },
+    "settings.light": {
+      "text": "Hell"
+    },
+    "settings.dark": {
+      "text": "Dunkel"
+    },
+    "settings.language": {
+      "text": "Sprache"
+    },
+    "settings.languageSub": {
+      "text": "Sprache der Oberfläche, mit englischer Rückfallstufe"
+    },
+    "settings.security": {
+      "text": "Sicherheit"
+    },
+    "settings.autolock": {
+      "text": "Automatisch sperren bei Inaktivität"
+    },
+    "settings.autolockSub": {
+      "text": "Schlüsselmaterial wird im Speicher genullt"
+    },
+    "settings.clipboard": {
+      "text": "Zwischenablage nach dem Kopieren leeren"
+    },
+    "settings.clipboardSub": {
+      "text": "Geheimnisse verweilen nicht in der Zwischenablage"
+    },
+    "settings.data": {
+      "text": "Daten"
+    },
+    "settings.export": {
+      "text": "Daten im Klartext exportieren"
+    },
+    "settings.exportSub": {
+      "text": "Nicht verschlüsselt — jeder, der die Datei öffnen kann, kann sie lesen"
+    },
+    "settings.exportBtn": {
+      "text": "Daten im Klartext exportieren"
+    },
+    "settings.import": {
+      "text": "CSV importieren"
+    },
+    "settings.importSub": {
+      "text": "Generische Login-CSV (name, secret)"
+    },
+    "settings.importBtn": {
+      "text": "Importieren"
+    },
+    "settings.about": {
+      "text": "Über"
+    },
+    "settings.note": {
+      "text": "Veyora ist eine experimentelle Vorschau — kein geprüftes Sicherheitsprodukt."
+    },
+    "settings.minutes": {
+      "text": "{n, plural, one {# Minute} other {# Minuten}}"
+    },
+    "settings.seconds": {
+      "text": "{n, plural, one {# Sekunde} other {# Sekunden}}"
+    },
+    "about.version": {
+      "text": "Version"
+    },
+    "about.kernel": {
+      "text": "Kernel"
+    },
+    "about.kernelValue": {
+      "text": "Rust → WASM"
+    },
+    "about.kdf": {
+      "text": "KDF"
+    },
+    "about.kdfValue": {
+      "text": "Argon2id + HKDF-SHA-256"
+    },
+    "about.cipher": {
+      "text": "Chiffre"
+    },
+    "about.cipherValue": {
+      "text": "XChaCha20-Poly1305"
+    },
+    "about.signatures": {
+      "text": "Signaturen"
+    },
+    "about.signaturesValue": {
+      "text": "Ed25519"
+    },
+    "about.serverSees": {
+      "text": "Server sieht"
+    },
+    "about.serverSeesValue": {
+      "text": "nur Chiffretext"
+    },
+    "recovery.title": {
+      "text": "Wiederherstellungssatz"
+    },
+    "recovery.sub": {
+      "text": "Base32 · mit Prüfsumme · offline aufbewahren"
+    },
+    "recovery.warnHead": {
+      "text": "Kritisch — vor dem Schließen speichern"
+    },
+    "recovery.warnBody": {
+      "text": "Dieser Satz kann Ihren Tresor ohne das Master-Passwort entschlüsseln. Wer ihn besitzt, besitzt Ihre Daten. Drucken oder notieren Sie ihn, bewahren Sie ihn offline sicher auf und speichern Sie ihn niemals auf diesem Gerät."
+    },
+    "recovery.copyKit": {
+      "text": "Satz kopieren"
+    },
+    "recovery.regenerate": {
+      "text": "Neu generieren"
+    },
+    "recovery.note": {
+      "text": "Wenn Master-Passwort und Satz beide verloren gehen, ist der Tresor dem Design nach nicht wiederherstellbar — es gibt keinen Reset-Pfad."
+    },
+    "toast.copied": {
+      "text": "Kopiert · Zwischenablage wird in {seconds}s geleert"
+    },
+    "toast.copyFail": {
+      "text": "Kopieren in diesem Kontext fehlgeschlagen"
+    },
+    "toast.locked": {
+      "text": "Tresor gesperrt — Schlüsselmaterial genullt"
+    },
+    "toast.created": {
+      "text": "Eintrag verschlüsselt & gespeichert"
+    },
+    "toast.updated": {
+      "text": "Eintrag neu verschlüsselt · Revision {revision}"
+    },
+    "toast.deleted": {
+      "text": "Eintrag gelöscht · Tombstone-Revision erfasst"
+    },
+    "toast.kitRegen": {
+      "text": "Neuer Satz generiert"
+    },
+    "toast.kitSkip": {
+      "text": "Der Satz bleibt über das Schild-Symbol in der Kopfleiste verfügbar"
+    },
+    "toast.exported": {
+      "text": "{count, plural, one {# Eintrag exportiert} other {# Einträge exportiert}}"
+    },
+    "toast.importStub": {
+      "text": "Demo-Build — Import ist ein Stub"
+    },
+    "toast.autolockSet": {
+      "text": "Auto-Sperre auf {n} Min. gesetzt"
+    },
+    "toast.clipSet": {
+      "text": "Zwischenablage wird nach {n}s geleert"
+    },
+    "toast.conflict": {
+      "text": "Revisionskonflikt — der Datensatz wurde anderweitig geändert"
+    },
+    "toast.syncFailed": {
+      "text": "Synchronisierung fehlgeschlagen — API-Verbindung prüfen"
+    },
+    "entry.recover.errKitInvalid": {
+      "text": "Dieser Wiederherstellungssatz ist ungültig."
+    },
+    "settings.resetVault": {
+      "text": "Lokalen Tresor zurücksetzen"
+    },
+    "settings.resetVaultSub": {
+      "text": "Löscht die Gerätemetadaten für einen Neustart — Serverdaten bleiben erhalten"
+    },
+    "settings.resetVaultBtn": {
+      "text": "Zurücksetzen"
+    },
+    "settings.resetVaultConfirm": {
+      "text": "Zum Bestätigen erneut tippen"
+    },
+    "toast.renderError": {
+      "text": "Beim Rendern dieser Ansicht ist ein Problem aufgetreten"
+    },
+    "settings.changePw": {
+      "text": "Master-Passwort ändern"
+    },
+    "settings.changePwSub": {
+      "text": "Verschlüsselt alle Datensätze mit einem neuen Schlüssel"
+    },
+    "settings.changePwBtn": {
+      "text": "Ändern"
+    },
+    "settings.changePwCurrent": {
+      "text": "Aktuelles Master-Passwort"
+    },
+    "toast.passwordChanged": {
+      "text": "Master-Passwort geändert — alle Datensätze neu verschlüsselt"
+    },
+    "toast.importBadCsv": {
+      "text": "Die CSV-Datei entspricht nicht dem erwarteten Format"
+    },
+    "toast.imported": {
+      "plural": {
+        "one": "# Eintrag importiert",
+        "other": "# Einträge importiert"
+      }
+    },
+    "health.reused": {
+      "text": "Wiederverwendetes Passwort"
+    },
+    "health.stale": {
+      "text": "Veraltetes Passwort"
+    },
+    "health.reusedCount": {
+      "plural": {
+        "one": "{count} wiederverwendet",
+        "other": "{count} wiederverwendet"
+      }
+    },
+    "health.staleCount": {
+      "plural": {
+        "one": "{count} veraltet",
+        "other": "{count} veraltet"
+      }
+    },
+    "drawer.totp": {
+      "text": "Authenticator-Code"
+    },
+    "field.totpSecret": {
+      "text": "TOTP-Geheimnis (Base32)"
+    },
+    "ph.totpSecret": {
+      "text": "z. B. JBSWY3DPEHPK3PXP"
+    },
+    "nav.trash": {
+      "text": "Papierkorb"
+    },
+    "nav.activeFilters": {
+      "text": "Aktive Filter"
+    },
+    "table.trashEmpty": {
+      "text": "Papierkorb ist leer"
+    },
+    "action.restore": {
+      "text": "Wiederherstellen"
+    },
+    "toast.restored": {
+      "text": "Eintrag wiederhergestellt"
+    },
+    "apiError.default": {
+      "text": "Ein Fehler ist aufgetreten. Ihre letzte Änderung wurde möglicherweise nicht gespeichert."
+    },
+    "apiError.PM-STORE-NOT-FOUND": {
+      "text": "Datensatz nicht gefunden."
+    },
+    "apiError.PM-STORE-CONFLICT": {
+      "text": "Revisionskonflikt: der Datensatz wurde anderweitig geändert."
+    },
+    "apiError.PM-STORE-INVALID-RECORD": {
+      "text": "Ungültiger Datensatz."
+    },
+    "apiError.PM-STORE-UNAVAILABLE": {
+      "text": "Speicher-Backend nicht verfügbar."
+    },
+    "apiError.PM-API-ROUTE-MISMATCH": {
+      "text": "Pfad- und Body-Datensatz-IDs unterscheiden sich."
+    },
+    "apiError.PM-API-BAD-BODY": {
+      "text": "Anfragekörper konnte nicht geparst werden."
+    },
+    "apiError.PM-API-BAD-QUERY": {
+      "text": "Abfragezeichenfolge konnte nicht geparst werden."
+    },
+    "apiError.PM-API-BODY-TOO-LARGE": {
+      "text": "Anfragekörper überschreitet das konfigurierte Limit."
+    },
+    "apiError.PM-API-UNAUTHORIZED": {
+      "text": "Fehlendes oder ungültiges Bearer-Token."
+    },
+    "apiError.PM-API-RATE-LIMITED": {
+      "text": "Zu viele Anfragen; bitte später erneut versuchen."
+    },
+    "apiError.PM-NETWORK-UNREACHABLE": {
+      "text": "Der Server ist nicht erreichbar."
+    },
+    "entry.welcome.what": {
+      "text": "Veyora speichert deine Passwörter und privaten Notizen in einem verschlüsselten Tresor, der durch dein Master-Passwort geschützt ist."
+    },
+    "entry.welcome.vault": {
+      "text": "Ein Tresor ist der verschlüsselte Behälter für deine Einträge. Ver- und Entschlüsselung erfolgen in dieser App; der Dienst speichert nur Chiffretext."
+    },
+    "entry.welcome.mode": {
+      "text": "Modus: verbundener Tresor — Einträge werden auf diesem Gerät verschlüsselt und mit deinem Veyora-Dienst synchronisiert."
+    },
+    "entry.create.beforeTitle": {
+      "text": "Bevor du fortfährst"
+    },
+    "entry.create.explainStorage": {
+      "text": "Speicherung: Einträge werden in diesem Browser verschlüsselt und als Chiffretext auf dem verbundenen Veyora-Dienst gespeichert."
+    },
+    "entry.create.explainPassword": {
+      "text": "Passwort: mindestens {min} Zeichen. Länge ist wichtiger als Sonderzeichen."
+    },
+    "entry.create.explainScreening": {
+      "text": "Prüfung häufiger Passwörter: Veyora vergleicht dein Passwort auf diesem Gerät mit einer kleinen eingebauten Liste. Es wird nie gesendet."
+    },
+    "entry.create.errCommon": {
+      "text": "Dieses Passwort basiert auf einem sehr häufigen. Verlängere es mit Wörtern, die nur du kombinierst."
+    },
+    "entry.create.explainRecovery": {
+      "text": "Wiederherstellung: In dieser Vorschau gibt es keinen Wiederherstellungsweg. Vergisst du dieses Passwort, lässt sich der Tresor nicht wieder öffnen."
+    },
+    "entry.create.explainBackup": {
+      "text": "Backups: Verschlüsselte Backups sind in dieser Vorschau nicht verfügbar. CSV-Exporte sind unverschlüsselt und keine Backups."
+    },
+    "modal.savedTitle": {
+      "text": "Gespeichert"
+    },
+    "modal.savedBody": {
+      "text": "{name} ist verschlüsselt und gespeichert."
+    },
+    "modal.savedBack": {
+      "text": "Zurück zum Tresor"
+    },
+    "modal.savedCopy": {
+      "text": "Geheimnis kopieren"
+    },
+    "modal.savedAdd": {
+      "text": "Weiteren Eintrag hinzufügen"
+    },
+    "settings.trashRetention": {
+      "text": "Aufbewahrungswunsch für den Papierkorb"
+    },
+    "settings.trashRetentionSub": {
+      "text": "Bevorzugte Aufbewahrungsdauer; automatisches Löschen ist in dieser Vorschau nicht verfügbar"
+    },
+    "settings.days": {
+      "text": "{n, plural, one {# Tag} other {# Tage}}"
+    },
+    "toast.trashSet": {
+      "text": "Aufbewahrungswunsch für den Papierkorb auf {n} Tage gesetzt"
+    },
+    "help.title": {
+      "text": "Hilfe"
+    },
+    "help.sub": {
+      "text": "Womit möchtest du beginnen?"
+    },
+    "help.getStart": {
+      "text": "Erste Schritte"
+    },
+    "help.getStartSub": {
+      "text": "Speichere deinen ersten Login, finde ihn und kopiere ihn"
+    },
+    "help.recovery": {
+      "text": "Wiederherstellung verstehen"
+    },
+    "help.recoverySub": {
+      "text": "Wiederherstellung ist in dieser Vorschau nicht verfügbar; bei Verlust des Master-Passworts kann dieser Tresor nicht erneut geöffnet werden"
+    },
+    "help.backup": {
+      "text": "Verschlüsseltes Backup erstellen"
+    },
+    "help.backupSub": {
+      "text": "Verschlüsselte Backups sind in dieser Vorschau nicht verfügbar; ein unverschlüsselter CSV-Export ist kein Backup"
+    },
+    "help.restore": {
+      "text": "Verschlüsseltes Backup wiederherstellen"
+    },
+    "help.restoreSub": {
+      "text": "Die Backup-Wiederherstellung ist in dieser Vorschau nicht verfügbar; CSV-Import importiert nur Einträge"
+    },
+    "help.connect": {
+      "text": "Mit einem Dienst verbinden"
+    },
+    "help.connectSub": {
+      "text": "Diese Web-Vorschau verwendet bereits den konfigurierten Veyora-Dienst; eine geprüfte Kopplung ist noch nicht verfügbar"
+    },
+    "help.troubleshoot": {
+      "text": "Fehlerbehebung"
+    },
+    "help.troubleshootSub": {
+      "text": "Version, Speicherdetails und Einstellungen findest du in den Einstellungen"
+    },
+    "help.report": {
+      "text": "Sicherheitsproblem melden"
+    },
+    "help.reportSub": {
+      "text": "Melde dich privat über die Security-Richtlinie im Veyora-Repository"
+    },
+    "help.openAction": {
+      "text": "Öffnen"
+    },
+    "startHere.title": {
+      "text": "Hier starten"
+    },
+    "startHere.sub": {
+      "text": "Ein paar schnelle Schritte, um Ihren Tresor vorzubereiten."
+    },
+    "startHere.firstItem": {
+      "text": "Ersten Login hinzufügen oder Einträge importieren"
+    },
+    "startHere.copyReveal": {
+      "text": "Ein Geheimnis kopieren oder anzeigen"
+    },
+    "startHere.lock": {
+      "text": "Tresor sperren, wenn Sie den Computer verlassen"
+    },
+    "startHere.recovery": {
+      "text": "Wiederherstellungsmaterial bestätigen"
+    },
+    "startHere.backup": {
+      "text": "Verschlüsseltes Backup erstellen"
+    },
+    "startHere.unavailable": {
+      "text": "In dieser Vorschau noch nicht verfügbar."
+    },
+    "startHere.done": {
+      "text": "Erledigt"
+    },
+    "startHere.allDone": {
+      "text": "Alles bereit. Sie können diese Checkliste jederzeit über die Hilfe erneut öffnen."
+    },
+    "startHere.hide": {
+      "text": "Diese Checkliste ausblenden"
+    },
+    "shortcuts.title": {
+      "text": "Tastenkombinationen"
+    },
+    "shortcuts.sub": {
+      "text": "Tastenkombinationen werden nie ausgelöst, während Sie in einem Feld tippen."
+    },
+    "shortcuts.search": {
+      "text": "Suchfeld fokussieren"
+    },
+    "shortcuts.newItem": {
+      "text": "Neuen Eintrag erstellen"
+    },
+    "shortcuts.generator": {
+      "text": "Passwortgenerator öffnen"
+    },
+    "shortcuts.lockAction": {
+      "text": "Tresor sperren"
+    },
+    "shortcuts.nav": {
+      "text": "In der Eintragsliste nach oben und unten bewegen"
+    },
+    "shortcuts.open": {
+      "text": "Ausgewählten Eintrag öffnen"
+    },
+    "shortcuts.escape": {
+      "text": "Suche löschen oder Dialoge schließen"
+    },
+    "shortcuts.searchNote": {
+      "text": "Die Suche läuft nur auf diesem Gerät. Sie umfasst Name, Benutzername, Website, Dienst, Host, Notizen, Geheimnis und Eintragstyp und sendet Ihre Suchanfrage nie an den Dienst."
+    },
+    "help.shortcuts": {
+      "text": "Tastenkombinationen verwenden"
+    },
+    "help.shortcutsSub": {
+      "text": "Alle Kombinationen an einem Ort sehen."
+    },
+    "help.startHere": {
+      "text": "Checkliste „Hier starten“ öffnen"
+    },
+    "help.startHereSub": {
+      "text": "Die Checkliste für den Einstieg erneut öffnen."
+    },
+    "settings.backup": {
+      "text": "Verschlüsseltes Backup erstellen"
+    },
+    "settings.backupSub": {
+      "text": "Portabel und verschlüsselt — stellt sich auf jedem Gerät mit Ihrem Master-Passwort wieder her"
+    },
+    "settings.backupBtn": {
+      "text": "Backup erstellen"
+    },
+    "settings.backupUnavailable": {
+      "text": "Verschlüsselte Backups sind in dieser Vorschau noch nicht verfügbar"
+    },
+    "export.title": {
+      "text": "Daten im Klartext exportieren"
+    },
+    "export.notEncrypted": {
+      "text": "Nicht verschlüsselt"
+    },
+    "export.warning": {
+      "text": "Jeder, der diese Datei öffnen kann — Personen, andere Apps, Backups oder Cloud-Sync —, kann jedes exportierte Geheimnis lesen."
+    },
+    "export.passwordLabel": {
+      "text": "Master-Passwort"
+    },
+    "export.passwordHelp": {
+      "text": "Gib dein Master-Passwort erneut ein, um diesen Export zu bestätigen."
+    },
+    "export.ack": {
+      "text": "Ich verstehe, dass diese Datei nicht verschlüsselt ist und jeder mit Zugriff darauf meine Geheimnisse lesen kann."
+    },
+    "export.btn": {
+      "text": "Im Klartext exportieren"
+    },
+    "export.needAck": {
+      "text": "Bestätige, dass du die Warnung verstanden hast, bevor du exportierst."
+    },
+    "export.needPassword": {
+      "text": "Gib dein Master-Passwort ein, um fortzufahren."
+    },
+    "export.wrongPassword": {
+      "text": "Falsches Master-Passwort. Es wurde nichts exportiert."
+    },
+    "export.failed": {
+      "text": "Export fehlgeschlagen. Es wurde keine Datei erstellt."
+    },
+    "export.doneTitle": {
+      "text": "Export abgeschlossen"
+    },
+    "export.doneBody": {
+      "text": "{file} enthält {count, plural, one {# Eintrag} other {# Einträge}} im Klartext."
+    },
+    "export.includes": {
+      "text": "Enthalten"
+    },
+    "export.includesList": {
+      "text": "Name, Typ, Website, Benutzername, Passwort oder Geheimnis, Notizen"
+    },
+    "export.omitted": {
+      "text": "Nicht enthalten"
+    },
+    "export.omittedList": {
+      "text": "TOTP-Seeds, Favoriten, eigene Metadaten"
+    },
+    "export.guidance": {
+      "text": "Verschiebe die Datei in einen sicheren Speicher oder lösche sie, sobald du fertig bist. Sende sie nicht per E-Mail und lade sie nicht in einen Cloud-Dienst hoch."
+    },
+    "export.doneClose": {
+      "text": "Fertig"
+    },
+    "field.nameHint": {
+      "text": "Der Name dient nur der Wiedererkennung — etwas, wonach du später suchst, wie GitHub - Work."
+    },
+    "modal.moreFields": {
+      "text": "Weitere Felder"
+    },
+    "modal.fewerFields": {
+      "text": "Weniger Felder"
+    },
+    "field.totpHint": {
+      "text": "Füge die otpauth://-URI oder das Base32-Geheimnis aus deinem Dienst oder deiner Authenticator-App ein. Leerzeichen und Bindestriche werden ignoriert."
+    },
+    "field.totpErrUri": {
+      "text": "Dieser otpauth://-URI enthält kein gültiges Base32-Geheimnis."
+    },
+    "field.totpErrType": {
+      "text": "Für Authenticator-Codes werden nur otpauth://totp/-URIs unterstützt."
+    },
+    "field.totpErrBase32": {
+      "text": "TOTP-Geheimnisse verwenden nur Base32-Buchstaben A–Z und Ziffern 2–7."
+    },
+    "entry.routes.step": {
+      "text": "Willkommen"
+    },
+    "entry.routes.title": {
+      "text": "Wie möchtest du beginnen?"
+    },
+    "entry.routes.sub": {
+      "text": "Veyora bewahrt deine Passwörter in einem verschlüsselten Tresor. Wähle einen Weg zum Start."
+    },
+    "entry.routes.create": {
+      "text": "Neuen Tresor erstellen"
+    },
+    "entry.routes.createSub": {
+      "text": "Leer beginnen und dein erstes Login hinzufügen."
+    },
+    "entry.routes.open": {
+      "text": "Vorhandenen Tresor öffnen"
+    },
+    "entry.routes.openSub": {
+      "text": "Einen Tresor entsperren, der diesem Gerät bekannt ist."
+    },
+    "entry.routes.import": {
+      "text": "Aus einem anderen Passwort-Manager importieren"
+    },
+    "entry.routes.importSub": {
+      "text": "Tresor erstellen und deinen CSV-Export übernehmen."
+    },
+    "entry.routes.connect": {
+      "text": "Erweitert: mit einem selbst gehosteten Server verbinden"
+    },
+    "entry.routes.connectSub": {
+      "text": "Bei einem selbst betriebenen Veyora-Dienst anmelden."
+    },
+    "entry.routes.openNote": {
+      "text": "Auf diesem Gerät ist noch kein Tresor bekannt. Erstelle einen neuen Tresor, importiere deine Daten oder verbinde dich mit einem Dienst."
+    },
+    "entry.routes.importNote": {
+      "text": "Lege zuerst dein Master-Passwort fest — der Import folgt sofort nach dem Öffnen des Tresors."
+    },
+    "entry.routes.back": {
+      "text": "Zurück"
+    },
+    "connect.tag": {
+      "text": "Verbundener Modus"
+    },
+    "connect.title": {
+      "text": "Verbinden / Anmelden"
+    },
+    "connect.sub": {
+      "text": "Dieser Veyora-Dienst erfordert eine verbundene Sitzung, bevor ein Tresor erstellt oder entsperrt werden kann."
+    },
+    "connect.urlLabel": {
+      "text": "Dienst-URL"
+    },
+    "connect.tokenLabel": {
+      "text": "Verbindungstoken"
+    },
+    "connect.tokenPh": {
+      "text": "Token vom Betreiber einfügen"
+    },
+    "connect.tokenHelp": {
+      "text": "Gib die Verbindungsberechtigung deines Dienstbetreibers ein. Volles Geräte-Pairing kommt mit dem verbundenen Modus."
+    },
+    "connect.btn": {
+      "text": "Verbinden"
+    },
+    "connect.errEmpty": {
+      "text": "Gib die Dienst-URL und den Verbindungstoken ein."
+    },
+    "connect.errWrong": {
+      "text": "Der Dienst hat diesen Verbindungstoken abgelehnt."
+    },
+    "connect.errUnreachable": {
+      "text": "Der Dienst ist unter dieser Adresse nicht erreichbar."
+    },
+    "field.errNameRequired": {
+      "text": "Gib diesem Eintrag einen Namen, damit du ihn später wiedererkennst — z. B. GitHub - Work."
+    },
+    "field.errSecretRequired": {
+      "text": "Fülle dieses Pflichtfeld vor dem Speichern aus, oder erzeuge einen Wert mit Generieren."
+    },
+    "modal.errSummaryTitle": {
+      "text": "Behebe vor dem Speichern die markierten Felder:"
+    },
+    "toast.clipboardCleared": {
+      "text": "Zwischenablage geleert."
+    },
+    "toast.clipboardClearFailed": {
+      "text": "Zwischenablage konnte nicht geleert werden — eventuell wird sie von einer anderen App verwendet."
+    },
+    "save.statusTitle": {
+      "text": "Noch nicht gespeichert"
+    },
+    "save.statusNetwork": {
+      "text": "Der Tresor wurde nicht geändert — der Dienst ist nicht erreichbar. Deine Eingabe bleibt hier erhalten; versuche es erneut, sobald du wieder online bist."
+    },
+    "save.statusConflict": {
+      "text": "Dieser Eintrag wurde auf einem anderen Gerät geändert, nachdem du mit der Bearbeitung begonnen hast; deine Änderung wurde nicht gespeichert. Deine Eingaben bleiben hier erhalten. Lade die neueste Version, um von ihr auszusteigen — das Ersetzen ersetzt die Eingaben in diesem Formular."
+    },
+    "save.statusOther": {
+      "text": "Der Tresor wurde nicht geändert — das Speichern wurde abgelehnt: {message}. Deine Eingabe bleibt hier erhalten; prüfe den Eintrag und versuche es erneut."
+    },
+    "save.statusRetry": {
+      "text": "Speichern wiederholen"
+    },
+    "save.statusReload": {
+      "text": "Neueste Version laden"
+    },
+    "modal.savedSync": {
+      "text": "Mit dem Dienst synchronisiert — Revision {revision}."
+    },
+    "modal.savedPending": {
+      "text": "Auf diesem Gerät gespeichert — noch nicht beim Dienst. Wird automatisch synchronisiert, sobald die Verbindung wieder funktioniert."
+    },
+    "modal.savedPendingDesktop": {
+      "text": "Auf diesem Gerät gespeichert — der lokale Tresor hat nicht geantwortet. Er wird automatisch gespeichert, sobald er wieder erreichbar ist."
+    },
+    "modal.syncNow": {
+      "text": "Jetzt synchronisieren"
+    },
+    "modal.syncNowDesktop": {
+      "text": "Erneut speichern"
+    },
+    "table.pendingSync": {
+      "text": "Synchronisierung ausstehend"
+    },
+    "table.pendingSyncDesktop": {
+      "text": "Speichern ausstehend"
+    },
+    "settings.diagnostics": {
+      "text": "Diagnose"
+    },
+    "diag.version": {
+      "text": "Version"
+    },
+    "diag.build": {
+      "text": "Build-Commit"
+    },
+    "diag.buildNotStamped": {
+      "text": "In diesem Image nicht hinterlegt"
+    },
+    "diag.mode": {
+      "text": "Modus"
+    },
+    "diag.modeValue": {
+      "text": "Verbundener Tresor"
+    },
+    "diag.modeValueDesktop": {
+      "text": "Lokaler Tresor auf diesem Gerät"
+    },
+    "diag.storage": {
+      "text": "Speicher"
+    },
+    "diag.storageValue": {
+      "text": "Verschlüsselte Einträge auf {host}"
+    },
+    "diag.storageValueDesktop": {
+      "text": "Verschlüsselter Tresor auf diesem Gerät gespeichert"
+    },
+    "diag.storageUnknown": {
+      "text": "Dienststandort nicht verfügbar"
+    },
+    "diag.health": {
+      "text": "Dienststatus"
+    },
+    "diag.healthChecking": {
+      "text": "Prüfen…"
+    },
+    "diag.healthOk": {
+      "text": "Erreichbar"
+    },
+    "diag.healthUnhealthy": {
+      "text": "Antwortet mit einem Fehler"
+    },
+    "diag.healthUnreachable": {
+      "text": "Nicht erreichbar"
+    },
+    "diag.lastSync": {
+      "text": "Letzte Synchronisierung"
+    },
+    "diag.lastSyncDesktop": {
+      "text": "Zuletzt gespeichert"
+    },
+    "diag.syncNone": {
+      "text": "Noch nicht synchronisiert"
+    },
+    "diag.syncNoneDesktop": {
+      "text": "Noch nichts gespeichert"
+    },
+    "diag.backup": {
+      "text": "Letzte geprüfte Sicherung"
+    },
+    "diag.backupNone": {
+      "text": "In dieser Vorschau nicht verfügbar"
+    },
+    "diag.bundle": {
+      "text": "Support-Paket"
+    },
+    "diag.bundleSub": {
+      "text": "Opt-in und geschwärzt: erstellt eine Diagnoseübersicht, die Sie vor dem Kopieren prüfen. Es wird niemals automatisch etwas hochgeladen."
+    },
+    "diag.bundleBtn": {
+      "text": "Support-Paket erstellen"
+    },
+    "diag.bundleTitle": {
+      "text": "Vorschau des Support-Pakets"
+    },
+    "diag.bundleIntro": {
+      "text": "Prüfen Sie das Paket unten — es enthält keine Geheimnisse. Veyora lädt es nie hoch; das Kopieren ist Ihre Entscheidung."
+    },
+    "diag.bundleCopy": {
+      "text": "Pakettext kopieren"
+    },
+    "diag.bundleCopied": {
+      "text": "Support-Paket kopiert"
+    },
+    "nav.tags": {
+      "text": "Schlagwörter"
+    },
+    "field.tags": {
+      "text": "Schlagwörter"
+    },
+    "ph.tags": {
+      "text": "Arbeit, Infrastruktur"
+    },
+    "field.tagsHint": {
+      "text": "Trenne Schlagwörter mit Kommas; sie bleiben auf diesem Gerät und helfen beim Filtern."
+    },
+    "tags.filterLabel": {
+      "text": "Nach Schlagwort filtern:"
+    },
+    "tags.none": {
+      "text": "Noch keine Einträge mit Schlagwörtern. Füge sie beim Anlegen unter „Weitere Felder“ hinzu."
+    },
+    "resetMatrix.title": {
+      "text": "Zurücksetzen — wählen Sie genau, was gelöscht wird"
+    },
+    "resetMatrix.prefsTitle": {
+      "text": "Geräteeinstellungen"
+    },
+    "resetMatrix.prefsSub": {
+      "text": "Löscht auf diesem Gerät gespeicherte Einstellungen für Design, Sprache, Papierkorb-Aufbewahrung und Checkliste. Ihr Tresor und seine Daten beim Dienst bleiben unberührt."
+    },
+    "resetMatrix.prefsBtn": {
+      "text": "Einstellungen löschen"
+    },
+    "resetMatrix.prefsConfirm": {
+      "text": "Einstellungen auf diesem Gerät löschen?"
+    },
+    "resetMatrix.prefsDone": {
+      "text": "Einstellungen gelöscht — beim nächsten Start von Veyora gelten die Standardwerte"
+    },
+    "resetMatrix.disconnectTitle": {
+      "text": "Gespeicherte Dienstverbindung"
+    },
+    "resetMatrix.disconnectSub": {
+      "text": "Vergisst die auf diesem Gerät gespeicherte Dienstadresse und das Verbindungstoken. Es werden keine Tresordaten gelöscht."
+    },
+    "resetMatrix.disconnectBtn": {
+      "text": "Verbindung vergessen"
+    },
+    "resetMatrix.disconnectConfirm": {
+      "text": "Die gespeicherte Dienstverbindung vergessen?"
+    },
+    "resetMatrix.disconnectDone": {
+      "text": "Gespeicherte Verbindung gelöscht — gilt beim nächsten Start von Veyora"
+    },
+    "resetMatrix.localTitle": {
+      "text": "Dieser Tresor auf diesem Gerät"
+    },
+    "resetMatrix.localSub": {
+      "text": "Entfernt diesen Tresor von diesem Gerät, einschließlich offline vorgemerkter Schreibvorgänge. Die verschlüsselte Kopie beim Dienst bleibt, ist von diesem Gerät aber nie wieder erreichbar."
+    },
+    "resetMatrix.localBtn": {
+      "text": "Von diesem Gerät entfernen"
+    },
+    "resetMatrix.localConfirm": {
+      "text": "Von diesem Gerät entfernen? Die Kopie beim Dienst wird unzugänglich"
+    },
+    "resetMatrix.everywhereTitle": {
+      "text": "Tresor überall"
+    },
+    "resetMatrix.everywhereSub": {
+      "text": "Löscht zuerst jeden Eintrag dieses Tresors beim Dienst und entfernt dann den Tresor von diesem Gerät. Dies kann nicht rückgängig gemacht werden."
+    },
+    "resetMatrix.everywhereBtn": {
+      "text": "Überall löschen"
+    },
+    "resetMatrix.everywhereConfirm": {
+      "text": "Überall löschen? Kann nicht rückgängig gemacht werden"
+    },
+    "resetMatrix.everywhereDone": {
+      "text": "Tresor gelöscht — {count} Eintrag/Einträge vom Dienst und diesem Gerät entfernt"
+    },
+    "resetMatrix.everywhereFailed": {
+      "text": "Das Löschen beim Dienst ist fehlgeschlagen — auf diesem Gerät wurde nichts entfernt"
+    },
+    "settings.changePwNew": {
+      "text": "Neues Master-Passwort"
+    },
+    "settings.changePwConfirm": {
+      "text": "Neues Master-Passwort wiederholen"
+    },
+    "settings.changePwErrLength": {
+      "text": "Verwenden Sie mindestens {min} Zeichen."
+    },
+    "settings.changePwErrCommon": {
+      "text": "Dieses Passwort besteht aus sehr häufigem Material und wird lokal abgelehnt."
+    },
+    "settings.changePwErrMismatch": {
+      "text": "Die neuen Passwörter stimmen nicht überein."
+    },
+    "settings.changePwErrWrong": {
+      "text": "Das aktuelle Master-Passwort ist falsch — nichts wurde geändert."
+    },
+    "settings.changePwErrPending": {
+      "text": "Offline-Schreibvorgänge stehen noch aus — synchronisieren Sie mit dem Dienst, bevor Sie das Passwort ändern."
+    },
+    "settings.changePwDone": {
+      "text": "Master-Passwort geändert — jeder Eintrag wurde unter dem neuen Schlüssel neu verschlüsselt."
+    },
+    "backup.title": {
+      "text": "Verschlüsseltes Backup erstellen"
+    },
+    "backup.body": {
+      "text": "Die Datei enthält jeden Eintrag dieses Tresors, verschlüsselt mit Ihrem Master-Passwort über einen nur für dieses Backup abgeleiteten Schlüssel. Sie lässt sich auf jedem Gerät wiederherstellen; ohne das Master-Passwort ist der Inhalt für niemanden wiederherstellbar."
+    },
+    "backup.passwordLabel": {
+      "text": "Master-Passwort"
+    },
+    "backup.passwordHelp": {
+      "text": "Geben Sie Ihr Master-Passwort erneut ein, um das Backup zu versiegeln."
+    },
+    "backup.btn": {
+      "text": "Backup erstellen"
+    },
+    "backup.doneTitle": {
+      "text": "Verschlüsseltes Backup gespeichert"
+    },
+    "backup.doneBody": {
+      "text": "Die Datei enthält {count} Eintrag/Einträge, Ende-zu-Ende verschlüsselt."
+    },
+    "backup.doneLocked": {
+      "text": "Bewahren Sie Datei und Master-Passwort sicher zusammen auf — nur dieses Passwort öffnet die Datei."
+    },
+    "backup.errEmpty": {
+      "text": "Geben Sie das Master-Passwort ein."
+    },
+    "backup.errWrong": {
+      "text": "Dieses Passwort öffnet weder diesen Tresor noch dieses Backup — es wurde nichts erstellt."
+    },
+    "backup.errFailed": {
+      "text": "Das Backup konnte nicht erstellt werden — es wurde nichts heruntergeladen."
+    },
+    "backup.errFormat": {
+      "text": "Diese Datei ist kein verschlüsseltes Veyora-Backup."
+    },
+    "backup.restoreBtn": {
+      "text": "Backup wiederherstellen"
+    },
+    "backup.restoreBody": {
+      "text": "Die ausgewählte Sicherung enthält {count} Eintrag/Einträge. Geben Sie das Master-Passwort ein, mit dem sie versiegelt wurde, um sie zu entschlüsseln und in diesen Tresor zusammenzuführen."
+    },
+    "backup.restoreHelp": {
+      "text": "Bestehende Einträge werden nie überschrieben: Eine wiederhergestellte ID, die bereits existiert, wird unter einer neuen ID importiert."
+    },
+    "backup.restoreDone": {
+      "text": "{count} Eintrag/Einträge in diesen Tresor wiederhergestellt."
+    },
+    "settings.restoreBtn": {
+      "text": "Backup wiederherstellen"
+    },
+    "entry.recover.link": {
+      "text": "Mit Wiederherstellungsschlüssel wiederherstellen"
+    },
+    "entry.recover.kitPlaceholder": {
+      "text": "xxxxx-xxxxx-xxxxx-… (12 Gruppen à 5)"
+    },
+    "entry.recover.newLabel": {
+      "text": "Neues Master-Passwort"
+    },
+    "entry.recover.confirmLabel": {
+      "text": "Neues Master-Passwort wiederholen"
+    },
+    "entry.recover.errFailed": {
+      "text": "Wiederherstellung fehlgeschlagen — der Tresor wurde nicht geändert. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut."
+    },
+    "settings.regenTitle": {
+      "text": "Wiederherstellungsschlüssel"
+    },
+    "settings.regenSub": {
+      "text": "Erzeugt einen neuen Wiederherstellungsschlüssel; der vorherige funktioniert sofort nicht mehr"
+    },
+    "settings.regenBtn": {
+      "text": "Neu generieren"
+    },
+    "regen.title": {
+      "text": "Wiederherstellungsschlüssel neu generieren"
+    },
+    "regen.sub": {
+      "text": "Ein neuer Wiederherstellungsschlüssel wird erzeugt, der vorherige widerrufen, und ein verifiziertes verschlüsseltes Backup wird im selben Schritt erstellt. Speichern Sie den neuen Schlüssel, bevor Sie diesen Dialog schließen."
+    },
+    "regen.btn": {
+      "text": "Schlüssel neu generieren"
+    },
+    "regen.doneTitle": {
+      "text": "Neuer Wiederherstellungsschlüssel aktiv"
+    },
+    "regen.doneConsequence": {
+      "text": "Der vorherige Wiederherstellungsschlüssel öffnet diesen Tresor nicht mehr. Ein verifiziertes verschlüsseltes Backup jedes Eintrags wurde mit diesem Schlüssel heruntergeladen."
+    },
+    "regen.kitLabel": {
+      "text": "Ihr neuer Wiederherstellungsschlüssel — jetzt speichern"
+    },
+    "regen.verified": {
+      "text": "Die heruntergeladene Sicherung wurde Ende-zu-Ende verifiziert, bevor dieser Dialog Erfolg meldete."
+    },
+    "settings.kitBtn": {
+      "text": "Ansehen / prüfen"
+    },
+    "kit.title": {
+      "text": "Ihr Wiederherstellungsschlüssel"
+    },
+    "kit.sub": {
+      "text": "Dieser Schlüssel ist der einzige Weg zurück in Ihren Tresor, wenn das Master-Passwort verloren geht. Speichern Sie ihn jetzt — Veyora kann ihn nicht für Sie wiederherstellen."
+    },
+    "kit.label": {
+      "text": "Wiederherstellungsschlüssel (71 Zeichen)"
+    },
+    "kit.help": {
+      "text": "Schreiben Sie ihn auf oder speichern Sie ihn in einem anderen Passwort-Manager — nicht in diesem Tresor."
+    },
+    "kit.copy": {
+      "text": "Schlüssel kopieren"
+    },
+    "kit.copied": {
+      "text": "Wiederherstellungsschlüssel kopiert — bewahren Sie ihn sicher auf"
+    },
+    "kit.verifyLabel": {
+      "text": "Geben Sie den Schlüssel erneut ein, um zu beweisen, dass Sie ihn gespeichert haben"
+    },
+    "kit.verifyBtn": {
+      "text": "Gespeicherten Schlüssel prüfen"
+    },
+    "kit.later": {
+      "text": "Später prüfen"
+    },
+    "kit.errMismatch": {
+      "text": "Das stimmt nicht mit dem Wiederherstellungsschlüssel dieses Tresors überein — prüfen Sie Ihre Kopie und versuchen Sie es erneut."
+    },
+    "kit.verified": {
+      "text": "Wiederherstellungsschlüssel verifiziert — er ist korrekt gespeichert"
+    },
+    "trash.purgeBtn": {
+      "text": "{count} Eintrag/Einträge endgültig löschen"
+    },
+    "trash.purgeConfirm": {
+      "text": "{count} Eintrag/Einträge endgültig löschen? Kann nicht rückgängig gemacht werden"
+    },
+    "trash.purgeNote": {
+      "text": "Löscht die verschlüsselten Kopien sofort vom Dienst — vor Ablauf der Aufbewahrungsfrist. Eine spätere Wiederherstellung ist unmöglich."
+    },
+    "trash.purgeDone": {
+      "text": "{count} Eintrag/Einträge endgültig gelöscht"
+    },
+    "table.showMore": {
+      "text": "{count} weitere anzeigen"
+    },
+    "table.windowedCount": {
+      "text": "{shown} von {total} Einträgen werden angezeigt"
+    }
+  }
+}

@@ -29,13 +29,23 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+        with:
+          fetch-depth: 0
       - name: Validate the version tag
         id: version
         env:
           VERSION_INPUT: ${{ inputs.version }}
         run: |
-          if [[ ! "$VERSION_INPUT" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Version must use the vMAJOR.MINOR.PATCH format." >&2
+          expected="$(python3 -c 'import json; print(json.load(open("release/version.json"))["tag"])')"
+          if [[ "$VERSION_INPUT" != "$expected" ]]; then
+            echo "Version must match release/version.json ($expected)." >&2
+            exit 1
+          fi
+          tagged_commit="$(git rev-list -n 1 "$expected" 2>/dev/null || true)"
+          source_commit="$(git rev-parse HEAD)"
+          if [[ -z "$tagged_commit" || "$source_commit" != "$tagged_commit" ]]; then
+            echo "Container releases must build the exact commit named by $expected." >&2
             exit 1
           fi
           echo "version=$VERSION_INPUT" >> "$GITHUB_OUTPUT"
@@ -55,24 +65,33 @@ jobs:
           - image: veyora-envoy
             base_image: envoyproxy/envoy:v1.31.10@sha256:caa5b411be1633b90023592a34a7e010c933d6e60206c758f631485e53006865
           - image: veyora-rust
-            base_image: rust:1.93.1-slim@sha256:c0a38f5662afdb298898da1d70b909af4bda4e0acff2dc52aea6360a9b9c6956
+            base_image: rust:1.93.1-slim-bookworm@sha256:8f8609d448e821fbc0e44241bc5ca4ce49663cc6306ff1a17f655a0e2a7cd084
           - image: veyora-debian
             base_image: debian:bookworm-slim@sha256:abd67ffcfa541b485a3dff59865ab629aa048a6c613e639d36e7456b0b229241
     steps:
-      - uses: actions/checkout@v7
-      - uses: docker/setup-qemu-action@v4
-      - uses: docker/setup-buildx-action@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # docker/setup-buildx-action@v4
       - name: Authenticate to GitHub Container Registry
-        uses: docker/login-action@v4
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Refuse to overwrite an existing release tag
+        env:
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          ref="$REGISTRY/$IMAGE_NAMESPACE/${{ matrix.image }}:$VERSION"
+          if docker buildx imagetools inspect "$ref" >/dev/null 2>&1; then
+            echo "$ref already exists; release tags are immutable." >&2
+            exit 1
+          fi
       - name: Publish the multi-platform foundation
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # docker/build-push-action@v7
         with:
           context: .
-          file: docker/Dockerfile.mirror
+          file: deploy/containers/mirror/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           provenance: false
@@ -97,58 +116,67 @@ jobs:
         include:
           - image: veyora-api
             context: .
-            file: backend/Dockerfile.api
+            file: deploy/containers/api/Dockerfile
             build_args: |
               RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
               DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
           - image: veyora-worker
             context: .
-            file: backend/Dockerfile.worker
+            file: deploy/containers/worker/Dockerfile
             build_args: |
               RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
               DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
           - image: veyora-migrator
             context: .
-            file: backend/Dockerfile.migrator
+            file: deploy/containers/migrator/Dockerfile
             build_args: |
               RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
               DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
           - image: veyora-backup
             context: .
-            file: backend/Dockerfile.backup
+            file: deploy/containers/backup/Dockerfile
             build_args: |
               RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
               DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
           - image: veyora-restore
             context: .
-            file: backend/Dockerfile.restore
+            file: deploy/containers/restore/Dockerfile
             build_args: |
               RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
               DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
-          - image: veyora-sandbox
+          - image: veyora-validator
             context: .
-            file: backend/Dockerfile.sandbox
+            file: deploy/containers/validator/Dockerfile
             build_args: |
               RUST_IMAGE=ghcr.io/passion-flow/veyora-rust:__VERSION__
               DEBIAN_IMAGE=ghcr.io/passion-flow/veyora-debian:__VERSION__
           - image: veyora-web
             context: .
-            file: docker/web/Dockerfile
+            file: deploy/web/Dockerfile
             build_args: NGINX_IMAGE=ghcr.io/passion-flow/veyora-nginx:__VERSION__
           - image: veyora-gateway
             context: .
-            file: docker/gateway/Dockerfile
+            file: deploy/gateway/Dockerfile
             build_args: ENVOY_IMAGE=ghcr.io/passion-flow/veyora-envoy:__VERSION__
     steps:
-      - uses: actions/checkout@v7
-      - uses: docker/setup-qemu-action@v4
-      - uses: docker/setup-buildx-action@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # docker/setup-buildx-action@v4
       - name: Authenticate to GitHub Container Registry
-        uses: docker/login-action@v4
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Refuse to overwrite an existing release tag
+        env:
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          ref="$REGISTRY/$IMAGE_NAMESPACE/${{ matrix.image }}:$VERSION"
+          if docker buildx imagetools inspect "$ref" >/dev/null 2>&1; then
+            echo "$ref already exists; release tags are immutable." >&2
+            exit 1
+          fi
       - name: Resolve versioned foundation references
         id: build_args
         env:
@@ -162,7 +190,7 @@ jobs:
             echo 'VEYORA_BUILD_ARGS'
           } >> "$GITHUB_OUTPUT"
       - name: Publish the multi-platform application
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # docker/build-push-action@v7
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
@@ -188,12 +216,12 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: docker/setup-buildx-action@v4
+      - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # docker/setup-buildx-action@v4
       - name: Inspect every public release image without registry credentials
         env:
           VERSION: ${{ needs.validate.outputs.version }}
         run: |
-          images=(postgres nginx envoy rust debian api worker migrator backup restore sandbox web gateway)
+          images=(postgres nginx envoy rust debian api worker migrator backup restore validator web gateway)
           for image in "${images[@]}"; do
             ref="$REGISTRY/$IMAGE_NAMESPACE/veyora-$image:$VERSION"
             manifest="$(docker buildx imagetools inspect "$ref")"

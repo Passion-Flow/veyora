@@ -1,0 +1,117 @@
+{
+  "$schema": "pairing-session-v1.schema.json",
+  "schema_version": 1,
+  "contract_id": "veyora-pairing-session-v1",
+  "status": "proposed-security-review-required",
+  "design_document": "docs/adr/0005-scoped-pairing-session-lifecycle.md",
+  "requirements": [
+    "UX-AUTH-007",
+    "UX-AUTH-008",
+    "API-001",
+    "API-002",
+    "API-003",
+    "DEP-004",
+    "DEP-005"
+  ],
+  "entities": {
+    "principal": {
+      "identity": "principal_id",
+      "provisioning": "operator-created",
+      "multi_tenant": false
+    },
+    "device": {
+      "identity": "principal_id + device_id",
+      "secret": "connection credential"
+    },
+    "session": {
+      "identity": "principal_id + session_id",
+      "state": ["active", "rotating", "revoked", "expired"]
+    }
+  },
+  "deployment_token": {
+    "role": "operator bootstrap and lifecycle management only",
+    "authorizes_record_access": false,
+    "reaches_client": false,
+    "pairing_can_be_disabled": true
+  },
+  "connection_credential": {
+    "entropy_bytes": 32,
+    "source": "operating-system-csprng",
+    "human_derived": false,
+    "transport": "authorization-bearer-over-tls",
+    "server_storage": "salted-hash-constant-time-compare",
+    "plaintext_server_storage": false,
+    "authenticated_context": [
+      "protocol_version",
+      "principal_id",
+      "device_id",
+      "credential_generation",
+      "credential_purpose"
+    ],
+    "credential_purpose": "record-access",
+    "derived_from_master_password": false
+  },
+  "client_storage": {
+    "desktop": "operating-system-credential-store",
+    "web": "https-only-httponly-samesite-strict-session-cookie",
+    "forbidden": [
+      "localStorage-bearer-token",
+      "plaintext-file-beside-vault",
+      "query-parameter"
+    ]
+  },
+  "web_session_cookie": {
+    "http_only": true,
+    "secure": true,
+    "same_site": "Strict",
+    "in_memory_mirror_only": true
+  },
+  "lifecycle": {
+    "pairing": {
+      "code_entropy_bytes": 16,
+      "code_single_use": true,
+      "code_ttl_minutes": 15,
+      "rate_limited": true
+    },
+    "rotation": {
+      "client_initiated": true,
+      "overlap_minutes": 5,
+      "old_generation_dead_after_overlap": true
+    },
+    "revocation": {
+      "actor": ["operator", "client-self"],
+      "immediate": true,
+      "idempotent": true
+    },
+    "expiry": {
+      "absolute_days": 30,
+      "idle_days": 7,
+      "client_recovery": "PM-AUTH-SESSION-EXPIRED re-pairing ceremony"
+    }
+  },
+  "authorization": {
+    "scope_source": "authenticated-session-context-only",
+    "client_side_filtering_as_isolation": false,
+    "cross_scope_access": "forbidden"
+  },
+  "limits": {
+    "rate_limited": ["pairing-attempts", "authenticated-requests"],
+    "bodies_counts_timeouts": "bounded-by-api-contract-API-005"
+  },
+  "error_codes": [
+    "PM-AUTH-PAIRING-INVALID",
+    "PM-AUTH-PAIRING-EXPIRED",
+    "PM-AUTH-CREDENTIAL-REVOKED",
+    "PM-AUTH-SESSION-EXPIRED",
+    "PM-AUTH-RATE-LIMITED"
+  ],
+  "non_enumeration": {
+    "uniform_unauthorized_family": "PM-API-UNAUTHORIZED",
+    "exception": "PM-AUTH-SESSION-EXPIRED for the documented re-pairing ceremony"
+  },
+  "security_review": {
+    "state": "not-reviewed",
+    "reviewer_registry": "contracts/protocol/approved-evidence-reviewers-v1.json",
+    "review_records": []
+  }
+}

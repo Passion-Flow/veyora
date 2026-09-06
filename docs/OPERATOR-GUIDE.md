@@ -10,9 +10,9 @@ a Veyora instance. It assumes Docker Engine with Docker Compose.
 ```bash
 git clone https://github.com/Passion-Flow/veyora.git
 cd veyora
-cp docker/.env.example docker/.env
-# Edit docker/.env with production values (see below)
-cd docker
+cp deploy/compose/.env.example deploy/compose/.env
+# Edit deploy/compose/.env with production values (see below)
+cd deploy/compose
 docker compose up -d
 ```
 
@@ -60,7 +60,7 @@ The web client is available at `http://127.0.0.1:3000` and the API at
 
 ## Operations
 
-All `docker compose` commands below run from the `docker/` directory.
+All `docker compose` commands below run from the `deploy/compose/` directory.
 
 ### Starting and stopping
 
@@ -69,7 +69,11 @@ docker compose up -d          # Start all services
 docker compose ps             # Check status
 docker compose logs -f api    # Follow API logs
 docker compose down           # Stop (preserves data volume)
-docker compose down --volumes # Stop and DELETE data
+make purge-data CONFIRM=destroy-veyora-data
+                              # DESTRUCTIVE (run from the repository root):
+                              # stop and delete the veyora-pg volume (every
+                              # encrypted record); ./backups and files
+                              # outside Compose are not touched
 ```
 
 ### Database migrations
@@ -146,7 +150,7 @@ Recommended alerts:
 ## TLS termination
 
 Summary: mount Let's Encrypt certificates into the Envoy gateway
-container and enable the TLS variables in `docker/.env`
+container and enable the TLS variables in `deploy/compose/.env`
 (see [DEPLOYMENT-TLS.md](DEPLOYMENT-TLS.md) for the complete guide).
 
 ## Troubleshooting
@@ -184,9 +188,11 @@ The default is disabled (development mode).
 
 ### Recovery kit doesn't work
 
-The recovery kit is tied to the vault's encryption key. If the database
-was wiped and recreated, the old kit is invalid. Users need to create
-a new vault.
+The preview does not implement a Recovery Key that unwraps the existing Vault
+Key. Recovery-looking UI from older builds is not recovery evidence and must
+not be relied upon. Preserve the affected opaque storage unchanged and do not
+overwrite it with a new empty Vault. A supported recovery procedure is blocked
+until `REC-001` through `REC-005` and `E2E-003` are complete.
 
 ## Security hardening checklist
 
@@ -203,15 +209,63 @@ a new vault.
 
 ## Upgrade procedure
 
-```bash
-cd /opt/veyora
-git pull
-docker compose pull
-docker compose up -d
-```
+Each upgrade runs a bounded preflight → backup → switch → verify sequence.
+Release images are digest-pinned through the mirrored foundation images, and
+release notes state the supported upgrade origins and rollback limits for the
+version pair being deployed.
 
-The migrator runs automatically on startup. Zero-downtime upgrades are
-supported via the API's graceful shutdown (`SIGTERM` drain).
+1. **Preflight.** Read the release notes for data/contract migrations,
+   breaking changes, and supported rollback limits. Confirm the target
+   version matches the release channel policy and note the currently running
+   versions:
+
+   ```bash
+   curl -s http://127.0.0.1:8080/version   # record this output
+   ```
+
+2. **Verified backup.** Produce a fresh snapshot and confirm it exists
+   before touching anything (`--entrypoint` bypasses the scheduled-loop
+   entrypoint for a one-shot run; the output directory must be writable by
+   uid 10001 — see the [backup runbook](runbook.md#backup-failures)):
+
+   ```bash
+   docker compose run --rm --entrypoint veyora-backup backup > backups/pre-upgrade.json
+   ls -l backups/ | tail -3
+   ```
+
+3. **Switch.** Pull the pinned images and recreate; the migrator runs once
+   and must complete before the API starts:
+
+   ```bash
+   git pull
+   docker compose pull
+   docker compose up -d
+   ```
+
+4. **Verify.** Health, readiness, migration success, and a real round trip
+   (the smoke script runs from the repository root):
+
+   ```bash
+   docker compose ps                      # all services healthy
+   docker compose logs --tail=50 migrator # migration completed
+   curl http://127.0.0.1:8080/readyz      # {"ready":true,...}
+   ```
+
+   ```bash
+   cd <repository root> && ./tests/smoke/api.sh http://127.0.0.1:8080
+   ```
+
+5. **Rollback decision.** If verification fails: fix forward when the
+   release notes say the schema is compatible. Rolling back binaries is only
+   valid within the documented data-format limits — an older binary must
+   never run against a newer committed schema. When in doubt, stop the API
+   (`docker compose stop api`) and restore from the step-2 backup into a
+   fresh volume instead of mixing versions (see
+   [`runbook.md`](runbook.md)).
+
+Zero-downtime upgrades are supported via the API's graceful shutdown
+(`SIGTERM` drain, bounded by its stop-grace window); the migrator gate makes
+the switch itself transactional.
 
 ## Support
 

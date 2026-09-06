@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Veyora",
+  "version": "1.0.0",
+  "identifier": "com.veyora.desktop",
+  "build": {
+    "frontendDist": "../../web"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "app", "dmg"],
+    "category": "Utility",
+    "shortDescription": "Standalone client-encrypted credential vault",
+    "longDescription": "Experimental Veyora desktop preview for inert test data. The records API and SQLite storage run locally in a storage location you choose, while the Rust security kernel encrypts record fields in the WebView. Recovery, portable encrypted backup, signing, updates, and native release validation are incomplete.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

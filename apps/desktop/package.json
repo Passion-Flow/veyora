@@ -1,0 +1,16 @@
+{
+  "name": "@veyora/desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Veyora desktop client — Tauri shell around the static web client.",
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "icon": "tauri icon assets/icon-source.png"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.9.0"
+  }
+}

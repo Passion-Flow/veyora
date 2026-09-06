@@ -30,18 +30,18 @@ Certificates land in `/etc/letsencrypt/live/vault.example.com/`.
 ## 3. Configure environment
 
 ```bash
-cp docker/.env.example docker/.env
+cp deploy/compose/.env.example deploy/compose/.env
 ```
 
-Edit `docker/.env` with production values:
+Edit `deploy/compose/.env` with production values:
 
 ```bash
-# REQUIRED: strong database password
-VEYORA_DB_PASSWORD=<generate-with: openssl rand -hex 32>
+# REQUIRED: strong database password (generated inline — copy-pasteable)
+VEYORA_DB_PASSWORD="$(openssl rand -hex 32)"
 
 # REQUIRED: API authentication token
 VEYORA_API_AUTH=token
-VEYORA_API_TOKEN=<generate-with: openssl rand -hex 32>
+VEYORA_API_TOKEN="$(openssl rand -hex 32)"
 
 # Security hardening
 VEYORA_API_CORS_ORIGINS=https://vault.example.com
@@ -57,11 +57,11 @@ VEYORA_GATEWAY_TLS_PORT=443
 
 ## 4. Envoy TLS listener
 
-The gateway's Envoy configuration (`docker/gateway/envoy.yaml`) terminates
+The gateway's Envoy configuration (`deploy/gateway/envoy.yaml`) terminates
 TLS. Mount the certificates and start the stack:
 
 ```bash
-cd docker && docker compose up -d
+cd deploy/compose && docker compose up -d
 ```
 
 Verify TLS:
@@ -94,7 +94,7 @@ Before exposing to the public internet:
 
 ## 7. Automated backups
 
-The Compose topology ships an optional backup profile. From the `docker/`
+The Compose topology ships an optional backup profile. From the `deploy/compose/`
 directory:
 
 ```bash

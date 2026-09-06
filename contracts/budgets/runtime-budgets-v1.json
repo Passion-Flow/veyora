@@ -2,7 +2,7 @@
   "$schema": "runtime-budgets-v1.schema.json",
   "schema_version": 1,
   "budgets": {
-    "sandbox.stdin.max-bytes":{"value":4194304,"source":"registry","registry_id":"deployment.sandbox.stdin-max-bytes"},
+    "validator.stdin.max-bytes":{"value":4194304,"source":"registry","registry_id":"deployment.validator.stdin-max-bytes"},
     "vault.record.ciphertext.max-bytes":{"value":1048576,"source":"registry","registry_id":"backend.sync.record-size-bytes"},
     "vault.records.max-count":{"value":10000,"source":"registry","registry_id":"backend.quota.live-records"},
     "vault.relationships.max-count":{"value":50000,"source":"registry","registry_id":"backend.quota.relationships"},
