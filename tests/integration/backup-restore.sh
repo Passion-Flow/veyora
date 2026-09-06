@@ -48,7 +48,7 @@ echo "Backed up $BACKUP_COUNT record(s) to $TEMP_DIR/backup.json"
 echo "── Step 3: Wiping database ──"
 echo "WARNING: This will DELETE all records in DATABASE_URL."
 if command -v psql >/dev/null 2>&1; then
-  DATABASE_URL="$DATABASE_URL" psql -c "TRUNCATE records"
+  psql "$DATABASE_URL" -c "TRUNCATE records"
 elif command -v docker >/dev/null 2>&1 \
   && [ -n "${VEYORA_POSTGRES_CONTAINER:-}" ]; then
   docker exec "$VEYORA_POSTGRES_CONTAINER" sh -c \
