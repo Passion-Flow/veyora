@@ -13,6 +13,6 @@ postgres = "0.19"
 # container images need no OpenSSL system packages.
 rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
 rustls-pemfile = "2"
-webpki-roots = "0.26"
+webpki-roots = "1.0"
 postgres_rustls = "0.1"
 tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12"] }
