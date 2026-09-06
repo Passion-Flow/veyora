@@ -1,0 +1,72 @@
+name: Security scan
+
+# PRD SEC-ASSURE-003 (CI-side dependency/license/secret/action scanning)
+# and SEC-ASSURE-005 (scheduled fuzz evidence). Runs on every push to main
+# and weekly, plus the fuzz corpus on a nightly rotating seed.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 4 * * 1" # weekly dependency/secret/license rescan
+    - cron: "33 2 * * *" # nightly fuzz pass with a fresh seed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: Dependencies, secrets, licenses, actions
+    if: github.event_name != 'schedule' || github.event.schedule == '17 4 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+      - name: Scan the public tree for secrets
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" -w /repo zricethezav/gitleaks:v8.28.0 \
+            dir --config .gitleaks.toml --no-banner --redact .
+      - name: Scan dependencies for advisories
+        run: |
+          cargo install cargo-audit --locked
+          cargo audit --deny warnings
+      - name: Inventory third-party licenses (OSS-006 / SEC-ASSURE-003)
+        run: |
+          python3 tools/release/generate-license-inventory.py \
+            --output release/license-inventory.json
+      - name: Enforce action SHA pinning (SEC-ASSURE-004)
+        run: python3 tools/lint/check-actions-pinned.py
+      - name: Upload the license inventory
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # actions/upload-artifact@v4
+        with:
+          name: license-inventory
+          path: release/license-inventory.json
+          if-no-files-found: warn
+
+  fuzz:
+    name: Kernel fuzz boundaries
+    if: github.event_name != 'schedule' || github.event.schedule == '33 2 * * *'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+      - name: Run the seeded fuzz-boundary suite (fresh seed each night)
+        working-directory: packages/security-kernel
+        run: |
+          SEED=$(( $(date +%s) % 1000000007 ))
+          echo "fuzz seed: $SEED"
+          VEYORA_FUZZ_SEED=$SEED \
+            CARGO_TARGET_DIR="$PWD/../.build/kernel" \
+            cargo test --locked --workspace --test fuzz_boundaries -- --nocapture
+      - name: Run the full kernel suite alongside (regression guard)
+        working-directory: packages/security-kernel
+        run: CARGO_TARGET_DIR="$PWD/../.build/kernel" cargo test --locked --workspace
