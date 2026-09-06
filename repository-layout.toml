@@ -19,6 +19,13 @@
 
 schema_version = 1
 
+[entry.".cargo"]
+category = "governance"
+owner = "release-engineering"
+generated = false
+runtime_state = false
+file_types = ["*.toml"]
+
 [entry.".github"]
 category = "governance"
 owner = "release-engineering"
