@@ -6,7 +6,7 @@ CARGO_TARGET_DIR ?= .build/cargo
 KERNEL_TARGET_DIR ?= $(CURDIR)/.build/kernel
 export CARGO_TARGET_DIR
 
-.PHONY: help check check-web check-locales check-codegen test-web-client check-desktop check-tooling codegen build build-wasm test test-kernel test-backend test-wasm-runtime test-browser test-browser-e2e test-browser-faults desktop-dev desktop-build desktop-check run run-web run-db migrate worker backup restore validator docker-build docker-up docker-down purge-data doctor clean clean-all
+.PHONY: help check check-web check-locales check-codegen test-web-client check-desktop check-tooling codegen build build-wasm test test-kernel test-backend test-wasm-runtime test-browser test-browser-e2e test-browser-faults test-backup-restore desktop-dev desktop-build desktop-check run run-web run-db migrate worker backup restore validator docker-build docker-up docker-down purge-data doctor clean clean-all
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
@@ -89,6 +89,15 @@ test-browser-e2e: ## PRD acceptance journeys E2E-002/005/006/007 (running stack)
 # the live 429 limiter, a stopped postgres drives a real 503 store answer,
 # and the gateway injects real latency on record writes for single-flight.
 VEYORA_FAULT_ENV = VEYORA_DB_PASSWORD=e2e-local-dbpw VEYORA_API_AUTH=disabled VEYORA_WEB_PORT=3311 VEYORA_BUILD_COMMIT=e2e-local-check VEYORA_API_RATE_LIMIT=120 VEYORA_GATEWAY_DELAY_MS=2500
+
+test-backup-restore: ## Backup/wipe/restore drill against the running stack's PostgreSQL
+	cargo build --locked -p backup -p restore
+	export DATABASE_URL="${DATABASE_URL:?set DATABASE_URL to the stack PostgreSQL}"
+	export VEYORA_API_URL="${VEYORA_API_URL:-http://127.0.0.1:8080/api}"
+	export VEYORA_POSTGRES_CONTAINER="${VEYORA_POSTGRES_CONTAINER:-veyora-postgres-1}"
+	export BACKUP_BIN="$(CURDIR)/$(CARGO_TARGET_DIR)/debug/backup"
+	export RESTORE_BIN="$(CURDIR)/$(CARGO_TARGET_DIR)/debug/restore"
+	tests/integration/backup-restore.sh
 
 test-browser-faults: ## 429/5xx fault-injection suite on its own disposable stack
 	cd deploy/compose && $(VEYORA_FAULT_ENV) docker compose down --volumes >/dev/null 2>&1 || true

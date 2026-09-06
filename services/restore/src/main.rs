@@ -102,7 +102,7 @@ fn import_snapshot(database_url: &str, json_str: &str) -> Result<usize, String> 
              deployment_id, vault_id, ciphertext, ciphertext_hash, ciphertext_length, \
              tombstone, template_envelope_hash, manifest_binding) \
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) \
-             ON CONFLICT (record_id) DO NOTHING",
+             ON CONFLICT (vault_id, record_id) DO NOTHING",
             &[
                 &record_id,
                 &revision,

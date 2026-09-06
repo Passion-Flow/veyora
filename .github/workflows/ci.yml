@@ -216,6 +216,15 @@ jobs:
       - name: Capture first-phase service logs
         working-directory: deploy/compose
         run: docker compose logs --no-color api gateway web worker > /tmp/veyora-compose-phase1.log
+      - name: Backup/wipe/restore drill against the stack PostgreSQL
+        run: |
+          cargo build --locked -p backup -p restore
+          DATABASE_URL="postgres://veyora:${VEYORA_DB_PASSWORD}@127.0.0.1:5432/veyora" \
+          VEYORA_API_URL="http://127.0.0.1:3000/api" \
+          VEYORA_POSTGRES_CONTAINER="$(docker ps --format '{{.Names}}' | grep -m1 postgres)" \
+          BACKUP_BIN="$PWD/.build/cargo/debug/backup" \
+          RESTORE_BIN="$PWD/.build/cargo/debug/restore" \
+          tests/integration/backup-restore.sh
       # Each browser suite must create its vault against a pristine store
       # (suite isolation keeps the gates blocking and deterministic). The
       # verifier itself is vault-scoped since the DATA-003 fix; isolation

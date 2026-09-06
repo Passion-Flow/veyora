@@ -9,6 +9,20 @@ process is established.
 
 ### Added
 
+- The backup/wipe/restore drill is now real, machine-run, and CI-wired
+  — and executing it for the first time exposed a genuine data-loss
+  defect: the restore binary's INSERT used the pre-scoping single-column
+  conflict target (`ON CONFLICT (record_id)`), so restores have been
+  failing against the composite `(vault_id, record_id)` schema. The
+  conflict target is fixed, and the drill itself is rewritten honestly:
+  a unique per-run record, declared-vault-scope create/verify, fail-fast
+  curl, an actual TRUNCATE wipe (via psql or the postgres container),
+  and correct binary defaults. Verified green through
+  `make test-backup-restore` (create → backup → wipe → restore →
+  byte-level ciphertext verification against the live stack's
+  PostgreSQL) and added to the CI Compose-integration job so every push
+  runs it on a runner.
+
 - A full locale sweep in the browser: a new blocking journey cycles all
   nine non-English catalogs (zh-CN, zh-TW, ja, ko, de, fr, es, ru, and
   Arabic) through the live language switcher, asserting per locale the
