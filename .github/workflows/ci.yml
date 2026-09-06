@@ -148,6 +148,31 @@ jobs:
       - name: Validate the checked-in web client
         run: node tools/lint/check-web.mjs
 
+  faults:
+    name: Fault injection (429 / 5xx / latency)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # actions/setup-node@v7
+        with:
+          node-version: "22"
+      - name: Run the fault-injection browser suite on its own stack
+        working-directory: deploy/compose
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_API_AUTH: disabled
+          VEYORA_WEB_PORT: "3311"
+          VEYORA_BUILD_COMMIT: e2e-ci-check
+          VEYORA_API_RATE_LIMIT: "120"
+          VEYORA_GATEWAY_DELAY_MS: "2500"
+        run: |
+          docker compose down --volumes --remove-orphans
+          docker compose up -d --build --wait --wait-timeout 180
+          cd ../.. && npm ci --no-audit --no-fund
+          VEYORA_WEB_URL=http://127.0.0.1:3311 \
+            node tests/e2e/web/test-browser-faults.mjs
+          cd deploy/compose && docker compose down --volumes --remove-orphans
+
   desktop:
     name: Desktop shell
     runs-on: ubuntu-latest
@@ -289,6 +314,22 @@ jobs:
           VEYORA_WEB_URL: http://127.0.0.1:3000
           VEYORA_BUILD_COMMIT: e2e-ci-check
         run: node tests/e2e/web/test-browser-keyboard.mjs
+      - name: Reset the data store before the acceptance journeys
+        working-directory: deploy/compose
+        env:
+          VEYORA_DB_PASSWORD: inert-ci-password
+          VEYORA_API_AUTH: disabled
+          VEYORA_POSTGRES_IMAGE: postgres:16-bookworm
+          VEYORA_WORKER_POLL_SECONDS: "1"
+          VEYORA_BUILD_COMMIT: e2e-ci-check
+        run: |
+          docker compose down --volumes --remove-orphans
+          docker compose up -d --wait --wait-timeout 180
+      - name: Run the PRD acceptance journeys (E2E-002..007)
+        env:
+          VEYORA_WEB_URL: http://127.0.0.1:3000
+          VEYORA_BUILD_COMMIT: e2e-ci-check
+        run: node tests/e2e/web/test-browser-e2e.mjs
       - name: Verify the Connect gate against a real token-auth stack
         working-directory: deploy/compose
         env:
