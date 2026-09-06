@@ -33,6 +33,8 @@ jobs:
           docker run --rm -v "$PWD:/repo:ro" -w /repo zricethezav/gitleaks:v8.28.0 \
             dir --config .gitleaks.toml --no-banner --redact .
       - name: Scan dependencies for advisories
+        # Vulnerabilities deny; unmaintained advisories with no available
+        # fix are ignored with documented rationale in .cargo/audit.toml.
         run: |
           cargo install cargo-audit --locked
           cargo audit --deny warnings
