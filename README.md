@@ -28,6 +28,9 @@
 
 </div>
 
+Audience: evaluators and new users.
+Owner: repository maintainers.
+
 ---
 
 Veyora's target product is a desktop-first local Vault for one person whose
@@ -168,8 +171,6 @@ WASM runtime check requires the `wasm32-unknown-unknown` Rust target and
 ```bash
 # Security kernel
 
-Audience: evaluators and new users.
-Owner: repository maintainers.
 cd packages/security-kernel
 cargo test --locked --workspace --all-targets
 
