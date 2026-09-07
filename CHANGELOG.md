@@ -9,6 +9,27 @@ process is established.
 
 ### Added
 
+- Critical suites are provably blocking (PRD QA-001): a new workflow
+  policy lint in `make check` parses every CI workflow's steps and fails
+  on `continue-on-error`, on swallowed exit codes (`|| true`,
+  `|| exit 0`, `|| :`, `|| echo` — reviewed existence probes are
+  allow-listed), on Rust test files whose `#[ignore]` suites no CI step
+  ever runs with `--ignored` (silent quarantine), and on skipped browser
+  tests. All four detection paths are negative-validated. Its first real
+  run caught a genuine gap: the live PostgreSQL adapter tests were never
+  exercised in CI.
+
+- The live PostgreSQL adapter tests are blocking in CI (PRD QA-005,
+  DB-003, DB-004): the compose integration job now runs every ignored
+  suite against the role-provisioned stack database — the shared adapter
+  contract, retention, and round-trip/CAS legs under the migrator role;
+  the least-privilege leg proving the DML role cannot run DDL while the
+  migrator role can; and a TLS leg against a throwaway `ssl=on`
+  PostgreSQL with a throwaway CA and a `127.0.0.1` certificate, connected
+  with `verify-full` and the pinned CA so the verification is genuine
+  (an unrelated CA is rejected at connect, confirmed by a negative
+  check).
+
 - The source-available wording rule is machine-enforced (PRD OSS-002):
   a new lint in `make check` scans every public markdown surface and
   fails on any "open source" occurrence outside reviewed negation

@@ -27,6 +27,7 @@ check: ## Validate the public repository structure and documentation links
 	python3 tools/lint/check-browser-selectors.py
 	python3 tools/lint/check-actions-pinned.py
 	python3 tools/lint/check-artifact-hygiene.py
+	python3 tools/lint/check-blocking-tests.py
 	python3 -B -m unittest discover -s tests/contracts -p 'test_*.py'
 
 check-web: ## Validate the static web client, JavaScript, and WASM assets

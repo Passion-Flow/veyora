@@ -280,6 +280,62 @@ jobs:
       - name: Capture first-phase service logs
         working-directory: deploy/compose
         run: docker compose logs --no-color api gateway web worker > /tmp/veyora-compose-phase1.log
+      - name: Run the live PostgreSQL adapter tests (QA-005, blocking)
+        run: |
+          # The stack's init-roles provisioning created both DB-004 roles.
+          # Migrator leg: the shared contract (DATA-010), retention
+          # (DATA-008), and round-trip/CAS suites need DDL rights; the
+          # least-privilege and TLS legs run in their own steps below.
+          DATABASE_URL="postgres://veyora_migrator:${VEYORA_DB_PASSWORD}@127.0.0.1:5432/veyora" \
+          CARGO_TARGET_DIR=.build/cargo cargo test --locked -p backend-postgres \
+            -- --ignored --skip least_privilege_roles_are_enforced \
+            --skip connects_over_verified_tls
+          # Least-privilege leg (DB-004): DATABASE_URL is the DML role and
+          # the separate migrator URL proves the DDL/DML separation holds.
+          DATABASE_URL="postgres://veyora_app:${VEYORA_DB_PASSWORD}@127.0.0.1:5432/veyora" \
+          DATABASE_URL_MIGRATOR="postgres://veyora_migrator:${VEYORA_DB_PASSWORD}@127.0.0.1:5432/veyora" \
+          CARGO_TARGET_DIR=.build/cargo cargo test --locked -p backend-postgres \
+            least_privilege -- --ignored
+      - name: Run the live PostgreSQL TLS adapter test (DB-003, blocking)
+        run: |
+          # The stack PostgreSQL is plaintext-only, so the TLS leg gets
+          # its own throwaway instance: a CA plus a server certificate
+          # covering 127.0.0.1, so verify-full genuinely verifies the
+          # chain instead of passing vacuously over loopback plaintext.
+          mkdir -p .build/tls
+          openssl req -new -x509 -newkey rsa:2048 -nodes -days 2 \
+            -keyout .build/tls/ca.key -out .build/tls/ca.pem \
+            -subj "/CN=Veyora CI database CA"
+          openssl req -new -newkey rsa:2048 -nodes \
+            -keyout .build/tls/server.key -out .build/tls/server.csr \
+            -subj "/CN=127.0.0.1"
+          openssl x509 -req -in .build/tls/server.csr \
+            -CA .build/tls/ca.pem -CAkey .build/tls/ca.key \
+            -CAserial .build/tls/ca.srl -CAcreateserial \
+            -out .build/tls/server.pem -days 2 \
+            -extfile <(printf 'subjectAltName=IP:127.0.0.1')
+          # postgres refuses to load a server key that is not owned by
+          # the postgres user with 0600; stage the key before exec'ing
+          # the entrypoint.
+          docker run --detach --name veyora-pg-tls \
+            -e POSTGRES_USER=veyora \
+            -e POSTGRES_PASSWORD=ci-tls-database-password \
+            -e POSTGRES_DB=veyora \
+            -p 127.0.0.1:5433:5432 \
+            -v "$PWD/.build/tls":/tls:ro \
+            postgres:16-bookworm \
+            bash -c 'cp /tls/server.key /tmp/server.key && chmod 600 /tmp/server.key && chown postgres:postgres /tmp/server.key && exec docker-entrypoint.sh postgres -c ssl=on -c ssl_cert_file=/tls/server.pem -c ssl_key_file=/tmp/server.key'
+          for attempt in $(seq 1 30); do
+            if docker exec veyora-pg-tls pg_isready -U veyora -q; then break; fi
+            sleep 2
+          done
+          docker exec veyora-pg-tls pg_isready -U veyora
+          DATABASE_URL="postgres://veyora:ci-tls-database-password@127.0.0.1:5433/veyora" \
+          VEYORA_DB_TLS_MODE=verify-full \
+          VEYORA_DB_TLS_CA_FILE="$PWD/.build/tls/ca.pem" \
+          CARGO_TARGET_DIR=.build/cargo cargo test --locked -p backend-postgres \
+            connects_over_verified_tls -- --ignored
+          docker rm -f veyora-pg-tls
       - name: Backup/wipe/restore drill against the stack PostgreSQL
         run: |
           CARGO_TARGET_DIR=.build/cargo cargo build --locked -p backup -p restore
