@@ -1533,6 +1533,64 @@ try {
       'no first-success record without the test-build opt-in');
   });
 
+  await test('opt-in first-success events carry names and timestamps only (UX-ONB-010 inspection)', async () => {
+    // Inspect the recorded events as the test harness is documented to:
+    // opt in, drive the success path, and verify the record contains
+    // event names and timestamps — never item ids, names, fields, or
+    // queries (the privacy-review evidence the PRD asks the harness for).
+    const stamp = Date.now();
+    await page.goto(`${webUrl}?e2e-optin=${stamp}&veyora-first-success=1`,
+      { waitUntil: 'networkidle' });
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: 'networkidle' });
+    // The opt-in must survive the reload via the URL parameter.
+    await page.locator('#wf-create').click();
+    await page.locator('#new-pw').fill('e2e-optin-pw-12345678');
+    await page.locator('#new-pw2').fill('e2e-optin-pw-12345678');
+    await page.locator('#btn-create').click();
+    await page.locator('#ov-kit.on').waitFor({ timeout: 20000 });
+    const kit = await page.locator('#kit-out').inputValue();
+    await page.locator('#kit-verify').fill(kit);
+    await page.locator('#btn-kit-verify').click();
+    await page.locator('#ov-kit').waitFor({ state: 'hidden' });
+    await page.locator('#btn-new').click();
+    await page.locator('#ov-entry.on').waitFor();
+    const secretName = `Optin Secret ${stamp}`;
+    await page.locator('#f-name').fill(secretName);
+    await page.locator('#f-secret').fill('optin-secret-123456');
+    await page.locator('#btn-save-entry').click();
+    await page.locator('.saved-panel').waitFor();
+    await page.locator('#saved-back').click();
+    await page.locator('#ov-entry').waitFor({ state: 'hidden' });
+    await page.locator('#search').fill('Optin');
+    // The row is visible before the debounce fires, and Escape would
+    // cancel the pending search — give the recorder its beat first.
+    await page.waitForTimeout(500);
+    await page.locator('.trow[data-id^="optin-secret"]').first().waitFor();
+    await page.locator('#search').press('Escape');
+    const record = await page.evaluate(
+      () => JSON.parse(localStorage.getItem('veyora.web.firstSuccess') || 'null'));
+    assert.ok(record, 'the opt-in left an inspectable record');
+    const events = record.events || [];
+    const names = events.map(event => event.event);
+    assert.ok(names.includes('login-saved'), 'login-saved recorded');
+    assert.ok(names.includes('search-performed'), 'search-performed recorded');
+    for (const event of events) {
+      assert.ok(typeof event.event === 'string' && /^[a-z-]+$/.test(event.event),
+        'event names are plain slugs');
+      assert.ok(typeof event.at === 'number', 'events carry timestamps');
+      assert.deepEqual(Object.keys(event).sort(), ['at', 'event'],
+        'events carry exactly the event slug and timestamp');
+    }
+    const serialized = JSON.stringify(record);
+    assert.ok(!serialized.includes(secretName),
+      'the recorded events never contain item names');
+    assert.ok(!serialized.includes('optin-secret'),
+      'the recorded events never contain secret material');
+    assert.ok(!serialized.includes('Optin'),
+      'the recorded events never contain the search query');
+  });
+
   if (screenshotPath) {
     await page.screenshot({ path: screenshotPath, fullPage: true });
   }

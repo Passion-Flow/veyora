@@ -9,6 +9,17 @@ process is established.
 
 ### Added
 
+- Test-event inspection for first-success instrumentation (PRD
+  UX-ONB-010): a new blocking browser journey opts in through the
+  documented `?veyora-first-success=1` parameter, drives the success
+  path, and inspects the recorded events the way the harness is supposed
+  to — only an event slug and a timestamp per entry (exact key set),
+  with the item name, secret material, and search query all provably
+  absent from the record. Building it caught a test-side race (a row
+  locator satisfied before the search debounce fired, letting Escape
+  cancel the pending search) and aligned the journey to the real event
+  schema; the comprehensive suite is now 72/72 twice consecutively.
+
 - Documentation ownership is machine-checked (PRD DOC-003): a new lint
   in `make check` requires every top-level document and docs/ page to
   declare an explicit Audience and Owner line. Its first run caught 15
