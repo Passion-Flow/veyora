@@ -21,6 +21,7 @@ check: ## Validate the public repository structure and documentation links
 	python3 tools/lint/check-recovery-terminology.py
 	python3 tools/lint/check-doc-commands.py
 	python3 tools/lint/check-doc-ownership.py
+	python3 tools/lint/check-test-plan.py
 	python3 tools/lint/check-progress-consistency.py
 	python3 tools/lint/check-browser-selectors.py
 	python3 tools/lint/check-actions-pinned.py
