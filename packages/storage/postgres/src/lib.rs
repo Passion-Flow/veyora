@@ -999,20 +999,22 @@ mod tests {
         let store = PostgresStore::connect(&url).expect("connect");
         store.migrate().expect("migrate");
         {
-            // Clean only the contract's vault scopes (the rekey target
-            // included): a live database is shared with the other ignored
-            // tests, which run in parallel.
+            // Clean only the contract's vault scopes (the rekey and
+            // concurrency targets included): a live database is shared
+            // with the other ignored tests, which run in parallel.
             let mut client = store.pool.get().unwrap();
             let _ = client.execute(
-                "DELETE FROM records WHERE vault_id = $1 OR vault_id = $2 OR vault_id = $3",
+                "DELETE FROM records WHERE vault_id = $1 OR vault_id = $2 OR vault_id = $3 OR vault_id = $4",
                 &[
                     &backend_persistence::contract::VAULT_A,
                     &backend_persistence::contract::VAULT_B,
                     &backend_persistence::contract::REKEY_TARGET,
+                    &backend_persistence::contract::VAULT_CONC,
                 ],
             );
         }
         backend_persistence::contract::run(&store);
+        backend_persistence::contract::run_concurrently(&store);
     }
 
     /// Live age-window retention (DATA-008): a stamp backdated through the

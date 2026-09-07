@@ -527,6 +527,9 @@ pub mod contract {
     pub const VAULT_A: &str = "cafe000000000000000000000000000a";
     pub const VAULT_B: &str = "cafe000000000000000000000000000b";
     pub const REKEY_TARGET: &str = "cafe000000000000000000000000000c";
+    /// Dedicated scope for [`run_concurrently`]: it composes with [`run`]
+    /// on one shared live database, so it cleans exactly these rows too.
+    pub const VAULT_CONC: &str = "cafe000000000000000000000000000d";
 
     fn record(vault: &str, id: &str, revision: u64) -> GenericEncryptedRecordV1 {
         debug_assert!(revision >= 1, "input rows must satisfy validation");
@@ -744,6 +747,102 @@ pub mod contract {
             "the refused rekey left the source vault intact",
         );
     }
+
+    /// Concurrent-writer section of the shared contract (QA-005): parallel
+    /// CAS writers on one record must never lose an acknowledged write or
+    /// skip a revision, writers on distinct records must never interfere,
+    /// and a stale expectation must never overwrite a newer write. Uses
+    /// [`VAULT_CONC`] so it composes with [`run`] on one live database.
+    pub fn run_concurrently(store: &dyn OpaqueStore) {
+        use std::sync::atomic::{AtomicUsize, Ordering};
+
+        const WRITERS: usize = 6;
+        const ROUNDS: usize = 30;
+
+        // Phase 1 — the contested record: seeded at revision 1, then every
+        // writer races read-current → CAS(current + 1) per round. A lost
+        // race surfaces as Conflict and retries; anything else is a breach.
+        let shared = "conc-shared";
+        store
+            .put(record(VAULT_CONC, shared, 1), None)
+            .expect("seed the contested record");
+        let acknowledged = AtomicUsize::new(0);
+        std::thread::scope(|scope| {
+            for _ in 0..WRITERS {
+                scope.spawn(|| {
+                    for _ in 0..ROUNDS {
+                        loop {
+                            let current = store
+                                .current_revision(VAULT_CONC, shared)
+                                .expect("contested record stays readable");
+                            let candidate = record(VAULT_CONC, shared, current + 1);
+                            match store.put(candidate, Some(current)) {
+                                Ok(_) => {
+                                    acknowledged.fetch_add(1, Ordering::Relaxed);
+                                    break;
+                                }
+                                Err(StoreError::Conflict) => continue, // lost the race
+                                Err(other) => panic!("unexpected store error: {other:?}"),
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        let final_revision = store
+            .current_revision(VAULT_CONC, shared)
+            .expect("final revision readable");
+        assert_eq_or_panic(
+            final_revision,
+            1 + acknowledged.load(Ordering::Relaxed) as u64,
+            "no acknowledged write may be lost and no revision skipped",
+        );
+
+        // Phase 2 — distinct-record writers: each writer owns one record,
+        // so interleaving must never leak a conflict across records.
+        std::thread::scope(|scope| {
+            for writer in 0..WRITERS {
+                scope.spawn(move || {
+                    let id = format!("conc-solo-{writer}");
+                    store
+                        .put(record(VAULT_CONC, &id, 1), None)
+                        .expect("create the owned record");
+                    for revision in 1..=ROUNDS as u64 {
+                        let candidate = record(VAULT_CONC, &id, revision + 1);
+                        store
+                            .put(candidate, Some(revision))
+                            .unwrap_or_else(|error| {
+                                panic!("owned-record CAS must not conflict: {error:?}")
+                            });
+                    }
+                });
+            }
+        });
+        for writer in 0..WRITERS {
+            let id = format!("conc-solo-{writer}");
+            assert_eq_or_panic(
+                store
+                    .current_revision(VAULT_CONC, &id)
+                    .expect("owned record readable"),
+                ROUNDS as u64 + 1,
+                "writers on distinct records must not interfere",
+            );
+        }
+
+        // Phase 3 — a stale expectation must never overwrite the winner.
+        assert_eq_or_panic(
+            store.put(record(VAULT_CONC, shared, 2), Some(1)),
+            Err(StoreError::Conflict),
+            "a stale expectation must conflict, not overwrite",
+        );
+        assert_eq_or_panic(
+            store
+                .current_revision(VAULT_CONC, shared)
+                .expect("final revision readable"),
+            final_revision,
+            "a rejected stale write must not change the revision",
+        );
+    }
 }
 
 #[cfg(test)]
@@ -753,6 +852,7 @@ mod tests {
     #[test]
     fn in_memory_passes_shared_contract() {
         contract::run(&InMemoryStore::new());
+        contract::run_concurrently(&InMemoryStore::new());
     }
 
     const VAULT: &str = "1010101010101010101010101010101f";

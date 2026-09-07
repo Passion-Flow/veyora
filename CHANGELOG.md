@@ -9,6 +9,18 @@ process is established.
 
 ### Added
 
+- Concurrent writers are proven safe in every store adapter (PRD
+  QA-005): the shared adapter contract gained a concurrent-writer
+  section — six racing writers hammering one record's CAS must never
+  lose an acknowledged write or skip a revision, writers on distinct
+  records must never interfere, and a stale expectation must conflict
+  instead of overwriting. The identical section runs in the in-memory
+  and SQLite unit suites and inside the live PostgreSQL contract test,
+  so all three adapters prove the same invariants (DATA-010). With it,
+  every behavior QA-005 names is covered by a blocking test:
+  multi-Vault isolation, concurrency, transaction rollback, migration,
+  restore, and TLS/pool behavior.
+
 - Critical suites are provably blocking (PRD QA-001): a new workflow
   policy lint in `make check` parses every CI workflow's steps and fails
   on `continue-on-error`, on swallowed exit codes (`|| true`,

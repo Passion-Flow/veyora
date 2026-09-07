@@ -578,6 +578,7 @@ mod tests {
         cleanup(&path); // a failed earlier run may have left the database
         let store = SqliteStore::open(&path).expect("open");
         backend_persistence::contract::run(&store);
+        backend_persistence::contract::run_concurrently(&store);
         drop(store);
         cleanup(&path);
     }
