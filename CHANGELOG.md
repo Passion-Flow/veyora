@@ -9,6 +9,20 @@ process is established.
 
 ### Added
 
+- The README quickstart now executes in CI and it found a real gap
+  (PRD QA-011): a dedicated job runs the documented local-preview
+  commands verbatim — clone, copy the environment template, set the
+  database password, `docker compose up`, the documented URL checks,
+  the inert-data smoke command, and the documented teardown — and the
+  Repository integrity job runs the release auditor's dry-run. The
+  first execution machine-proved that the published v1.0.0 application
+  images predate the role-scoped startup topology (the stale API image
+  exits at boot on the DML-only role), which is exactly the failure the
+  README's "do not rely on those tags" warning anticipates; the job
+  builds the current application images from the sources under test
+  until the owner's next authorized image publication ships current
+  bytes.
+
 - Test-event inspection for first-success instrumentation (PRD
   UX-ONB-010): a new blocking browser journey opts in through the
   documented `?veyora-first-success=1` parameter, drives the success
