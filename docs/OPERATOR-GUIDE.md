@@ -1,5 +1,8 @@
 # Veyora Operator Guide
 
+Audience: service operators.
+Owner: release-engineering.
+
 ## Overview
 
 This guide covers deploying, monitoring, backing up, and troubleshooting

@@ -1,5 +1,8 @@
 # Browser test inventory — pages, states, flows, and coverage
 
+Audience: QA and reviewers.
+Owner: QA.
+
 The mandatory browser-verification baseline (PRD section 17.3 / E2E-010 and
 the stabilization goal): this inventory enumerates every page, route,
 drawer, modal, application state, and user flow that exists in the Web

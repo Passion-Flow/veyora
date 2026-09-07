@@ -1,5 +1,8 @@
 # Architecture
 
+Audience: engineers and reviewers.
+Owner: architecture.
+
 Veyora separates the plaintext-capable client from ciphertext-only
 infrastructure. This document describes the source tree as it exists in the
 public preview; it is a design and implementation guide, not a security audit.

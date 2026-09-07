@@ -1,6 +1,7 @@
 # Veyora support and discussion routing
 
-Audience: users and evaluators. Owner: repository maintainers.
+Audience: users and evaluators.
+Owner: repository maintainers.
 
 Veyora is a preview. There is no paid support, no SLA, and no operated
 service. Route each need to the correct place so safety reports are never

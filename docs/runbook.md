@@ -1,6 +1,7 @@
 # Operator runbook — failure modes and recovery
 
-Audience: operators of a self-hosted Veyora deployment. Companion to
+Audience: on-call operators.
+Owner: release-engineering.
 [`OPERATOR-GUIDE.md`](OPERATOR-GUIDE.md) (setup) and
 [`DEPLOYMENT-TLS.md`](DEPLOYMENT-TLS.md) (TLS topology).
 

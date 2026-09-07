@@ -1,6 +1,7 @@
 # Veyora governance and maintainer expectations
 
-Audience: contributors and maintainers. Owner: repository maintainers.
+Audience: contributors and maintainers.
+Owner: repository maintainers.
 Status: effective for the current preview phase; revisited before external
 contribution intake opens.
 

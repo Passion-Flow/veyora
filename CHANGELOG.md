@@ -9,6 +9,15 @@ process is established.
 
 ### Added
 
+- Documentation ownership is machine-checked (PRD DOC-003): a new lint
+  in `make check` requires every top-level document and docs/ page to
+  declare an explicit Audience and Owner line. Its first run caught 15
+  unstamped documents; all now carry real owners (documentation,
+  release-engineering, QA, desktop maintainers, repository maintainers,
+  architecture), and the audience-owned hierarchies (ADR, evidence,
+  reference, security, legal, brand, i18n) stay governed by their own
+  inventories.
+
 - The release workflow's verification job now uses the dedicated image
   inspector and executes real bytes (PRD DEP-007 runner side):
   `tools/release/inspect-image.py --require amd64,arm64` runs over all

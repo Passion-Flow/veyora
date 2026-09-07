@@ -1,5 +1,8 @@
 # Veyora Production TLS Deployment Guide
 
+Audience: operators terminating TLS at the gateway.
+Owner: release-engineering.
+
 This guide covers deploying Veyora with TLS termination via the bundled
 Envoy gateway, suitable for public internet exposure.
 

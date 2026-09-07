@@ -1,5 +1,8 @@
 # Veyora desktop app
 
+Audience: desktop users and shell developers.
+Owner: desktop maintainers.
+
 The desktop app is an experimental local-Vault implementation for Windows and
 macOS, packaged with Tauri 2. The vault UI and the
 WebAssembly security kernel execute in the system WebView (WebView2 on

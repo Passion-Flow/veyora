@@ -1,5 +1,8 @@
 # Deployment guide
 
+Audience: operators self-hosting the preview stack.
+Owner: release-engineering.
+
 Veyora currently provides a localhost-only evaluation stack and a
 production-shaped image topology. Neither is a supported production release.
 Use inert data until the cryptographic implementation and your exact deployment

@@ -1,6 +1,7 @@
 # Veyora roadmap
 
-Audience: users and evaluators. Owner: repository maintainers.
+Audience: users and evaluators.
+Owner: repository maintainers.
 Derived from the PRD maturity gates; every status below must match the
 feature/evidence registry (`release/features.json`) and the progress
 ledger (`release/prd-progress.json`). This page is a view, not a second

@@ -1,6 +1,7 @@
 # Veyora mode matrix (DOC-006)
 
-Audience: users and evaluators. Owner: documentation. Source of truth for
+Audience: users and evaluators.
+Owner: documentation.
 capability status: `release/features.json` (this page is a view; where the
 two disagree, the registry wins and this page is a defect).
 

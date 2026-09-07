@@ -1,5 +1,8 @@
 # Veyora collaboration conduct
 
+Audience: all participants and moderators.
+Owner: repository maintainers.
+
 Veyora aims for calm, clear, respectful technical collaboration. This policy
 applies to project-controlled review and collaboration spaces when those spaces
 are authorized.

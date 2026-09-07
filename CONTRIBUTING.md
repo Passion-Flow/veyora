@@ -1,5 +1,8 @@
 # Contributing to Veyora
 
+Audience: contributors and maintainers.
+Owner: repository maintainers.
+
 Thank you for taking the time to review Veyora.
 
 The repository is in an early public-preview phase. Issue reports and design

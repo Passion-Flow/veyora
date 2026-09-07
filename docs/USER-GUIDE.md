@@ -1,5 +1,8 @@
 # Veyora preview user guide
 
+Audience: end users of the preview.
+Owner: documentation.
+
 > [!CAUTION]
 > Veyora is an experimental preview for inert test data. It is not approved
 > for real credentials. Recovery, portable encrypted backup, atomic import,
