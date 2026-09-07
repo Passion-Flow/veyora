@@ -9,6 +9,17 @@ process is established.
 
 ### Added
 
+- The generated release test plan is drift-gated and the privacy
+  inventory is complete (PRD QA-012/PRIV-003): a new lint in
+  `make check` regenerates `release/test-plan.md` and fails on any
+  difference from the committed artifact, so the plan can no longer go
+  stale or be hand-edited. The plaintext-metadata inventory now
+  documents the product's single metric end to end — first-success
+  instrumentation with purpose, default-off opt-in, no destination
+  (nothing is ever transmitted), the exact content-free field set with
+  its 100-event cap, and deletion behavior — matching what the
+  UX-ONB-010 inspection journey already proves.
+
 - The README quickstart now executes in CI and it found a real gap
   (PRD QA-011): a dedicated job runs the documented local-preview
   commands verbatim — clone, copy the environment template, set the

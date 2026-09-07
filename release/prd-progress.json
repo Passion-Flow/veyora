@@ -2,7 +2,7 @@
  "schema_version": 1,
  "prd": "PRD.md",
  "product_version": "1.0.0",
- "updated_at": "2026-09-07T02:51:52Z",
+ "updated_at": "2026-09-07T03:20:21Z",
  "status_values": [
   "Complete",
   "Partial",
@@ -58,7 +58,8 @@
     "QA-012 registry-driven release test plan: tools/release/generate-test-plan.py joins the feature/evidence registry against the PRD requirement table (priorities included) and the ledger's blockers, emitting release/test-plan.md with per-feature pass/fail/blocked verdicts — blocked dominates pass whenever any of a feature's requirements has a recorded blocker, so partial automation can never read as done (current honest output: 5 pass / 5 blocked / 0 fail). Producing it surfaced and fixed stale registry entries: recovery-key and master-password-change were still 'Protocol-only'/'Unsupported' and encrypted-portable-backup 'Planned' despite the implemented, browser-verified reality — all three now carry Experimental status with their real automated-evidence paths and known limitations.",
     "QA-013 machine-enforced (repository + product + suites): tools/lint/check-browser-selectors.py (in `make check`) classifies every text-coupled locator in tests/e2e/web — test-created data filters and copy-validation assertions are inventoried, while copy-driven business-flow selectors are violations. Its first run found 16 real violations; closing them added locale-independent identity to the product itself — toasts carry data-toast-key and every ceremony error host carries data-error-key (i18n key, invariant across locales) across the backup, recovery, regeneration, and password-change surfaces — and converted the suites to keyed selectors plus data-id row addressing: 0 violations remain, and the full browser regression re-passed (comprehensive 70/70 twice consecutively, smoke, a11y 19/19, keyboard 20/20, journeys 6/6, fault 4/4). QA-014 bootstrap verified from a clean copy of the current tree (29 MB, no caches, scratch git init): make check, check-codegen, check-web, 504-key locale parity, 108/108 web units, cargo build --locked --workspace, api 42/42, persistence 11/11, sqlite 8/8, desktop 10/10, security-kernel 98/98 across its crates, and git-clean after make clean — the only non-artifacts are the ignored .build trees.",
     "QA-010 repository half machine-enforced: tools/lint/check-artifact-hygiene.py (in `make check`) validates every evidence artifact under release/evidence/ — ISO-8601 UTC collection stamps, product-version/commit identity, a 180-day retention window with staleness refusal, and outright rejection of secret material (recovery-kit-shaped strings, bearer tokens, private keys, literal master passwords, test-suite credential literals). Its first run caught both perf artifacts missing version identity — now stamped with the product version and the pinned working-tree commit. DOC-006 is complete: docs/modes.md is the three-mode capability matrix (Desktop Local / Desktop Connected / Web Connected) with per-mode status, what differs in practice (storage, offline, diagnostics wording, recovery scoping), and honest limits — explicitly a view over release/features.json (registry wins on disagreement) and linked from the User Guide's offline section.",
-    "DOC-003 machine-enforced: tools/lint/check-doc-ownership.py (in `make check`) requires every top-level document and docs/ page to declare an explicit Audience and Owner line (adr/evidence/reference/security/legal/brand/i18n live under their own governed hierarchies). Its first run caught 15 unstamped documents — all now stamped with real owners (documentation, release-engineering, QA, desktop maintainers, repository maintainers, architecture): 16 documents declare audience and owner, lint PASS."
+    "DOC-003 machine-enforced: tools/lint/check-doc-ownership.py (in `make check`) requires every top-level document and docs/ page to declare an explicit Audience and Owner line (adr/evidence/reference/security/legal/brand/i18n live under their own governed hierarchies). Its first run caught 15 unstamped documents — all now stamped with real owners (documentation, release-engineering, QA, desktop maintainers, repository maintainers, architecture): 16 documents declare audience and owner, lint PASS.",
+    "QA-012 drift gate + PRIV-003 documentation completion: release/test-plan.md is now machine-enforced against drift (tools/lint/check-test-plan.py in `make check` regenerates to a scratch file and fails on diff, mirroring the codegen gate; plan regenerated to current registry/ledger state — 5 pass / 5 blocked / 0 fail). The privacy inventory gains the first-success metric's full PRIV-003 documentation (purpose, default-off opt-in, no destination — nothing transmitted, exact content-free field set with the 100-event cap, deletion with site storage), matching the behavior the UX-ONB-010 inspection journey already asserts."
    ],
    "remaining_scope": [],
    "evidence": [
@@ -74,7 +75,8 @@
     "tools/lint/check-browser-selectors.py",
     "tools/lint/check-artifact-hygiene.py",
     "docs/modes.md",
-    "tools/lint/check-doc-ownership.py"
+    "tools/lint/check-doc-ownership.py",
+    "tools/lint/check-test-plan.py"
    ]
   },
   {

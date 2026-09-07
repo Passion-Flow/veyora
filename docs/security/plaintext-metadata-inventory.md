@@ -44,6 +44,28 @@ Operators should minimize collection, avoid high-cardinality identifiers in
 telemetry, define retention, restrict access, and verify that support or debug
 flows do not capture request bodies.
 
+## Product metric: first-success instrumentation (UX-ONB-010)
+
+The web client ships exactly one product metric, and it is content-free by
+construction:
+
+- **Purpose**: measure whether a new user reaches first success (a saved
+  Login followed by finding it and copying or revealing a secret). Vault
+  creation is deliberately not a success event.
+- **Opt-in**: disabled by default; enabled only in test builds via the
+  injected `VEYORA_FIRST_SUCCESS_TELEMETRY` flag or the
+  `?veyora-first-success=1` URL parameter (PRIV-001).
+- **Destination**: none — nothing is transmitted. The record lives in
+  `localStorage` (`veyora.web.firstSuccess`) for test-harness inspection.
+- **Fields**: event slug (`login-saved`, `search-performed`,
+  `secret-copied`, `secret-revealed`) and a Unix-epoch timestamp, capped
+  at 100 events. No item ids, names, fields, queries, vault identifiers,
+  or any other vault content is recorded — asserted by a blocking
+  browser journey that inspects the record after opting in.
+- **Retention / deletion**: clearing site storage deletes it with all other
+  local state; there is no server-side retention because nothing leaves
+  the device.
+
 ## Logging rules
 
 Never log:
