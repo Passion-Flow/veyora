@@ -46,6 +46,20 @@ const context = await browser.newContext({
 const page = await context.newPage();
 const problems = [];
 
+// QA-004 plaintext canary: this value is stored through the real WASM
+// kernel and must never leave the client unsealed. This suite asserts it
+// appears in no API request body (the reveal assertion later in the run
+// is the positive control that it really was stored); the CI compose job
+// additionally scans database rows, service logs, and a backup file for
+// it. Keep the string in sync with the compose job's canary scan step.
+const PLAINTEXT_CANARY = 'e2e-plaintext-canary-6f4b-known';
+const requestBodies = [];
+context.on('request', (request) => {
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method())) {
+    requestBodies.push(`${request.method()} ${request.url()} ${request.postData() ?? ''}`);
+  }
+});
+
 // HTTP statuses injected by fault-injection tests; each logs one expected
 // console error that must not fail the run.
 const expectedFailedStatuses = [];
@@ -394,7 +408,7 @@ try {
   });
 
   await test('password field exposes named Generate, Show/Hide, and Copy actions (ITEM-004)', async () => {
-    await page.locator('#f-secret').fill('e2e-test-password');
+    await page.locator('#f-secret').fill(PLAINTEXT_CANARY);
     const generate = page.locator('#fgen-secret');
     assert.match(await generate.textContent(), /Generate/, 'Generate is named');
     const show = page.locator('#fshow-secret');
@@ -478,7 +492,7 @@ try {
   // === 3. Reveal secret ===
   await test('reveal shows the decrypted password', async () => {
     await page.locator('#d-reveal').click();
-    const revealed = await page.locator('.d-val.mono').filter({ hasText: 'e2e-test-password' }).count();
+    const revealed = await page.locator('.d-val.mono').filter({ hasText: PLAINTEXT_CANARY }).count();
     assert.ok(revealed >= 1);
     assert.equal(await page.locator('.sh-item.done').count(), 3,
       'first-item, copy-reveal, and recovery are done after the reveal');
@@ -1601,6 +1615,15 @@ try {
   // Final: no console errors
   await test('no console errors or warnings', async () => {
     assert.deepEqual(problems, [], problems.join('\\n'));
+  });
+
+  // Final: the stored plaintext canary never left the client unsealed.
+  await test('the plaintext canary appears in no API request body (QA-004)', async () => {
+    const leaks = requestBodies.filter((body) => body.includes(PLAINTEXT_CANARY));
+    assert.deepEqual(leaks, [],
+      `plaintext canary leaked in ${leaks.length} API request(s): ${leaks.slice(0, 3).join(' || ')}`);
+    assert.ok(requestBodies.length > 10,
+      'positive control: the run actually observed API writes to inspect');
   });
 
   console.log(`\\nE2E: ${results.passed} passed, ${results.failed} failed`);

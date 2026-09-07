@@ -371,6 +371,43 @@ jobs:
           VEYORA_WEB_URL: http://127.0.0.1:3000
           VEYORA_BUILD_COMMIT: e2e-ci-check
         run: node tests/e2e/web/test-browser-full.mjs
+      # QA-004: the comprehensive suite stored a known plaintext through
+      # the real kernel (its reveal assertion is the positive control and
+      # its final test asserts no API request body carried it). This step
+      # covers the remaining surfaces while that vault still exists:
+      # database rows, service logs, and a backup file.
+      - name: Scan rows, logs, and a backup for the plaintext canary (QA-004)
+        working-directory: deploy/compose
+        env:
+          VEYORA_DB_PASSWORD: ${{ env.VEYORA_DB_PASSWORD }}
+        run: |
+          CANARY="e2e-plaintext-canary-6f4b-known"
+          # Drift control: scan for exactly the canary the suite stores.
+          grep -Fq "$CANARY" ../../tests/e2e/web/test-browser-full.mjs
+          ROWS=$(docker compose exec -T postgres sh -c \
+            "PGPASSWORD=\"\$POSTGRES_PASSWORD\" psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -tAc 'COPY (SELECT * FROM records) TO STDOUT'")
+          test -n "$ROWS" # positive control: the dump really has rows
+          if printf '%s' "$ROWS" | grep -Fq "$CANARY"; then
+            echo 'Plaintext canary found in database rows.' >&2
+            exit 1
+          fi
+          LOGS=$(docker compose logs --no-color)
+          test -n "$LOGS" # positive control: logs were captured
+          if printf '%s' "$LOGS" | grep -Fq "$CANARY"; then
+            echo 'Plaintext canary found in service logs.' >&2
+            exit 1
+          fi
+          cd ../..
+          mkdir -p .build/canary-check
+          DATABASE_URL="postgres://veyora:${VEYORA_DB_PASSWORD}@127.0.0.1:5432/veyora" \
+            .build/cargo/debug/backup > .build/canary-check/canary-backup.json
+          test -s .build/canary-check/canary-backup.json # positive control
+          test "$(grep -c record_id .build/canary-check/canary-backup.json)" -gt 0
+          if grep -Fq "$CANARY" .build/canary-check/canary-backup.json; then
+            echo 'Plaintext canary found in the backup file.' >&2
+            exit 1
+          fi
+          echo 'QA-004 canary scan clean: rows, logs, and backup carry no plaintext.'
       - name: Reset the data store before the accessibility audit
         working-directory: deploy/compose
         env:

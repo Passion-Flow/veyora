@@ -9,6 +9,16 @@ process is established.
 
 ### Added
 
+- Known plaintext canaries are scanned everywhere they must never
+  appear (PRD QA-004): the comprehensive browser suite stores a known
+  plaintext through the real kernel (the reveal assertion proves it
+  was stored) and its final test asserts the canary appears in no
+  captured API request body. A new blocking compose-job step scans the
+  still-live store for the same canary — every database row, all
+  service logs, and a fresh backup export — with non-empty controls so
+  an empty capture cannot pass vacuously, and a drift check binding
+  the CI step to the suite's canary constant.
+
 - Concurrent writers are proven safe in every store adapter (PRD
   QA-005): the shared adapter contract gained a concurrent-writer
   section — six racing writers hammering one record's CAS must never
