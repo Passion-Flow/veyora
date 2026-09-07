@@ -147,15 +147,20 @@ jobs:
         with:
           node-version: "22"
       # Fresh-clone setup (QA-014): the documented dependency bootstrap is
-      # npm ci plus the pinned toolchain, then the repository gates and the
-      # full workspace test suite run natively on Apple Silicon.
+      # npm ci plus the pinned toolchain. The macOS leg proves setup,
+      # build, test, clean, and Git cleanliness natively on Apple Silicon;
+      # the repository lint suite stays on the Linux baseline because
+      # check-compose-topology shells out to Docker, which macOS runners
+      # do not provide (it fails closed there by design).
       - name: Install the root workspace dependencies
         run: npm ci --no-audit --no-fund
-      - name: Repository gates
-        run: make check
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --locked --workspace --all-targets -- -D warnings
       - run: cargo test --locked --workspace --all-targets
         env:
           RUSTFLAGS: -D warnings
+      - name: Tooling and web client unit tests
+        run: make check-tooling test-web-client
       - name: Clean leaves a pristine checkout (QA-014)
         run: |
           make clean
