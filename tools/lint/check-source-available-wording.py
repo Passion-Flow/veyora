@@ -38,6 +38,7 @@ APPROVED_FRAGMENTS = (
     "must not call the project",      # this file's rule text
     "OSI-approved",                   # references the license, not a claim
     "Open Source Definition",         # the OSD citation itself
+    "outside reviewed negation",      # descriptions of this rule itself
 )
 
 PATTERN = re.compile(r"open[ -]source", re.I)
