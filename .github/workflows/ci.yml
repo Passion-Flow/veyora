@@ -122,6 +122,48 @@ jobs:
       - run: cargo test --locked --workspace --all-targets
         env:
           RUSTFLAGS: -D warnings
+      # QA-014 (CI baseline host): a fresh clone that has been built and
+      # tested must return to a pristine tree via make clean — any file a
+      # build or test leaves inside a tracked path is a bootstrap defect.
+      - name: Clean leaves a pristine checkout (QA-014)
+        run: |
+          make clean
+          if [ -n "$(git status --porcelain)" ]; then
+            echo 'make clean left changes or untracked files:' >&2
+            git status --porcelain >&2
+            exit 1
+          fi
+
+  bootstrap-macos:
+    name: Bootstrap on macOS ARM (QA-014)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.93.1"
+          components: rustfmt, clippy
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # actions/setup-node@v7
+        with:
+          node-version: "22"
+      # Fresh-clone setup (QA-014): the documented dependency bootstrap is
+      # npm ci plus the pinned toolchain, then the repository gates and the
+      # full workspace test suite run natively on Apple Silicon.
+      - name: Install the root workspace dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Repository gates
+        run: make check
+      - run: cargo test --locked --workspace --all-targets
+        env:
+          RUSTFLAGS: -D warnings
+      - name: Clean leaves a pristine checkout (QA-014)
+        run: |
+          make clean
+          if [ -n "$(git status --porcelain)" ]; then
+            echo 'make clean left changes or untracked files:' >&2
+            git status --porcelain >&2
+            exit 1
+          fi
 
   wasm:
     name: WebAssembly build

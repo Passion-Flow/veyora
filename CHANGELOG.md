@@ -9,6 +9,14 @@ process is established.
 
 ### Added
 
+- Fresh-clone bootstrap is proven on both required host classes (PRD
+  QA-014): a new macOS ARM (Apple Silicon) CI job runs the documented
+  bootstrap — pinned toolchain, `npm ci`, `make check`, the full
+  workspace test suite — and the Linux Rust workspace job gained a
+  matching cleanliness step. Both hosts finish with `make clean` and
+  an empty `git status --porcelain`, so a build or test that leaves
+  any file in a tracked path fails CI.
+
 - Known plaintext canaries are scanned everywhere they must never
   appear (PRD QA-004): the comprehensive browser suite stores a known
   plaintext through the real kernel (the reveal assertion proves it
