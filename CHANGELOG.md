@@ -9,6 +9,16 @@ process is established.
 
 ### Added
 
+- Test fixtures are provably reproducible and non-real (PRD QA-008): a
+  new lint in `make check` forbids unseeded randomness in test sources
+  (`Math.random` in JavaScript, `thread_rng` in Rust test files),
+  requires every email-looking literal in tests to use a reserved
+  documentation domain or the project's `veyora.dev` fixture domain,
+  and asserts the kernel fuzz suite keeps its recorded default seed.
+  Its first run caught and fixed a `Math.random` cache-buster in the
+  telemetry unit test (now a deterministic counter); both detection
+  paths are negative-validated.
+
 - Fresh-clone bootstrap is proven on both required host classes (PRD
   QA-014): a new macOS ARM (Apple Silicon) CI job runs the documented
   bootstrap — pinned toolchain, `npm ci`, `make check`, the full

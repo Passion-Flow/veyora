@@ -19,11 +19,16 @@ function freshStorage() {
   };
 }
 
+// Deterministic cache-buster: each load() must re-execute the module, and
+// a monotonically increasing counter is enough to defeat the ESM cache
+// while keeping the test run reproducible (QA-008).
+let loadCount = 0;
+
 async function load(storage, window) {
   globalThis.localStorage = storage;
   globalThis.window = window;
   const url = import.meta.url;
-  const mod = await import(`${url.replace(/[^/]*$/, '')}../src/core/telemetry.js?cache=${Math.random()}`);
+  const mod = await import(`${url.replace(/[^/]*$/, '')}../src/core/telemetry.js?cache=${++loadCount}`);
   return mod.firstSuccess;
 }
 
