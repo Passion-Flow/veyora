@@ -8,4 +8,4 @@ publish.workspace = true
 
 [dependencies]
 backend-persistence = { path = "../persistence" }
-rusqlite = { version = "0.37", features = ["bundled"] }
+rusqlite = { version = "0.40", features = ["bundled"] }
