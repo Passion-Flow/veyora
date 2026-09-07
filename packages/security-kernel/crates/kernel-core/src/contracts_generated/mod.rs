@@ -1,7 +1,7 @@
 // GENERATED: edit contracts/ (or the type template in tools/codegen/contracts/), then run tools/codegen/contracts/generate_bindings.py --write.
 // Kernel binding contains data types only and imports no transport/runtime crate.
 pub const CONTRACT_SOURCE_DIGEST: &str =
-    "sha256:9e6d787e9498c028c2fc8296adbf6471e5973fc58b76e6a85f4ded5da205fdfc";
+    "sha256:bbd43237f4f6bc51682e5b1c6b7b9be89f8ea144963ce8ae6067313f620db0c1";
 
 pub const PROTOCOL_VERSION: u16 = 1;
 pub const SUITE_ID: u16 = 1;
@@ -564,4 +564,4 @@ pub struct LicensePolicyV1 {
     pub trademark_registration_status: String,
 }
 pub const CONTRACT_PROJECTION_DIGEST: &str =
-    "sha256:9b439112edd8c32d9941530707c149edf805f03e803fd4f8b98491b3fce5a3c9";
+    "sha256:876a1fce5410906de6853710ca85a1793fd5b117b7c3cb0f203f15013180df58";

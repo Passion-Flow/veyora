@@ -1,6 +1,6 @@
 // GENERATED: edit contracts/ (or the type template in tools/codegen/contracts/), then run tools/codegen/contracts/generate_bindings.py --write.
 pub const CONTRACT_SOURCE_DIGEST: &str =
-    "sha256:9e6d787e9498c028c2fc8296adbf6471e5973fc58b76e6a85f4ded5da205fdfc";
+    "sha256:bbd43237f4f6bc51682e5b1c6b7b9be89f8ea144963ce8ae6067313f620db0c1";
 
 pub const PROTOCOL_VERSION: u16 = 1;
 pub const SUITE_ID: u16 = 1;
@@ -563,4 +563,4 @@ pub struct LicensePolicyV1 {
     pub trademark_registration_status: String,
 }
 pub const CONTRACT_PROJECTION_DIGEST: &str =
-    "sha256:8987f2b760f87f1ad82603360888f0c978f2a29fd3b376549bcfe5838280f8e6";
+    "sha256:eab04b6cd3c153dce0de27742e41af88b63ab5bd6c1e2c2717955141bea4102e";

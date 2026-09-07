@@ -74,8 +74,8 @@
         "tools/codegen/contracts/contracts_types_template.rs": "042a8124cf529c5e934e42ceddd070cf0066418f7788380507fe9f6aac6a73bf"
       },
       "outputs": {
-        "packages/contracts-rust/src/lib.rs": "6d9180864f5b367618a5457f2ddf4b1239a34490ed7ab96f0afbecde67b470b5",
-        "packages/security-kernel/crates/kernel-core/src/contracts_generated/mod.rs": "e159d1395dfa071538b58820e5916995e9bd221244721accef62327ea76f74c9"
+        "packages/contracts-rust/src/lib.rs": "2a1e10fdfc9ccf0a9413cc055e0982b2841e3ccd8163ae6e39532ff424c6629c",
+        "packages/security-kernel/crates/kernel-core/src/contracts_generated/mod.rs": "6c858268b20b4cfea5418dcf669c97db1fc6c903697e9760a47e78bd52c7a522"
       },
       "tracked": true,
       "determinism": "Byte-identical for identical contracts inventory and template; CONTRACT_SOURCE_DIGEST covers every contracts/ json/cddl/yaml/md file and CONTRACT_PROJECTION_DIGEST binds each output's own bytes.",
@@ -124,7 +124,7 @@
       "generator_sha256": "299370e9eae0d11c82b74f6acc9ab5b4b7f4fab0a060b713a8ed3ceef56c15af",
       "inputs": {
         "services/api/src/error_catalog.rs": "056504a5d83d673f8d3be54f784e6c3b64f79d662c30215b9e97b25bab4862ee",
-        "services/api/src/lib.rs": "d1cf899d80eaa029e3c2cf8ce326bf3b2dee95229c22bea20b664f16b4892699",
+        "services/api/src/lib.rs": "d8dd32fb3ab042b33fd4b99d67a8ccaac9b3fddddb63381c2dcb766f5d3be8ca",
         "packages/storage/persistence/src/lib.rs": "e78f436769ddac1e0619db409316a2434ad471a4e107d0dc87215b158166b208",
         "packages/security-kernel/crates/kernel-core/src/error.rs": "e9b1e6f56786136848b0d9048089aa15f8a741ce9d1cdf2b6ba83857d057f978"
       },
