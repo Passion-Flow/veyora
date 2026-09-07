@@ -325,7 +325,7 @@ jobs:
             -v "$PWD/.build/tls":/tls:ro \
             postgres:16-bookworm \
             bash -c 'cp /tls/server.key /tmp/server.key && chmod 600 /tmp/server.key && chown postgres:postgres /tmp/server.key && exec docker-entrypoint.sh postgres -c ssl=on -c ssl_cert_file=/tls/server.pem -c ssl_key_file=/tmp/server.key'
-          for attempt in $(seq 1 30); do
+          for _attempt in $(seq 1 30); do
             if docker exec veyora-pg-tls pg_isready -U veyora -q; then break; fi
             sleep 2
           done
