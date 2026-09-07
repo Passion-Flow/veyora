@@ -9,6 +9,19 @@ process is established.
 
 ### Added
 
+- Scheduled backups are immediate, atomic, verified, and loud on failure
+  (PRD DEP-011): the compose backup profile takes its first snapshot on
+  start and then daily, writes each one via temp-file plus atomic
+  rename, and verifies it with a new `veyora-restore --verify` mode —
+  structural checks plus a fresh SHA-256 over every ciphertext. A
+  failed snapshot or verification logs a stable ERROR line and exits
+  nonzero, so a broken backup loop surfaces through restarts instead
+  of skipping silently. The backup/wipe/restore drill now asserts both
+  verifier outcomes with a kernel-shaped fixture, and the operator
+  guide documents the schedule, atomicity, verification, and failure
+  behavior (fixing a stale one-shot command that would have hung on
+  the loop entrypoint).
+
 - Error responses are fully self-describing (PRD §25.4): every API
   error now carries a `request_id` — the same id as the `x-request-id`
   header and the service log line — plus a `retry` classification

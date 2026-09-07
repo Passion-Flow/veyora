@@ -271,7 +271,14 @@ services:
       # runs as uid 10001 (DEP-006), so make it writable once:
       #   install -d -o 10001 -g 10001 ./backups
       - ./backups:/backups
-    entrypoint: ["/bin/sh", "-c", "while true; do sleep 86400; veyora-backup > /backups/veyora-$(date +%Y%m%d).json; find /backups -name '*.json' -mtime +7 -delete; done"]
+    # DEP-011 scheduled backups: the first snapshot is taken immediately on
+    # start (then every 24h), written to a temp file and atomically renamed
+    # so readers and the retention sweep never see a partial snapshot, and
+    # verified with `veyora-restore --verify` right after the rename. Any
+    # failure logs a stable ERROR line and exits nonzero so the restart
+    # policy and `docker compose ps` surface a broken backup loop instead
+    # of silently skipping snapshots. Retention keeps seven days.
+    entrypoint: ["/bin/sh", "-c", "while true; do ts=$$(date +%Y%m%dT%H%M%S); tmp=/backups/.veyora-$$ts.tmp; if veyora-backup > $$tmp && mv $$tmp /backups/veyora-$$ts.json && veyora-restore --verify < /backups/veyora-$$ts.json; then echo \"$$ts backup: snapshot verified\"; else rm -f $$tmp; echo \"ERROR: scheduled backup failed at $$ts\"; exit 1; fi; find /backups -name 'veyora-*.json' -mtime +7 -delete; sleep 86400; done"]
     <<: *app-hardening
     deploy:
       resources:

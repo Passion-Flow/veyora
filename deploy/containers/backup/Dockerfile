@@ -14,11 +14,15 @@ COPY contracts/ ./contracts/
 COPY tests/architecture/ ./tests/architecture/
 RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,target=/veyora/target,sharing=locked \
-    cargo build --release -p backup && \
-    cp target/release/backup /veyora-backup
+    cargo build --release -p backup -p restore && \
+    cp target/release/backup /veyora-backup && \
+    cp target/release/restore /veyora-restore
 
 FROM ${DEBIAN_IMAGE}
 COPY --from=builder /veyora-backup /usr/local/bin/veyora-backup
+# The scheduled loop verifies every snapshot right after writing it
+# (DEP-011), so the verifier ships beside the backup binary.
+COPY --from=builder /veyora-restore /usr/local/bin/veyora-restore
 # DEP-006: run as an unprivileged fixed-uid service user; these
 # services write no filesystem state outside mounted volumes.
 RUN useradd --system --uid 10001 --no-create-home veyora

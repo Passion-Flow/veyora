@@ -91,16 +91,43 @@ docker compose run --rm migrator
 ### Backup
 
 The `backup` service exports the full database as a JSON file containing
-opaque ciphertext (no plaintext):
+opaque ciphertext (no plaintext).
+
+**Scheduled (recommended).** Enable the backup profile and the loop takes
+its first snapshot immediately, then one every 24 hours (DEP-011): each
+snapshot is written to a temp file and atomically renamed (readers never
+see a partial file), verified with `veyora-restore --verify` right after
+the rename, and kept for seven days:
 
 ```bash
-docker compose run --rm backup > backup-$(date +%Y%m%d).json
+install -d -o 10001 -g 10001 ./backups   # once: the service runs as uid 10001
+docker compose --profile backup up -d backup
+docker compose logs backup | tail -5     # expect "<ts> backup: snapshot verified"
 ```
 
-Schedule daily backups with cron:
+If a snapshot or its verification fails, the loop logs a stable
+`ERROR: scheduled backup failed at <ts>` line and exits nonzero, so the
+restart policy restarts it and `docker compose ps` shows the churn — a
+broken backup loop is never silent.
+
+**One-shot** (the service entrypoint is the scheduled loop, so name the
+binary explicitly):
 
 ```bash
-echo "0 2 * * * cd /opt/veyora/docker && docker compose run --rm backup > backups/\$(date +\%Y\%m\%d).json && find backups -name '*.json' -mtime +30 -delete" | crontab -
+docker compose run --rm --entrypoint veyora-backup backup > backup-$(date +%Y%m%d).json
+```
+
+Verify any snapshot before relying on it — the same check the scheduled
+loop runs (structure plus a fresh SHA-256 over every ciphertext):
+
+```bash
+docker compose run --rm --entrypoint veyora-restore backup --verify < backup-$(date +%Y%m%d).json
+```
+
+An operator-managed cron works too:
+
+```bash
+echo "0 2 * * * cd /opt/veyora/docker && docker compose run --rm --entrypoint veyora-backup backup > backups/\$(date +\%Y\%m\%d).json && find backups -name '*.json' -mtime +30 -delete" | crontab -
 ```
 
 ### Restore
