@@ -30,6 +30,11 @@ process is established.
   (an unrelated CA is rejected at connect, confirmed by a negative
   check).
 
+- Workflow edits can be linted before pushing: `make check-workflows`
+  runs the same pinned `actionlint` container (with shellcheck) as the
+  Repository integrity CI job, catching the SC2034-class issues `make
+  check` cannot see.
+
 - The source-available wording rule is machine-enforced (PRD OSS-002):
   a new lint in `make check` scans every public markdown surface and
   fails on any "open source" occurrence outside reviewed negation

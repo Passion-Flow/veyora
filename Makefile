@@ -6,7 +6,7 @@ CARGO_TARGET_DIR ?= .build/cargo
 KERNEL_TARGET_DIR ?= $(CURDIR)/.build/kernel
 export CARGO_TARGET_DIR
 
-.PHONY: help check check-web check-locales check-codegen test-web-client check-desktop check-tooling codegen build build-wasm test test-kernel test-backend test-wasm-runtime test-browser test-browser-e2e test-browser-faults test-backup-restore desktop-dev desktop-build desktop-check run run-web run-db migrate worker backup restore validator docker-build docker-up docker-down purge-data doctor clean clean-all
+.PHONY: help check check-web check-workflows check-locales check-codegen test-web-client check-desktop check-tooling codegen build build-wasm test test-kernel test-backend test-wasm-runtime test-browser test-browser-e2e test-browser-faults test-backup-restore desktop-dev desktop-build desktop-check run run-web run-db migrate worker backup restore validator docker-build docker-up docker-down purge-data doctor clean clean-all
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
@@ -32,6 +32,13 @@ check: ## Validate the public repository structure and documentation links
 
 check-web: ## Validate the static web client, JavaScript, and WASM assets
 	node tools/lint/check-web.mjs
+
+check-workflows: ## Lint the GitHub Actions workflows with actionlint (needs Docker)
+	docker run --rm -v "$(CURDIR):/repo:ro" -w /repo rhysd/actionlint:1.7.12 \
+		.github/workflows/ci.yml \
+		.github/workflows/security-scan.yml \
+		.github/workflows/publish-images.yml \
+		.github/workflows/desktop-release.yml
 
 check-locales: ## Validate frontend locale catalog integrity
 	cd apps/web && node tools/check-locales.mjs
