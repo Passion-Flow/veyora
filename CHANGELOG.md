@@ -9,6 +9,15 @@ process is established.
 
 ### Added
 
+- The source-available wording rule is machine-enforced (PRD OSS-002):
+  a new lint in `make check` scans every public markdown surface and
+  fails on any "open source" occurrence outside reviewed negation
+  contexts — the README's license-section negation, the roadmap's
+  never-claim premise, OSI-approved license references, and OSD
+  citations — and on any file that mentions the term without ever
+  saying "source-available". A planted claim correctly fails the lint;
+  the current 36 surfaces pass.
+
 - The generated release test plan is drift-gated and the privacy
   inventory is complete (PRD QA-012/PRIV-003): a new lint in
   `make check` regenerates `release/test-plan.md` and fails on any

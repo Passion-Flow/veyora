@@ -2,7 +2,7 @@
  "schema_version": 1,
  "prd": "PRD.md",
  "product_version": "1.0.0",
- "updated_at": "2026-09-07T03:33:10Z",
+ "updated_at": "2026-09-07T03:51:35Z",
  "status_values": [
   "Complete",
   "Partial",
@@ -558,7 +558,8 @@
    ],
    "status": "Partial",
    "completed_scope": [
-    "OSS-005 community surface (preview-coherent, intake-closed state): public governance.md (decision model by class, maintainer expectations, contribution state and the prerequisites for opening intake), roadmap.md (a view over the PRD gates — explicitly not a second source of truth — with honest near-term blockers and a not-on-the-roadmap section), support.md (routing table incl. security-first handling and 'what support will never ask for'), bug and documentation issue templates, and a PR template that requires PRD/registry IDs and executed-green evidence; SECURITY.md and CODE_OF_CONDUCT.md already existed. OSS-002 remains satisfied (every public surface says source-available, never open source). OSS-006's machine-readable inventory groundwork exists (docs/legal, dependency lockfiles) pending the formal SBOM scan."
+    "OSS-005 community surface (preview-coherent, intake-closed state): public governance.md (decision model by class, maintainer expectations, contribution state and the prerequisites for opening intake), roadmap.md (a view over the PRD gates — explicitly not a second source of truth — with honest near-term blockers and a not-on-the-roadmap section), support.md (routing table incl. security-first handling and 'what support will never ask for'), bug and documentation issue templates, and a PR template that requires PRD/registry IDs and executed-green evidence; SECURITY.md and CODE_OF_CONDUCT.md already existed. OSS-002 remains satisfied (every public surface says source-available, never open source). OSS-006's machine-readable inventory groundwork exists (docs/legal, dependency lockfiles) pending the formal SBOM scan.",
+    "OSS-002 public-surface scan machine-enforced: tools/lint/check-source-available-wording.py (in `make check`) scans all 36 public markdown surfaces and fails on any 'open source' occurrence outside reviewed negation contexts (README license-section negation, the roadmap's never-claim-premise, OSI-approved license references, OSD citations), and on any file that mentions 'open source' without ever saying 'source-available'. PRD.md is excluded as the internal specification that defines these requirements. Negative-verified: a planted claim correctly fails the lint; the current tree passes."
    ],
    "remaining_scope": [
     "BLOCKER (owner/legal decision, cannot be made by an engineer): OSS-001/OSS-003 require the copyright owner to adopt an OSI-approved license and explicitly choose the project strategy (permissive e.g. Apache-2.0 vs network copyleft e.g. AGPL-3.0, with dependency and contribution implications). Until that decision lands, PolyForm Noncommercial stays and all surfaces must keep source-available wording (OSS-002 enforced). Unlock: recorded owner decision + license scan + manifest/badge/notice updates in one change.",
@@ -570,7 +571,8 @@
     "docs/support.md",
     ".github/ISSUE_TEMPLATE/bug-report.md",
     ".github/ISSUE_TEMPLATE/docs-issue.md",
-    ".github/pull_request_template.md"
+    ".github/pull_request_template.md",
+    "tools/lint/check-source-available-wording.py"
    ]
   },
   {
