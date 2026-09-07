@@ -744,8 +744,11 @@ try {
     await page.locator('#ov-help').waitFor();
     await page.keyboard.press('Escape');
     await page.locator('#ov-help').waitFor({ state: 'detached' });
-    assert.equal(await page.locator('#lock-help').evaluate(el => document.activeElement === el), true,
-      'Help is reachable in the locked state and restores focus');
+    // Focus restoration is an async handoff after the overlay unmounts;
+    // poll for it so the assertion tests the behavior, not the tick.
+    await page.waitForFunction(() =>
+      document.activeElement === document.getElementById('lock-help'), { timeout: 5000 });
+    assert.ok(true, 'Help is reachable in the locked state and restores focus');
 
     // Wrong password must fail (real AEAD rejection)
     await page.locator('#master-pw').fill('e2e-wrong-password');
