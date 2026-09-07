@@ -33,6 +33,8 @@ jobs:
         run: python3 tools/lint/check-foundation-pins.py
       - name: Validate the compose network topology
         run: python3 tools/lint/check-compose-topology.py
+      - name: Verify the release-auditor repository contract (QA-011)
+        run: python3 tools/release/audit-releases.py
       - name: Contract regression tests
         run: python3 -B -m unittest discover -s tests/contracts -p 'test_*.py' -v
       - name: Validate the static web client
@@ -147,6 +149,31 @@ jobs:
           VEYORA_WASM_OUT=/tmp/veyora-wasm node packages/security-kernel/tests/wasm_runtime_test.cjs
       - name: Validate the checked-in web client
         run: node tools/lint/check-web.mjs
+
+  quickstart:
+    name: Docs quickstart executes as written (QA-011)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the repository exactly as the README documents
+        run: |
+          git clone --depth 1             "https://github.com/${GITHUB_REPOSITORY}.git" "$RUNNER_TEMP/veyora"
+          cd "$RUNNER_TEMP/veyora"
+          # The README's env step, verbatim.
+          cp deploy/compose/.env.example deploy/compose/.env
+          printf 'VEYORA_DB_PASSWORD=quickstart-ci-password\n' >> deploy/compose/.env
+      - name: Start the stack and check it as the README documents
+        working-directory: ${{ runner.temp }}/veyora/deploy/compose
+        run: |
+          docker compose up -d --wait --wait-timeout 300
+          docker compose ps | grep -q "healthy"
+          curl --fail --silent http://127.0.0.1:3000/ >/dev/null
+          curl --fail --silent http://127.0.0.1:3000/api/healthz >/dev/null
+      - name: Run the README's inert-data smoke command
+        working-directory: ${{ runner.temp }}/veyora
+        run: ./tests/smoke/api.sh http://127.0.0.1:3000/api
+      - name: Stop the preview as the README documents
+        working-directory: ${{ runner.temp }}/veyora/deploy/compose
+        run: docker compose down --volumes
 
   faults:
     name: Fault injection (429 / 5xx / latency)
