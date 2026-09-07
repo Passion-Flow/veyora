@@ -10,7 +10,9 @@ API="${1:-http://127.0.0.1:8080}"
 RECORD_ID="smoke-$(date +%s)"
 VAULT_ID="1f"
 CIPHERTEXT="deadbeef"
-CIPHERTEXT_HASH="abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+# The real SHA-256 of the ciphertext bytes, so the row verifies like any
+# sealed record (the CI backup drill runs the snapshot verifier over it).
+CIPHERTEXT_HASH=$(python3 -c 'import hashlib; print(hashlib.sha256(bytes.fromhex("deadbeef")).hexdigest())')
 
 echo "=== Veyora Smoke Test ==="
 echo "API: $API"
