@@ -531,23 +531,149 @@ pub mod contract {
     /// on one shared live database, so it cleans exactly these rows too.
     pub const VAULT_CONC: &str = "cafe000000000000000000000000000d";
 
-    fn record(vault: &str, id: &str, revision: u64) -> GenericEncryptedRecordV1 {
+    /// A self-consistent ciphertext triple — valid lowercase hex, its true
+    /// SHA-256, and the byte length — for the fixture seeds this suite
+    /// uses. Every fixture needs this shape so consumers enforcing the
+    /// record format (for example `veyora-restore --verify` on a live
+    /// backup) accept contract rows exactly like client-sealed rows.
+    ///
+    /// Safety-core storage keeps zero external dependencies (enforced by
+    /// the architecture tests), so the digests are precomputed instead of
+    /// computed; the live verifier recomputes the real SHA-256 over the
+    /// bytes, so a wrong entry here fails the CI backup drill rather than
+    /// shipping silently.
+    pub fn shaped_ciphertext(seed: &str) -> (String, String, u64) {
+        const SEED_DIGESTS: &[(&str, &str)] = &[
+            (
+                "00000000000000000000000000000000",
+                "1aaa7999292f3795cc857ea24de1f4b299ba64b767338f5c8cbe6e93604cc5a5",
+            ),
+            (
+                "00000000000000000000000000000001",
+                "1aaa7999292f3795cc857ea24de1f4b299ba64b767338f5c8cbe6e93604cc5a5",
+            ),
+            (
+                "00000000000000000000000000000002",
+                "1aaa7999292f3795cc857ea24de1f4b299ba64b767338f5c8cbe6e93604cc5a5",
+            ),
+            (
+                "00000000000000000000000000000003",
+                "1aaa7999292f3795cc857ea24de1f4b299ba64b767338f5c8cbe6e93604cc5a5",
+            ),
+            (
+                "00000000000000000000000000000004",
+                "1aaa7999292f3795cc857ea24de1f4b299ba64b767338f5c8cbe6e93604cc5a5",
+            ),
+            (
+                "00000000000000000000000000000005",
+                "1aaa7999292f3795cc857ea24de1f4b299ba64b767338f5c8cbe6e93604cc5a5",
+            ),
+            (
+                "0d000000000000000000000000000001",
+                "754c1cf4f246970c5739fdc936334ef67d542a4a39a71507e4f64cbf8e8e2482",
+            ),
+            (
+                "0e000000000000000000000000000002",
+                "2e321543fbceb5f1a018852019a352d766a59d187386846d1ff62dc5916e180e",
+            ),
+            (
+                "10000000000000000000000000000003",
+                "131eeae646a0119e0f8bb20e8e93998c7567cd10a1700ac1d8721296bdf06874",
+            ),
+            (
+                "11000000000000000000000000000004",
+                "f711fba84d47503454a57f22461b5cf7a8bdad49ff12eb762fdbeed75a543c4b",
+            ),
+            (
+                "a0000000000000000000000000000001",
+                "509820cd6d9f39f6173fb3e505f3e94597483c7fa65cc53b93d524deaf625930",
+            ),
+            (
+                "b0000000000000000000000000000002",
+                "e7a5cad9021a83ed39fde5fec4594e22dc0213a87643c82c3f2a437d36719722",
+            ),
+            (
+                "c0000000000000000000000000000003",
+                "7cc001ddee4000aea01730055f6da8d27aa7e260f1006b3f9caf5e717b1c7e5e",
+            ),
+            (
+                "cececececececececececececececece",
+                "94e82501fd22d5e2ce5d270788cf55dd441eedddca9c8718828142926fa077c3",
+            ),
+            (
+                "d0000000000000000000000000000004",
+                "20a33d600585028f8dfb21ff5a57ff7d56ab2875bbdab304f4b700e17fd780e9",
+            ),
+            (
+                "e0000000000000000000000000000005",
+                "103e0f040bb7c15858d4c1cef4c27535c82d3586d0e73ea782306d8ba352d172",
+            ),
+            (
+                "rekeyed-a0000000000000000000000000000001",
+                "00ff384b2eabddff9dcf9c3899f9dec16e985d372dbcad97f2dcec344ae56185",
+            ),
+            (
+                "rekeyed-c0000000000000000000000000000003",
+                "bfca79ebc1a21586d22aa6a8690adfe22bb30d7a2711a6f76580ff5352cd1ad8",
+            ),
+            (
+                "rekeyed-d0000000000000000000000000000004",
+                "0ad2b8a0ca6b0b94b17de15ca6e1faa658c405f6632cb626d9b90c352910d692",
+            ),
+            (
+                "rotated-pg-inert",
+                "27002ddf63a1001476b5df7dfb4f8931f75b0e566ecc46aee4d55d4080039c10",
+            ),
+        ];
+        let bytes: Vec<u8> = seed.bytes().cycle().take(24).collect();
+        let ciphertext: String = bytes.iter().map(|byte| format!("{byte:02x}")).collect();
+        let (_, digest) = SEED_DIGESTS
+            .iter()
+            .find(|(known, _)| *known == seed)
+            .unwrap_or_else(|| {
+                panic!(
+                    "fixture seed {seed:?} is missing from the precomputed digest table; \
+                     add its SHA-256 (the digest of its first 24 cycled bytes)"
+                )
+            });
+        (ciphertext, (*digest).to_string(), bytes.len() as u64)
+    }
+
+    /// A kernel-shaped fixture record: 32-hex ids (as callers pass), the
+    /// vault scoped to both id fields, and a self-consistent ciphertext
+    /// triple derived from the record id.
+    pub fn shaped_record(vault: &str, id: &str, revision: u64) -> GenericEncryptedRecordV1 {
         debug_assert!(revision >= 1, "input rows must satisfy validation");
+        let (ciphertext, ciphertext_hash, ciphertext_length) = shaped_ciphertext(id);
         GenericEncryptedRecordV1 {
             record_id: id.to_string(),
             revision,
             protocol_version: veyora_contracts_generated::PROTOCOL_VERSION,
             suite_id: veyora_contracts_generated::SUITE_ID,
-            deployment_id: format!("deployment-{vault}"),
+            deployment_id: vault.to_string(),
             vault_id: vault.to_string(),
-            ciphertext: format!("ciphertext-{vault}-{id}"),
-            ciphertext_hash: format!("hash-{vault}-{id}"),
-            ciphertext_length: 32,
+            ciphertext,
+            ciphertext_hash,
+            ciphertext_length,
             tombstone: false,
             template_envelope_hash: "0".repeat(64),
             manifest_binding: "1".repeat(64),
         }
     }
+
+    fn record(vault: &str, id: &str, revision: u64) -> GenericEncryptedRecordV1 {
+        shaped_record(vault, id, revision)
+    }
+
+    /// Kernel-shaped record ids (32 lowercase hex) preserving the suite's
+    /// alphabetical ordering assumptions: acme < beta < gamma < delta <
+    /// epsilon, and `NOPE` for the not-found probe.
+    const ACME: &str = "a0000000000000000000000000000001";
+    const BETA: &str = "b0000000000000000000000000000002";
+    const GAMMA: &str = "c0000000000000000000000000000003";
+    const DELTA: &str = "d0000000000000000000000000000004";
+    const EPSILON: &str = "e0000000000000000000000000000005";
+    const NOPE: &str = "f000000000000000000000000000000f";
 
     fn assert_eq_or_panic<T: PartialEq + std::fmt::Debug>(left: T, right: T, what: &str) {
         assert_eq!(left, right, "contract violation: {what}");
@@ -557,21 +683,19 @@ pub mod contract {
     pub fn run(store: &dyn OpaqueStore) {
         // 1. Round trip: server-assigned revisions, scoped reads.
         let assigned = store
-            .put(record(VAULT_A, "acme", 1), None)
+            .put(record(VAULT_A, ACME, 1), None)
             .expect("put assigns a revision");
         assert_eq_or_panic(assigned, 1, "first put assigns revision 1");
-        let got = store
-            .get(VAULT_A, "acme")
-            .expect("stored record reads back");
+        let got = store.get(VAULT_A, ACME).expect("stored record reads back");
         assert_eq_or_panic(
             got.ciphertext,
-            format!("ciphertext-{VAULT_A}-acme"),
+            shaped_ciphertext(ACME).0,
             "ciphertext round trips",
         );
         assert!(!got.tombstone, "new records are live");
 
         // 2. Compare-and-set: stale expectations are refused.
-        let stale = store.put(record(VAULT_A, "acme", 1), Some(999));
+        let stale = store.put(record(VAULT_A, ACME, 1), Some(999));
         assert!(
             matches!(stale, Err(StoreError::Conflict)),
             "stale CAS conflicts"
@@ -579,71 +703,69 @@ pub mod contract {
 
         // 3. Vault scoping (DATA-001): identical record ids never collide.
         store
-            .put(record(VAULT_B, "acme", 1), None)
+            .put(record(VAULT_B, ACME, 1), None)
             .expect("same id in another vault is a distinct record");
         let foreign = store
-            .get(VAULT_B, "acme")
+            .get(VAULT_B, ACME)
             .expect("foreign-vault record exists");
         assert_eq_or_panic(
             foreign.deployment_id,
-            format!("deployment-{VAULT_B}"),
+            VAULT_B.to_string(),
             "the two vaults' rows stay isolated",
         );
         assert!(matches!(
-            store.get(VAULT_A, "nope"),
+            store.get(VAULT_A, NOPE),
             Err(StoreError::NotFound)
         ));
 
         // 4. Bounded listings follow (limit, offset) in stable id order.
-        store
-            .put(record(VAULT_A, "beta", 1), None)
-            .expect("put beta");
+        store.put(record(VAULT_A, BETA, 1), None).expect("put beta");
         let page = store.list(VAULT_A, 1, 1).expect("list page");
         assert_eq_or_panic(page.len(), 1, "limit is honored");
-        assert_eq_or_panic(page[0].record_id.as_str(), "beta", "offset is honored");
+        assert_eq_or_panic(page[0].record_id.as_str(), BETA, "offset is honored");
 
         // 5. Batches are all-or-nothing (DATA-007): one conflicting row
         //    rolls the entire batch back.
-        let batch_ok = vec![record(VAULT_A, "gamma", 1), record(VAULT_A, "delta", 1)];
+        let batch_ok = vec![record(VAULT_A, GAMMA, 1), record(VAULT_A, DELTA, 1)];
         let revisions = store
             .put_batch(batch_ok.clone(), vec![None, None])
             .expect("clean batch commits");
         assert_eq_or_panic(revisions, vec![1, 1], "batch assigns revisions in order");
-        let batch_conflict = vec![record(VAULT_A, "epsilon", 1), record(VAULT_A, "gamma", 1)];
+        let batch_conflict = vec![record(VAULT_A, EPSILON, 1), record(VAULT_A, GAMMA, 1)];
         let rejected = store.put_batch(batch_conflict, vec![None, Some(99)]);
         assert!(
             matches!(rejected, Err(StoreError::Conflict)),
             "conflicting batch rolls back"
         );
         assert!(
-            matches!(store.get(VAULT_A, "epsilon"), Err(StoreError::NotFound)),
+            matches!(store.get(VAULT_A, EPSILON), Err(StoreError::NotFound)),
             "a rolled-back batch leaves no partial rows"
         );
 
         // 6. Tombstones stamp their deletion time (DATA-008); restore (a
         //    live put) clears the stamp and bumps the revision.
-        store.tombstone(VAULT_A, "beta", 1).expect("tombstone");
+        store.tombstone(VAULT_A, BETA, 1).expect("tombstone");
         let stamp = store
-            .tombstoned_at(VAULT_A, "beta")
+            .tombstoned_at(VAULT_A, BETA)
             .expect("stamp is observable")
             .expect("a tombstone carries a stamp");
         assert!(stamp > 0, "stamps are epoch seconds");
         assert_eq_or_panic(
             store
-                .tombstoned_at(VAULT_A, "acme")
+                .tombstoned_at(VAULT_A, ACME)
                 .expect("live rows answer")
                 .is_none(),
             true,
             "live rows carry no stamp",
         );
-        let mut restored = record(VAULT_A, "beta", 2);
+        let mut restored = record(VAULT_A, BETA, 2);
         restored.tombstone = false;
         store
             .put(restored, Some(2))
             .expect("restore rewrites the row");
         assert_eq_or_panic(
             store
-                .tombstoned_at(VAULT_A, "beta")
+                .tombstoned_at(VAULT_A, BETA)
                 .expect("restored row answers")
                 .is_none(),
             true,
@@ -653,10 +775,10 @@ pub mod contract {
         // 7. Retention purge is cutoff-scoped, vault-scoped, and never
         //    removes live rows or fresh tombstones (DATA-008).
         store
-            .tombstone(VAULT_A, "beta", 3)
+            .tombstone(VAULT_A, BETA, 3)
             .expect("re-tombstone beta");
         let fresh = store
-            .tombstoned_at(VAULT_A, "beta")
+            .tombstoned_at(VAULT_A, BETA)
             .expect("stamp observable")
             .expect("fresh stamp");
         assert_eq_or_panic(
@@ -667,7 +789,7 @@ pub mod contract {
             "a tombstone younger than the cutoff survives",
         );
         assert!(
-            store.get(VAULT_A, "beta").is_ok(),
+            store.get(VAULT_A, BETA).is_ok(),
             "the surviving tombstone is still readable for restore"
         );
         assert_eq_or_panic(
@@ -678,7 +800,7 @@ pub mod contract {
             "the cutoff itself purges",
         );
         assert!(matches!(
-            store.get(VAULT_A, "beta"),
+            store.get(VAULT_A, BETA),
             Err(StoreError::NotFound)
         ));
         assert_eq_or_panic(
@@ -689,7 +811,7 @@ pub mod contract {
             "live rows in another vault are never purged",
         );
         assert!(
-            store.get(VAULT_A, "acme").is_ok() && store.get(VAULT_B, "acme").is_ok(),
+            store.get(VAULT_A, ACME).is_ok() && store.get(VAULT_B, ACME).is_ok(),
             "live records survive every purge",
         );
 
@@ -699,7 +821,7 @@ pub mod contract {
         //    purge it), and a target collision refuses without effects.
         let vault_c = REKEY_TARGET;
         store
-            .tombstone(VAULT_A, "delta", 1)
+            .tombstone(VAULT_A, DELTA, 1)
             .expect("tombstone delta before the rekey");
         let summaries = store.list(VAULT_A, 500, 0).expect("list vault A");
         assert!(!summaries.is_empty(), "vault A holds rows before the rekey");
@@ -711,7 +833,11 @@ pub mod contract {
             .iter()
             .map(|summary| {
                 let mut record = record(vault_c, summary.record_id.as_str(), 1);
-                record.ciphertext = format!("rekeyed-{}", summary.record_id);
+                let (ciphertext, hash, length) =
+                    shaped_ciphertext(&format!("rekeyed-{}", summary.record_id));
+                record.ciphertext = ciphertext;
+                record.ciphertext_hash = hash;
+                record.ciphertext_length = length;
                 record.tombstone = summary.tombstone;
                 record
             })
@@ -736,7 +862,7 @@ pub mod contract {
             1,
             "a tombstoned rekey row carries a purgeable deletion stamp",
         );
-        let collision = store.rekey_vault(VAULT_B, vault_c, vec![record(vault_c, "acme", 1)]);
+        let collision = store.rekey_vault(VAULT_B, vault_c, vec![record(vault_c, ACME, 1)]);
         assert!(
             matches!(collision, Err(StoreError::Conflict)),
             "a rekey into an occupied scope refuses",
@@ -762,7 +888,8 @@ pub mod contract {
         // Phase 1 — the contested record: seeded at revision 1, then every
         // writer races read-current → CAS(current + 1) per round. A lost
         // race surfaces as Conflict and retries; anything else is a breach.
-        let shared = "conc-shared";
+        const SHARED: &str = "cececececececececececececececece";
+        let shared = SHARED;
         store
             .put(record(VAULT_CONC, shared, 1), None)
             .expect("seed the contested record");
@@ -803,7 +930,7 @@ pub mod contract {
         std::thread::scope(|scope| {
             for writer in 0..WRITERS {
                 scope.spawn(move || {
-                    let id = format!("conc-solo-{writer}");
+                    let id = format!("{writer:032x}");
                     store
                         .put(record(VAULT_CONC, &id, 1), None)
                         .expect("create the owned record");
@@ -819,7 +946,7 @@ pub mod contract {
             }
         });
         for writer in 0..WRITERS {
-            let id = format!("conc-solo-{writer}");
+            let id = format!("{writer:032x}");
             assert_eq_or_panic(
                 store
                     .current_revision(VAULT_CONC, &id)

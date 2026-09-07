@@ -7,6 +7,19 @@ process is established.
 
 ## [Unreleased]
 
+### Fixed
+
+- The live-database test fixtures now carry the same record format the
+  real client seals: 32-hex record ids in stable order, vault-scoped
+  deployment ids, and self-consistent ciphertext triples with true
+  SHA-256 hashes (a precomputed digest table keeps safety-core storage
+  free of new dependencies; the live backup verifier recomputes the
+  real digest, so a wrong entry fails CI). The new snapshot verifier
+  correctly rejected the previously lax contract rows on CI — the rows,
+  not the verifier, were wrong. Follow-up recorded: the API write path
+  should enforce the same shape so `PM-STORE-INVALID-RECORD` rejects
+  non-kernel-shaped rows at write time.
+
 ### Added
 
 - The cache policy is reviewed, versioned, and enforced (PRD

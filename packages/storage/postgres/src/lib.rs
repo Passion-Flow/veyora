@@ -888,6 +888,9 @@ mod tests {
     /// suite mirrors the operator world, where exactly one migrator runs.
     static LIVE_DB: Mutex<()> = Mutex::new(());
 
+    /// Shared vault scope of the local live fixtures (32 lowercase hex).
+    const VAULT: &str = "1010101010101010101010101010101f";
+
     #[test]
     fn pool_slot_reservation_respects_the_hard_cap() {
         let outstanding = AtomicUsize::new(0);
@@ -1032,25 +1035,49 @@ mod tests {
             let mut client = store.pool.get().unwrap();
             let _ = client.execute("DELETE FROM records WHERE vault_id = $1", &[&vault]);
         }
-        store.put(record("pg-old-trash", 1), None).unwrap();
-        store.put(record("pg-new-trash", 1), None).unwrap();
-        store.put(record("pg-live-one", 1), None).unwrap();
-        store.tombstone(vault, "pg-old-trash", 1).unwrap();
-        store.tombstone(vault, "pg-new-trash", 1).unwrap();
+        store
+            .put(record("0d000000000000000000000000000001", 1), None)
+            .unwrap();
+        store
+            .put(record("0e000000000000000000000000000002", 1), None)
+            .unwrap();
+        store
+            .put(record("10000000000000000000000000000003", 1), None)
+            .unwrap();
+        store
+            .tombstone(vault, "0d000000000000000000000000000001", 1)
+            .unwrap();
+        store
+            .tombstone(vault, "0e000000000000000000000000000002", 1)
+            .unwrap();
         {
             let mut client = store.pool.get().unwrap();
             client
                 .execute(
-                    "UPDATE records SET tombstoned_at = $1 WHERE record_id = 'pg-old-trash'",
+                    "UPDATE records SET tombstoned_at = $1 WHERE record_id = '0d000000000000000000000000000001'",
                     &[&((backend_persistence::utc_now_epoch() - 40 * 86_400) as i64)],
                 )
                 .unwrap();
         }
         let cutoff = backend_persistence::utc_now_epoch() - 30 * 86_400;
         assert_eq!(store.purge_tombstoned_before(vault, cutoff).unwrap(), 1);
-        assert_eq!(store.get(vault, "pg-old-trash"), Err(StoreError::NotFound));
-        assert!(store.get(vault, "pg-new-trash").unwrap().tombstone);
-        assert!(store.get(vault, "pg-live-one").unwrap().revision >= 1);
+        assert_eq!(
+            store.get(vault, "0d000000000000000000000000000001"),
+            Err(StoreError::NotFound)
+        );
+        assert!(
+            store
+                .get(vault, "0e000000000000000000000000000002")
+                .unwrap()
+                .tombstone
+        );
+        assert!(
+            store
+                .get(vault, "10000000000000000000000000000003")
+                .unwrap()
+                .revision
+                >= 1
+        );
     }
 
     /// Live integration test against a real PostgreSQL. Ignored by default; run with:
@@ -1071,13 +1098,20 @@ mod tests {
             let _ = client.execute("DELETE FROM records WHERE vault_id = $1", &[&vault]);
         }
 
-        let mut record = record("pg-inert", 1);
+        let mut record = record("11000000000000000000000000000004", 1);
         assert_eq!(store.put(record.clone(), None).unwrap(), 1);
-        record.ciphertext_hash = "deadbeef".repeat(16);
+        let (ciphertext, hash, length) =
+            backend_persistence::contract::shaped_ciphertext("rotated-pg-inert");
+        record.ciphertext = ciphertext;
+        record.ciphertext_hash = hash;
+        record.ciphertext_length = length;
         assert_eq!(store.put(record.clone(), Some(1)).unwrap(), 2);
         assert_eq!(
             store
-                .get("1010101010101010101010101010101f", "pg-inert")
+                .get(
+                    "1010101010101010101010101010101f",
+                    "11000000000000000000000000000004"
+                )
                 .unwrap()
                 .revision,
             2
@@ -1088,13 +1122,20 @@ mod tests {
         );
         assert_eq!(
             store
-                .tombstone("1010101010101010101010101010101f", "pg-inert", 2)
+                .tombstone(
+                    "1010101010101010101010101010101f",
+                    "11000000000000000000000000000004",
+                    2
+                )
                 .unwrap(),
             3
         );
         assert!(
             store
-                .get("1010101010101010101010101010101f", "pg-inert")
+                .get(
+                    "1010101010101010101010101010101f",
+                    "11000000000000000000000000000004"
+                )
                 .unwrap()
                 .tombstone
         );
@@ -1104,7 +1145,7 @@ mod tests {
             .into_iter()
             .map(|s| s.record_id)
             .collect();
-        assert!(summaries.contains(&"pg-inert".to_string()));
+        assert!(summaries.contains(&"11000000000000000000000000000004".to_string()));
 
         // Every pooled connection carries the session-level statement
         // timeout (DB-002) — prove it on a freshly opened one.
@@ -1142,10 +1183,13 @@ mod tests {
                 .into_iter()
                 .map(|s| s.record_id)
                 .collect();
-            assert!(a.contains(&"pg-inert".to_string()));
-            assert!(b.contains(&"pg-inert".to_string()));
+            assert!(a.contains(&"11000000000000000000000000000004".to_string()));
+            assert!(b.contains(&"11000000000000000000000000000004".to_string()));
             let other_get = store
-                .get("2020202020202020202020202020202f", "pg-inert")
+                .get(
+                    "2020202020202020202020202020202f",
+                    "11000000000000000000000000000004",
+                )
                 .unwrap();
             assert_eq!(
                 other_get.revision, 1,
@@ -1153,7 +1197,10 @@ mod tests {
             );
             assert_eq!(
                 store
-                    .get("1010101010101010101010101010101f", "pg-inert")
+                    .get(
+                        "1010101010101010101010101010101f",
+                        "11000000000000000000000000000004"
+                    )
                     .unwrap()
                     .revision,
                 3
@@ -1168,13 +1215,13 @@ mod tests {
         // build the rows from clones of it.)
         {
             let mut seed = record.clone();
-            seed.record_id = "batch-live".to_string();
+            seed.record_id = "12000000000000000000000000000005".to_string();
             seed.revision = 1;
             seed.tombstone = false;
             store.put(seed.clone(), None).unwrap();
             store.put(seed.clone(), Some(1)).unwrap();
             let mut fresh = record.clone();
-            fresh.record_id = "batch-fresh".to_string();
+            fresh.record_id = "13000000000000000000000000000006".to_string();
             fresh.revision = 1;
             fresh.tombstone = false;
             let mut stale = seed.clone();
@@ -1184,12 +1231,15 @@ mod tests {
                 .unwrap_err();
             assert_eq!(err, StoreError::Conflict);
             assert_eq!(
-                store.get(VAULT, "batch-live").unwrap().revision,
+                store
+                    .get(VAULT, "12000000000000000000000000000005")
+                    .unwrap()
+                    .revision,
                 2,
                 "committed rows are untouched by the rolled-back batch"
             );
             assert_eq!(
-                store.get(VAULT, "batch-fresh"),
+                store.get(VAULT, "13000000000000000000000000000006"),
                 Err(StoreError::NotFound),
                 "no partial batch survives"
             );
@@ -1266,25 +1316,10 @@ mod tests {
         migrator.shutdown();
     }
 
-    const VAULT: &str = "1010101010101010101010101010101f";
-
+    /// Kernel-shaped fixture (32-hex ids, a real SHA-256 ciphertext hash,
+    /// byte-accurate length) so the rows this suite writes into the shared
+    /// live database verify exactly like client-sealed rows.
     fn record(id: &str, revision: u64) -> GenericEncryptedRecordV1 {
-        GenericEncryptedRecordV1 {
-            protocol_version: 1,
-            suite_id: 1,
-            deployment_id: "0000000000000000000000000000000f".to_string(),
-            vault_id: "1010101010101010101010101010101f".to_string(),
-            record_id: id.to_string(),
-            revision,
-            ciphertext: "a5".repeat(32),
-            ciphertext_hash: "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
-                .to_string(),
-            ciphertext_length: 32,
-            tombstone: false,
-            template_envelope_hash:
-                "0000000000000000000000000000000000000000000000000000000000000001".to_string(),
-            manifest_binding: "0000000000000000000000000000000000000000000000000000000000000002"
-                .to_string(),
-        }
+        backend_persistence::contract::shaped_record(VAULT, id, revision)
     }
 }
