@@ -539,8 +539,9 @@ export const recordSync = {
    * own wrap key; this only builds the record envelope for the given scope.
    */
   async putOpaqueRecord(recordId, scope, payloadHex, knownRevision) {
-    const digest = new Uint8Array(await crypto.subtle.digest('SHA-256',
-      new TextEncoder().encode(payloadHex)));
+    // Hash the payload bytes, not their hex representation.
+    const payloadBytes = new Uint8Array(payloadHex.match(/../g).map(h => parseInt(h, 16)));
+    const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', payloadBytes));
     // Wrapper rewrites use compare-and-set. A caller that already knows the
     // current revision (it just read the wrapper) skips the existence
     // probe, so first-time creation never surfaces a 404.
@@ -832,7 +833,9 @@ export const recordSync = {
       revision,
       ciphertext: toHex(sealedWithNonce),
       ciphertext_hash: toHex(digest),
-      ciphertext_length: sealed.length,
+      // The stored bytes are nonce || sealed, so the length must count
+      // both (the verifier and every integrity check depend on it).
+      ciphertext_length: sealedWithNonce.length,
       tombstone: false,
       template_envelope_hash: PROTOCOL.zeroHash,
       manifest_binding: PROTOCOL.zeroHash,

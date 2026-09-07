@@ -124,17 +124,29 @@ fn verify_snapshot(json_str: &str) -> Result<(usize, usize), String> {
             .ok_or_else(|| format!("{}: missing tombstone", where_()))?;
 
         let label = format!("record {index} ({record_id})");
-        for (name, value, len) in [
-            ("deployment_id", &deployment_id, 32),
-            ("vault_id", &vault_id, 32),
-            ("record_id", &record_id, 32),
-            ("ciphertext_hash", &ciphertext_hash, 64),
-            ("template_envelope_hash", &template_envelope_hash, 64),
-            ("manifest_binding", &manifest_binding, 64),
+        // Ids are the client's own derivation (the web client slugs them
+        // from entry names), so the verifier only bounds them; the hash
+        // fields are the sealed record's fixed-width digests.
+        for (name, value) in [
+            ("deployment_id", &deployment_id),
+            ("vault_id", &vault_id),
+            ("record_id", &record_id),
         ] {
-            if !is_lower_hex(value, len) {
+            if value.is_empty() || value.len() > 128 || !value.chars().all(|c| c.is_ascii_graphic())
+            {
                 return Err(format!(
-                    "{label}: {name} must be {len} lowercase hex characters"
+                    "{label}: {name} must be 1..=128 printable ASCII characters"
+                ));
+            }
+        }
+        for (name, value) in [
+            ("ciphertext_hash", &ciphertext_hash),
+            ("template_envelope_hash", &template_envelope_hash),
+            ("manifest_binding", &manifest_binding),
+        ] {
+            if !is_lower_hex(value, 64) {
+                return Err(format!(
+                    "{label}: {name} must be 64 lowercase hex characters"
                 ));
             }
         }
