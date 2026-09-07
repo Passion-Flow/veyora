@@ -407,6 +407,9 @@ async fn batch_put_records(
     // Malformed bodies must fail through the stable-code envelope (DIAG-003),
     // not axum's default text rejection.
     let Json(dtos) = payload.map_err(|_| ApiError::BadBody)?;
+    for dto in &dtos {
+        validate_record_shape(dto)?;
+    }
     // DATA-004: every record in one batch must declare the same vault scope;
     // a mixed-scope body is malformed, not partially applied.
     let scope = dtos
@@ -701,6 +704,62 @@ pub struct RevisionResponse {
     pub revision: u64,
 }
 
+/// Enforce the sealed record's shape at the write boundary — the format
+/// the kernel seals and `veyora-restore --verify` checks: bounded
+/// printable ids, fixed-width lowercase-hex digests, a byte-accurate
+/// ciphertext length, and a ciphertext hash matching a fresh SHA-256
+/// over the stored bytes. A correctly sealing client satisfies this by
+/// construction; a lying field is rejected before storage instead of
+/// persisting (PM-STORE-INVALID-RECORD).
+fn validate_record_shape(dto: &RecordDto) -> Result<(), ApiError> {
+    let reject = || ApiError::Store(StoreError::InvalidRecord);
+    for value in [&dto.deployment_id, &dto.vault_id, &dto.record_id] {
+        if value.is_empty() || value.len() > 128 || !value.chars().all(|c| c.is_ascii_graphic()) {
+            return Err(reject());
+        }
+    }
+    for value in [
+        &dto.ciphertext_hash,
+        &dto.template_envelope_hash,
+        &dto.manifest_binding,
+    ] {
+        if value.len() != 64
+            || !value
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+        {
+            return Err(reject());
+        }
+    }
+    let is_hex_pair = |pair: &str| u8::from_str_radix(pair, 16).is_ok();
+    let bytes: Vec<u8> = dto
+        .ciphertext
+        .as_bytes()
+        .chunks(2)
+        .map(|chunk| {
+            std::str::from_utf8(chunk)
+                .map_err(|_| reject())
+                .and_then(|pair| {
+                    if is_hex_pair(pair) {
+                        u8::from_str_radix(pair, 16).map_err(|_| reject())
+                    } else {
+                        Err(reject())
+                    }
+                })
+        })
+        .collect::<Result<_, _>>()?;
+    if bytes.is_empty() || dto.ciphertext_length != bytes.len() as u64 {
+        return Err(reject());
+    }
+    use sha2::{Digest, Sha256};
+    let digest = Sha256::digest(&bytes);
+    let computed: String = digest.iter().map(|byte| format!("{byte:02x}")).collect();
+    if computed != dto.ciphertext_hash {
+        return Err(reject());
+    }
+    Ok(())
+}
+
 async fn put_record(
     State(state): State<AppState>,
     Path(id): Path<String>,
@@ -711,6 +770,7 @@ async fn put_record(
     if dto.record_id != id {
         return Err(ApiError::RouteMismatch);
     }
+    validate_record_shape(&dto)?;
     let expected_prior_revision = dto.expected_prior_revision;
     let record = dto.into_record();
     if record.vault_id.is_empty() {
@@ -1246,6 +1306,12 @@ mod tests {
     }
 
     fn dto(id: &str, revision: u64) -> RecordDto {
+        // The ciphertext is 1040 bytes of 0xa5; its hash is computed, not
+        // faked, so every fixture satisfies the write-boundary integrity
+        // check exactly like a sealed record.
+        use sha2::{Digest, Sha256};
+        let bytes = vec![0xa5_u8; 1040];
+        let digest = Sha256::digest(&bytes);
         RecordDto {
             protocol_version: 1,
             suite_id: 1,
@@ -1253,9 +1319,8 @@ mod tests {
             vault_id: "1010101010101010101010101010101f".to_string(),
             record_id: id.to_string(),
             revision,
-            ciphertext: "a5".repeat(1040),
-            ciphertext_hash: "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
-                .to_string(),
+            ciphertext: bytes.iter().map(|b| format!("{b:02x}")).collect(),
+            ciphertext_hash: digest.iter().map(|b| format!("{b:02x}")).collect(),
             ciphertext_length: 1040,
             tombstone: false,
             template_envelope_hash:
@@ -1609,6 +1674,100 @@ mod tests {
         assert!(text.contains("veyora_puts_total"));
         assert!(text.contains("veyora_gets_total"));
         assert!(text.contains("veyora_uptime_seconds"));
+    }
+
+    #[tokio::test]
+    async fn write_boundary_rejects_lying_records() {
+        // The write boundary verifies the record's integrity fields (the
+        // same contract veyora-restore --verify enforces on backups): a
+        // hash that does not cover the stored bytes, a length that excludes
+        // the nonce, or non-hex ciphertext are all rejected before storage
+        // as PM-STORE-INVALID-RECORD.
+        let router = app_with_store();
+        let vault = "1010101010101010101010101010101f";
+        let cases: [(&str, RecordDto); 3] = [
+            ("hash does not cover the stored bytes", {
+                let mut row = dto("lying-hash", 1);
+                row.ciphertext_hash = "b".repeat(64);
+                row
+            }),
+            ("length excludes the nonce-sized prefix", {
+                let mut row = dto("lying-length", 1);
+                row.ciphertext_length -= 24;
+                row
+            }),
+            ("ciphertext is not lowercase hex", {
+                let mut row = dto("not-hex", 1);
+                row.ciphertext = "zz".repeat(1040);
+                row.ciphertext_hash = "0".repeat(64);
+                row
+            }),
+        ];
+        for (what, row) in cases {
+            let uri = format!("/records/{}?vault={vault}", row.record_id);
+            let response = router
+                .clone()
+                .oneshot(
+                    axum::http::Request::builder()
+                        .method("PUT")
+                        .uri(uri)
+                        .header("content-type", "application/json")
+                        .body(axum::body::Body::from(serde_json::to_vec(&row).unwrap()))
+                        .unwrap(),
+                )
+                .await
+                .unwrap();
+            assert_eq!(response.status(), StatusCode::BAD_REQUEST, "case: {what}");
+            let bytes = response.into_body().collect().await.unwrap().to_bytes();
+            let error: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+            assert_eq!(error.error.code, "PM-STORE-INVALID-RECORD", "case: {what}");
+        }
+    }
+
+    #[tokio::test]
+    async fn batch_with_one_lying_row_is_rejected_whole() {
+        // DATA-007 atomicity at the boundary: one malformed row rejects the
+        // whole batch before anything is applied.
+        let router = app_with_store();
+        let mut lying = dto("batch-lying", 1);
+        lying.ciphertext_hash = "c".repeat(64);
+        let batch = vec![dto("batch-good-a", 1), lying, dto("batch-good-b", 1)];
+        let response = router
+            .clone()
+            .oneshot(
+                axum::http::Request::builder()
+                    .method("POST")
+                    .uri("/records/batch?vault=1010101010101010101010101010101f")
+                    .header("content-type", "application/json")
+                    .body(axum::body::Body::from(serde_json::to_vec(&batch).unwrap()))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let error: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(error.error.code, "PM-STORE-INVALID-RECORD");
+        // Nothing from the batch reached storage.
+        for id in ["batch-good-a", "batch-good-b", "batch-lying"] {
+            let response = router
+                .clone()
+                .oneshot(
+                    axum::http::Request::builder()
+                        .uri(format!(
+                            "/records/{id}?vault=1010101010101010101010101010101f"
+                        ))
+                        .body(axum::body::Body::empty())
+                        .unwrap(),
+                )
+                .await
+                .unwrap();
+            assert_eq!(
+                response.status(),
+                StatusCode::NOT_FOUND,
+                "{id} must not exist"
+            );
+        }
     }
 
     #[tokio::test]

@@ -23,13 +23,15 @@ use tower::ServiceExt;
 /// Precomputed: nonce = 0x42 × 24, then `seal_record` of
 /// `b"my-github-password-123"` under Argon2id(b"correct horse battery staple",
 /// [0xaa;16]) → derive_record_key(context [0x82,0x40,0x40]), aad
-/// `b"pm-v1/record-aad"`, LimitProfile::V1. 24-byte nonce || 38-byte ciphertext
-/// (22 plaintext + 16 Poly1305 tag).
+/// `b"pm-v1/record-aad"`, LimitProfile::V1. The stored ciphertext is the
+/// 24-byte nonce || 38-byte sealed body (22 plaintext + 16 Poly1305 tag) =
+/// 62 bytes; the length and hash below describe exactly those stored bytes
+/// (the write boundary verifies both).
 const RECORD_ID: &str = "e2e-test-entry";
 const VAULT: &str = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 const CIPHERTEXT: &str = "424242424242424242424242424242424242424242424242d246dc5066c4084dea30c864f38d2da8028907b2554a8379d5f1b9a2e43045262ffc753128ef";
 const CIPHERTEXT_HASH: &str = "258eeb7c101cc89b2d7a785e23bb08e7389fd34a1fba00483efe1de83b39f7f6";
-const CIPHERTEXT_LEN: u64 = 38;
+const CIPHERTEXT_LEN: u64 = 62;
 
 fn record_body(prior: Option<u64>) -> serde_json::Value {
     let mut body = serde_json::json!({

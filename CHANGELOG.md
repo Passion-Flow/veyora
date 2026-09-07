@@ -7,6 +7,22 @@ process is established.
 
 ## [Unreleased]
 
+### Added
+
+- Sealed-record integrity is verified at the write boundary: every
+  single and batch record write now checks the integrity fields before
+  storage — bounded printable ids, fixed-width lowercase-hex digests,
+  lowercase-hex ciphertext, a byte-accurate `ciphertext_length`, and a
+  `ciphertext_hash` that must equal a fresh SHA-256 over the stored
+  bytes (`PM-STORE-INVALID-RECORD` on any breach, the same contract the
+  backup verifier enforces). Blocking negative tests cover a hash that
+  does not cover the stored bytes, a length that excludes the nonce,
+  non-hex ciphertext, and batch atomicity (one lying row rejects the
+  whole batch with nothing applied). The enforcement immediately caught
+  the last historical instance of the nonce-length bug — in the API
+  integration fixture itself — now corrected to the truthful 62 stored
+  bytes.
+
 ### Fixed
 
 - The live-database test fixtures now carry the same record format the
