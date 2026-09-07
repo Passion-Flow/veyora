@@ -161,6 +161,18 @@ jobs:
           # The README's env step, verbatim.
           cp deploy/compose/.env.example deploy/compose/.env
           printf 'VEYORA_DB_PASSWORD=quickstart-ci-password\n' >> deploy/compose/.env
+      # The published v1.0.0 application images predate the role-scoped
+      # startup topology (DB-004): the stale API image exits at boot when
+      # it lands on the DML-only role. Machine-proven on 2026-09-07; the
+      # README already warns not to rely on those tags. Until the owner's
+      # next authorized publish-images run ships current images, this job
+      # executes the documented commands against images built from the
+      # exact sources under test.
+      - name: Build the current application images
+        working-directory: ${{ runner.temp }}/veyora/deploy/compose
+        run: |
+          printf 'VEYORA_BUILD_COMMIT=%s\n' "${GITHUB_SHA::12}" >> .env
+          docker compose build api worker migrator gateway web
       - name: Start the stack and check it as the README documents
         working-directory: ${{ runner.temp }}/veyora/deploy/compose
         run: |
