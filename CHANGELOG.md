@@ -9,6 +9,15 @@ process is established.
 
 ### Added
 
+- The release workflow's verification job now uses the dedicated image
+  inspector and executes real bytes (PRD DEP-007 runner side):
+  `tools/release/inspect-image.py --require amd64,arm64` runs over all
+  thirteen published images with anonymous registry access, and a new
+  pull-and-execute step pulls `veyora-backup` at the release tag and
+  proves the published binary runs — its honest `DATABASE_URL is
+  required` refusal (exit 1) is the executability evidence. The gate
+  executes on the owner's next authorized release run.
+
 - Every browser suite now runs on GitHub runners on every push: the
   E2E-002..007 acceptance journeys (digest-invariant unlock rejection,
   clean-device Recovery Key recovery, cross-vault isolation, atomic

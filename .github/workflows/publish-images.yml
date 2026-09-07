@@ -216,20 +216,31 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
       - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # docker/setup-buildx-action@v4
-      - name: Inspect every public release image without registry credentials
+      - name: Inspect every public release image (DEP-007 arch gate)
         env:
           VERSION: ${{ needs.validate.outputs.version }}
         run: |
           images=(postgres nginx envoy rust debian api worker migrator backup restore validator web gateway)
           for image in "${images[@]}"; do
             ref="$REGISTRY/$IMAGE_NAMESPACE/veyora-$image:$VERSION"
-            manifest="$(docker buildx imagetools inspect "$ref")"
-            for platform in linux/amd64 linux/arm64; do
-              if ! grep -Fq "Platform:  $platform" <<<"$manifest"; then
-                echo "$ref is missing $platform" >&2
-                exit 1
-              fi
-            done
-            echo "Verified $ref (linux/amd64, linux/arm64)"
+            # Anonymous read proves public access; the dedicated tool gates
+            # on every required architecture being listed.
+            docker buildx imagetools inspect "$ref" >/dev/null
+            python3 tools/release/inspect-image.py "$ref" --require amd64,arm64
           done
+      - name: Pull and execute a published image (bytes run on the runner)
+        env:
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          ref="$REGISTRY/$IMAGE_NAMESPACE/veyora-backup:$VERSION"
+          docker pull "$ref"
+          # The backup binary refuses to run without DATABASE_URL and says
+          # so — that refusal is the proof the published bytes execute.
+          set +e
+          output="$(docker run --rm "$ref" 2>&1)"
+          code=$?
+          set -e
+          echo "$output"
+          [ "$code" -eq 1 ] && grep -q "DATABASE_URL is required" <<<"$output"
