@@ -121,7 +121,7 @@ try {
         body: JSON.stringify({ error: { code: 'PM-API-UNAUTHORIZED' } }),
       });
     });
-    await gatePage.goto(webUrl, { waitUntil: 'networkidle' });
+    await gatePage.goto(webUrl, { waitUntil: 'load' });
 
     await test('web without a service session gates on Connect / Sign in (UX-ONB-003)', async () => {
       await gatePage.locator('#view-connect').waitFor({ timeout: 15000 });
@@ -160,9 +160,9 @@ try {
   }
 
   const separator = webUrl.includes('?') ? '&' : '?';
-  await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'networkidle' });
+  await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'load' });
   await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'load' });
 
   // === 0b. Welcome routes (UX-ONB-002) ===
   await test('welcome offers Create, Open, Import, and Advanced connect routes (UX-ONB-002)', async () => {
@@ -194,7 +194,7 @@ try {
     await page.locator('#conn-help').click();
     await page.locator('#ov-help').waitFor();
     await page.keyboard.press('Escape');
-    await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'networkidle' });
+    await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'load' });
     await page.locator('#lock-routes').waitFor();
   });
 
@@ -1557,9 +1557,9 @@ try {
     // queries (the privacy-review evidence the PRD asks the harness for).
     const stamp = Date.now();
     await page.goto(`${webUrl}?e2e-optin=${stamp}&veyora-first-success=1`,
-      { waitUntil: 'networkidle' });
+      { waitUntil: 'load' });
     await page.evaluate(() => localStorage.clear());
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     // The opt-in must survive the reload via the URL parameter.
     await page.locator('#wf-create').click();
     await page.locator('#new-pw').fill('e2e-optin-pw-12345678');

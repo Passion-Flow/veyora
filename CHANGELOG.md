@@ -9,6 +9,18 @@ process is established.
 
 ### Added
 
+- The cache policy is reviewed, versioned, and enforced (PRD
+  SEC-WEB-006): every API response now carries `Cache-Control:
+  no-store` (outermost middleware, so error envelopes are covered too),
+  the unversioned web shell revalidates with `no-cache`, and self-hosted
+  fonts keep their one-year cache. The policy lives in
+  `contracts/web/security-headers-v1.json` and `tests/smoke/headers.sh`
+  enforces all three against the live origin. Root-caused along the
+  way: Chromium never reaches its network-quiet signal while a no-store
+  response was served during load, so all 21 `networkidle` navigations
+  in the browser suites now wait for `load` plus their existing selector
+  waits — the full eight-suite regression passes on the new stack.
+
 - Scheduled backups are immediate, atomic, verified, and loud on failure
   (PRD DEP-011): the compose backup profile takes its first snapshot on
   start and then daily, writes each one via temp-file plus atomic

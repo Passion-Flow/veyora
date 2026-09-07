@@ -86,6 +86,49 @@ if ! printf '%s' "$CSP" | grep -q "frame-ancestors 'none'"; then
   FAILURES=$((FAILURES + 1))
 fi
 
+# SEC-WEB-006 cache policy, versioned in the same contract: API responses
+# (through the web origin's /api proxy) are per-session sensitive and must
+# be no-store; the unversioned shell must revalidate; self-hosted fonts may
+# cache for one year. The header helper is reused with explicit targets.
+header_of() {
+  local target="$1" name="$2"
+  curl -s -m 5 -D - -o /dev/null "$target" | python3 -c '
+import sys
+name = sys.argv[1].lower()
+for line in sys.stdin.read().replace("\r", "").splitlines():
+    if ":" in line:
+        key, _, value = line.partition(":")
+        if key.strip().lower() == name:
+            print(value.strip())
+            break
+' "$name"
+}
+check_cache() {
+  local label="$1" target="$2" expected="$3"
+  local actual
+  actual=$(header_of "$target" "Cache-Control")
+  if [ "$actual" != "$expected" ]; then
+    echo "FAIL: cache policy for $label"
+    echo "  contract: $expected"
+    echo "  live:     ${actual:-<missing>}"
+    FAILURES=$((FAILURES + 1))
+  else
+    echo "OK: cache policy for $label ($expected)"
+  fi
+}
+while IFS=$'\t' read -r label kind expected; do
+  case "$kind" in
+    api) check_cache "$label" "$WEB/api/healthz" "$expected" ;;
+    shell) check_cache "$label" "$WEB/" "$expected" ;;
+    fonts) check_cache "$label" "$WEB/assets/fonts/IBMPlexMono-400-normal-latin.woff2" "$expected" ;;
+  esac
+done < <(python3 -c '
+import json
+contract = json.load(open("'"$CONTRACT"'"))
+for kind, expected in contract.get("cache_policy", {}).items():
+    print(f"{kind}\t{kind}\t{expected}")
+')
+
 echo ""
 if [ "$FAILURES" -gt 0 ]; then
   echo "=== $FAILURES FAILURE(S) ==="

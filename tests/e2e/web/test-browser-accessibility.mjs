@@ -289,9 +289,9 @@ async function setTheme(theme) {
 
 try {
   const separator = webUrl.includes('?') ? '&' : '?';
-  await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'networkidle' });
+  await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'load' });
   await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'load' });
 
   // === Welcome route screen ===
   await page.locator('#lock-routes').waitFor({ timeout: 15000 });
@@ -311,7 +311,7 @@ try {
       contentType: 'application/json',
       body: JSON.stringify({ error: { code: 'PM-API-UNAUTHORIZED' } }),
     }));
-    await gatePage.goto(webUrl, { waitUntil: 'networkidle' });
+    await gatePage.goto(webUrl, { waitUntil: 'load' });
     await gatePage.locator('#view-connect').waitFor({ timeout: 15000 });
     await test('connect gate: names, labels, contrast, targets (ACC-002/003/006/008)', async () => {
       const found = await gatePage.evaluate(AUDIT_SOURCE);
@@ -458,7 +458,7 @@ try {
       reducedMotion: 'reduce',
     });
     const motionPage = await motionContext.newPage();
-    await motionPage.goto(webUrl, { waitUntil: 'networkidle' });
+    await motionPage.goto(webUrl, { waitUntil: 'load' });
     await motionPage.locator('#wf-create').waitFor();
     assert.equal(
       await motionPage.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches),

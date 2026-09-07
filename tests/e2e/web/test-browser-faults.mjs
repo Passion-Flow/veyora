@@ -117,9 +117,9 @@ async function saveNewEntry(name, secret) {
 }
 
 try {
-  await page.goto(webUrl, { waitUntil: 'networkidle' });
+  await page.goto(webUrl, { waitUntil: 'load' });
   await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'load' });
 
   // === 0. Vault bootstrap on the rate-limited stack ===
   await page.locator('#wf-create').click();

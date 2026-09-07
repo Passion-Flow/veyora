@@ -68,7 +68,7 @@ try {
   const page = await context.newPage();
   const problems = [];
   page.on('pageerror', error => problems.push(`page error: ${error.message}`));
-  await page.goto(webUrl, { waitUntil: 'networkidle' });
+  await page.goto(webUrl, { waitUntil: 'load' });
 
   await test('a fresh browser against the live token stack gates on Connect / Sign in (UX-ONB-003)', async () => {
     await page.locator('#view-connect').waitFor({ timeout: 15000 });

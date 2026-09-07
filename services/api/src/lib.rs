@@ -248,7 +248,27 @@ pub fn app(state: AppState) -> Router {
             state.clone(),
             rate_limit_middleware,
         ))
+        // Outermost of all so even auth and rate-limit error envelopes are
+        // uncacheable (SEC-WEB-006): nothing the API serves — record
+        // payloads, revisions, or error envelopes — may persist in any
+        // shared or local cache.
+        .layer(axum::middleware::from_fn(cache_control_middleware))
         .with_state(state)
+}
+
+/// SEC-WEB-006 cache policy: every API response is per-session sensitive,
+/// so every response (success or error, at any middleware layer) carries
+/// `Cache-Control: no-store`. The service worker independently refuses to
+/// serve `/api/` from Cache Storage, making the exclusion double-enforced.
+async fn cache_control_middleware(
+    req: axum::extract::Request,
+    next: axum::middleware::Next,
+) -> axum::response::Response {
+    let mut response = next.run(req).await;
+    if let Ok(value) = "no-store".parse() {
+        response.headers_mut().insert("cache-control", value);
+    }
+    response
 }
 
 /// Reject request bodies larger than the configured ceiling before they reach
@@ -1299,6 +1319,35 @@ mod tests {
             .await
             .unwrap();
         assert_eq!(response.status(), StatusCode::OK);
+        // SEC-WEB-006: no API response may be stored by any cache.
+        assert_eq!(response.headers().get("cache-control").unwrap(), "no-store");
+    }
+
+    #[tokio::test]
+    async fn error_envelopes_are_also_uncacheable() {
+        // SEC-WEB-006: the cache policy is outermost, so even middleware
+        // error envelopes (here: a store outage) carry no-store.
+        let router = app(AppState::new(
+            Arc::new(UnavailableStore),
+            Config {
+                bind: "127.0.0.1:0".to_string(),
+                auth_mode: AuthMode::Disabled,
+                max_body_bytes: 256 * 1024,
+                cors_origins: Vec::new(),
+                rate_limit_per_minute: 0,
+            },
+        ));
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/readyz")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
+        assert_eq!(response.headers().get("cache-control").unwrap(), "no-store");
     }
 
     #[tokio::test]

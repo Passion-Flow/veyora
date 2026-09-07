@@ -55,9 +55,9 @@ async function freshDevice() {
     viewport: { width: 1440, height: 1100 },
   });
   const page = await context.newPage();
-  await page.goto(`${webUrl}?e2e=${Date.now()}`, { waitUntil: 'networkidle' });
+  await page.goto(`${webUrl}?e2e=${Date.now()}`, { waitUntil: 'load' });
   await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'load' });
   return { context, page };
 }
 
@@ -333,7 +333,7 @@ try {
 
     // Destroy ALL local state: no master password, no metadata, no session.
     await page.evaluate(() => localStorage.clear());
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await page.locator('#lock-routes').waitFor();
 
     // Recover with only the kit and a NEW master password — the route is
@@ -402,7 +402,7 @@ try {
 
     // The OLD kit no longer recovers: wipe and try it.
     await page.evaluate(() => localStorage.clear());
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await page.locator('#btn-recover-routes').click();
     await page.locator('#lock-recover:not(.hidden)').waitFor();
     await page.locator('#recover-kit').fill(oldKit);

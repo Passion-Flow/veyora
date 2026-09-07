@@ -165,9 +165,9 @@ async function closeDrawer() {
 
 try {
   const separator = webUrl.includes('?') ? '&' : '?';
-  await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'networkidle' });
+  await page.goto(`${webUrl}${separator}e2e=${Date.now()}`, { waitUntil: 'load' });
   await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'load' });
 
   // Create a vault with one item so the dashboard has real content.
   await page.locator('#lock-routes').waitFor({ timeout: 15000 });

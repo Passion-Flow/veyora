@@ -10,6 +10,11 @@
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY"
   },
+  "cache_policy": {
+    "api": "no-store",
+    "shell": "no-cache",
+    "fonts": "max-age=31536000"
+  },
   "forbidden": [
     "javascript-unsafe-eval (the narrow 'wasm-unsafe-eval' allowance for the reviewed WASM kernel is the only evaluation permission)",
     "wildcard-origin-with-credentials",
@@ -17,5 +22,5 @@
     "service-worker-secret-cache",
     "missing-permissions-policy"
   ],
-  "rendering_notes": "connect-src is rendered from VEYORA_CSP_CONNECT_SRC at container start (default 'self'); every other directive is fixed. tests/smoke/headers.sh compares the live origin against this contract (DEP-009)."
+  "rendering_notes": "connect-src is rendered from VEYORA_CSP_CONNECT_SRC at container start (default 'self'); every other directive is fixed. tests/smoke/headers.sh compares the live origin against this contract (DEP-009). The cache_policy entries are enforced by the same smoke: API responses (through the web origin's /api proxy) must be no-store, the unversioned shell must revalidate (no-cache), and self-hosted fonts may cache for one year (SEC-WEB-006)."
 }
