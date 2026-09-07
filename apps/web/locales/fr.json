@@ -1167,6 +1167,9 @@
     "save.statusReload": {
       "text": "Recharger la dernière version"
     },
+    "save.statusRequestId": {
+      "text": "Si vous signalez ce problème, incluez la requête {id}."
+    },
     "modal.savedSync": {
       "text": "Synchronisé avec le service — révision {revision}."
     },

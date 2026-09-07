@@ -104,8 +104,17 @@ contract; `message` is a fixed English debugging aid and is never localized
 keyed by the code; the web client ships `apiError.*` keys in
 `apps/web/locales/`.
 
+Every error also carries a `request_id` — mirrored in the `x-request-id`
+response header and in the service log line, so a client report and the
+server log name the same request — safe typed `parameters` when the code
+has them, and a `retry` classification: `immediate` (an identical retry
+may succeed right away), `delayed` (retry after the stated window), or
+`never` (fix the request before repeating it). The cross-surface code
+reference, including the kernel and web client codes, is generated at
+`docs/reference/error-codes.md`.
+
 ```json
-{"error": {"code": "PM-STORE-CONFLICT", "message": "Revision conflict: the record changed elsewhere."}}
+{"error": {"code": "PM-STORE-CONFLICT", "message": "Revision conflict: the record changed elsewhere.", "parameters": {"current_revision": 3}, "retry": "never"}, "request_id": "18f32c070000002a"}
 ```
 
 | HTTP | Body code | Meaning |

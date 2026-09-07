@@ -1173,6 +1173,9 @@
     "save.statusReload": {
       "text": "Загрузить последнюю версию"
     },
+    "save.statusRequestId": {
+      "text": "Сообщая об этой проблеме, укажите запрос {id}."
+    },
     "modal.savedSync": {
       "text": "Синхронизировано с сервисом — ревизия {revision}."
     },

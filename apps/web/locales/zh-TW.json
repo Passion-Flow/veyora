@@ -1164,6 +1164,9 @@
     "save.statusReload": {
       "text": "重新載入最新版本"
     },
+    "save.statusRequestId": {
+      "text": "回報此問題時，請附上請求 {id}。"
+    },
     "modal.savedSync": {
       "text": "已與服務同步——修訂版 {revision}。"
     },

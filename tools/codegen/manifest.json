@@ -112,6 +112,34 @@
         "python3",
         "tools/lint/check-repository.py"
       ]
+    },
+    {
+      "artifact_id": "docs-error-codes",
+      "description": "Searchable English error-code reference for every surface (PRD DIAG-003). Generated from the live code sources: the API error catalog, the retry classification, the storage stable_code mapping, the kernel stable_code mapping, and PM-* literals in the web client. A discovered code without curated prose fails generation and a curated code without a source fails, so the page is complete in both directions.",
+      "owner": "backend",
+      "consumers": [
+        "docs/reference/error-codes.md"
+      ],
+      "generator": "tools/codegen/docs/generate-error-codes.py",
+      "generator_sha256": "299370e9eae0d11c82b74f6acc9ab5b4b7f4fab0a060b713a8ed3ceef56c15af",
+      "inputs": {
+        "services/api/src/error_catalog.rs": "056504a5d83d673f8d3be54f784e6c3b64f79d662c30215b9e97b25bab4862ee",
+        "services/api/src/lib.rs": "d1cf899d80eaa029e3c2cf8ce326bf3b2dee95229c22bea20b664f16b4892699",
+        "packages/storage/persistence/src/lib.rs": "e78f436769ddac1e0619db409316a2434ad471a4e107d0dc87215b158166b208",
+        "packages/security-kernel/crates/kernel-core/src/error.rs": "e9b1e6f56786136848b0d9048089aa15f8a741ce9d1cdf2b6ba83857d057f978"
+      },
+      "outputs": {
+        "docs/reference/error-codes.md": "7065d6a3bb33d8aba6a2e0dcb4a6ae2d812d8abdfa2ed29c22802dd7ba35e1db"
+      },
+      "tracked": true,
+      "determinism": "Byte-identical for identical source bytes; sorted tables and a fixed template.",
+      "regenerate_command": "python3 tools/codegen/docs/generate-error-codes.py --write",
+      "check_mode": "generator-check",
+      "check_command": [
+        "python3",
+        "tools/codegen/docs/generate-error-codes.py",
+        "--check"
+      ]
     }
   ]
 }

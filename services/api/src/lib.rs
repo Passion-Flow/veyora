@@ -312,7 +312,9 @@ async fn request_log_middleware(
         REQUEST_ID_COUNTER.fetch_add(1, Ordering::Relaxed)
     );
     let start = std::time::Instant::now();
-    let mut response = next.run(req).await;
+    let mut response = CURRENT_REQUEST_ID
+        .scope(req_id.clone(), next.run(req))
+        .await;
     let status = response.status();
     let elapsed = start.elapsed();
     eprintln!(
@@ -917,6 +919,19 @@ pub enum ApiError {
     BadQuery,
 }
 
+/// Retry classification (PRD 25.4): tells a client whether repeating the
+/// same request can succeed without human action.
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum RetryClass {
+    /// The same request may be retried immediately (transient backend).
+    Immediate,
+    /// Retry only after the delay named in the parameters or headers.
+    Delayed,
+    /// Retrying the same request cannot succeed; fix the request first.
+    Never,
+}
+
 /// Serializable error envelope shared by every error response path.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ErrorDetail {
@@ -924,9 +939,12 @@ pub struct ErrorDetail {
     pub message: String,
     /// Safe, typed parameters (PRD 25.4): the conflict payload carries the
     /// server-authoritative current revision (DATA-005) so clients resolve
-    /// without guessing; other codes omit the map.
+    /// without guessing; the rate-limit payload carries its delay in
+    /// seconds; other codes omit the map.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parameters: Option<std::collections::BTreeMap<String, u64>>,
+    /// Whether an identical retry can succeed (PRD 25.4).
+    pub retry: RetryClass,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -934,6 +952,39 @@ pub struct ErrorBody {
     pub error: ErrorDetail,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub request_id: Option<String>,
+}
+
+// A per-request identifier (PRD 25.4): the logging middleware assigns one
+// per request and exposes it here so error envelopes name the same request
+// as the `x-request-id` header and the log line. Error builders running
+// outside a request scope (the outermost rate-limit and auth layers, which
+// short-circuit before logging) fall back to the same counter, keeping the
+// id format uniform; it never derives from request content.
+tokio::task_local! {
+    static CURRENT_REQUEST_ID: String;
+}
+
+fn current_request_id() -> String {
+    CURRENT_REQUEST_ID
+        .try_with(|id| id.clone())
+        .unwrap_or_else(|_| {
+            format!(
+                "{:08x}{:012x}",
+                request_id_boot(),
+                REQUEST_ID_COUNTER.fetch_add(1, Ordering::Relaxed)
+            )
+        })
+}
+
+/// Classify a stable code for retries (PRD 25.4): backend unavailability
+/// is transient, rate limiting is delayed, and everything else requires
+/// changing the request (or the credentials) before repeating it.
+fn retry_class(code: &str) -> RetryClass {
+    match code {
+        "PM-STORE-UNAVAILABLE" => RetryClass::Immediate,
+        "PM-API-RATE-LIMITED" => RetryClass::Delayed,
+        _ => RetryClass::Never,
+    }
 }
 
 impl ApiError {
@@ -958,33 +1009,43 @@ impl ApiError {
 
 /// Build a JSON error response for a stable code.
 fn error_response(status: StatusCode, code: &str) -> Response {
+    error_response_with(status, code, None)
+}
+
+/// Build a JSON error response with safe, typed parameters (PRD 25.4).
+/// Every error response carries a request id in the body and in the
+/// `x-request-id` header so a client report and the server log line up.
+fn error_response_with(
+    status: StatusCode,
+    code: &str,
+    parameters: Option<std::collections::BTreeMap<String, u64>>,
+) -> Response {
+    let id = current_request_id();
     let body = ErrorBody {
         error: ErrorDetail {
             code: code.to_string(),
             message: error_catalog::message(code).to_string(),
-            parameters: None,
+            parameters,
+            retry: retry_class(code),
         },
-        request_id: None,
+        request_id: Some(id.clone()),
     };
-    (status, Json(body)).into_response()
+    let mut response = (status, Json(body)).into_response();
+    if let Ok(value) = id.parse() {
+        response.headers_mut().insert("x-request-id", value);
+    }
+    response
 }
 
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let (status, code) = self.status_and_code();
         if let Self::ConflictAtRevision(current) = self {
-            let body = ErrorBody {
-                error: ErrorDetail {
-                    code: code.to_string(),
-                    message: error_catalog::message(code).to_string(),
-                    parameters: Some(std::collections::BTreeMap::from([(
-                        "current_revision".to_string(),
-                        current,
-                    )])),
-                },
-                request_id: None,
-            };
-            return (status, Json(body)).into_response();
+            let parameters = Some(std::collections::BTreeMap::from([(
+                "current_revision".to_string(),
+                current,
+            )]));
+            return error_response_with(status, code, parameters);
         }
         error_response(status, code)
     }
@@ -1075,7 +1136,14 @@ async fn rate_limit_middleware(
             })
             .unwrap_or_else(|| "unknown".to_string());
         if !state.rate_limiter.allow(&ip) {
-            let mut response = error_response(StatusCode::TOO_MANY_REQUESTS, "PM-API-RATE-LIMITED");
+            let mut response = error_response_with(
+                StatusCode::TOO_MANY_REQUESTS,
+                "PM-API-RATE-LIMITED",
+                Some(std::collections::BTreeMap::from([(
+                    "retry_after_seconds".to_string(),
+                    60,
+                )])),
+            );
             response
                 .headers_mut()
                 .insert("retry-after", "60".parse().unwrap());
@@ -1907,6 +1975,13 @@ mod tests {
                 "application/json",
                 "{method} {uri}"
             );
+            let response_header_id = response
+                .headers()
+                .get("x-request-id")
+                .expect("x-request-id header")
+                .to_str()
+                .unwrap()
+                .to_string();
             let bytes = response.into_body().collect().await.unwrap().to_bytes();
             let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
             assert_eq!(body.error.code, "PM-API-BAD-BODY", "{method} {uri}");
@@ -1914,6 +1989,12 @@ mod tests {
                 body.error.message,
                 error_catalog::message("PM-API-BAD-BODY")
             );
+            // PRD 25.4: the envelope names the request and classifies
+            // retries — a malformed body never succeeds as-is.
+            assert_eq!(body.error.retry, RetryClass::Never, "{method} {uri}");
+            let id = body.request_id.expect("request id present");
+            assert!(!id.is_empty(), "{method} {uri}: {id}");
+            assert_eq!(response_header_id, id.as_str(), "{method} {uri}");
         }
     }
 
@@ -2068,9 +2149,26 @@ mod tests {
             .unwrap();
         assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
         assert_eq!(response.headers().get("retry-after").unwrap(), "60");
+        let header_id = response
+            .headers()
+            .get("x-request-id")
+            .expect("x-request-id header")
+            .to_str()
+            .unwrap()
+            .to_string();
         let bytes = response.into_body().collect().await.unwrap().to_bytes();
         let body: ErrorBody = serde_json::from_slice(&bytes).unwrap();
         assert_eq!(body.error.code, "PM-API-RATE-LIMITED");
+        // PRD 25.4: the delay is classified and named in safe parameters.
+        assert_eq!(body.error.retry, RetryClass::Delayed);
+        assert_eq!(
+            body.error
+                .parameters
+                .as_ref()
+                .and_then(|map| map.get("retry_after_seconds")),
+            Some(&60)
+        );
+        assert_eq!(body.request_id.as_deref(), Some(header_id.as_str()));
     }
 
     #[tokio::test]
@@ -2386,6 +2484,13 @@ mod tests {
             .await
             .unwrap();
         assert_eq!(response.status(), StatusCode::CONFLICT);
+        let header_id = response
+            .headers()
+            .get("x-request-id")
+            .expect("x-request-id header")
+            .to_str()
+            .unwrap()
+            .to_string();
         let bytes = response.into_body().collect().await.unwrap().to_bytes();
         let error: ErrorBody = serde_json::from_slice(&bytes).unwrap();
         assert_eq!(error.error.code, "PM-STORE-CONFLICT");
@@ -2395,6 +2500,41 @@ mod tests {
             Some(&3),
             "the server's committed revision is authoritative"
         );
+        // PRD 25.4: a CAS conflict is a Never retry — the client must
+        // re-read and re-apply, not repeat — and the request is named.
+        assert_eq!(error.error.retry, RetryClass::Never);
+        assert_eq!(error.request_id.as_deref(), Some(header_id.as_str()));
+    }
+
+    #[tokio::test]
+    async fn store_unavailable_envelope_is_immediately_retryable() {
+        // PRD 25.4: a transient backend outage is classified Immediate so
+        // clients may repeat the identical request without user action.
+        let router = app(AppState::new(
+            Arc::new(UnavailableStore),
+            Config {
+                bind: "127.0.0.1:0".to_string(),
+                auth_mode: AuthMode::Disabled,
+                max_body_bytes: 256 * 1024,
+                cors_origins: Vec::new(),
+                rate_limit_per_minute: 0,
+            },
+        ));
+        let response = router
+            .oneshot(
+                axum::http::Request::builder()
+                    .uri("/records/some-row?vault=1010101010101010101010101010101f")
+                    .body(axum::body::Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
+        let bytes = response.into_body().collect().await.unwrap().to_bytes();
+        let error: ErrorBody = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(error.error.code, "PM-STORE-UNAVAILABLE");
+        assert_eq!(error.error.retry, RetryClass::Immediate);
+        assert!(error.request_id.as_deref().is_some_and(|id| !id.is_empty()));
     }
 
     #[tokio::test]

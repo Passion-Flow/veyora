@@ -113,6 +113,9 @@ async function apiFetch(path, options = {}) {
     const error = new Error(code);
     error.code = code;
     error.status = response.status;
+    // PRD 25.4: the request id lets a user report and the server log name
+    // the same request; absent on non-JSON errors.
+    error.requestId = detail && detail.request_id ? detail.request_id : null;
     throw error;
   }
   return response.status === 204 ? null : response.json();
@@ -148,6 +151,7 @@ async function apiFetchAllPages(path) {
       const error = new Error(code);
       error.code = code;
       error.status = response.status;
+      error.requestId = detail && detail.request_id ? detail.request_id : null;
       throw error;
     }
     const body = await response.json();

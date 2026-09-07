@@ -1170,6 +1170,9 @@
     "save.statusReload": {
       "text": "إعادة تحميل أحدث إصدار"
     },
+    "save.statusRequestId": {
+      "text": "إذا أبلغت عن هذه المشكلة، فأدرج الطلب {id}."
+    },
     "modal.savedSync": {
       "text": "تمت المزامنة مع الخدمة — المراجعة {revision}."
     },

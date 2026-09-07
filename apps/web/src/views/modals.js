@@ -316,9 +316,15 @@ function reportSaveFailure(error) {
   const action = conflict
     ? `<button class="btn btn-primary" id="save-reload">${t('save.statusReload')}</button>`
     : `<button class="btn btn-primary" id="save-retry">${t('save.statusRetry')}</button>`;
+  // PRD 25.4/DIAG-003: quote the request id so a user report and the
+  // server log line up; only shown when the service provided one.
+  const requestLine = error && error.requestId
+    ? `<p class="save-status-request">${t('save.statusRequestId', { id: error.requestId })}</p>`
+    : '';
   renderSaveStatus(`
     <strong>${t('save.statusTitle')}</strong>
     <p>${body}</p>
+    ${requestLine}
     <div class="saved-actions">${action}</div>`);
   const retry = document.getElementById('save-retry');
   if (retry) retry.onclick = () => saveEntry();

@@ -9,6 +9,24 @@ process is established.
 
 ### Added
 
+- Error responses are fully self-describing (PRD §25.4): every API
+  error now carries a `request_id` — the same id as the `x-request-id`
+  header and the service log line — plus a `retry` classification
+  (`immediate`, `delayed`, or `never`); the rate-limit error names its
+  delay as a `retry_after_seconds` parameter beside the `Retry-After`
+  header. The web client quotes the request id in the save-failure
+  report (new locale key in all 10 catalogs) so a user report and the
+  server log line up.
+
+- Every error code is searchable in English documentation (PRD
+  DIAG-003): `docs/reference/error-codes.md` is generated from the
+  live code sources — API catalog, retry classification, storage and
+  kernel `stable_code` mappings, and client-owned codes — and drift
+  gated by the codegen manifest. All 33 codes across the API service,
+  storage layer, record kernel, and web client carry a meaning, a user
+  action, and a retry class; a code without curated prose fails
+  generation and vice versa.
+
 - Test fixtures are provably reproducible and non-real (PRD QA-008): a
   new lint in `make check` forbids unseeded randomness in test sources
   (`Math.random` in JavaScript, `thread_rng` in Rust test files),

@@ -1164,6 +1164,9 @@
     "save.statusReload": {
       "text": "최신 버전 다시 불러오기"
     },
+    "save.statusRequestId": {
+      "text": "이 문제를 신고할 때는 요청 {id}를 포함하세요."
+    },
     "modal.savedSync": {
       "text": "서비스와 동기화됨 — 리비전 {revision}."
     },

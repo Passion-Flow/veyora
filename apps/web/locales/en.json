@@ -1167,6 +1167,9 @@
     "save.statusReload": {
       "text": "Reload latest version"
     },
+    "save.statusRequestId": {
+      "text": "If you report this problem, include request {id}."
+    },
     "modal.savedSync": {
       "text": "Synchronized with the service — revision {revision}."
     },

@@ -1164,6 +1164,9 @@
     "save.statusReload": {
       "text": "最新版を再読み込み"
     },
+    "save.statusRequestId": {
+      "text": "この問題を報告する場合は、リクエスト {id} を含めてください。"
+    },
     "modal.savedSync": {
       "text": "サービスと同期済み — リビジョン {revision}。"
     },
