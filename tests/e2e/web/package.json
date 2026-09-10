@@ -1,1 +1,1 @@
-{"name":"veyora-browser-e2e","version":"0.0.0","private":true,"description":"Local dependencies for the web browser end-to-end suite (tests/e2e/web).","type":"module","devDependencies":{"playwright-core":"^1.62.1"}}
+{"name":"veyora-browser-e2e","version":"0.0.0","private":true,"description":"Local dependencies for the web browser end-to-end suite (tests/e2e/web).","type":"module","devDependencies":{"playwright-core":"^1.63.0"}}
