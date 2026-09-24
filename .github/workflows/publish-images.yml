@@ -70,7 +70,7 @@ jobs:
             base_image: debian:bookworm-slim@sha256:abd67ffcfa541b485a3dff59865ab629aa048a6c613e639d36e7456b0b229241
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
-      - uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # docker/setup-qemu-action@v4
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # docker/setup-qemu-action@v4
       - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # docker/setup-buildx-action@v4
       - name: Authenticate to GitHub Container Registry
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # docker/login-action@v4
@@ -160,7 +160,7 @@ jobs:
             build_args: ENVOY_IMAGE=ghcr.io/passion-flow/veyora-envoy:__VERSION__
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # actions/checkout@v7
-      - uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # docker/setup-qemu-action@v4
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # docker/setup-qemu-action@v4
       - uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # docker/setup-buildx-action@v4
       - name: Authenticate to GitHub Container Registry
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # docker/login-action@v4
