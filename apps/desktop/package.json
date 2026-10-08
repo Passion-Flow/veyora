@@ -11,6 +11,6 @@
     "icon": "tauri icon assets/icon-source.png"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.9.0"
+    "@tauri-apps/cli": "^2.12.1"
   }
 }
