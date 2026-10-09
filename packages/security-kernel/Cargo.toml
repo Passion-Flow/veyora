@@ -22,7 +22,7 @@ license = "PolyForm-Noncommercial-1.0.0"
 publish = false
 
 [workspace.dependencies]
-argon2 = { version = "=0.5.3", default-features = false, features = ["alloc", "zeroize"] }
+argon2 = { version = "=0.6.0", default-features = false, features = ["alloc", "zeroize"] }
 base64ct = { version = "=1.8.3", default-features = false, features = ["alloc"] }
 getrandom = { version = "=0.4.3", default-features = false }
 hkdf = { version = "=0.13.0", default-features = false }
