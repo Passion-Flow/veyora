@@ -33,7 +33,7 @@ serde_json = { version = "=1.0.151", default-features = false, features = ["allo
 sha2 = { version = "=0.11.0", default-features = false }
 subtle = { version = "=2.6.1", default-features = false }
 wasm-bindgen = { version = "=0.2.127", default-features = false, features = ["std"] }
-zeroize = { version = "=1.9.0", default-features = false, features = ["alloc"] }
+zeroize = { version = "=1.9.1", default-features = false, features = ["alloc"] }
 
 [workspace.dependencies.chacha20poly1305]
 version = "=0.11.0"
