@@ -27,7 +27,7 @@ base64ct = { version = "=1.8.3", default-features = false, features = ["alloc"] 
 getrandom = { version = "=0.4.3", default-features = false }
 hkdf = { version = "=0.13.0", default-features = false }
 jni = { version = "=0.22.4", default-features = false }
-minicbor = { version = "=2.3.0", default-features = false, features = ["alloc"] }
+minicbor = { version = "=2.3.1", default-features = false, features = ["alloc"] }
 p256 = { version = "=0.14.0", default-features = false, features = ["alloc", "ecdsa"] }
 serde_json = { version = "=1.0.151", default-features = false, features = ["alloc"] }
 sha2 = { version = "=0.11.0", default-features = false }
