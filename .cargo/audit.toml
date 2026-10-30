@@ -27,4 +27,9 @@ ignore = [
   "RUSTSEC-2025-0081", # unic-char-range
   "RUSTSEC-2025-0100", # unic-ucd-version
   "RUSTSEC-2025-0134", # unic-char-property
+  # zbus 5.x chain (Tauri Linux / D-Bus): unmaintained notices issued 2026-10-16,
+  # no maintained drop-in replacement upstream yet.
+  "RUSTSEC-2026-0370", # zvariant
+  "RUSTSEC-2026-0371", # zbus_names
+  "RUSTSEC-2026-0372", # zvariant_derive
 ]
